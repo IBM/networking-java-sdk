@@ -42,38 +42,38 @@ script:
 -  mvn clean verify $MVN_ARGS
  
 # To enable semantic-release, uncomment these sections.
-# before_deploy:
-# - pip install --user bump2version
-# - npm install @semantic-release/changelog
-# - npm install @semantic-release/exec
-# - npm install @semantic-release/git
-# - npm install @semantic-release/github
+before_deploy:
+- pip install --user bump2version
+- npm install @semantic-release/changelog
+- npm install @semantic-release/exec
+- npm install @semantic-release/git
+- npm install @semantic-release/github
 # 
-# deploy:
+deploy:
 #   # On master, run semrel to create a new tagged-release.
-#   - provider: script
-#     script: npx semantic-release
-#     skip_cleanup: true
-#     on:
-#       branch: master
+  - provider: script
+    script: npx semantic-release
+    skip_cleanup: true
+    on:
+      branch: master
 #   # Publish jars on bintray for a tagged release.
-#   - provider: script
-#     script: "mvn deploy $MVN_ARGS -DskipTests"
-#     skip_cleanup: true
-#     on:
-#       tags: true
-#       jdk: openjdk8
+  - provider: script
+    script: "mvn deploy $MVN_ARGS -DskipTests"
+    skip_cleanup: true
+    on:
+      tags: true
+      jdk: openjdk8
 #   # Publish javadocs to gh-pages only for a tagged-release.
-#   - provider: script
-#     script: "./build/publish-javadoc.sh"
-#     skip_cleanup: true
-#     on:
-#       tags: true
-#       jdk: openjdk8
+  - provider: script
+    script: "./build/publish-javadoc.sh"
+    skip_cleanup: true
+    on:
+      tags: true
+      jdk: openjdk8
 #   # Upload code coverage reports to codecov.io for master or tagged release
-#   - provider: script
-#     script: $HOME/codecov-bash.sh -s modules/coverage-reports/target/site/jacoco-aggregate -t $CODECOV_TOKEN
-#     skip_cleanup: true
-#     on:
-#       condition: $TRAVIS_BRANCH == master || -n "$TRAVIS_TAG"
-#       jdk: openjdk8
+  - provider: script
+    script: $HOME/codecov-bash.sh -s modules/coverage-reports/target/site/jacoco-aggregate -t $CODECOV_TOKEN
+    skip_cleanup: true
+    on:
+      condition: $TRAVIS_BRANCH == master || -n "$TRAVIS_TAG"
+      jdk: openjdk8
