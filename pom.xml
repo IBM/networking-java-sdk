@@ -6,13 +6,13 @@
     <artifactId>networking</artifactId>
 
     <!-- >>> Update this field to reflect your project -->
-    <name>IBM Cloud Networking Java SDK</name>
+    <name>IBM Cloud Networking Services Java SDK</name>
 
     <!-- >>> Update this field to reflect your project -->
     <description>Java Client Library to access the IBM Cloud Networking Services</description>
 
     <!-- >>> Update this field to reflect your project's github URL -->
-    <url>https://github.ibm.com/ibmcloud/networking-java-sdk</url>
+    <url>https://github.com/IBM/networking-java-sdk</url>
 
     <groupId>com.ibm.cloud</groupId>
     <version>99-SNAPSHOT</version>
@@ -50,9 +50,9 @@
         <!-- Deployment-related properties -->
         <bintray.org>ibm-cloud-sdks</bintray.org>
         <!-- >>> Replace this with the name of your project's bintray repository -->
-        <bintray.repo>YOUR BINTRAY REPOSITORY NAME</bintray.repo>
+        <bintray.repo>networking-java-sdk</bintray.repo>
         <!-- >>> Replace this with your github repository's URL -->
-        <bintray.package.url>YOUR PROJECT'S GITHUB.COM URL</bintray.package.url>
+        <bintray.package.url>https://github.com/IBM/networking-java-sdk</bintray.package.url>
     </properties>
 
     <modules>
