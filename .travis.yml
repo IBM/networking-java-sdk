@@ -11,6 +11,8 @@ notifications:
 env:
   global:
     - MVN_ARGS="--settings build/.travis.settings.xml"
+    - BINTRAY_ORG=ibm-cloud-sdks
+    - BINTRAY_REPO=networking-java-sdk
 
 branches:
   except:
@@ -48,29 +50,32 @@ before_deploy:
 - npm install @semantic-release/exec
 - npm install @semantic-release/git
 - npm install @semantic-release/github
-# 
+
 deploy:
-#   # On master, run semrel to create a new tagged-release.
+  # On master, run semrel to create a new tagged-release.
   - provider: script
     script: npx semantic-release
     skip_cleanup: true
     on:
       branch: master
-#   # Publish jars on bintray for a tagged release.
+  # For a tagged release, publish jars on bintray and sync to maven central.
   - provider: script
-    script: "mvn deploy $MVN_ARGS -DskipTests"
+    script: 
+    - >-
+          mvn deploy $MVN_ARGS -DskipTests 
+          && build/bintraySync.sh $BINTRAY_USER $BINTRAY_APIKEY $BINTRAY_ORG $BINTRAY_REPO $TRAVIS_TAG
     skip_cleanup: true
     on:
       tags: true
       jdk: openjdk8
-#   # Publish javadocs to gh-pages only for a tagged-release.
+  # Publish javadocs to gh-pages only for a tagged-release.
   - provider: script
     script: "./build/publish-javadoc.sh"
     skip_cleanup: true
     on:
       tags: true
       jdk: openjdk8
-#   # Upload code coverage reports to codecov.io for master or tagged release
+  # Upload code coverage reports to codecov.io for master or tagged release
   - provider: script
     script: $HOME/codecov-bash.sh -s modules/coverage-reports/target/site/jacoco-aggregate -t $CODECOV_TOKEN
     skip_cleanup: true
