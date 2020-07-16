@@ -4,18 +4,19 @@
 
     <!-- >>> Replace this with your service category (e.g. "platform-services") -->
     <artifactId>networking</artifactId>
-    
+
     <!-- >>> Update this field to reflect your project -->
     <name>IBM Cloud Networking Services Java SDK</name>
-    
+
     <!-- >>> Update this field to reflect your project -->
     <description>Java Client Library to access the IBM Cloud Networking Services</description>
+
+    <!-- >>> Update this field to reflect your project's github URL -->
+    <url>https://github.com/IBM/networking-java-sdk</url>
 
     <groupId>com.ibm.cloud</groupId>
     <version>99-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <!-- >>> Update this field to reflect your project's github URL -->
-    <url>https://github.com/IBM/networking-java-sdk</url>
 
     <properties>
         <!-- 
@@ -98,12 +99,12 @@
     </ciManagement>
 
     <repositories>
-    <!-- these definitions are useful only for internal SDK projects -->
+        <!-- these definitions are useful only for internal SDK projects -->
         <repository>
             <id>na-artifactory-ibmcloud-sdks</id>
             <url>https://na.artifactory.swg-devops.com:443/artifactory/wcp-ibmcloud-sdks-team-maven-local/</url>
         </repository>
-        
+
         <repository>
             <id>jcenter</id>
             <url>https://jcenter.bintray.com/</url>
