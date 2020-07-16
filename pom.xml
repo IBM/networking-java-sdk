@@ -99,12 +99,6 @@
     </ciManagement>
 
     <repositories>
-        <!-- these definitions are useful only for internal SDK projects -->
-        <repository>
-            <id>na-artifactory-ibmcloud-sdks</id>
-            <url>https://na.artifactory.swg-devops.com:443/artifactory/wcp-ibmcloud-sdks-team-maven-local/</url>
-        </repository>
-
         <repository>
             <id>jcenter</id>
             <url>https://jcenter.bintray.com/</url>
