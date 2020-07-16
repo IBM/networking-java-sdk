@@ -1,3 +1,10 @@
+# [0.3.0](https://github.com/IBM/networking-java-sdk/compare/0.2.0...0.3.0) (2020-07-16)
+
+
+### Features
+
+* **build:** added right names for networking package ([2bf2964](https://github.com/IBM/networking-java-sdk/commit/2bf29643eeb785031d001d0f6aebbaf5f438625c))
+
 # [0.2.0](https://github.com/IBM/networking-java-sdk/compare/0.1.0...0.2.0) (2020-07-15)
 
 
