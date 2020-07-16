@@ -1,3 +1,10 @@
+# [0.4.0](https://github.com/IBM/networking-java-sdk/compare/0.3.0...0.4.0) (2020-07-16)
+
+
+### Features
+
+* **build:** updated pom.xml for syncing bintray and mvn central ([bd7e511](https://github.com/IBM/networking-java-sdk/commit/bd7e511b7c6b4e5b09954f41421802aac4b5b972))
+
 # [0.3.0](https://github.com/IBM/networking-java-sdk/compare/0.2.0...0.3.0) (2020-07-16)
 
 
