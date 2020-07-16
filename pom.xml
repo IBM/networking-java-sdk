@@ -394,6 +394,7 @@
                     <performCleanup>false</performCleanup>
                     <performDeploy>true</performDeploy>
                     <performEnsure>true</performEnsure>
+                    <performPublish>true</performPublish>
                     <retryFailedDeploymentCount>2</retryFailedDeploymentCount>
                 </configuration>
                 <executions>
