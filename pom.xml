@@ -2,21 +2,17 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.ibm.cloud</groupId>
     <!-- >>> Replace this with your service category (e.g. "platform-services") -->
     <artifactId>networking</artifactId>
-
+    <version>99-SNAPSHOT</version>
     <!-- >>> Update this field to reflect your project -->
     <name>IBM Cloud Networking Services Java SDK</name>
-
+    <packaging>pom</packaging>
     <!-- >>> Update this field to reflect your project -->
     <description>Java Client Library to access the IBM Cloud Networking Services</description>
-
     <!-- >>> Update this field to reflect your project's github URL -->
     <url>https://github.com/IBM/networking-java-sdk</url>
-
-    <groupId>com.ibm.cloud</groupId>
-    <version>99-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
     <properties>
         <!-- 
@@ -121,15 +117,15 @@
 
             <!-- Each module (except "common") should depend on this artifact -->
             <dependency>
+                <groupId>${project.groupId}</groupId>
                 <!-- >>> Replace this with the common module's artifactId -->
                 <artifactId>networking-common</artifactId>
-                <groupId>${project.groupId}</groupId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>${project.groupId}</groupId>
                 <!-- >>> Replace this with the common module's artifactId -->
                 <artifactId>networking-common</artifactId>
-                <groupId>${project.groupId}</groupId>
                 <version>${project.version}</version>
                 <type>test-jar</type>
                 <classifier>tests</classifier>
