@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/IBM/networking-java-sdk/compare/0.5.0...0.5.1) (2020-07-16)
+
+
+### Bug Fixes
+
+* **sync:** updated pom.xml ([061ebf8](https://github.com/IBM/networking-java-sdk/commit/061ebf8814042145842d7fb313e0e027fc84131e))
+
 # [0.5.0](https://github.com/IBM/networking-java-sdk/compare/0.4.0...0.5.0) (2020-07-16)
 
 
