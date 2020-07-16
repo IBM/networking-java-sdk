@@ -76,26 +76,26 @@
     </licenses>
 
     <organization>
-        <name>IBM Cloud</name>
+        <name>IBM Cloud Networking Services</name>
     </organization>
 
     <!-- >>> Update these values to reflect your project -->
     <scm>
-        <connection>scm:git:github.ibm.com/ibmcloud/networking-java-sdk</connection>
-        <developerConnection>scm:git:github.ibm.com/ibmcloud/networking-java-sdk</developerConnection>
-        <url>github.ibm.com/ibmcloud/networking-java-sdk/tree/master</url>
+        <connection>scm:git:https://github.com/IBM/networking-java-sdk</connection>
+        <developerConnection>scm:git:https://github.com/IBM/networking-java-sdk</developerConnection>
+        <url>https://github.com/IBM/networking-java-sdk/tree/master</url>
     </scm>
 
     <!-- >>> Update these values to reflect your project -->
     <issueManagement>
         <system>Github</system>
-        <url>github.ibm.com/ibmcloud/networking-java-sdk/issues</url>
+        <url>https://github.com/IBM/networking-java-sdk/issues</url>
     </issueManagement>
 
     <!-- >>> Update these values to reflect your project -->
     <ciManagement>
         <system>Travis-CI</system>
-        <url>github.ibm.com/ibmcloud/networking-java-sdk</url>
+        <url>https://travis-ci.com/IBM/networking-java-sdk</url>
     </ciManagement>
 
     <repositories>
@@ -335,6 +335,31 @@
                                 </manifestSection>
                             </manifestSections>
                         </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <!-- Disable use of bintray:deploy during "Maven -> Update Project" in eclipse -->
+                                    <pluginExecutionFilter>
+                                        <groupId>com.carrotgarden.maven</groupId>
+                                        <artifactId>bintray-maven-plugin</artifactId>
+                                        <versionRange>[1.0.0,)</versionRange>
+                                        <goals>
+                                            <goal>deploy</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore/>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
             </plugins>
