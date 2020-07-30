@@ -15,12 +15,23 @@ package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * The detailTransitGatewayConnection options.
+ * The createTransitGatewayConnectionActions options.
  */
-public class DetailTransitGatewayConnectionOptions extends GenericModel {
+public class CreateTransitGatewayConnectionActionsOptions extends GenericModel {
+
+  /**
+   * The action that is to be performed against the connection request.
+   */
+  public interface Action {
+    /** approve. */
+    String APPROVE = "approve";
+    /** reject. */
+    String REJECT = "reject";
+  }
 
   protected String transitGatewayId;
   protected String id;
+  protected String action;
 
   /**
    * Builder.
@@ -28,10 +39,12 @@ public class DetailTransitGatewayConnectionOptions extends GenericModel {
   public static class Builder {
     private String transitGatewayId;
     private String id;
+    private String action;
 
-    private Builder(DetailTransitGatewayConnectionOptions detailTransitGatewayConnectionOptions) {
-      this.transitGatewayId = detailTransitGatewayConnectionOptions.transitGatewayId;
-      this.id = detailTransitGatewayConnectionOptions.id;
+    private Builder(CreateTransitGatewayConnectionActionsOptions createTransitGatewayConnectionActionsOptions) {
+      this.transitGatewayId = createTransitGatewayConnectionActionsOptions.transitGatewayId;
+      this.id = createTransitGatewayConnectionActionsOptions.id;
+      this.action = createTransitGatewayConnectionActionsOptions.action;
     }
 
     /**
@@ -45,26 +58,28 @@ public class DetailTransitGatewayConnectionOptions extends GenericModel {
      *
      * @param transitGatewayId the transitGatewayId
      * @param id the id
+     * @param action the action
      */
-    public Builder(String transitGatewayId, String id) {
+    public Builder(String transitGatewayId, String id, String action) {
       this.transitGatewayId = transitGatewayId;
       this.id = id;
+      this.action = action;
     }
 
     /**
-     * Builds a DetailTransitGatewayConnectionOptions.
+     * Builds a CreateTransitGatewayConnectionActionsOptions.
      *
-     * @return the new DetailTransitGatewayConnectionOptions instance
+     * @return the new CreateTransitGatewayConnectionActionsOptions instance
      */
-    public DetailTransitGatewayConnectionOptions build() {
-      return new DetailTransitGatewayConnectionOptions(this);
+    public CreateTransitGatewayConnectionActionsOptions build() {
+      return new CreateTransitGatewayConnectionActionsOptions(this);
     }
 
     /**
      * Set the transitGatewayId.
      *
      * @param transitGatewayId the transitGatewayId
-     * @return the DetailTransitGatewayConnectionOptions builder
+     * @return the CreateTransitGatewayConnectionActionsOptions builder
      */
     public Builder transitGatewayId(String transitGatewayId) {
       this.transitGatewayId = transitGatewayId;
@@ -75,27 +90,41 @@ public class DetailTransitGatewayConnectionOptions extends GenericModel {
      * Set the id.
      *
      * @param id the id
-     * @return the DetailTransitGatewayConnectionOptions builder
+     * @return the CreateTransitGatewayConnectionActionsOptions builder
      */
     public Builder id(String id) {
       this.id = id;
       return this;
     }
+
+    /**
+     * Set the action.
+     *
+     * @param action the action
+     * @return the CreateTransitGatewayConnectionActionsOptions builder
+     */
+    public Builder action(String action) {
+      this.action = action;
+      return this;
+    }
   }
 
-  protected DetailTransitGatewayConnectionOptions(Builder builder) {
+  protected CreateTransitGatewayConnectionActionsOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.transitGatewayId,
       "transitGatewayId cannot be empty");
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.action,
+      "action cannot be null");
     transitGatewayId = builder.transitGatewayId;
     id = builder.id;
+    action = builder.action;
   }
 
   /**
    * New builder.
    *
-   * @return a DetailTransitGatewayConnectionOptions builder
+   * @return a CreateTransitGatewayConnectionActionsOptions builder
    */
   public Builder newBuilder() {
     return new Builder(this);
@@ -121,6 +150,17 @@ public class DetailTransitGatewayConnectionOptions extends GenericModel {
    */
   public String id() {
     return id;
+  }
+
+  /**
+   * Gets the action.
+   *
+   * The action that is to be performed against the connection request.
+   *
+   * @return the action
+   */
+  public String action() {
+    return action;
   }
 }
 

@@ -13,13 +13,14 @@
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
 
 import com.ibm.cloud.networking.transit_gateway_apis.v1.TransitGatewayApis;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionActionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayOptions;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DetailGatewayLocationOptions;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DetailTransitGatewayConnectionOptions;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DetailTransitGatewayOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetGatewayLocationOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListGatewayLocationsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
@@ -46,7 +47,6 @@ import com.ibm.cloud.sdk.core.util.EnvironmentUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +91,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     PowerMockito.when(EnvironmentUtils.getenv()).thenReturn(getTestProcessEnvironment());
     final String serviceName = "testService";
     // set mock values for global params
-    Date version = TestUtilities.createMockDate("2019-01-01");
+    String version = "testString";
 
     testService = TransitGatewayApis.newInstance(version, serviceName);
     String url = server.url("/").toString();
@@ -105,7 +105,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   public void testConstructorWithNullAuthenticator() throws Throwable {
     final String serviceName = "testService";
     // set mock values for global params
-    Date version = TestUtilities.createMockDate("2019-01-01");
+    String version = "testString";
 
     new TransitGatewayApis(version, serviceName, null);
   }
@@ -114,13 +114,13 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testGetVersion() throws Throwable {
     constructClientService();
-    assertEquals(testService.getVersion(), TestUtilities.createMockDate("2019-01-01"));
+    assertEquals(testService.getVersion(), "testString");
   }
 
   @Test
   public void testListTransitGatewaysWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"transit_gateways\": [{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"global\": true, \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"resource_group\": {\"id\": \"56969d60-43e9-465c-883c-b9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}]}";
+    String mockResponseBody = "{\"transit_gateways\": [{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}]}";
     String listTransitGatewaysPath = "/transit_gateways";
 
     server.enqueue(new MockResponse()
@@ -148,6 +148,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listTransitGatewaysPath);
@@ -156,7 +157,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testCreateTransitGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"global\": true, \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"resource_group\": {\"id\": \"56969d60-43e9-465c-883c-b9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}";
+    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}";
     String createTransitGatewayPath = "/transit_gateways";
 
     server.enqueue(new MockResponse()
@@ -168,7 +169,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
 
     // Construct an instance of the ResourceGroupIdentity model
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
-    .id("56969d60-43e9-465c-883c-b9f7363e78e8")
+    .id("56969d6043e9465c883cb9f7363e78e8")
     .build();
 
     // Construct an instance of the CreateTransitGatewayOptions model
@@ -194,6 +195,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createTransitGatewayPath);
@@ -244,6 +246,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, deleteTransitGatewayPath);
@@ -262,10 +265,10 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   }
 
   @Test
-  public void testDetailTransitGatewayWOptions() throws Throwable {
+  public void testGetTransitGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"global\": true, \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"resource_group\": {\"id\": \"56969d60-43e9-465c-883c-b9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}";
-    String detailTransitGatewayPath = "/transit_gateways/testString";
+    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}";
+    String getTransitGatewayPath = "/transit_gateways/testString";
 
     server.enqueue(new MockResponse()
     .setHeader("Content-type", "application/json")
@@ -274,13 +277,13 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
 
     constructClientService();
 
-    // Construct an instance of the DetailTransitGatewayOptions model
-    DetailTransitGatewayOptions detailTransitGatewayOptionsModel = new DetailTransitGatewayOptions.Builder()
+    // Construct an instance of the GetTransitGatewayOptions model
+    GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
     .id("testString")
     .build();
 
     // Invoke operation with valid options model (positive test)
-    Response<TransitGateway> response = testService.detailTransitGateway(detailTransitGatewayOptionsModel).execute();
+    Response<TransitGateway> response = testService.getTransitGateway(getTransitGatewayOptionsModel).execute();
     assertNotNull(response);
     TransitGateway responseObj = response.getResult();
     assertNotNull(responseObj);
@@ -294,27 +297,28 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, detailTransitGatewayPath);
+    assertEquals(parsedPath, getTransitGatewayPath);
   }
 
-  // Test the detailTransitGateway operation with null options model parameter
+  // Test the getTransitGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testDetailTransitGatewayNoOptions() throws Throwable {
+  public void testGetTransitGatewayNoOptions() throws Throwable {
     // construct the service
     constructClientService();
 
     server.enqueue(new MockResponse());
 
     // Invoke operation with null options model (negative test)
-    testService.detailTransitGateway(null).execute();
+    testService.getTransitGateway(null).execute();
   }
 
   @Test
   public void testUpdateTransitGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"global\": true, \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"resource_group\": {\"id\": \"56969d60-43e9-465c-883c-b9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d60-43e9-465c-883c-b9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}";
+    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}";
     String updateTransitGatewayPath = "/transit_gateways/testString";
 
     server.enqueue(new MockResponse()
@@ -346,6 +350,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, updateTransitGatewayPath);
@@ -366,7 +371,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testListTransitGatewayConnectionsWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"connections\": [{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id\", \"created_at\": \"2019-01-01T12:00:00\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\"}]}";
+    String mockResponseBody = "{\"connections\": [{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"created_at\": \"2019-01-01T12:00:00\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\"}]}";
     String listTransitGatewayConnectionsPath = "/transit_gateways/testString/connections";
 
     server.enqueue(new MockResponse()
@@ -396,6 +401,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listTransitGatewayConnectionsPath);
@@ -416,7 +422,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testCreateTransitGatewayConnectionWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id\", \"created_at\": \"2019-01-01T12:00:00\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\"}";
+    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"created_at\": \"2019-01-01T12:00:00\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\"}";
     String createTransitGatewayConnectionPath = "/transit_gateways/testString/connections";
 
     server.enqueue(new MockResponse()
@@ -432,6 +438,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     .networkType("vpc")
     .name("Transit_Service_BWTN_SJ_DL")
     .networkId("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+    .networkAccountId("28e4d90ac7504be694471ee66e70d0d5")
     .build();
 
     // Invoke operation with valid options model (positive test)
@@ -449,6 +456,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createTransitGatewayConnectionPath);
@@ -500,6 +508,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, deleteTransitGatewayConnectionPath);
@@ -518,10 +527,10 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   }
 
   @Test
-  public void testDetailTransitGatewayConnectionWOptions() throws Throwable {
+  public void testGetTransitGatewayConnectionWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id\", \"created_at\": \"2019-01-01T12:00:00\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\"}";
-    String detailTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
+    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"created_at\": \"2019-01-01T12:00:00\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\"}";
+    String getTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
 
     server.enqueue(new MockResponse()
     .setHeader("Content-type", "application/json")
@@ -530,14 +539,14 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
 
     constructClientService();
 
-    // Construct an instance of the DetailTransitGatewayConnectionOptions model
-    DetailTransitGatewayConnectionOptions detailTransitGatewayConnectionOptionsModel = new DetailTransitGatewayConnectionOptions.Builder()
+    // Construct an instance of the GetTransitGatewayConnectionOptions model
+    GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
     .transitGatewayId("testString")
     .id("testString")
     .build();
 
     // Invoke operation with valid options model (positive test)
-    Response<TransitGatewayConnectionCust> response = testService.detailTransitGatewayConnection(detailTransitGatewayConnectionOptionsModel).execute();
+    Response<TransitGatewayConnectionCust> response = testService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
     assertNotNull(response);
     TransitGatewayConnectionCust responseObj = response.getResult();
     assertNotNull(responseObj);
@@ -551,27 +560,28 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, detailTransitGatewayConnectionPath);
+    assertEquals(parsedPath, getTransitGatewayConnectionPath);
   }
 
-  // Test the detailTransitGatewayConnection operation with null options model parameter
+  // Test the getTransitGatewayConnection operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testDetailTransitGatewayConnectionNoOptions() throws Throwable {
+  public void testGetTransitGatewayConnectionNoOptions() throws Throwable {
     // construct the service
     constructClientService();
 
     server.enqueue(new MockResponse());
 
     // Invoke operation with null options model (negative test)
-    testService.detailTransitGatewayConnection(null).execute();
+    testService.getTransitGatewayConnection(null).execute();
   }
 
   @Test
   public void testUpdateTransitGatewayConnectionWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531-connection_id\", \"created_at\": \"2019-01-01T12:00:00\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\"}";
+    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"created_at\": \"2019-01-01T12:00:00\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\"}";
     String updateTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
 
     server.enqueue(new MockResponse()
@@ -603,6 +613,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, updateTransitGatewayConnectionPath);
@@ -618,6 +629,60 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
 
     // Invoke operation with null options model (negative test)
     testService.updateTransitGatewayConnection(null).execute();
+  }
+
+  @Test
+  public void testCreateTransitGatewayConnectionActionsWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "";
+    String createTransitGatewayConnectionActionsPath = "/transit_gateways/testString/connections/testString/actions";
+
+    server.enqueue(new MockResponse()
+    .setResponseCode(204)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the CreateTransitGatewayConnectionActionsOptions model
+    CreateTransitGatewayConnectionActionsOptions createTransitGatewayConnectionActionsOptionsModel = new CreateTransitGatewayConnectionActionsOptions.Builder()
+    .transitGatewayId("testString")
+    .id("testString")
+    .action("approve")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Void> response = testService.createTransitGatewayConnectionActions(createTransitGatewayConnectionActionsOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    // Response does not have a return type. Check that the result is null.
+    assertNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createTransitGatewayConnectionActionsPath);
+  }
+
+  // Test the createTransitGatewayConnectionActions operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateTransitGatewayConnectionActionsNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    testService.createTransitGatewayConnectionActions(null).execute();
   }
 
   @Test
@@ -651,16 +716,17 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewayLocationsPath);
   }
 
   @Test
-  public void testDetailGatewayLocationWOptions() throws Throwable {
+  public void testGetGatewayLocationWOptions() throws Throwable {
     // Schedule some responses.
     String mockResponseBody = "{\"billing_location\": \"us\", \"name\": \"us-south\", \"type\": \"region\", \"local_connection_locations\": [{\"display_name\": \"Dallas\", \"name\": \"us-south\", \"type\": \"region\"}]}";
-    String detailGatewayLocationPath = "/locations/testString";
+    String getGatewayLocationPath = "/locations/testString";
 
     server.enqueue(new MockResponse()
     .setHeader("Content-type", "application/json")
@@ -669,13 +735,13 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
 
     constructClientService();
 
-    // Construct an instance of the DetailGatewayLocationOptions model
-    DetailGatewayLocationOptions detailGatewayLocationOptionsModel = new DetailGatewayLocationOptions.Builder()
+    // Construct an instance of the GetGatewayLocationOptions model
+    GetGatewayLocationOptions getGatewayLocationOptionsModel = new GetGatewayLocationOptions.Builder()
     .name("testString")
     .build();
 
     // Invoke operation with valid options model (positive test)
-    Response<TSLocation> response = testService.detailGatewayLocation(detailGatewayLocationOptionsModel).execute();
+    Response<TSLocation> response = testService.getGatewayLocation(getGatewayLocationOptionsModel).execute();
     assertNotNull(response);
     TSLocation responseObj = response.getResult();
     assertNotNull(responseObj);
@@ -689,21 +755,22 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
+    assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, detailGatewayLocationPath);
+    assertEquals(parsedPath, getGatewayLocationPath);
   }
 
-  // Test the detailGatewayLocation operation with null options model parameter
+  // Test the getGatewayLocation operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testDetailGatewayLocationNoOptions() throws Throwable {
+  public void testGetGatewayLocationNoOptions() throws Throwable {
     // construct the service
     constructClientService();
 
     server.enqueue(new MockResponse());
 
     // Invoke operation with null options model (negative test)
-    testService.detailGatewayLocation(null).execute();
+    testService.getGatewayLocation(null).execute();
   }
 
   /** Initialize the server */

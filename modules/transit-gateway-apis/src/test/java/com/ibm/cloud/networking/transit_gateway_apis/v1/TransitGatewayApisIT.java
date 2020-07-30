@@ -1,14 +1,22 @@
-/**
- * 
+/*
+ * (C) Copyright IBM Corp. 2020.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  */
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
-
-
 
 import static org.junit.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -69,9 +77,11 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
         config = CredentialUtils.getServiceProperties(serviceName);
 
 		// set mock values for global params
-		Date version;
+		Date date;
 		try {
-			version = new Date();
+			date = new Date();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String version = dateFormat.format(date);
 			testService = TransitGatewayApis.newInstance(version, serviceName);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,13 +109,13 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    // Gateway creation might not be instantaneous.  Poll the Gateway looking for 'available' status.  Fail after 2 min
 		int timer = 0;
 		while(true) {
-			// Construct an instance of the DetailTransitGatewayOptions model
-			DetailTransitGatewayOptions detailTransitGatewayOptionsModel = new DetailTransitGatewayOptions.Builder()
+			// Construct an instance of the GetTransitGatewayOptions model
+			GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
 			.id(tgGatewayId)
 			.build();
 
 			// Invoke operation with valid options model (positive test)
-			Response<TransitGateway> resp = testService.detailTransitGateway(detailTransitGatewayOptionsModel).execute();
+			Response<TransitGateway> resp = testService.getTransitGateway(getTransitGatewayOptionsModel).execute();
 			assertNotNull(resp);
 			TransitGateway respObj = resp.getResult();
 			assertNotNull(respObj);
@@ -146,13 +156,13 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    assertNotNull(updateRespObj);
 		assertEquals(updateRespObj.getName(), gatewayNameUpdate);
 		
-	  	// Construct an instance of the DetailTransitGatewayOptions model
-	    DetailTransitGatewayOptions detailTransitGatewayOptionsModel = new DetailTransitGatewayOptions.Builder()
+	  	// Construct an instance of the GetTransitGatewayOptions model
+	    GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
 	    .id(tgGatewayId)
 	    .build();
 
 	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGateway> resp = testService.detailTransitGateway(detailTransitGatewayOptionsModel).execute();
+	    Response<TransitGateway> resp = testService.getTransitGateway(getTransitGatewayOptionsModel).execute();
 	    assertNotNull(resp);
 	    TransitGateway respObj = resp.getResult();
 	    assertNotNull(respObj);
@@ -182,14 +192,14 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    
 		timer = 0;
 		while(true) {
-			 // Construct an instance of the DetailTransitGatewayConnectionOptions model
-		    DetailTransitGatewayConnectionOptions detailTransitGatewayConnectionOptionsModel = new DetailTransitGatewayConnectionOptions.Builder()
+			 // Construct an instance of the GetTransitGatewayConnectionOptions model
+		    GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
 		    .transitGatewayId(tgGatewayId)
 		    .id(tgConnId)
 		    .build();
 
 		    // Invoke operation with valid options model (positive test)
-		    Response<TransitGatewayConnectionCust> tgConnresp = testService.detailTransitGatewayConnection(detailTransitGatewayConnectionOptionsModel).execute();
+		    Response<TransitGatewayConnectionCust> tgConnresp = testService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
 			 assertNotNull(tgConnresp);
 		    TransitGatewayConnectionCust tgConnrespObj = tgConnresp.getResult();
 		    assertNotNull(tgConnrespObj);
@@ -234,14 +244,14 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    assertNotNull(updateTGConnRespObj);
 		assertEquals(updateTGConnRespObj.getName(),connectionNameUpdate);
 
-		 // Construct an instance of the DetailTransitGatewayConnectionOptions model
-	    DetailTransitGatewayConnectionOptions detailTransitGatewayConnectionOptionsModel = new DetailTransitGatewayConnectionOptions.Builder()
+		 // Construct an instance of the GetTransitGatewayConnectionOptions model
+	    GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
 	    .transitGatewayId(tgGatewayId)
 	    .id(tgConnId)
 	    .build();
 
 	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGatewayConnectionCust> tgConnresp = testService.detailTransitGatewayConnection(detailTransitGatewayConnectionOptionsModel).execute();
+	    Response<TransitGatewayConnectionCust> tgConnresp = testService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
 		 assertNotNull(tgConnresp);
 	    TransitGatewayConnectionCust tgConnrespObj = tgConnresp.getResult();
 	    assertNotNull(tgConnrespObj);
@@ -258,13 +268,13 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		assertNotNull(tgLocResponseObj.getLocations());
 
 	    String instanceLoc = config.get("LOCATION");
-	    // Construct an instance of the DetailGatewayLocationOptions model
-	    DetailGatewayLocationOptions detailGatewayLocationOptionsModel = new DetailGatewayLocationOptions.Builder()
+	    // Construct an instance of the GetGatewayLocationOptions model
+	    GetGatewayLocationOptions getGatewayLocationOptionsModel = new GetGatewayLocationOptions.Builder()
 	    .name(instanceLoc)
 	    .build();
 
 	    // Invoke operation with valid options model (positive test)
-	    Response<TSLocation> locResp = testService.detailGatewayLocation(detailGatewayLocationOptionsModel).execute();
+	    Response<TSLocation> locResp = testService.getGatewayLocation(getGatewayLocationOptionsModel).execute();
 	    assertNotNull(locResp);
 	    TSLocation locRespObj = locResp.getResult();
 	    assertNotNull(locRespObj);
@@ -289,7 +299,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 			Response<TransitGatewayConnectionCust> tgConnrespDeletion = null;
 			// Invoke operation with valid options model (positive test)
 			try {
-				tgConnrespDeletion = testService.detailTransitGatewayConnection(detailTransitGatewayConnectionOptionsModel).execute();
+				tgConnrespDeletion = testService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
 			} catch (NotFoundException e) {
 				assertEquals(e.getMessage(),"connection_not_found");
 				break;

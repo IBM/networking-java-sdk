@@ -33,6 +33,23 @@ public class TransitGatewayConnectionCust extends GenericModel {
   }
 
   /**
+   * Only visible for cross account connections, this field represents the status of the request to connect the given
+   * network between accounts.
+   */
+  public interface RequestStatus {
+    /** pending. */
+    String PENDING = "pending";
+    /** approved. */
+    String APPROVED = "approved";
+    /** rejected. */
+    String REJECTED = "rejected";
+    /** expired. */
+    String EXPIRED = "expired";
+    /** detached. */
+    String DETACHED = "detached";
+  }
+
+  /**
    * What is the current configuration state of this connection.
    */
   public interface Status {
@@ -44,6 +61,10 @@ public class TransitGatewayConnectionCust extends GenericModel {
     String PENDING = "pending";
     /** deleting. */
     String DELETING = "deleting";
+    /** detaching. */
+    String DETACHING = "detaching";
+    /** detached. */
+    String DETACHED = "detached";
   }
 
   protected String name;
@@ -51,9 +72,13 @@ public class TransitGatewayConnectionCust extends GenericModel {
   protected String networkId;
   @SerializedName("network_type")
   protected String networkType;
+  @SerializedName("network_account_id")
+  protected String networkAccountId;
   protected String id;
   @SerializedName("created_at")
   protected Date createdAt;
+  @SerializedName("request_status")
+  protected String requestStatus;
   protected String status;
   @SerializedName("updated_at")
   protected Date updatedAt;
@@ -73,7 +98,9 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the networkId.
    *
-   * The unique identifier of the network being connected. For VPC this is the CRN of that VPC.
+   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc'.
+   * For network type 'vpc' this is the CRN of the VPC to be connected. This field is required to be unspecified for
+   * network type 'classic'.
    *
    * @return the networkId
    */
@@ -90,6 +117,18 @@ public class TransitGatewayConnectionCust extends GenericModel {
    */
   public String getNetworkType() {
     return networkType;
+  }
+
+  /**
+   * Gets the networkAccountId.
+   *
+   * The ID of the account which owns the network that is being connected. Generally only used if the network is in a
+   * different account than the gateway.
+   *
+   * @return the networkAccountId
+   */
+  public String getNetworkAccountId() {
+    return networkAccountId;
   }
 
   /**
@@ -112,6 +151,18 @@ public class TransitGatewayConnectionCust extends GenericModel {
    */
   public Date getCreatedAt() {
     return createdAt;
+  }
+
+  /**
+   * Gets the requestStatus.
+   *
+   * Only visible for cross account connections, this field represents the status of the request to connect the given
+   * network between accounts.
+   *
+   * @return the requestStatus
+   */
+  public String getRequestStatus() {
+    return requestStatus;
   }
 
   /**

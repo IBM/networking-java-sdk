@@ -15,9 +15,9 @@ package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * The detailTransitGateway options.
+ * The getTransitGateway options.
  */
-public class DetailTransitGatewayOptions extends GenericModel {
+public class GetTransitGatewayOptions extends GenericModel {
 
   protected String id;
 
@@ -27,8 +27,8 @@ public class DetailTransitGatewayOptions extends GenericModel {
   public static class Builder {
     private String id;
 
-    private Builder(DetailTransitGatewayOptions detailTransitGatewayOptions) {
-      this.id = detailTransitGatewayOptions.id;
+    private Builder(GetTransitGatewayOptions getTransitGatewayOptions) {
+      this.id = getTransitGatewayOptions.id;
     }
 
     /**
@@ -47,19 +47,19 @@ public class DetailTransitGatewayOptions extends GenericModel {
     }
 
     /**
-     * Builds a DetailTransitGatewayOptions.
+     * Builds a GetTransitGatewayOptions.
      *
-     * @return the new DetailTransitGatewayOptions instance
+     * @return the new GetTransitGatewayOptions instance
      */
-    public DetailTransitGatewayOptions build() {
-      return new DetailTransitGatewayOptions(this);
+    public GetTransitGatewayOptions build() {
+      return new GetTransitGatewayOptions(this);
     }
 
     /**
      * Set the id.
      *
      * @param id the id
-     * @return the DetailTransitGatewayOptions builder
+     * @return the GetTransitGatewayOptions builder
      */
     public Builder id(String id) {
       this.id = id;
@@ -67,7 +67,7 @@ public class DetailTransitGatewayOptions extends GenericModel {
     }
   }
 
-  protected DetailTransitGatewayOptions(Builder builder) {
+  protected GetTransitGatewayOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
     id = builder.id;
@@ -76,7 +76,7 @@ public class DetailTransitGatewayOptions extends GenericModel {
   /**
    * New builder.
    *
-   * @return a DetailTransitGatewayOptions builder
+   * @return a GetTransitGatewayOptions builder
    */
   public Builder newBuilder() {
     return new Builder(this);

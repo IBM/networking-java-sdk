@@ -13,7 +13,7 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DetailGatewayLocationOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -26,23 +26,25 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the DetailGatewayLocationOptions model.
+ * Unit test class for the GetTransitGatewayConnectionOptions model.
  */
-public class DetailGatewayLocationOptionsTest {
+public class GetTransitGatewayConnectionOptionsTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testDetailGatewayLocationOptions() throws Throwable {
-    DetailGatewayLocationOptions detailGatewayLocationOptionsModel = new DetailGatewayLocationOptions.Builder()
-      .name("testString")
+  public void testGetTransitGatewayConnectionOptions() throws Throwable {
+    GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+      .transitGatewayId("testString")
+      .id("testString")
       .build();
-    assertEquals(detailGatewayLocationOptionsModel.name(), "testString");
+    assertEquals(getTransitGatewayConnectionOptionsModel.transitGatewayId(), "testString");
+    assertEquals(getTransitGatewayConnectionOptionsModel.id(), "testString");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testDetailGatewayLocationOptionsError() throws Throwable {
-    new DetailGatewayLocationOptions.Builder().build();
+  public void testGetTransitGatewayConnectionOptionsError() throws Throwable {
+    new GetTransitGatewayConnectionOptions.Builder().build();
   }
 
 }

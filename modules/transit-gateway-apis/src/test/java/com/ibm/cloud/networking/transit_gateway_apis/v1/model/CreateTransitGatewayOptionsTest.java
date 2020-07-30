@@ -36,9 +36,9 @@ public class CreateTransitGatewayOptionsTest {
   @Test
   public void testCreateTransitGatewayOptions() throws Throwable {
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
-      .id("56969d60-43e9-465c-883c-b9f7363e78e8")
+      .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
-    assertEquals(resourceGroupIdentityModel.id(), "56969d60-43e9-465c-883c-b9f7363e78e8");
+    assertEquals(resourceGroupIdentityModel.id(), "56969d6043e9465c883cb9f7363e78e8");
 
     CreateTransitGatewayOptions createTransitGatewayOptionsModel = new CreateTransitGatewayOptions.Builder()
       .location("us-south")

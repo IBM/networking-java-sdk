@@ -39,10 +39,10 @@ public class TransitGateway extends GenericModel {
   protected String id;
   protected String crn;
   protected String name;
-  protected Boolean global;
   protected String location;
   @SerializedName("created_at")
   protected Date createdAt;
+  protected Boolean global;
   @SerializedName("resource_group")
   protected ResourceGroupReference resourceGroup;
   protected String status;
@@ -83,17 +83,6 @@ public class TransitGateway extends GenericModel {
   }
 
   /**
-   * Gets the global.
-   *
-   * Allow global routing for a Transit Gateway.
-   *
-   * @return the global
-   */
-  public Boolean isGlobal() {
-    return global;
-  }
-
-  /**
    * Gets the location.
    *
    * Location of Transit Gateway Services.
@@ -113,6 +102,17 @@ public class TransitGateway extends GenericModel {
    */
   public Date getCreatedAt() {
     return createdAt;
+  }
+
+  /**
+   * Gets the global.
+   *
+   * Allow global routing for a Transit Gateway.
+   *
+   * @return the global
+   */
+  public Boolean isGlobal() {
+    return global;
   }
 
   /**
