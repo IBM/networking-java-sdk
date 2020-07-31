@@ -1,3 +1,11 @@
+# [0.6.0](https://github.com/IBM/networking-java-sdk/compare/0.5.2...0.6.0) (2020-07-31)
+
+
+### Features
+
+* Transit cross account ([bf690be](https://github.com/IBM/networking-java-sdk/commit/bf690be96e60040f0b439aad14b7e584ae3a78a4))
+* Transit cross account ([5941962](https://github.com/IBM/networking-java-sdk/commit/59419623408dcd41b68eac26be51bce30c43cf63))
+
 ## [0.5.2](https://github.com/IBM/networking-java-sdk/compare/0.5.1...0.5.2) (2020-07-16)
 
 
