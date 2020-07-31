@@ -1,3 +1,10 @@
+# [0.7.0](https://github.com/IBM/networking-java-sdk/compare/0.6.0...0.7.0) (2020-07-31)
+
+
+### Features
+
+* **direct-link:** Renamed direct-link-apis to direct-link ([9cfa390](https://github.com/IBM/networking-java-sdk/commit/9cfa39067cf6279aed95e0954209ab301103e21d))
+
 # [0.6.0](https://github.com/IBM/networking-java-sdk/compare/0.5.2...0.6.0) (2020-07-31)
 
 
