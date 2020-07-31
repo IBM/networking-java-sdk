@@ -14,13 +14,14 @@ package com.ibm.cloud.networking.transit_gateway_apis.v1;
 
 import com.google.gson.JsonObject;
 import com.ibm.cloud.networking.common.SdkCommon;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionActionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayOptions;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DetailGatewayLocationOptions;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DetailTransitGatewayConnectionOptions;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DetailTransitGatewayOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetGatewayLocationOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListGatewayLocationsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
@@ -39,8 +40,7 @@ import com.ibm.cloud.sdk.core.security.Authenticator;
 import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
 import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -55,8 +55,7 @@ public class TransitGatewayApis extends BaseService {
 
   public static final String DEFAULT_SERVICE_URL = "https://transit.cloud.ibm.com/v1";
 
-  private Date version;
-  private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+  private String version;
 
  /**
    * Class method which constructs an instance of the `TransitGatewayApis` client.
@@ -66,7 +65,7 @@ public class TransitGatewayApis extends BaseService {
  * date may be provided. Specify the current date to request the latest version.
    * @return an instance of the `TransitGatewayApis` client using external configuration
    */
-  public static TransitGatewayApis newInstance(Date version) {
+  public static TransitGatewayApis newInstance(String version) {
     return newInstance(version, DEFAULT_SERVICE_NAME);
   }
 
@@ -79,7 +78,7 @@ public class TransitGatewayApis extends BaseService {
    * @param serviceName the service name to be used when configuring the client instance
    * @return an instance of the `TransitGatewayApis` client using external configuration
    */
-  public static TransitGatewayApis newInstance(Date version, String serviceName) {
+  public static TransitGatewayApis newInstance(String version, String serviceName) {
     Authenticator authenticator = ConfigBasedAuthenticatorFactory.getAuthenticator(serviceName);
     TransitGatewayApis service = new TransitGatewayApis(version, serviceName, authenticator);
     service.configureService(serviceName);
@@ -95,7 +94,7 @@ public class TransitGatewayApis extends BaseService {
    * @param serviceName the service name to be used when configuring the client instance
    * @param authenticator the {@link Authenticator} instance to be configured for this client
    */
-  public TransitGatewayApis(Date version, String serviceName, Authenticator authenticator) {
+  public TransitGatewayApis(String version, String serviceName, Authenticator authenticator) {
     super(serviceName, authenticator);
     setServiceUrl(DEFAULT_SERVICE_URL);
     setVersion(version);
@@ -109,7 +108,7 @@ public class TransitGatewayApis extends BaseService {
    *
    * @return the version
    */
-  public Date getVersion() {
+  public String getVersion() {
     return this.version;
   }
 
@@ -118,8 +117,8 @@ public class TransitGatewayApis extends BaseService {
    *
    * @param version the new version
    */
-  public void setVersion(final Date version) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(version, "version cannot be null.");
+  public void setVersion(final String version) {
+    com.ibm.cloud.sdk.core.util.Validator.notEmpty(version, "version cannot be empty.");
     this.version = version;
   }
 
@@ -140,7 +139,7 @@ public class TransitGatewayApis extends BaseService {
     }
     builder.header("Accept", "application/json");
     if (listTransitGatewaysOptions != null) {
-      builder.query("version", dateFormat.format(this.version));
+      builder.query("version", this.version);
     }
     ResponseConverter<TransitGatewayCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayCollection>() { }.getType());
@@ -176,7 +175,7 @@ public class TransitGatewayApis extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     final JsonObject contentJson = new JsonObject();
     contentJson.addProperty("location", createTransitGatewayOptions.location());
     contentJson.addProperty("name", createTransitGatewayOptions.name());
@@ -211,7 +210,7 @@ public class TransitGatewayApis extends BaseService {
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
     return createServiceCall(builder.build(), responseConverter);
   }
@@ -221,21 +220,21 @@ public class TransitGatewayApis extends BaseService {
    *
    * This request retrieves a single Transit Gateway specified by the identifier in the URL.
    *
-   * @param detailTransitGatewayOptions the {@link DetailTransitGatewayOptions} containing the options for the call
+   * @param getTransitGatewayOptions the {@link GetTransitGatewayOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TransitGateway}
    */
-  public ServiceCall<TransitGateway> detailTransitGateway(DetailTransitGatewayOptions detailTransitGatewayOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(detailTransitGatewayOptions,
-      "detailTransitGatewayOptions cannot be null");
+  public ServiceCall<TransitGateway> getTransitGateway(GetTransitGatewayOptions getTransitGatewayOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getTransitGatewayOptions,
+      "getTransitGatewayOptions cannot be null");
     String[] pathSegments = { "transit_gateways" };
-    String[] pathParameters = { detailTransitGatewayOptions.id() };
+    String[] pathParameters = { getTransitGatewayOptions.id() };
     RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "detailTransitGateway");
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "getTransitGateway");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     ResponseConverter<TransitGateway> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGateway>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -260,7 +259,7 @@ public class TransitGatewayApis extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     final JsonObject contentJson = new JsonObject();
     if (updateTransitGatewayOptions.global() != null) {
       contentJson.addProperty("global", updateTransitGatewayOptions.global());
@@ -293,7 +292,7 @@ public class TransitGatewayApis extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     ResponseConverter<TransitGatewayConnectionCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayConnectionCollection>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -318,7 +317,7 @@ public class TransitGatewayApis extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     final JsonObject contentJson = new JsonObject();
     contentJson.addProperty("network_type", createTransitGatewayConnectionOptions.networkType());
     if (createTransitGatewayConnectionOptions.name() != null) {
@@ -326,6 +325,9 @@ public class TransitGatewayApis extends BaseService {
     }
     if (createTransitGatewayConnectionOptions.networkId() != null) {
       contentJson.addProperty("network_id", createTransitGatewayConnectionOptions.networkId());
+    }
+    if (createTransitGatewayConnectionOptions.networkAccountId() != null) {
+      contentJson.addProperty("network_account_id", createTransitGatewayConnectionOptions.networkAccountId());
     }
     builder.bodyJson(contentJson);
     ResponseConverter<TransitGatewayConnectionCust> responseConverter =
@@ -352,7 +354,7 @@ public class TransitGatewayApis extends BaseService {
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
     return createServiceCall(builder.build(), responseConverter);
   }
@@ -362,21 +364,21 @@ public class TransitGatewayApis extends BaseService {
    *
    * This request retrieves a connection from the Transit Gateway.
    *
-   * @param detailTransitGatewayConnectionOptions the {@link DetailTransitGatewayConnectionOptions} containing the options for the call
+   * @param getTransitGatewayConnectionOptions the {@link GetTransitGatewayConnectionOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TransitGatewayConnectionCust}
    */
-  public ServiceCall<TransitGatewayConnectionCust> detailTransitGatewayConnection(DetailTransitGatewayConnectionOptions detailTransitGatewayConnectionOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(detailTransitGatewayConnectionOptions,
-      "detailTransitGatewayConnectionOptions cannot be null");
+  public ServiceCall<TransitGatewayConnectionCust> getTransitGatewayConnection(GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getTransitGatewayConnectionOptions,
+      "getTransitGatewayConnectionOptions cannot be null");
     String[] pathSegments = { "transit_gateways", "connections" };
-    String[] pathParameters = { detailTransitGatewayConnectionOptions.transitGatewayId(), detailTransitGatewayConnectionOptions.id() };
+    String[] pathParameters = { getTransitGatewayConnectionOptions.transitGatewayId(), getTransitGatewayConnectionOptions.id() };
     RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "detailTransitGatewayConnection");
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "getTransitGatewayConnection");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     ResponseConverter<TransitGatewayConnectionCust> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayConnectionCust>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -401,7 +403,7 @@ public class TransitGatewayApis extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     final JsonObject contentJson = new JsonObject();
     if (updateTransitGatewayConnectionOptions.name() != null) {
       contentJson.addProperty("name", updateTransitGatewayConnectionOptions.name());
@@ -409,6 +411,33 @@ public class TransitGatewayApis extends BaseService {
     builder.bodyJson(contentJson);
     ResponseConverter<TransitGatewayConnectionCust> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayConnectionCust>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Perform actions on a connection for a Transit Gateway.
+   *
+   * Allow a network owner to approve or reject a cross-account connection request.
+   *
+   * @param createTransitGatewayConnectionActionsOptions the {@link CreateTransitGatewayConnectionActionsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> createTransitGatewayConnectionActions(CreateTransitGatewayConnectionActionsOptions createTransitGatewayConnectionActionsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createTransitGatewayConnectionActionsOptions,
+      "createTransitGatewayConnectionActionsOptions cannot be null");
+    String[] pathSegments = { "transit_gateways", "connections", "actions" };
+    String[] pathParameters = { createTransitGatewayConnectionActionsOptions.transitGatewayId(), createTransitGatewayConnectionActionsOptions.id() };
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "createTransitGatewayConnectionActions");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+
+    builder.query("version", this.version);
+    final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("action", createTransitGatewayConnectionActionsOptions.action());
+    builder.bodyJson(contentJson);
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
     return createServiceCall(builder.build(), responseConverter);
   }
 
@@ -429,7 +458,7 @@ public class TransitGatewayApis extends BaseService {
     }
     builder.header("Accept", "application/json");
     if (listGatewayLocationsOptions != null) {
-      builder.query("version", dateFormat.format(this.version));
+      builder.query("version", this.version);
     }
     ResponseConverter<TSCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TSCollection>() { }.getType());
@@ -452,21 +481,21 @@ public class TransitGatewayApis extends BaseService {
    *
    * Get the details of a Transit Gateway Location.
    *
-   * @param detailGatewayLocationOptions the {@link DetailGatewayLocationOptions} containing the options for the call
+   * @param getGatewayLocationOptions the {@link GetGatewayLocationOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TSLocation}
    */
-  public ServiceCall<TSLocation> detailGatewayLocation(DetailGatewayLocationOptions detailGatewayLocationOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(detailGatewayLocationOptions,
-      "detailGatewayLocationOptions cannot be null");
+  public ServiceCall<TSLocation> getGatewayLocation(GetGatewayLocationOptions getGatewayLocationOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayLocationOptions,
+      "getGatewayLocationOptions cannot be null");
     String[] pathSegments = { "locations" };
-    String[] pathParameters = { detailGatewayLocationOptions.name() };
+    String[] pathParameters = { getGatewayLocationOptions.name() };
     RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "detailGatewayLocation");
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "getGatewayLocation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", dateFormat.format(this.version));
+    builder.query("version", this.version);
     ResponseConverter<TSLocation> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TSLocation>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);

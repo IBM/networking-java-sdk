@@ -35,15 +35,15 @@ public class ResourceGroupIdentityTest {
   @Test
   public void testResourceGroupIdentity() throws Throwable {
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
-      .id("56969d60-43e9-465c-883c-b9f7363e78e8")
+      .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
-    assertEquals(resourceGroupIdentityModel.id(), "56969d60-43e9-465c-883c-b9f7363e78e8");
+    assertEquals(resourceGroupIdentityModel.id(), "56969d6043e9465c883cb9f7363e78e8");
 
     String json = TestUtilities.serialize(resourceGroupIdentityModel);
 
     ResourceGroupIdentity resourceGroupIdentityModelNew = TestUtilities.deserialize(json, ResourceGroupIdentity.class);
     assertTrue(resourceGroupIdentityModelNew instanceof ResourceGroupIdentity);
-    assertEquals(resourceGroupIdentityModelNew.id(), "56969d60-43e9-465c-883c-b9f7363e78e8");
+    assertEquals(resourceGroupIdentityModelNew.id(), "56969d6043e9465c883cb9f7363e78e8");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

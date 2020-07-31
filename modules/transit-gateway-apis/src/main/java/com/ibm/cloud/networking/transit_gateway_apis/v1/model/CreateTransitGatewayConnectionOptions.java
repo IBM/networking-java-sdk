@@ -33,6 +33,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   protected String networkType;
   protected String name;
   protected String networkId;
+  protected String networkAccountId;
 
   /**
    * Builder.
@@ -42,12 +43,14 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     private String networkType;
     private String name;
     private String networkId;
+    private String networkAccountId;
 
     private Builder(CreateTransitGatewayConnectionOptions createTransitGatewayConnectionOptions) {
       this.transitGatewayId = createTransitGatewayConnectionOptions.transitGatewayId;
       this.networkType = createTransitGatewayConnectionOptions.networkType;
       this.name = createTransitGatewayConnectionOptions.name;
       this.networkId = createTransitGatewayConnectionOptions.networkId;
+      this.networkAccountId = createTransitGatewayConnectionOptions.networkAccountId;
     }
 
     /**
@@ -119,6 +122,17 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
       this.networkId = networkId;
       return this;
     }
+
+    /**
+     * Set the networkAccountId.
+     *
+     * @param networkAccountId the networkAccountId
+     * @return the CreateTransitGatewayConnectionOptions builder
+     */
+    public Builder networkAccountId(String networkAccountId) {
+      this.networkAccountId = networkAccountId;
+      return this;
+    }
   }
 
   protected CreateTransitGatewayConnectionOptions(Builder builder) {
@@ -130,6 +144,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     networkType = builder.networkType;
     name = builder.name;
     networkId = builder.networkId;
+    networkAccountId = builder.networkAccountId;
   }
 
   /**
@@ -186,6 +201,18 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    */
   public String networkId() {
     return networkId;
+  }
+
+  /**
+   * Gets the networkAccountId.
+   *
+   * The ID of the account which owns the network that is being connected. Generally only used if the network is in a
+   * different account than the gateway.
+   *
+   * @return the networkAccountId
+   */
+  public String networkAccountId() {
+    return networkAccountId;
   }
 }
 

@@ -13,8 +13,7 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupReference;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGateway;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionActionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -27,23 +26,27 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the TransitGateway model.
+ * Unit test class for the CreateTransitGatewayConnectionActionsOptions model.
  */
-public class TransitGatewayTest {
+public class CreateTransitGatewayConnectionActionsOptionsTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testTransitGateway() throws Throwable {
-    TransitGateway transitGatewayModel = new TransitGateway();
-    assertNull(transitGatewayModel.getId());
-    assertNull(transitGatewayModel.getCrn());
-    assertNull(transitGatewayModel.getName());
-    assertNull(transitGatewayModel.getLocation());
-    assertNull(transitGatewayModel.getCreatedAt());
-    assertNull(transitGatewayModel.isGlobal());
-    assertNull(transitGatewayModel.getResourceGroup());
-    assertNull(transitGatewayModel.getStatus());
-    assertNull(transitGatewayModel.getUpdatedAt());
+  public void testCreateTransitGatewayConnectionActionsOptions() throws Throwable {
+    CreateTransitGatewayConnectionActionsOptions createTransitGatewayConnectionActionsOptionsModel = new CreateTransitGatewayConnectionActionsOptions.Builder()
+      .transitGatewayId("testString")
+      .id("testString")
+      .action("approve")
+      .build();
+    assertEquals(createTransitGatewayConnectionActionsOptionsModel.transitGatewayId(), "testString");
+    assertEquals(createTransitGatewayConnectionActionsOptionsModel.id(), "testString");
+    assertEquals(createTransitGatewayConnectionActionsOptionsModel.action(), "approve");
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateTransitGatewayConnectionActionsOptionsError() throws Throwable {
+    new CreateTransitGatewayConnectionActionsOptions.Builder().build();
+  }
+
 }

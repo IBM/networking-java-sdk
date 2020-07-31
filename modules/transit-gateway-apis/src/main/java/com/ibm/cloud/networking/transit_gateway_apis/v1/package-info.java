@@ -11,6 +11,6 @@
  * specific language governing permissions and limitations under the License.
  */
 /**
- * Transit Gateway APIS v1.
+ * Transit Gateway Apis v1.
  */
 package com.ibm.cloud.networking.transit_gateway_apis.v1;

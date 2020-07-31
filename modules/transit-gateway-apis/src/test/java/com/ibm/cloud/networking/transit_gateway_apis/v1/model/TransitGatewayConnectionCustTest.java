@@ -38,8 +38,10 @@ public class TransitGatewayConnectionCustTest {
     assertNull(transitGatewayConnectionCustModel.getName());
     assertNull(transitGatewayConnectionCustModel.getNetworkId());
     assertNull(transitGatewayConnectionCustModel.getNetworkType());
+    assertNull(transitGatewayConnectionCustModel.getNetworkAccountId());
     assertNull(transitGatewayConnectionCustModel.getId());
     assertNull(transitGatewayConnectionCustModel.getCreatedAt());
+    assertNull(transitGatewayConnectionCustModel.getRequestStatus());
     assertNull(transitGatewayConnectionCustModel.getStatus());
     assertNull(transitGatewayConnectionCustModel.getUpdatedAt());
   }

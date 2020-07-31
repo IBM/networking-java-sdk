@@ -15,13 +15,12 @@ package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * The updateTransitGatewayConnection options.
+ * The getTransitGatewayConnection options.
  */
-public class UpdateTransitGatewayConnectionOptions extends GenericModel {
+public class GetTransitGatewayConnectionOptions extends GenericModel {
 
   protected String transitGatewayId;
   protected String id;
-  protected String name;
 
   /**
    * Builder.
@@ -29,12 +28,10 @@ public class UpdateTransitGatewayConnectionOptions extends GenericModel {
   public static class Builder {
     private String transitGatewayId;
     private String id;
-    private String name;
 
-    private Builder(UpdateTransitGatewayConnectionOptions updateTransitGatewayConnectionOptions) {
-      this.transitGatewayId = updateTransitGatewayConnectionOptions.transitGatewayId;
-      this.id = updateTransitGatewayConnectionOptions.id;
-      this.name = updateTransitGatewayConnectionOptions.name;
+    private Builder(GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptions) {
+      this.transitGatewayId = getTransitGatewayConnectionOptions.transitGatewayId;
+      this.id = getTransitGatewayConnectionOptions.id;
     }
 
     /**
@@ -55,19 +52,19 @@ public class UpdateTransitGatewayConnectionOptions extends GenericModel {
     }
 
     /**
-     * Builds a UpdateTransitGatewayConnectionOptions.
+     * Builds a GetTransitGatewayConnectionOptions.
      *
-     * @return the new UpdateTransitGatewayConnectionOptions instance
+     * @return the new GetTransitGatewayConnectionOptions instance
      */
-    public UpdateTransitGatewayConnectionOptions build() {
-      return new UpdateTransitGatewayConnectionOptions(this);
+    public GetTransitGatewayConnectionOptions build() {
+      return new GetTransitGatewayConnectionOptions(this);
     }
 
     /**
      * Set the transitGatewayId.
      *
      * @param transitGatewayId the transitGatewayId
-     * @return the UpdateTransitGatewayConnectionOptions builder
+     * @return the GetTransitGatewayConnectionOptions builder
      */
     public Builder transitGatewayId(String transitGatewayId) {
       this.transitGatewayId = transitGatewayId;
@@ -78,39 +75,27 @@ public class UpdateTransitGatewayConnectionOptions extends GenericModel {
      * Set the id.
      *
      * @param id the id
-     * @return the UpdateTransitGatewayConnectionOptions builder
+     * @return the GetTransitGatewayConnectionOptions builder
      */
     public Builder id(String id) {
       this.id = id;
       return this;
     }
-
-    /**
-     * Set the name.
-     *
-     * @param name the name
-     * @return the UpdateTransitGatewayConnectionOptions builder
-     */
-    public Builder name(String name) {
-      this.name = name;
-      return this;
-    }
   }
 
-  protected UpdateTransitGatewayConnectionOptions(Builder builder) {
+  protected GetTransitGatewayConnectionOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.transitGatewayId,
       "transitGatewayId cannot be empty");
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
     transitGatewayId = builder.transitGatewayId;
     id = builder.id;
-    name = builder.name;
   }
 
   /**
    * New builder.
    *
-   * @return a UpdateTransitGatewayConnectionOptions builder
+   * @return a GetTransitGatewayConnectionOptions builder
    */
   public Builder newBuilder() {
     return new Builder(this);
@@ -136,19 +121,6 @@ public class UpdateTransitGatewayConnectionOptions extends GenericModel {
    */
   public String id() {
     return id;
-  }
-
-  /**
-   * Gets the name.
-   *
-   * The user-defined name for this transit gateway. If specified as empty string or nil,  the name will be the network
-   * name (the name of the VPC in the case of network type 'vpc',  and the word Classic, in the case of network type
-   * 'classic').
-   *
-   * @return the name
-   */
-  public String name() {
-    return name;
   }
 }
 

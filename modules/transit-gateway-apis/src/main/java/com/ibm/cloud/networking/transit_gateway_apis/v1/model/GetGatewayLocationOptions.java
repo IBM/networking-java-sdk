@@ -15,9 +15,9 @@ package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * The detailGatewayLocation options.
+ * The getGatewayLocation options.
  */
-public class DetailGatewayLocationOptions extends GenericModel {
+public class GetGatewayLocationOptions extends GenericModel {
 
   protected String name;
 
@@ -27,8 +27,8 @@ public class DetailGatewayLocationOptions extends GenericModel {
   public static class Builder {
     private String name;
 
-    private Builder(DetailGatewayLocationOptions detailGatewayLocationOptions) {
-      this.name = detailGatewayLocationOptions.name;
+    private Builder(GetGatewayLocationOptions getGatewayLocationOptions) {
+      this.name = getGatewayLocationOptions.name;
     }
 
     /**
@@ -47,19 +47,19 @@ public class DetailGatewayLocationOptions extends GenericModel {
     }
 
     /**
-     * Builds a DetailGatewayLocationOptions.
+     * Builds a GetGatewayLocationOptions.
      *
-     * @return the new DetailGatewayLocationOptions instance
+     * @return the new GetGatewayLocationOptions instance
      */
-    public DetailGatewayLocationOptions build() {
-      return new DetailGatewayLocationOptions(this);
+    public GetGatewayLocationOptions build() {
+      return new GetGatewayLocationOptions(this);
     }
 
     /**
      * Set the name.
      *
      * @param name the name
-     * @return the DetailGatewayLocationOptions builder
+     * @return the GetGatewayLocationOptions builder
      */
     public Builder name(String name) {
       this.name = name;
@@ -67,7 +67,7 @@ public class DetailGatewayLocationOptions extends GenericModel {
     }
   }
 
-  protected DetailGatewayLocationOptions(Builder builder) {
+  protected GetGatewayLocationOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.name,
       "name cannot be empty");
     name = builder.name;
@@ -76,7 +76,7 @@ public class DetailGatewayLocationOptions extends GenericModel {
   /**
    * New builder.
    *
-   * @return a DetailGatewayLocationOptions builder
+   * @return a GetGatewayLocationOptions builder
    */
   public Builder newBuilder() {
     return new Builder(this);

@@ -156,7 +156,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
   /**
    * Gets the global.
    *
-   * Allow global routing for a Transit Gateway.
+   * Allow global routing for a Transit Gateway. If unspecified, the default value is false.
    *
    * @return the global
    */

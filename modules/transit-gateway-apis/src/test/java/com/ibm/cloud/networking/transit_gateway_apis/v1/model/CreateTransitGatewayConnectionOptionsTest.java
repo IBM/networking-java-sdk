@@ -39,11 +39,13 @@ public class CreateTransitGatewayConnectionOptionsTest {
       .networkType("vpc")
       .name("Transit_Service_BWTN_SJ_DL")
       .networkId("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+      .networkAccountId("28e4d90ac7504be694471ee66e70d0d5")
       .build();
     assertEquals(createTransitGatewayConnectionOptionsModel.transitGatewayId(), "testString");
     assertEquals(createTransitGatewayConnectionOptionsModel.networkType(), "vpc");
     assertEquals(createTransitGatewayConnectionOptionsModel.name(), "Transit_Service_BWTN_SJ_DL");
     assertEquals(createTransitGatewayConnectionOptionsModel.networkId(), "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b");
+    assertEquals(createTransitGatewayConnectionOptionsModel.networkAccountId(), "28e4d90ac7504be694471ee66e70d0d5");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)
