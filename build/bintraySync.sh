@@ -22,7 +22,7 @@ pkgversion=$5
 package_names="
 com.ibm.cloud:networking
 com.ibm.cloud:networking-common
-com.ibm.cloud:direct-link-apis
+com.ibm.cloud:direct-link
 com.ibm.cloud:transit-gateway-apis"
 
 this_dir=`dirname "$0"`

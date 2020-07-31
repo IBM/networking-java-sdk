@@ -19,14 +19,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <!-- 
-            This is the version associated with the Java core. The version used here should be compatible with the version 
-            of the SDK generator used to generate your SDK code.
-            See this link for details: https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/Compatibility-Chart
-        -->
+        <!-- This is the version associated with the Java core. -->
         <sdk-core-version>8.3.0</sdk-core-version>
-
-        <!-- >>> Replace this with the name of your SDK's github repository -->
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.1.0</testng-version>
@@ -61,7 +55,7 @@
 
         <!-- >>> List each service's module here -->
         <module>modules/transit-gateway-apis</module>
-         <module>modules/direct-link-apis</module>
+         <module>modules/direct-link</module>
        
 
         <!-- This module should always be listed last -->
