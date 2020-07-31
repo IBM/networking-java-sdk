@@ -34,7 +34,7 @@
         <!-- Copy and update this section for each service added to the project. -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>direct-link-apis</artifactId>
+            <artifactId>direct-link</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
