@@ -1,0 +1,5 @@
+com.ibm.cloud.networking.common
+com.ibm.cloud.networking.direct_link.v1
+com.ibm.cloud.networking.direct_link.v1.model
+com.ibm.cloud.networking.transit_gateway_apis.v1
+com.ibm.cloud.networking.transit_gateway_apis.v1.model
