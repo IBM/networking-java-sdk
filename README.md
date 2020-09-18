@@ -45,6 +45,7 @@ Service Name | Artifact Coordinates
 --- | --- 
 [Transit Gateway ](https://cloud.ibm.com/docs/transit-gateway) | com.ibm.cloud:transit-gateway-apis:0.7.0
 [Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=java) | com.ibm.cloud:direct-link:0.7.0
+[Direct Link Provider](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=java) | com.ibm.cloud:direct-link-provider:0.7.0
 ## Prerequisites
 
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration
@@ -75,12 +76,17 @@ artifact coordinates (group id, artifact id and version) for the service, like t
 ```xml
 <dependency>
     <groupId>com.ibm.cloud</groupId>
+    <artifactId>transit-gateway-apis</artifactId>
+    <version>0.7.0</version>
+</dependency>
+<dependency>
+    <groupId>com.ibm.cloud</groupId>
     <artifactId>direct-link</artifactId>
     <version>0.7.0</version>
 </dependency>
 <dependency>
     <groupId>com.ibm.cloud</groupId>
-    <artifactId>transit-gateway-apis</artifactId>
+    <artifactId>direct-link-provider</artifactId>
     <version>0.7.0</version>
 </dependency>
 ```

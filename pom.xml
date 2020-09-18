@@ -54,8 +54,9 @@
         <module>modules/common</module>
 
         <!-- >>> List each service's module here -->
-        <module>modules/direct-link</module>
         <module>modules/transit-gateway-apis</module>
+        <module>modules/direct-link</module>
+        <module>modules/direct-link-provider</module>
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
