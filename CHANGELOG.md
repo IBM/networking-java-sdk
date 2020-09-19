@@ -1,3 +1,10 @@
+# [0.8.0](https://github.com/IBM/networking-java-sdk/compare/0.7.0...0.8.0) (2020-09-19)
+
+
+### Features
+
+* added support for provider apis for direct link ([aebfcb2](https://github.com/IBM/networking-java-sdk/commit/aebfcb233bd2c5f514481644745fdbad6589029c))
+
 # [0.7.0](https://github.com/IBM/networking-java-sdk/compare/0.6.0...0.7.0) (2020-07-31)
 
 
