@@ -70,7 +70,6 @@
         <module>modules/cis-ip-api</module>
         <module>modules/zone-rate-limits</module>
         <module>modules/routing</module>
-        <module>modules/ssl-certificate-api</module>
         <module>modules/user-agent-blocking-rules</module>
         <module>modules/security-events-api</module>
         <module>modules/waf-api</module>
