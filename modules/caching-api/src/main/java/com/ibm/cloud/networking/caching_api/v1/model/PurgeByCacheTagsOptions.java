@@ -1,0 +1,105 @@
+/*
+ * (C) Copyright IBM Corp. 2020.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+package com.ibm.cloud.networking.caching_api.v1.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ibm.cloud.sdk.core.service.model.GenericModel;
+
+/**
+ * The purgeByCacheTags options.
+ */
+public class PurgeByCacheTagsOptions extends GenericModel {
+
+  protected List<String> tags;
+
+  /**
+   * Builder.
+   */
+  public static class Builder {
+    private List<String> tags;
+
+    private Builder(PurgeByCacheTagsOptions purgeByCacheTagsOptions) {
+      this.tags = purgeByCacheTagsOptions.tags;
+    }
+
+    /**
+     * Instantiates a new builder.
+     */
+    public Builder() {
+    }
+
+    /**
+     * Builds a PurgeByCacheTagsOptions.
+     *
+     * @return the new PurgeByCacheTagsOptions instance
+     */
+    public PurgeByCacheTagsOptions build() {
+      return new PurgeByCacheTagsOptions(this);
+    }
+
+    /**
+     * Adds an tags to tags.
+     *
+     * @param tags the new tags
+     * @return the PurgeByCacheTagsOptions builder
+     */
+    public Builder addTags(String tags) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(tags,
+        "tags cannot be null");
+      if (this.tags == null) {
+        this.tags = new ArrayList<String>();
+      }
+      this.tags.add(tags);
+      return this;
+    }
+
+    /**
+     * Set the tags.
+     * Existing tags will be replaced.
+     *
+     * @param tags the tags
+     * @return the PurgeByCacheTagsOptions builder
+     */
+    public Builder tags(List<String> tags) {
+      this.tags = tags;
+      return this;
+    }
+  }
+
+  protected PurgeByCacheTagsOptions(Builder builder) {
+    tags = builder.tags;
+  }
+
+  /**
+   * New builder.
+   *
+   * @return a PurgeByCacheTagsOptions builder
+   */
+  public Builder newBuilder() {
+    return new Builder(this);
+  }
+
+  /**
+   * Gets the tags.
+   *
+   * array of tags.
+   *
+   * @return the tags
+   */
+  public List<String> tags() {
+    return tags;
+  }
+}
+
