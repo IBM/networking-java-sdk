@@ -57,6 +57,29 @@
         <module>modules/transit-gateway-apis</module>
         <module>modules/direct-link</module>
         <module>modules/direct-link-provider</module>
+        <module>modules/firewall-access-rules</module>
+        <module>modules/caching-api</module>
+        <module>modules/custom-pages</module>
+        <module>modules/dns-records</module>
+        <module>modules/dns-record-bulk</module>
+        <module>modules/firewall-api</module>
+        <module>modules/global-load-balancer-monitor</module>
+        <module>modules/global-load-balancer-pools</module>
+        <module>modules/global-load-balancer</module>
+        <module>modules/global-load-balancer-events</module>
+        <module>modules/cis-ip-api</module>
+        <module>modules/zone-rate-limits</module>
+        <module>modules/routing</module>
+        <module>modules/user-agent-blocking-rules</module>
+        <module>modules/security-events-api</module>
+        <module>modules/waf-api</module>
+        <module>modules/waf-rule-packages-api</module>
+        <module>modules/waf-rule-groups-api</module>
+        <module>modules/waf-rules-api</module>
+        <module>modules/zones</module>
+        <module>modules/zone-lockdown</module>
+        <module>modules/zone-firewall-access-rules</module>
+        <module>modules/zones-settings</module>
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
