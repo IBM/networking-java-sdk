@@ -1,3 +1,10 @@
+# [0.9.0](https://github.com/IBM/networking-java-sdk/compare/0.8.0...0.9.0) (2020-10-07)
+
+
+### Features
+
+* **cloud internet services:** add cloud internet services first version 24/26 services to project ([880d519](https://github.com/IBM/networking-java-sdk/commit/880d519374c820895641014576e67c34fb336ff1))
+
 # [0.8.0](https://github.com/IBM/networking-java-sdk/compare/0.7.0...0.8.0) (2020-09-19)
 
 
