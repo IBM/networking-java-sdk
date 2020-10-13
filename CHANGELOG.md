@@ -1,3 +1,10 @@
+# [0.10.0](https://github.com/IBM/networking-java-sdk/compare/0.9.0...0.10.0) (2020-10-13)
+
+
+### Features
+
+* **cloud internet services:** add range applications to project ([6f2a174](https://github.com/IBM/networking-java-sdk/commit/6f2a174d74f285bf6672c3c53bef552b45489a17))
+
 # [0.9.0](https://github.com/IBM/networking-java-sdk/compare/0.8.0...0.9.0) (2020-10-07)
 
 
