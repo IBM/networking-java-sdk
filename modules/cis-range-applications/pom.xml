@@ -11,10 +11,10 @@
     </parent>
 
     <!-- >>> Replace this with the service module's artifactId (e.g. "example-service") -->
-    <artifactId>dns-records-bulk</artifactId>
+    <artifactId>cis-range-applications</artifactId>
 
     <!-- >>> Replace this with a text description of this module (e.g. "Example Service") -->
-    <name>Cloud Internet Services dns-records-bulk</name>
+    <name>Cloud Internet Services cis-range-applications</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -26,11 +26,6 @@
             <!-- >>> Replace this with the "common" module's artifactId (e.g. my-services-common) -->
             <artifactId>networking-common</artifactId>
             <groupId>${project.groupId}</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>dns-records</artifactId>
-            <groupId>com.ibm.cloud</groupId>
-            <version>99-SNAPSHOT</version>
         </dependency>
         <dependency>
             <artifactId>networking-common</artifactId>

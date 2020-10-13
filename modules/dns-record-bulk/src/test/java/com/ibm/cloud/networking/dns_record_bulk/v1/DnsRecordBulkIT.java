@@ -13,6 +13,12 @@
 
 package com.ibm.cloud.networking.dns_record_bulk.v1;
 
+import com.ibm.cloud.networking.dns_records.v1.DnsRecords;
+import com.ibm.cloud.networking.dns_records.v1.model.DeleteDnsRecordOptions;
+import com.ibm.cloud.networking.dns_records.v1.model.DeleteDnsrecordResp;
+import com.ibm.cloud.networking.dns_records.v1.model.DeleteDnsrecordRespResult;
+import com.ibm.cloud.networking.dns_records.v1.model.ListAllDnsRecordsOptions;
+import com.ibm.cloud.networking.dns_records.v1.model.ListDnsrecordsResp;
 import com.ibm.cloud.networking.dns_record_bulk.v1.model.DnsRecordsObject;
 import com.ibm.cloud.networking.dns_record_bulk.v1.model.DnsRecordsObjectMessagesItem;
 import com.ibm.cloud.networking.dns_record_bulk.v1.model.DnsRecordsObjectResult;
@@ -45,12 +51,14 @@ import java.util.Scanner; // Import the Scanner class to read text files
  */
 public class DnsRecordBulkIT extends SdkIntegrationTestBase {
   public DnsRecordBulk service = null;
+  public DnsRecords dnsService = null;
   public static Map<String, String> config = null;
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   String crn = null;
   String zoneIdentifier = null;
+  String rIdentifier = null;
 
   /**
    * This method provides our config filename to the base class.
@@ -76,6 +84,13 @@ public class DnsRecordBulkIT extends SdkIntegrationTestBase {
 
     // set mock values for global params
     try {
+      dnsService = DnsRecords.newInstance(crn, zoneIdentifier, serviceName);
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+
+    try {
       service = DnsRecordBulk.newInstance(crn, zoneIdentifier, serviceName);
     } catch (Exception e) {
       // TODO Auto-generated catch block
@@ -94,25 +109,6 @@ public class DnsRecordBulkIT extends SdkIntegrationTestBase {
       // Validate response
       assertNotNull(response);
       assertEquals(response.getStatusCode(), 200);
-
-      InputStream inputStreamResult = response.getResult();
-      System.out.println("#########");
-      System.out.println(inputStreamResult);
-      System.out.println("########");
-      System.out.println(response);
-      System.out.println("#######");
-      // reads till the end of the stream
-      int i;
-      char c;
-         while((i = inputStreamResult.read())!=-1) {
-         
-            // converts integer to character
-            c = (char)i;
-            
-            // prints character
-            System.out.print(c);
-         }
-      assertNotNull(inputStreamResult);
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
@@ -183,6 +179,54 @@ public class DnsRecordBulkIT extends SdkIntegrationTestBase {
       System.out.println("Deleted the file: " + myObj.getName());
     } else {
       System.out.println("Failed to delete the file.");
+    }
+  }
+
+  @Test (dependsOnMethods = "testPostDnsRecordsBulk")
+  public void testListAllDnsRecords() throws Exception {
+    try {
+      ListAllDnsRecordsOptions listAllDnsRecordsOptions = new ListAllDnsRecordsOptions.Builder()
+      .name("example.sdk.cistest-load.com.java.sdk.cistest-load.com")
+      .build();
+      // Invoke operation
+      Response<ListDnsrecordsResp> response = dnsService.listAllDnsRecords(listAllDnsRecordsOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      ListDnsrecordsResp listDnsrecordsRespResult = response.getResult();
+      int i = 0;
+      while (i < listDnsrecordsRespResult.getResult().size()) {
+          rIdentifier = listDnsrecordsRespResult.getResult().get(i).getId();
+          break;
+      }
+
+      assertNotNull(listDnsrecordsRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test (dependsOnMethods = "testListAllDnsRecords")
+  public void testDeleteDnsRecord() throws Exception {
+    try {
+      DeleteDnsRecordOptions deleteDnsRecordOptions = new DeleteDnsRecordOptions.Builder()
+      .dnsrecordIdentifier(rIdentifier)
+      .build();
+
+      // Invoke operation
+      Response<DeleteDnsrecordResp> response = dnsService.deleteDnsRecord(deleteDnsRecordOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      DeleteDnsrecordResp deleteDnsrecordRespResult = response.getResult();
+
+      assertNotNull(deleteDnsrecordRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
 
