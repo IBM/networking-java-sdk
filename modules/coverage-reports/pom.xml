@@ -157,6 +157,11 @@
             <artifactId>zones-settings</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>cis-range-applications</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
