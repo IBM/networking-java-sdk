@@ -1,3 +1,10 @@
+## [0.10.1](https://github.com/IBM/networking-java-sdk/compare/0.10.0...0.10.1) (2020-10-15)
+
+
+### Bug Fixes
+
+* dummy commit for fixing build issue in merge 0.10.0 ([825345c](https://github.com/IBM/networking-java-sdk/commit/825345cdea678034af80ab7601a70919581c1d4c))
+
 # [0.10.0](https://github.com/IBM/networking-java-sdk/compare/0.9.0...0.10.0) (2020-10-13)
 
 
