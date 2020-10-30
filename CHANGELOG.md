@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/IBM/networking-java-sdk/compare/0.10.1...0.11.0) (2020-10-30)
+
+
+### Features
+
+* added the support for macsec enabled gateways for direct link ([5687e3f](https://github.com/IBM/networking-java-sdk/commit/5687e3f4691e7d806fb83b99f4ca56d36545437d))
+
 ## [0.10.1](https://github.com/IBM/networking-java-sdk/compare/0.10.0...0.10.1) (2020-10-15)
 
 
