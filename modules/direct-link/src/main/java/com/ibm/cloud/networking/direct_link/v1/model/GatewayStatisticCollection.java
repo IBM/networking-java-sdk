@@ -12,40 +12,26 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.List;
+
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Speed.
+ * gateway statistics.
  */
-public class OfferingSpeed extends GenericModel {
+public class GatewayStatisticCollection extends GenericModel {
 
-  @SerializedName("link_speed")
-  protected Long linkSpeed;
-  @SerializedName("macsec_enabled")
-  protected Boolean macsecEnabled;
+  protected List<GatewayStatistic> statistics;
 
   /**
-   * Gets the linkSpeed.
+   * Gets the statistics.
    *
-   * Link speed in megabits per second.
+   * Collection of gateway statistics.
    *
-   * @return the linkSpeed
+   * @return the statistics
    */
-  public Long getLinkSpeed() {
-    return linkSpeed;
-  }
-
-  /**
-   * Gets the macsecEnabled.
-   *
-   * Indicate whether speed supports MACsec.  Only returned for gateway type=dedicated speeds.  Contact IBM support for
-   * access to MACsec.
-   *
-   * @return the macsecEnabled
-   */
-  public Boolean isMacsecEnabled() {
-    return macsecEnabled;
+  public List<GatewayStatistic> getStatistics() {
+    return statistics;
   }
 }
 

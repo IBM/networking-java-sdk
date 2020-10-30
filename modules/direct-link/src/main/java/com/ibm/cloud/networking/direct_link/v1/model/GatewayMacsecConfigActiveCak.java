@@ -12,40 +12,39 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Speed.
+ * Active connectivity association key.
+ *
+ * During normal operation `active_cak` will match the desired `primary_cak`.  During CAK changes this field can be used
+ * to indicate which key is currently active on the gateway.
  */
-public class OfferingSpeed extends GenericModel {
+public class GatewayMacsecConfigActiveCak extends GenericModel {
 
-  @SerializedName("link_speed")
-  protected Long linkSpeed;
-  @SerializedName("macsec_enabled")
-  protected Boolean macsecEnabled;
+  protected String crn;
+  protected String status;
 
   /**
-   * Gets the linkSpeed.
+   * Gets the crn.
    *
-   * Link speed in megabits per second.
+   * connectivity association key crn.
    *
-   * @return the linkSpeed
+   * @return the crn
    */
-  public Long getLinkSpeed() {
-    return linkSpeed;
+  public String getCrn() {
+    return crn;
   }
 
   /**
-   * Gets the macsecEnabled.
+   * Gets the status.
    *
-   * Indicate whether speed supports MACsec.  Only returned for gateway type=dedicated speeds.  Contact IBM support for
-   * access to MACsec.
+   * connectivity association key status.
    *
-   * @return the macsecEnabled
+   * @return the status
    */
-  public Boolean isMacsecEnabled() {
-    return macsecEnabled;
+  public String getStatus() {
+    return status;
   }
 }
 

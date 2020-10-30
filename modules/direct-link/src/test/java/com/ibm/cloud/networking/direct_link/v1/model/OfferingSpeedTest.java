@@ -36,5 +36,6 @@ public class OfferingSpeedTest {
   public void testOfferingSpeed() throws Throwable {
     OfferingSpeed offeringSpeedModel = new OfferingSpeed();
     assertNull(offeringSpeedModel.getLinkSpeed());
+    assertNull(offeringSpeedModel.isMacsecEnabled());
   }
 }

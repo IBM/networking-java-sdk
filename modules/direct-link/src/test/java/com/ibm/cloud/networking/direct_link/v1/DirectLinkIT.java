@@ -38,6 +38,10 @@ import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnect
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
+// import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
+// import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
+// import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplate;
+// import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplateFallbackCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeConnectTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
@@ -318,6 +322,94 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  gatewayId = null; // already cleaned up System.out.
 	}
 	 
+	// @Test(dependsOnMethods = "testDedicatedGatewayOptions")
+	// public void testMacsecEnabledGatewayOptions() {
+	// 	Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+	// 	assertNotNull(testService);
+	// 	String locationName = config.get("LOCATION_NAME");// "dal09";//read this from env file 
+	// 	String gatewayName = "JAVA-INT-SDK-MACSEC-"+timestamp; 
+	// 	String updatedGatewayName = "JAVA-INT-SDK-MACSEC-PATCH-"+timestamp; 
+	// 	Long bgpAsn = 64999L; 
+	// 	String bgpBaseCidr = "169.254.0.0/16"; 
+	// 	String crossConnectRouter =	"LAB-xcr01.dal09"; 
+	// 	boolean global = true; 
+	// 	Long speedMbps = 1000L; 
+	// 	boolean metered = false; 
+	// 	String carrierName = "carrier1"; 
+	// 	String customerName = "customer1"; 
+	// 	String gatewayType = "dedicated";
+	// 	String cak = config.get("CAK");
+	  
+	// 	GatewayMacsecConfigTemplatePrimaryCak primaryCak = new GatewayMacsecConfigTemplatePrimaryCak.Builder(cak).build();
+
+	//   GatewayMacsecConfigTemplate macsecConfig = new GatewayMacsecConfigTemplate.Builder(true, primaryCak).build();
+
+	//   GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
+	//   	.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).bgpCerCidr("10.254.30.78/30").bgpIbmCidr("10.254.30.77/30")
+	//   	.global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
+	//   	.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName) 
+	//   	.locationName(locationName).macsecConfig(macsecConfig).build();
+	  
+	//   // ***************** Create macsec enabled dedicated Gateway ********************* //
+	// 	// Construct an instance of the CreateGatewayOptions model 
+	// 	CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder().gatewayTemplate(gatewayTemplateModel).build();
+	  
+	//   // Invoke operation with valid options model (positive test)
+	//   Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
+	// 	assertNotNull(response); 
+	// 	assertEquals(201, 
+	// 	response.getStatusCode());
+	  
+	// 	Gateway responseObj = response.getResult(); 
+	// 	assertNotNull(responseObj);
+	// 	assertNotNull(responseObj.getMacsecConfig());
+		
+	// 	// save gw id for clean up routine if we terminate
+	//   gatewayId = responseObj.getId();
+	  
+	//   //********** Get the macsec enabled dedicate gateway just created *************
+	//   GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(gatewayId).build();
+	  
+	//   // Invoke operation with valid options model (positive test)
+	//   Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+	// 	assertNotNull(getGatewayResponse); 
+	// 	assertEquals(200, getGatewayResponse.getStatusCode());
+	  
+	// 	responseObj = getGatewayResponse.getResult(); 
+	// 	assertNotNull(responseObj);
+
+	// 	GatewayMacsecConfigPatchTemplateFallbackCak fallbackCak = new GatewayMacsecConfigPatchTemplateFallbackCak.Builder(cak).build();
+	// 	GatewayMacsecConfigPatchTemplate macsecPatchConfig = new GatewayMacsecConfigPatchTemplate.Builder().fallbackCak(fallbackCak).build();
+	  
+	// 	// ********** Patch the gateway using attributes that can be changed with the current gw status ************* 
+	// 	// Construct an instance of the UpdateGatewayOptions model 
+	// 	UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+	// 		.name(updatedGatewayName).macsecConfig(macsecPatchConfig).build(); 
+			
+	// 	// Invoke operation with valid options model (positive test) 
+	// 	Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
+	// 	assertNotNull(updateResponse); 
+	// 	assertEquals(200, updateResponse.getStatusCode());
+	  
+	//    	Gateway updateResponseObj = updateResponse.getResult();
+	//   	assertNotNull(updateResponseObj);
+	  
+	// 	// Delete the dedicated GW 
+	// 	DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(responseObj.getId()) .build(); 
+			
+	// 	//  Invoke operation with valid options model (positive test) 
+	// 	Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
+	// 	assertNotNull(Delresponse); 
+	// 	assertEquals(204, Delresponse.getStatusCode());
+		
+	// 	Void delResponseObj = Delresponse.getResult(); // Response does not have a return type. Check that the result is null. 
+	// 	assertNull(delResponseObj);
+	  
+	//   	gatewayId = null; // already cleaned up System.out.
+
+
+	// }
+
 	@Test (dependsOnMethods = "testDedicatedGatewayOptions")
 	public void testPorts() {
 		assertNotNull(testService);

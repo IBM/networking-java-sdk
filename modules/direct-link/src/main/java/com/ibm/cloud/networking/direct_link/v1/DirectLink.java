@@ -22,9 +22,11 @@ import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatisticCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
@@ -270,6 +272,9 @@ public class DirectLink extends BaseService {
     if (updateGatewayOptions.loaRejectReason() != null) {
       contentJson.addProperty("loa_reject_reason", updateGatewayOptions.loaRejectReason());
     }
+    if (updateGatewayOptions.macsecConfig() != null) {
+      contentJson.add("macsec_config", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateGatewayOptions.macsecConfig()));
+    }
     if (updateGatewayOptions.metered() != null) {
       contentJson.addProperty("metered", updateGatewayOptions.metered());
     }
@@ -407,6 +412,33 @@ public class DirectLink extends BaseService {
     builder.header("Accept", "application/pdf");
     builder.query("version", this.version);
     ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Gateway statistics.
+   *
+   * Retrieve gateway statistics.  Specify statistic to retrieve using required `type` query parameter.  Currently data
+   * retrieval is only supported for MACsec configurations.
+   *
+   * @param getGatewayStatisticsOptions the {@link GetGatewayStatisticsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link GatewayStatisticCollection}
+   */
+  public ServiceCall<GatewayStatisticCollection> getGatewayStatistics(GetGatewayStatisticsOptions getGatewayStatisticsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayStatisticsOptions,
+      "getGatewayStatisticsOptions cannot be null");
+    String[] pathSegments = { "gateways", "statistics" };
+    String[] pathParameters = { getGatewayStatisticsOptions.id() };
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getGatewayStatistics");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("type", getGatewayStatisticsOptions.type());
+    builder.query("version", this.version);
+    ResponseConverter<GatewayStatisticCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayStatisticCollection>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

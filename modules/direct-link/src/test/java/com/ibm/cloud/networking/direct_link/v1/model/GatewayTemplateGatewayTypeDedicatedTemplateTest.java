@@ -13,6 +13,9 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
@@ -35,6 +38,27 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
 
   @Test
   public void testGatewayTemplateGatewayTypeDedicatedTemplate() throws Throwable {
+    GatewayMacsecConfigTemplateFallbackCak gatewayMacsecConfigTemplateFallbackCakModel = new GatewayMacsecConfigTemplateFallbackCak.Builder()
+      .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+      .build();
+    assertEquals(gatewayMacsecConfigTemplateFallbackCakModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
+
+    GatewayMacsecConfigTemplatePrimaryCak gatewayMacsecConfigTemplatePrimaryCakModel = new GatewayMacsecConfigTemplatePrimaryCak.Builder()
+      .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+      .build();
+    assertEquals(gatewayMacsecConfigTemplatePrimaryCakModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
+
+    GatewayMacsecConfigTemplate gatewayMacsecConfigTemplateModel = new GatewayMacsecConfigTemplate.Builder()
+      .active(true)
+      .fallbackCak(gatewayMacsecConfigTemplateFallbackCakModel)
+      .primaryCak(gatewayMacsecConfigTemplatePrimaryCakModel)
+      .windowSize(Long.valueOf("148809600"))
+      .build();
+    assertEquals(gatewayMacsecConfigTemplateModel.active(), Boolean.valueOf(true));
+    assertEquals(gatewayMacsecConfigTemplateModel.fallbackCak(), gatewayMacsecConfigTemplateFallbackCakModel);
+    assertEquals(gatewayMacsecConfigTemplateModel.primaryCak(), gatewayMacsecConfigTemplatePrimaryCakModel);
+    assertEquals(gatewayMacsecConfigTemplateModel.windowSize(), Long.valueOf("148809600"));
+
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
       .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
@@ -55,6 +79,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
       .crossConnectRouter("xcr01.dal03")
       .customerName("newCustomerName")
       .locationName("dal03")
+      .macsecConfig(gatewayMacsecConfigTemplateModel)
       .build();
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.bgpBaseCidr(), "10.254.30.76/30");
@@ -70,6 +95,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.crossConnectRouter(), "xcr01.dal03");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.customerName(), "newCustomerName");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.locationName(), "dal03");
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.macsecConfig(), gatewayMacsecConfigTemplateModel);
 
     String json = TestUtilities.serialize(gatewayTemplateGatewayTypeDedicatedTemplateModel);
 
@@ -89,6 +115,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.crossConnectRouter(), "xcr01.dal03");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.customerName(), "newCustomerName");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.locationName(), "dal03");
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.macsecConfig().toString(), gatewayMacsecConfigTemplateModel.toString());
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

@@ -46,6 +46,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     private String crossConnectRouter;
     private String customerName;
     private String locationName;
+    private GatewayMacsecConfigTemplate macsecConfig;
 
     public Builder(GatewayTemplate gatewayTemplateGatewayTypeDedicatedTemplate) {
       this.bgpAsn = gatewayTemplateGatewayTypeDedicatedTemplate.bgpAsn;
@@ -62,6 +63,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       this.crossConnectRouter = gatewayTemplateGatewayTypeDedicatedTemplate.crossConnectRouter;
       this.customerName = gatewayTemplateGatewayTypeDedicatedTemplate.customerName;
       this.locationName = gatewayTemplateGatewayTypeDedicatedTemplate.locationName;
+      this.macsecConfig = gatewayTemplateGatewayTypeDedicatedTemplate.macsecConfig;
     }
 
     /**
@@ -261,6 +263,17 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       this.locationName = locationName;
       return this;
     }
+
+    /**
+     * Set the macsecConfig.
+     *
+     * @param macsecConfig the macsecConfig
+     * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
+     */
+    public Builder macsecConfig(GatewayMacsecConfigTemplate macsecConfig) {
+      this.macsecConfig = macsecConfig;
+      return this;
+    }
   }
 
   protected GatewayTemplateGatewayTypeDedicatedTemplate(Builder builder) {
@@ -300,6 +313,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     crossConnectRouter = builder.crossConnectRouter;
     customerName = builder.customerName;
     locationName = builder.locationName;
+    macsecConfig = builder.macsecConfig;
   }
 
   /**

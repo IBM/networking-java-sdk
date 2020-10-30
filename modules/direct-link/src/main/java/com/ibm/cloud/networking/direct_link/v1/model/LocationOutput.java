@@ -28,6 +28,8 @@ public class LocationOutput extends GenericModel {
   protected String displayName;
   @SerializedName("location_type")
   protected String locationType;
+  @SerializedName("macsec_enabled")
+  protected Boolean macsecEnabled;
   protected String market;
   @SerializedName("market_geography")
   protected String marketGeography;
@@ -82,6 +84,18 @@ public class LocationOutput extends GenericModel {
    */
   public String getLocationType() {
     return locationType;
+  }
+
+  /**
+   * Gets the macsecEnabled.
+   *
+   * Indicate whether location supports MACsec.  Only returned for gateway type=dedicated locations.  Contact IBM
+   * support for access to MACsec.
+   *
+   * @return the macsecEnabled
+   */
+  public Boolean isMacsecEnabled() {
+    return macsecEnabled;
   }
 
   /**

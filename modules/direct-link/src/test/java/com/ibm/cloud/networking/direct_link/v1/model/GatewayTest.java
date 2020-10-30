@@ -15,6 +15,10 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayCreate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigActiveCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigFallbackCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPrimaryCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPort;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
@@ -54,6 +58,7 @@ public class GatewayTest {
     assertNull(gatewayModel.getLinkStatus());
     assertNull(gatewayModel.getLocationDisplayName());
     assertNull(gatewayModel.getLocationName());
+    assertNull(gatewayModel.getMacsecConfig());
     assertNull(gatewayModel.isMetered());
     assertNull(gatewayModel.getName());
     assertNull(gatewayModel.getOperationalStatus());

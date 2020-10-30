@@ -37,6 +37,7 @@ public class UpdateGatewayOptions extends GenericModel {
   protected String id;
   protected Boolean global;
   protected String loaRejectReason;
+  protected GatewayMacsecConfigPatchTemplate macsecConfig;
   protected Boolean metered;
   protected String name;
   protected String operationalStatus;
@@ -49,6 +50,7 @@ public class UpdateGatewayOptions extends GenericModel {
     private String id;
     private Boolean global;
     private String loaRejectReason;
+    private GatewayMacsecConfigPatchTemplate macsecConfig;
     private Boolean metered;
     private String name;
     private String operationalStatus;
@@ -58,6 +60,7 @@ public class UpdateGatewayOptions extends GenericModel {
       this.id = updateGatewayOptions.id;
       this.global = updateGatewayOptions.global;
       this.loaRejectReason = updateGatewayOptions.loaRejectReason;
+      this.macsecConfig = updateGatewayOptions.macsecConfig;
       this.metered = updateGatewayOptions.metered;
       this.name = updateGatewayOptions.name;
       this.operationalStatus = updateGatewayOptions.operationalStatus;
@@ -122,6 +125,17 @@ public class UpdateGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the macsecConfig.
+     *
+     * @param macsecConfig the macsecConfig
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder macsecConfig(GatewayMacsecConfigPatchTemplate macsecConfig) {
+      this.macsecConfig = macsecConfig;
+      return this;
+    }
+
+    /**
      * Set the metered.
      *
      * @param metered the metered
@@ -172,6 +186,7 @@ public class UpdateGatewayOptions extends GenericModel {
     id = builder.id;
     global = builder.global;
     loaRejectReason = builder.loaRejectReason;
+    macsecConfig = builder.macsecConfig;
     metered = builder.metered;
     name = builder.name;
     operationalStatus = builder.operationalStatus;
@@ -220,6 +235,20 @@ public class UpdateGatewayOptions extends GenericModel {
    */
   public String loaRejectReason() {
     return loaRejectReason;
+  }
+
+  /**
+   * Gets the macsecConfig.
+   *
+   * MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the
+   * patch request.  Contact IBM support for access to MACsec.
+   *
+   * A MACsec config cannot be added to a gateway created without MACsec.
+   *
+   * @return the macsecConfig
+   */
+  public GatewayMacsecConfigPatchTemplate macsecConfig() {
+    return macsecConfig;
   }
 
   /**

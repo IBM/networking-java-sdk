@@ -13,11 +13,7 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatistic;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -30,16 +26,17 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the GatewayTemplate model.
+ * Unit test class for the GatewayStatistic model.
  */
-public class GatewayTemplateTest {
+public class GatewayStatisticTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
-  // TODO: Add tests for models that are abstract
   @Test
-  public void testGatewayTemplate() throws Throwable {
-    GatewayTemplate gatewayTemplateModel = new GatewayTemplate();
-    assertNotNull(gatewayTemplateModel);
+  public void testGatewayStatistic() throws Throwable {
+    GatewayStatistic gatewayStatisticModel = new GatewayStatistic();
+    assertNull(gatewayStatisticModel.getCreatedAt());
+    assertNull(gatewayStatisticModel.getData());
+    assertNull(gatewayStatisticModel.getType());
   }
 }

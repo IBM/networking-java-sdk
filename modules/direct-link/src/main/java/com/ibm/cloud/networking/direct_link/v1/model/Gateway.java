@@ -63,6 +63,8 @@ public class Gateway extends GenericModel {
     String AWAITING_COMPLETION_NOTICE = "awaiting_completion_notice";
     /** awaiting_loa. */
     String AWAITING_LOA = "awaiting_loa";
+    /** configuring. */
+    String CONFIGURING = "configuring";
     /** create_pending. */
     String CREATE_PENDING = "create_pending";
     /** create_rejected. */
@@ -127,6 +129,8 @@ public class Gateway extends GenericModel {
   protected String locationDisplayName;
   @SerializedName("location_name")
   protected String locationName;
+  @SerializedName("macsec_config")
+  protected GatewayMacsecConfig macsecConfig;
   protected Boolean metered;
   protected String name;
   @SerializedName("operational_status")
@@ -322,6 +326,18 @@ public class Gateway extends GenericModel {
    */
   public String getLocationName() {
     return locationName;
+  }
+
+  /**
+   * Gets the macsecConfig.
+   *
+   * MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.
+   *  Contact IBM support for access to MACsec.
+   *
+   * @return the macsecConfig
+   */
+  public GatewayMacsecConfig getMacsecConfig() {
+    return macsecConfig;
   }
 
   /**
