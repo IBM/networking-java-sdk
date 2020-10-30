@@ -32,14 +32,27 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGateway
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItem;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItemGatewayClientSpeedUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigActiveCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigFallbackCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplateFallbackCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplatePrimaryCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPrimaryCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPort;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatistic;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatisticCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeConnectTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
@@ -149,7 +162,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testListGatewaysWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"gateways\": [{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}]}";
+    String mockResponseBody = "{\"gateways\": [{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"should_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}]}";
     String listGatewaysPath = "/gateways";
 
     server.enqueue(new MockResponse()
@@ -186,7 +199,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testCreateGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String mockResponseBody = "{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"should_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
     String createGatewayPath = "/gateways";
 
     server.enqueue(new MockResponse()
@@ -195,6 +208,24 @@ public class DirectLinkTest extends PowerMockTestCase {
     .setBody(mockResponseBody));
 
     constructClientService();
+
+    // Construct an instance of the GatewayMacsecConfigTemplateFallbackCak model
+    GatewayMacsecConfigTemplateFallbackCak gatewayMacsecConfigTemplateFallbackCakModel = new GatewayMacsecConfigTemplateFallbackCak.Builder()
+    .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+    .build();
+
+    // Construct an instance of the GatewayMacsecConfigTemplatePrimaryCak model
+    GatewayMacsecConfigTemplatePrimaryCak gatewayMacsecConfigTemplatePrimaryCakModel = new GatewayMacsecConfigTemplatePrimaryCak.Builder()
+    .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+    .build();
+
+    // Construct an instance of the GatewayMacsecConfigTemplate model
+    GatewayMacsecConfigTemplate gatewayMacsecConfigTemplateModel = new GatewayMacsecConfigTemplate.Builder()
+    .active(true)
+    .fallbackCak(gatewayMacsecConfigTemplateFallbackCakModel)
+    .primaryCak(gatewayMacsecConfigTemplatePrimaryCakModel)
+    .windowSize(Long.valueOf("148809600"))
+    .build();
 
     // Construct an instance of the ResourceGroupIdentity model
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
@@ -217,6 +248,7 @@ public class DirectLinkTest extends PowerMockTestCase {
     .crossConnectRouter("xcr01.dal03")
     .customerName("newCustomerName")
     .locationName("dal03")
+    .macsecConfig(gatewayMacsecConfigTemplateModel)
     .build();
 
     // Construct an instance of the CreateGatewayOptions model
@@ -311,7 +343,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testGetGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String mockResponseBody = "{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"should_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
     String getGatewayPath = "/gateways/testString";
 
     server.enqueue(new MockResponse()
@@ -362,7 +394,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testUpdateGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String mockResponseBody = "{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"should_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
     String updateGatewayPath = "/gateways/testString";
 
     server.enqueue(new MockResponse()
@@ -372,11 +404,30 @@ public class DirectLinkTest extends PowerMockTestCase {
 
     constructClientService();
 
+    // Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
+    GatewayMacsecConfigPatchTemplateFallbackCak gatewayMacsecConfigPatchTemplateFallbackCakModel = new GatewayMacsecConfigPatchTemplateFallbackCak.Builder()
+    .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+    .build();
+
+    // Construct an instance of the GatewayMacsecConfigPatchTemplatePrimaryCak model
+    GatewayMacsecConfigPatchTemplatePrimaryCak gatewayMacsecConfigPatchTemplatePrimaryCakModel = new GatewayMacsecConfigPatchTemplatePrimaryCak.Builder()
+    .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+    .build();
+
+    // Construct an instance of the GatewayMacsecConfigPatchTemplate model
+    GatewayMacsecConfigPatchTemplate gatewayMacsecConfigPatchTemplateModel = new GatewayMacsecConfigPatchTemplate.Builder()
+    .active(true)
+    .fallbackCak(gatewayMacsecConfigPatchTemplateFallbackCakModel)
+    .primaryCak(gatewayMacsecConfigPatchTemplatePrimaryCakModel)
+    .windowSize(Long.valueOf("512"))
+    .build();
+
     // Construct an instance of the UpdateGatewayOptions model
     UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
     .id("testString")
     .global(true)
     .loaRejectReason("The port mentioned was incorrect")
+    .macsecConfig(gatewayMacsecConfigPatchTemplateModel)
     .metered(false)
     .name("testGateway")
     .operationalStatus("loa_accepted")
@@ -419,7 +470,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testCreateGatewayActionWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/57a7d05f36894e3cb9b46a43556d903e::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String mockResponseBody = "{\"bgp_asn\": 64999, \"bgp_base_cidr\": \"10.254.30.76/30\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"created_at\": \"2019-01-01T12:00:00\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"should_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
     String createGatewayActionPath = "/gateways/testString/actions";
 
     server.enqueue(new MockResponse()
@@ -638,9 +689,62 @@ public class DirectLinkTest extends PowerMockTestCase {
   }
 
   @Test
+  public void testGetGatewayStatisticsWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"statistics\": [{\"created_at\": \"2019-01-01T12:00:00\", \"data\": \"MKA statistics text...\", \"type\": \"macsec_policy\"}]}";
+    String getGatewayStatisticsPath = "/gateways/testString/statistics";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the GetGatewayStatisticsOptions model
+    GetGatewayStatisticsOptions getGatewayStatisticsOptionsModel = new GetGatewayStatisticsOptions.Builder()
+    .id("testString")
+    .type("macsec_mka")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<GatewayStatisticCollection> response = testService.getGatewayStatistics(getGatewayStatisticsOptionsModel).execute();
+    assertNotNull(response);
+    GatewayStatisticCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("type"), "macsec_mka");
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getGatewayStatisticsPath);
+  }
+
+  // Test the getGatewayStatistics operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetGatewayStatisticsNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    testService.getGatewayStatistics(null).execute();
+  }
+
+  @Test
   public void testListOfferingTypeLocationsWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"locations\": [{\"billing_location\": \"us\", \"building_colocation_owner\": \"MyProvider\", \"display_name\": \"Dallas 9\", \"location_type\": \"PoP\", \"market\": \"Dallas\", \"market_geography\": \"N/S America\", \"mzr\": true, \"name\": \"dal03\", \"offering_type\": \"dedicated\", \"provision_enabled\": true, \"vpc_region\": \"us-south\"}]}";
+    String mockResponseBody = "{\"locations\": [{\"billing_location\": \"us\", \"building_colocation_owner\": \"MyProvider\", \"display_name\": \"Dallas 9\", \"location_type\": \"PoP\", \"macsec_enabled\": false, \"market\": \"Dallas\", \"market_geography\": \"N/S America\", \"mzr\": true, \"name\": \"dal03\", \"offering_type\": \"dedicated\", \"provision_enabled\": true, \"vpc_region\": \"us-south\"}]}";
     String listOfferingTypeLocationsPath = "/offering_types/dedicated/locations";
 
     server.enqueue(new MockResponse()
@@ -743,7 +847,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testListOfferingTypeSpeedsWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"speeds\": [{\"link_speed\": 2000}]}";
+    String mockResponseBody = "{\"speeds\": [{\"link_speed\": 2000, \"macsec_enabled\": false}]}";
     String listOfferingTypeSpeedsPath = "/offering_types/dedicated/speeds";
 
     server.enqueue(new MockResponse()

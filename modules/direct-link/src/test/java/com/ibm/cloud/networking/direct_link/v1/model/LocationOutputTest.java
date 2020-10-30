@@ -39,6 +39,7 @@ public class LocationOutputTest {
     assertNull(locationOutputModel.getBuildingColocationOwner());
     assertNull(locationOutputModel.getDisplayName());
     assertNull(locationOutputModel.getLocationType());
+    assertNull(locationOutputModel.isMacsecEnabled());
     assertNull(locationOutputModel.getMarket());
     assertNull(locationOutputModel.getMarketGeography());
     assertNull(locationOutputModel.isMzr());

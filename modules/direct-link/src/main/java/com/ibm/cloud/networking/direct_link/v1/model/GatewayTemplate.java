@@ -58,6 +58,8 @@ public class GatewayTemplate extends GenericModel {
   protected String customerName;
   @SerializedName("location_name")
   protected String locationName;
+  @SerializedName("macsec_config")
+  protected GatewayMacsecConfigTemplate macsecConfig;
   protected GatewayPortIdentity port;
 
   protected GatewayTemplate() {
@@ -219,6 +221,17 @@ public class GatewayTemplate extends GenericModel {
    */
   public String locationName() {
     return locationName;
+  }
+
+  /**
+   * Gets the macsecConfig.
+   *
+   * MACsec configuration information.  Contact IBM support for access to MACsec.
+   *
+   * @return the macsecConfig
+   */
+  public GatewayMacsecConfigTemplate macsecConfig() {
+    return macsecConfig;
   }
 
   /**

@@ -16,7 +16,6 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplateFallbackCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplatePrimaryCak;
-import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -29,14 +28,14 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the UpdateGatewayOptions model.
+ * Unit test class for the GatewayMacsecConfigPatchTemplate model.
  */
-public class UpdateGatewayOptionsTest {
+public class GatewayMacsecConfigPatchTemplateTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testUpdateGatewayOptions() throws Throwable {
+  public void testGatewayMacsecConfigPatchTemplate() throws Throwable {
     GatewayMacsecConfigPatchTemplateFallbackCak gatewayMacsecConfigPatchTemplateFallbackCakModel = new GatewayMacsecConfigPatchTemplateFallbackCak.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
@@ -58,29 +57,13 @@ public class UpdateGatewayOptionsTest {
     assertEquals(gatewayMacsecConfigPatchTemplateModel.primaryCak(), gatewayMacsecConfigPatchTemplatePrimaryCakModel);
     assertEquals(gatewayMacsecConfigPatchTemplateModel.windowSize(), Long.valueOf("512"));
 
-    UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
-      .id("testString")
-      .global(true)
-      .loaRejectReason("The port mentioned was incorrect")
-      .macsecConfig(gatewayMacsecConfigPatchTemplateModel)
-      .metered(false)
-      .name("testGateway")
-      .operationalStatus("loa_accepted")
-      .speedMbps(Long.valueOf("1000"))
-      .build();
-    assertEquals(updateGatewayOptionsModel.id(), "testString");
-    assertEquals(updateGatewayOptionsModel.global(), Boolean.valueOf(true));
-    assertEquals(updateGatewayOptionsModel.loaRejectReason(), "The port mentioned was incorrect");
-    assertEquals(updateGatewayOptionsModel.macsecConfig(), gatewayMacsecConfigPatchTemplateModel);
-    assertEquals(updateGatewayOptionsModel.metered(), Boolean.valueOf(false));
-    assertEquals(updateGatewayOptionsModel.name(), "testGateway");
-    assertEquals(updateGatewayOptionsModel.operationalStatus(), "loa_accepted");
-    assertEquals(updateGatewayOptionsModel.speedMbps(), Long.valueOf("1000"));
-  }
+    String json = TestUtilities.serialize(gatewayMacsecConfigPatchTemplateModel);
 
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testUpdateGatewayOptionsError() throws Throwable {
-    new UpdateGatewayOptions.Builder().build();
+    GatewayMacsecConfigPatchTemplate gatewayMacsecConfigPatchTemplateModelNew = TestUtilities.deserialize(json, GatewayMacsecConfigPatchTemplate.class);
+    assertTrue(gatewayMacsecConfigPatchTemplateModelNew instanceof GatewayMacsecConfigPatchTemplate);
+    assertEquals(gatewayMacsecConfigPatchTemplateModelNew.active(), Boolean.valueOf(true));
+    assertEquals(gatewayMacsecConfigPatchTemplateModelNew.fallbackCak().toString(), gatewayMacsecConfigPatchTemplateFallbackCakModel.toString());
+    assertEquals(gatewayMacsecConfigPatchTemplateModelNew.primaryCak().toString(), gatewayMacsecConfigPatchTemplatePrimaryCakModel.toString());
+    assertEquals(gatewayMacsecConfigPatchTemplateModelNew.windowSize(), Long.valueOf("512"));
   }
-
 }
