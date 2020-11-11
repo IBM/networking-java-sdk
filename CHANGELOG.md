@@ -1,3 +1,53 @@
+# [0.11.0](https://github.com/IBM/networking-java-sdk/compare/0.10.1...0.11.0) (2020-10-30)
+
+
+### Features
+
+* added the support for macsec enabled gateways for direct link ([5687e3f](https://github.com/IBM/networking-java-sdk/commit/5687e3f4691e7d806fb83b99f4ca56d36545437d))
+
+## [0.10.1](https://github.com/IBM/networking-java-sdk/compare/0.10.0...0.10.1) (2020-10-15)
+
+
+### Bug Fixes
+
+* dummy commit for fixing build issue in merge 0.10.0 ([825345c](https://github.com/IBM/networking-java-sdk/commit/825345cdea678034af80ab7601a70919581c1d4c))
+
+# [0.10.0](https://github.com/IBM/networking-java-sdk/compare/0.9.0...0.10.0) (2020-10-13)
+
+
+### Features
+
+* **cloud internet services:** add range applications to project ([6f2a174](https://github.com/IBM/networking-java-sdk/commit/6f2a174d74f285bf6672c3c53bef552b45489a17))
+
+# [0.9.0](https://github.com/IBM/networking-java-sdk/compare/0.8.0...0.9.0) (2020-10-07)
+
+
+### Features
+
+* **cloud internet services:** add cloud internet services first version 24/26 services to project ([880d519](https://github.com/IBM/networking-java-sdk/commit/880d519374c820895641014576e67c34fb336ff1))
+
+# [0.8.0](https://github.com/IBM/networking-java-sdk/compare/0.7.0...0.8.0) (2020-09-19)
+
+
+### Features
+
+* added support for provider apis for direct link ([aebfcb2](https://github.com/IBM/networking-java-sdk/commit/aebfcb233bd2c5f514481644745fdbad6589029c))
+
+# [0.7.0](https://github.com/IBM/networking-java-sdk/compare/0.6.0...0.7.0) (2020-07-31)
+
+
+### Features
+
+* **direct-link:** Renamed direct-link-apis to direct-link ([9cfa390](https://github.com/IBM/networking-java-sdk/commit/9cfa39067cf6279aed95e0954209ab301103e21d))
+
+# [0.6.0](https://github.com/IBM/networking-java-sdk/compare/0.5.2...0.6.0) (2020-07-31)
+
+
+### Features
+
+* Transit cross account ([bf690be](https://github.com/IBM/networking-java-sdk/commit/bf690be96e60040f0b439aad14b7e584ae3a78a4))
+* Transit cross account ([5941962](https://github.com/IBM/networking-java-sdk/commit/59419623408dcd41b68eac26be51bce30c43cf63))
+
 ## [0.5.2](https://github.com/IBM/networking-java-sdk/compare/0.5.1...0.5.2) (2020-07-16)
 
 

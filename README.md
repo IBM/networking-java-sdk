@@ -1,7 +1,11 @@
-[![Build Status](https://travis.ibm.com/ibmcloud/platform-services-java-sdk.svg?token=eW5FVD71iyte6tTby8gr&branch=master)](https://travis.ibm.com/ibmcloud/platform-services-java-sdk)
+[![Build Status](https://travis-ci.com/IBM/networking-java-sdk.svg?branch=master)](https://travis-ci.com/IBM/networking-java-sdk)
+[![Javadoc](https://img.shields.io/static/v1?label=javadoc&message=latest&color=blue)](https://ibm.github.io/networking-java-sdk/docs/latest)
+[![Release](https://img.shields.io/github/v/release/IBM/networking-java-sdk)](https://github.com/IBM/networking-java-sdk/releases/latest)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![codecov](https://codecov.io/gh/IBM/networking-java-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/IBM/networking-java-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud Networking Services Java SDK Version 0.5.2
+# IBM Cloud Networking Services Java SDK Version 0.11.0
 Java client library to interact with various [IBM Cloud Networking Services](https://cloud.ibm.com/apidocs?category=networking).
 
 Disclaimer: this SDK is being released initially as a **pre-release** version.
@@ -39,8 +43,9 @@ The IBM Cloud Network Services Java SDK allows developers to programmatically in
 
 Service Name | Artifact Coordinates
 --- | --- 
-[Transit Gateway ](https://cloud.ibm.com/docs/transit-gateway) | com.ibm.cloud:transit-gateway-apis:0.5.2
-[Direct Link](https://cloud.ibm.com/apidocs/direct_link) | com.ibm.cloud:direct-link-apis:0.5.2
+[Transit Gateway ](https://cloud.ibm.com/docs/transit-gateway) | com.ibm.cloud:transit-gateway-apis:0.11.0
+[Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=java) | com.ibm.cloud:direct-link:0.11.0
+[Direct Link Provider](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=java) | com.ibm.cloud:direct-link-provider:0.11.0
 ## Prerequisites
 
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration
@@ -50,7 +55,7 @@ Service Name | Artifact Coordinates
 * Java 8 or above.
 
 ## Installation
-The current version of this SDK is: 0.5.2
+The current version of this SDK is: 0.11.0
 
 Each service's artifact coordinates are listed in the table above.
 
@@ -71,13 +76,18 @@ artifact coordinates (group id, artifact id and version) for the service, like t
 ```xml
 <dependency>
     <groupId>com.ibm.cloud</groupId>
-    <artifactId>direct-link-apis</artifactId>
-    <version>0.5.2</version>
+    <artifactId>transit-gateway-apis</artifactId>
+    <version>0.11.0</version>
 </dependency>
 <dependency>
     <groupId>com.ibm.cloud</groupId>
-    <artifactId>transit-gateway-apis</artifactId>
-    <version>0.5.2</version>
+    <artifactId>direct-link</artifactId>
+    <version>0.11.0</version>
+</dependency>
+<dependency>
+    <groupId>com.ibm.cloud</groupId>
+    <artifactId>direct-link-provider</artifactId>
+    <version>0.11.0</version>
 </dependency>
 ```
 

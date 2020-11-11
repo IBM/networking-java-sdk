@@ -1,0 +1,112 @@
+/*
+ * (C) Copyright IBM Corp. 2020.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+package com.ibm.cloud.networking.direct_link.v1.model;
+
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
+import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
+
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import java.io.InputStream;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+
+/**
+ * Unit test class for the CreateGatewayOptions model.
+ */
+public class CreateGatewayOptionsTest {
+  final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
+  final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
+
+  @Test
+  public void testCreateGatewayOptions() throws Throwable {
+    GatewayMacsecConfigTemplateFallbackCak gatewayMacsecConfigTemplateFallbackCakModel = new GatewayMacsecConfigTemplateFallbackCak.Builder()
+      .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+      .build();
+    assertEquals(gatewayMacsecConfigTemplateFallbackCakModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
+
+    GatewayMacsecConfigTemplatePrimaryCak gatewayMacsecConfigTemplatePrimaryCakModel = new GatewayMacsecConfigTemplatePrimaryCak.Builder()
+      .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+      .build();
+    assertEquals(gatewayMacsecConfigTemplatePrimaryCakModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
+
+    GatewayMacsecConfigTemplate gatewayMacsecConfigTemplateModel = new GatewayMacsecConfigTemplate.Builder()
+      .active(true)
+      .fallbackCak(gatewayMacsecConfigTemplateFallbackCakModel)
+      .primaryCak(gatewayMacsecConfigTemplatePrimaryCakModel)
+      .windowSize(Long.valueOf("148809600"))
+      .build();
+    assertEquals(gatewayMacsecConfigTemplateModel.active(), Boolean.valueOf(true));
+    assertEquals(gatewayMacsecConfigTemplateModel.fallbackCak(), gatewayMacsecConfigTemplateFallbackCakModel);
+    assertEquals(gatewayMacsecConfigTemplateModel.primaryCak(), gatewayMacsecConfigTemplatePrimaryCakModel);
+    assertEquals(gatewayMacsecConfigTemplateModel.windowSize(), Long.valueOf("148809600"));
+
+    ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
+      .id("56969d6043e9465c883cb9f7363e78e8")
+      .build();
+    assertEquals(resourceGroupIdentityModel.id(), "56969d6043e9465c883cb9f7363e78e8");
+
+    GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
+      .bgpAsn(Long.valueOf("64999"))
+      .bgpBaseCidr("10.254.30.76/30")
+      .bgpCerCidr("10.254.30.78/30")
+      .bgpIbmCidr("10.254.30.77/30")
+      .global(true)
+      .metered(false)
+      .name("myGateway")
+      .resourceGroup(resourceGroupIdentityModel)
+      .speedMbps(Long.valueOf("1000"))
+      .type("dedicated")
+      .carrierName("myCarrierName")
+      .crossConnectRouter("xcr01.dal03")
+      .customerName("newCustomerName")
+      .locationName("dal03")
+      .macsecConfig(gatewayMacsecConfigTemplateModel)
+      .build();
+    assertEquals(gatewayTemplateModel.bgpAsn(), Long.valueOf("64999"));
+    assertEquals(gatewayTemplateModel.bgpBaseCidr(), "10.254.30.76/30");
+    assertEquals(gatewayTemplateModel.bgpCerCidr(), "10.254.30.78/30");
+    assertEquals(gatewayTemplateModel.bgpIbmCidr(), "10.254.30.77/30");
+    assertEquals(gatewayTemplateModel.global(), Boolean.valueOf(true));
+    assertEquals(gatewayTemplateModel.metered(), Boolean.valueOf(false));
+    assertEquals(gatewayTemplateModel.name(), "myGateway");
+    assertEquals(gatewayTemplateModel.resourceGroup(), resourceGroupIdentityModel);
+    assertEquals(gatewayTemplateModel.speedMbps(), Long.valueOf("1000"));
+    assertEquals(gatewayTemplateModel.type(), "dedicated");
+    assertEquals(gatewayTemplateModel.carrierName(), "myCarrierName");
+    assertEquals(gatewayTemplateModel.crossConnectRouter(), "xcr01.dal03");
+    assertEquals(gatewayTemplateModel.customerName(), "newCustomerName");
+    assertEquals(gatewayTemplateModel.locationName(), "dal03");
+    assertEquals(gatewayTemplateModel.macsecConfig(), gatewayMacsecConfigTemplateModel);
+
+    CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder()
+      .gatewayTemplate(gatewayTemplateModel)
+      .build();
+    assertEquals(createGatewayOptionsModel.gatewayTemplate(), gatewayTemplateModel);
+  }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateGatewayOptionsError() throws Throwable {
+    new CreateGatewayOptions.Builder().build();
+  }
+
+}

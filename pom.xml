@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- >>> Replace this with your service category (e.g. "platform-services") -->
@@ -19,14 +19,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <!-- 
-            This is the version associated with the Java core. The version used here should be compatible with the version 
-            of the SDK generator used to generate your SDK code.
-            See this link for details: https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/Compatibility-Chart
-        -->
+        <!-- This is the version associated with the Java core. -->
         <sdk-core-version>8.3.0</sdk-core-version>
-
-        <!-- >>> Replace this with the name of your SDK's github repository -->
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.1.0</testng-version>
@@ -61,8 +55,33 @@
 
         <!-- >>> List each service's module here -->
         <module>modules/transit-gateway-apis</module>
-         <module>modules/direct-link-apis</module>
-       
+        <module>modules/direct-link</module>
+        <module>modules/direct-link-provider</module>
+        <module>modules/firewall-access-rules</module>
+        <module>modules/caching-api</module>
+        <module>modules/custom-pages</module>
+        <module>modules/dns-records</module>
+        <module>modules/dns-record-bulk</module>
+        <module>modules/firewall-api</module>
+        <module>modules/global-load-balancer-monitor</module>
+        <module>modules/global-load-balancer-pools</module>
+        <module>modules/global-load-balancer</module>
+        <module>modules/global-load-balancer-events</module>
+        <module>modules/cis-ip-api</module>
+        <module>modules/zone-rate-limits</module>
+        <module>modules/routing</module>
+        <module>modules/user-agent-blocking-rules</module>
+        <module>modules/security-events-api</module>
+        <module>modules/waf-api</module>
+        <module>modules/waf-rule-packages-api</module>
+        <module>modules/waf-rule-groups-api</module>
+        <module>modules/waf-rules-api</module>
+        <module>modules/zones</module>
+        <module>modules/zone-lockdown</module>
+        <module>modules/zone-firewall-access-rules</module>
+        <module>modules/zones-settings</module>
+        <module>modules/cis-range-applications</module>
+
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
@@ -99,12 +118,6 @@
     </ciManagement>
 
     <repositories>
-        <!-- these definitions are useful only for internal SDK projects -->
-        <repository>
-            <id>na-artifactory-ibmcloud-sdks</id>
-            <url>https://na.artifactory.swg-devops.com:443/artifactory/wcp-ibmcloud-sdks-team-maven-local/</url>
-        </repository>
-
         <repository>
             <id>jcenter</id>
             <url>https://jcenter.bintray.com/</url>
