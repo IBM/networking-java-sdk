@@ -81,7 +81,7 @@
         <module>modules/zone-firewall-access-rules</module>
         <module>modules/zones-settings</module>
         <module>modules/cis-range-applications</module>
-
+        <module>modules/page-rule-api</module>
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>

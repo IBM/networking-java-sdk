@@ -19,6 +19,7 @@ import static org.testng.Assert.assertNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.List;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -92,6 +93,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	public void testTransitGatewayOptions() throws InterruptedException {
 		assertNotNull(testService);
 		String locationName = config.get("LOCATION");
+        preTestCleanup("SDK-JAVA");
 		String name = config.get("GW_NAME");
 	    // Construct an instance of the CreateTransitGatewayOptions model
 		CreateTransitGatewayOptions createTransitGatewayOptionsModel = new CreateTransitGatewayOptions.Builder(locationName, name)
@@ -143,7 +145,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		assertNotNull(resObj.getTransitGateways());
 		
 	   	// Construct an instance of the UpdateTransitGatewayOptions model
-		String gatewayNameUpdate = "Test-Java-SDK-INT-TG-PATCH";
+		String gatewayNameUpdate = "Test-SDK-JAVA-INT-TG-PATCH";
 	    UpdateTransitGatewayOptions updateTransitGatewayOptionsModel = new UpdateTransitGatewayOptions.Builder()
 	    .id(tgGatewayId)
 	    .name(gatewayNameUpdate)
@@ -170,7 +172,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 
 	   	// Construct an instance of the CreateTransitGatewayConnectionOptions model
 	 	String crn = config.get("VPC_CRN");
-		String connectionName = "Test-Java-SDK-INT-TG-CONN";
+		String connectionName = "Test-SDK-JAVA-INT-TG-CONN";
 		String connectionNetworkType = "vpc";
 	    CreateTransitGatewayConnectionOptions createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
 	    .transitGatewayId(tgGatewayId)
@@ -230,7 +232,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		assertNotNull(listTGConnResponseObj.getConnections());
 
 	    // Construct an instance of the UpdateTransitGatewayConnectionOptions model
-		String connectionNameUpdate = "Test-Java-SDK-INT-TG-CONN-PATCH";
+		String connectionNameUpdate = "Test-SDK-JAVA-INT-TG-CONN-PATCH";
 	    UpdateTransitGatewayConnectionOptions updateTransitGatewayConnectionOptionsModel = new UpdateTransitGatewayConnectionOptions.Builder()
 	    .transitGatewayId(tgGatewayId)
 	    .id(tgConnId)
@@ -294,25 +296,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    assertNull(delResponseObj);
 
 		// Connection deletion might not be instantaneous.  Poll the Connection looking for a 404 error code being returned.  Fail after 2 min
-		timer = 0;
-		while(true) {
-			Response<TransitGatewayConnectionCust> tgConnrespDeletion = null;
-			// Invoke operation with valid options model (positive test)
-			try {
-				tgConnrespDeletion = testService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
-			} catch (NotFoundException e) {
-				assertEquals(e.getMessage(),"connection_not_found");
-				break;
-			}
-
-			assertNotNull(tgConnrespDeletion); 
-			Thread.sleep(10000);
-			timer = timer + 1;
-			
-			if(timer > 24) { // 4 min timer (24x10sec)
-				break;
-			}
-	  	}
+		checkConnDelete(getTransitGatewayConnectionOptionsModel);
 	    
 	    // Construct an instance of the DeleteTransitGatewayOptions model
 	    DeleteTransitGatewayOptions deleteTransitGatewayOptionsModel = new DeleteTransitGatewayOptions.Builder()
@@ -326,5 +310,103 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    // Response does not have a return type. Check that the result is null.
 	    assertNull(delTGresponseObj);
 
+	}
+	private void preTestCleanup(String name) throws InterruptedException {
+		// Construct an instance of the ListTransitGatewaysOptions model
+		ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions();
+	    // Invoke operation with valid options model (positive test)
+	    Response<TransitGatewayCollection> res = testService.listTransitGateways(listTransitGatewaysOptionsModel).execute();
+	    assertNotNull(res);
+	    TransitGatewayCollection resObj = res.getResult();
+		List<TransitGateway> gateways = resObj.getTransitGateways();
+		for (TransitGateway gtw : gateways) {
+			if (gtw.getName().contains(name)) {
+				ListTransitGatewayConnectionsOptions listTransitGatewayConnectionsOptionsModel = new ListTransitGatewayConnectionsOptions.Builder()
+	            .transitGatewayId(gtw.getId())
+				.build();
+				
+                Response<TransitGatewayConnectionCollection> listTGConnResponse = testService.listTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel).execute();
+	            assertNotNull(listTGConnResponse);
+	            TransitGatewayConnectionCollection listTGConnResponseObj = listTGConnResponse.getResult();
+				List<TransitGatewayConnectionCust> connections = listTGConnResponseObj.getConnections();
+				if (!connections.isEmpty()) {
+					for (TransitGatewayConnectionCust conn : connections) {
+                        DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+	                    .transitGatewayId(gtw.getId())
+	                    .id(conn.getId())
+	                    .build();
+
+	                    // Invoke operation with valid options model (positive test)
+	                    Response<Void> delResponse = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+	                    assertNotNull(delResponse);
+	                    Void delResponseObj = delResponse.getResult();
+	    
+						GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+		                .transitGatewayId(gtw.getId())
+		                .id(conn.getId())
+						.build();
+						
+                        // Connection deletion might not be instantaneous.  Poll the Connection looking for a 404 error code being returned.  Fail after 2 min
+		                checkConnDelete(getTransitGatewayConnectionOptionsModel);
+					}
+				}
+				// Construct an instance of the DeleteTransitGatewayOptions model
+				DeleteTransitGatewayOptions deleteTransitGatewayOptionsModel = new DeleteTransitGatewayOptions.Builder()
+				.id(gtw.getId())
+				.build();
+		
+				// Invoke operation with valid options model (positive test)
+				Response<Void> delTGresponse = testService.deleteTransitGateway(deleteTransitGatewayOptionsModel).execute();
+				assertNotNull(delTGresponse);
+				Void delTGresponseObj = delTGresponse.getResult();
+
+				// Construct an instance of the GetTransitGatewayOptions model
+				GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
+				.id(gtw.getId())
+				.build();
+
+				checkGatewayDelete(getTransitGatewayOptionsModel);
+			}
+		}
+	}
+	private void checkGatewayDelete(GetTransitGatewayOptions gtwOptionsModel) throws InterruptedException {
+		int timer = 0;
+		while(true) {
+			Response<TransitGateway> resp = null;
+			// Invoke operation with valid options model (positive test)
+			try {
+				resp = testService.getTransitGateway(gtwOptionsModel).execute();
+			} catch (NotFoundException e) {
+				break;
+			}
+
+			assertNotNull(resp); 
+			Thread.sleep(10000);
+			timer = timer + 1;
+			
+			if(timer > 24) { // 4 min timer (24x10sec)
+				break;
+			}
+		}
+	}  
+	private void checkConnDelete(GetTransitGatewayConnectionOptions connOptionsModel) throws InterruptedException {
+		int timer = 0;
+		while(true) {
+			Response<TransitGatewayConnectionCust> tgConnrespDeletion = null;
+			// Invoke operation with valid options model (positive test)
+			try {
+				tgConnrespDeletion = testService.getTransitGatewayConnection(connOptionsModel).execute();
+			} catch (NotFoundException e) {
+				break;
+			}
+
+			assertNotNull(tgConnrespDeletion); 
+			Thread.sleep(10000);
+			timer = timer + 1;
+			
+			if(timer > 24) { // 4 min timer (24x10sec)
+				break;
+			}
+	  	}
 	}
 }
