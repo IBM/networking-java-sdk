@@ -1,3 +1,10 @@
+# [0.12.0](https://github.com/IBM/networking-java-sdk/compare/0.11.0...0.12.0) (2020-11-12)
+
+
+### Features
+
+* CIS Page rule api ([b99e363](https://github.com/IBM/networking-java-sdk/commit/b99e363a45579a31c728ec7f2a3afe8c9f26bf27))
+
 # [0.11.0](https://github.com/IBM/networking-java-sdk/compare/0.10.1...0.11.0) (2020-10-30)
 
 
