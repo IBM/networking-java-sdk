@@ -1,3 +1,10 @@
+## [0.12.1](https://github.com/IBM/networking-java-sdk/compare/0.12.0...0.12.1) (2020-11-17)
+
+
+### Bug Fixes
+
+* deprecated bgp_base_cidr in direct link service ([853b2f4](https://github.com/IBM/networking-java-sdk/commit/853b2f40b55475a71badbd052d49a69e0f51a14c))
+
 # [0.12.0](https://github.com/IBM/networking-java-sdk/compare/0.11.0...0.12.0) (2020-11-12)
 
 
