@@ -11,6 +11,6 @@
  * specific language governing permissions and limitations under the License.
  */
 /**
- * Direct Link APIS v1.
+ * Direct Link v1.
  */
 package com.ibm.cloud.networking.direct_link.v1;
