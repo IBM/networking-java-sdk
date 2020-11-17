@@ -48,9 +48,9 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
 
     GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateGatewayTypeConnectTemplateModel = new GatewayTemplateGatewayTypeConnectTemplate.Builder()
       .bgpAsn(Long.valueOf("64999"))
-      .bgpBaseCidr("10.254.30.76/30")
-      .bgpCerCidr("10.254.30.78/30")
-      .bgpIbmCidr("10.254.30.77/30")
+      .bgpBaseCidr("testString")
+      .bgpCerCidr("169.254.0.10/30")
+      .bgpIbmCidr("169.254.0.9/30")
       .global(true)
       .metered(false)
       .name("myGateway")
@@ -60,9 +60,9 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
       .port(gatewayPortIdentityModel)
       .build();
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpAsn(), Long.valueOf("64999"));
-    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpBaseCidr(), "10.254.30.76/30");
-    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpCerCidr(), "10.254.30.78/30");
-    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpIbmCidr(), "10.254.30.77/30");
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpBaseCidr(), "testString");
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpCerCidr(), "169.254.0.10/30");
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpIbmCidr(), "169.254.0.9/30");
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.global(), Boolean.valueOf(true));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.name(), "myGateway");
@@ -76,9 +76,9 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
     GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateGatewayTypeConnectTemplateModelNew = TestUtilities.deserialize(json, GatewayTemplateGatewayTypeConnectTemplate.class);
     assertTrue(gatewayTemplateGatewayTypeConnectTemplateModelNew instanceof GatewayTemplateGatewayTypeConnectTemplate);
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpAsn(), Long.valueOf("64999"));
-    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpBaseCidr(), "10.254.30.76/30");
-    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpCerCidr(), "10.254.30.78/30");
-    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpIbmCidr(), "10.254.30.77/30");
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpBaseCidr(), "testString");
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpCerCidr(), "169.254.0.10/30");
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpIbmCidr(), "169.254.0.9/30");
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.global(), Boolean.valueOf(true));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.name(), "myGateway");
