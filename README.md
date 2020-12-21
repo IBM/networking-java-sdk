@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/IBM/networking-java-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/IBM/networking-java-sdk)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# IBM Cloud Networking Services Java SDK Version 0.12.1
+# IBM Cloud Networking Services Java SDK Version 0.13.0
 Java client library to interact with various [IBM Cloud Networking Services](https://cloud.ibm.com/apidocs?category=networking).
 
 Disclaimer: this SDK is being released initially as a **pre-release** version.
@@ -43,9 +43,9 @@ The IBM Cloud Network Services Java SDK allows developers to programmatically in
 
 Service Name | Artifact Coordinates
 --- | --- 
-[Transit Gateway ](https://cloud.ibm.com/docs/transit-gateway) | com.ibm.cloud:transit-gateway-apis:0.12.1
-[Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=java) | com.ibm.cloud:direct-link:0.12.1
-[Direct Link Provider](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=java) | com.ibm.cloud:direct-link-provider:0.12.1
+[Transit Gateway ](https://cloud.ibm.com/docs/transit-gateway) | com.ibm.cloud:transit-gateway-apis:0.13.0
+[Direct Link](https://cloud.ibm.com/apidocs/direct_link?code=java) | com.ibm.cloud:direct-link:0.13.0
+[Direct Link Provider](https://cloud.ibm.com/apidocs/direct_link_provider_api?code=java) | com.ibm.cloud:direct-link-provider:0.13.0
 ## Prerequisites
 
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration
@@ -55,7 +55,7 @@ Service Name | Artifact Coordinates
 * Java 8 or above.
 
 ## Installation
-The current version of this SDK is: 0.12.1
+The current version of this SDK is: 0.13.0
 
 Each service's artifact coordinates are listed in the table above.
 
@@ -77,17 +77,17 @@ artifact coordinates (group id, artifact id and version) for the service, like t
 <dependency>
     <groupId>com.ibm.cloud</groupId>
     <artifactId>transit-gateway-apis</artifactId>
-    <version>0.12.1</version>
+    <version>0.13.0</version>
 </dependency>
 <dependency>
     <groupId>com.ibm.cloud</groupId>
     <artifactId>direct-link</artifactId>
-    <version>0.12.1</version>
+    <version>0.13.0</version>
 </dependency>
 <dependency>
     <groupId>com.ibm.cloud</groupId>
     <artifactId>direct-link-provider</artifactId>
-    <version>0.12.1</version>
+    <version>0.13.0</version>
 </dependency>
 ```
 
