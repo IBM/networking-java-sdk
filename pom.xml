@@ -1,26 +1,32 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- >>> Replace this with your service category (e.g. "platform-services") -->
     <artifactId>networking</artifactId>
 
     <!-- >>> Update this field to reflect your project -->
-    <name>IBM Cloud Networking Services Java SDK</name>
+    <name>IBM Cloud Networking Java SDK</name>
 
     <!-- >>> Update this field to reflect your project -->
     <description>Java Client Library to access the IBM Cloud Networking Services</description>
 
     <!-- >>> Update this field to reflect your project's github URL -->
-    <url>https://github.com/IBM/networking-java-sdk</url>
+    <url>https://github.ibm.com/ibmcloud/networking-java-sdk</url>
 
     <groupId>com.ibm.cloud</groupId>
     <version>99-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
-        <!-- This is the version associated with the Java core. -->
+        <!-- 
+            This is the version associated with the Java core. The version used here should be compatible with the version 
+            of the SDK generator used to generate your SDK code.
+            See this link for details: https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/Compatibility-Chart
+        -->
         <sdk-core-version>8.3.0</sdk-core-version>
+
+        <!-- >>> Replace this with the name of your SDK's github repository -->
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.1.0</testng-version>
@@ -44,9 +50,9 @@
         <!-- Deployment-related properties -->
         <bintray.org>ibm-cloud-sdks</bintray.org>
         <!-- >>> Replace this with the name of your project's bintray repository -->
-        <bintray.repo>networking-java-sdk</bintray.repo>
+        <bintray.repo>YOUR BINTRAY REPOSITORY NAME</bintray.repo>
         <!-- >>> Replace this with your github repository's URL -->
-        <bintray.package.url>https://github.com/IBM/networking-java-sdk</bintray.package.url>
+        <bintray.package.url>YOUR PROJECT'S GITHUB.COM URL</bintray.package.url>
     </properties>
 
     <modules>
@@ -70,6 +76,7 @@
         <module>modules/cis-ip-api</module>
         <module>modules/zone-rate-limits</module>
         <module>modules/routing</module>
+        <module>modules/ssl-certificate-api</module>
         <module>modules/user-agent-blocking-rules</module>
         <module>modules/security-events-api</module>
         <module>modules/waf-api</module>
@@ -81,7 +88,7 @@
         <module>modules/zone-firewall-access-rules</module>
         <module>modules/zones-settings</module>
         <module>modules/cis-range-applications</module>
-        <module>modules/page-rule-api</module>
+        <module>modules/dns-svcs</module>
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
@@ -95,29 +102,35 @@
     </licenses>
 
     <organization>
-        <name>IBM Cloud Networking Services</name>
+        <name>IBM Cloud</name>
     </organization>
 
     <!-- >>> Update these values to reflect your project -->
     <scm>
-        <connection>scm:git:https://github.com/IBM/networking-java-sdk</connection>
-        <developerConnection>scm:git:https://github.com/IBM/networking-java-sdk</developerConnection>
-        <url>https://github.com/IBM/networking-java-sdk/tree/master</url>
+        <connection>scm:git:github.ibm.com/ibmcloud/networking-java-sdk</connection>
+        <developerConnection>scm:git:github.ibm.com/ibmcloud/networking-java-sdk</developerConnection>
+        <url>github.ibm.com/ibmcloud/networking-java-sdk/tree/master</url>
     </scm>
 
     <!-- >>> Update these values to reflect your project -->
     <issueManagement>
         <system>Github</system>
-        <url>https://github.com/IBM/networking-java-sdk/issues</url>
+        <url>github.ibm.com/ibmcloud/networking-java-sdk/issues</url>
     </issueManagement>
 
     <!-- >>> Update these values to reflect your project -->
     <ciManagement>
         <system>Travis-CI</system>
-        <url>https://travis-ci.com/IBM/networking-java-sdk</url>
+        <url>github.ibm.com/ibmcloud/networking-java-sdk</url>
     </ciManagement>
 
     <repositories>
+        <!-- these definitions are useful only for internal SDK projects -->
+        <repository>
+            <id>na-artifactory-ibmcloud-sdks</id>
+            <url>https://na.artifactory.swg-devops.com:443/artifactory/wcp-ibmcloud-sdks-team-maven-local/</url>
+        </repository>
+
         <repository>
             <id>jcenter</id>
             <url>https://jcenter.bintray.com/</url>
@@ -220,6 +233,7 @@
                     <version>${maven-javadoc-plugin-version}</version>
                     <configuration>
                         <quiet>true</quiet>
+                        <source>8</source>
                     </configuration>
                     <executions>
                         <execution>
@@ -350,31 +364,6 @@
                         </archive>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <!-- Disable use of bintray:deploy during "Maven -> Update Project" in eclipse -->
-                                    <pluginExecutionFilter>
-                                        <groupId>com.carrotgarden.maven</groupId>
-                                        <artifactId>bintray-maven-plugin</artifactId>
-                                        <versionRange>[1.0.0,)</versionRange>
-                                        <goals>
-                                            <goal>deploy</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore/>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -418,9 +407,9 @@
                 <executions>
                     <!-- Activate "bintray:deploy" during "deploy" -->
                     <execution>
-                        <!-- <?m2e ignore?> -->
+                        <?m2e ignore?>
                         <id>bintray-deploy</id>
-                        <!-- <phase>deploy</phase> -->
+                        <phase>deploy</phase>
                         <goals>
                             <goal>deploy</goal>
                         </goals>
@@ -435,6 +424,7 @@
                     <show>public</show>
                     <doctitle>${project.name}, version ${project.version}</doctitle>
                     <footer>IBM Corporation</footer>
+                    <source>8</source>
                 </configuration>
                 <executions>
                     <execution>

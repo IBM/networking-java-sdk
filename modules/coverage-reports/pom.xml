@@ -109,6 +109,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>ssl-certificate-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>security-events-api</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -160,6 +165,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>cis-range-applications</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>dns-svcs</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
