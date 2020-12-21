@@ -1,3 +1,10 @@
+# [0.13.0](https://github.com/IBM/networking-java-sdk/compare/0.12.1...0.13.0) (2020-12-21)
+
+
+### Features
+
+* **private dns:** private dns java sdk release commit ([cb786cc](https://github.com/IBM/networking-java-sdk/commit/cb786cc9c844e5158ec49eb5142c547ec69a86b8))
+
 ## [0.12.1](https://github.com/IBM/networking-java-sdk/compare/0.12.0...0.12.1) (2020-11-17)
 
 
