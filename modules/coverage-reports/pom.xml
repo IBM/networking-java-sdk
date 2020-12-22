@@ -109,11 +109,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>ssl-certificate-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>security-events-api</artifactId>
             <version>${project.version}</version>
         </dependency>
