@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -76,7 +76,6 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
      * Instantiates a new builder with required properties.
      *
      * @param bgpAsn the bgpAsn
-     * @param bgpBaseCidr the bgpBaseCidr
      * @param global the global
      * @param metered the metered
      * @param name the name
@@ -87,9 +86,8 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
      * @param customerName the customerName
      * @param locationName the locationName
      */
-    public Builder(Long bgpAsn, String bgpBaseCidr, Boolean global, Boolean metered, String name, Long speedMbps, String type, String carrierName, String crossConnectRouter, String customerName, String locationName) {
+    public Builder(Long bgpAsn, Boolean global, Boolean metered, String name, Long speedMbps, String type, String carrierName, String crossConnectRouter, String customerName, String locationName) {
       this.bgpAsn = bgpAsn;
-      this.bgpBaseCidr = bgpBaseCidr;
       this.global = global;
       this.metered = metered;
       this.name = name;
@@ -279,8 +277,6 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
   protected GatewayTemplateGatewayTypeDedicatedTemplate(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.bgpAsn,
       "bgpAsn cannot be null");
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.bgpBaseCidr,
-      "bgpBaseCidr cannot be null");
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.global,
       "global cannot be null");
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.metered,

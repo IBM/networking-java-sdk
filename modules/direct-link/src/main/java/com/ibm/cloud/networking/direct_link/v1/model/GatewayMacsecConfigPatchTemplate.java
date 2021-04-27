@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -138,8 +138,6 @@ public class GatewayMacsecConfigPatchTemplate extends GenericModel {
    * Gets the fallbackCak.
    *
    * Fallback connectivity association key.
-   *
-   * The `fallback_cak` crn cannot match the `primary_cak` crn.
    *
    * MACsec keys must be type=standard with key name lengths between 2 to 64 inclusive and contain only characters
    * [a-fA-F0-9].

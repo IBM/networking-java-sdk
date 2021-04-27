@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -79,7 +79,12 @@ public class GatewayTemplate extends GenericModel {
   /**
    * Gets the bgpBaseCidr.
    *
-   * BGP base CIDR.
+   * (DEPRECATED) BGP base CIDR.
+   *
+   * Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to create a gateway using either
+   * automatic or explicit IP assignment.  Any bgp_base_cidr value set will be ignored.
+   *
+   * Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
    *
    * @return the bgpBaseCidr
    */
@@ -90,8 +95,14 @@ public class GatewayTemplate extends GenericModel {
   /**
    * Gets the bgpCerCidr.
    *
-   * BGP customer edge router CIDR.  Specify a value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this
-   * field can  be ommitted and a CIDR will be selected automatically.
+   * BGP customer edge router CIDR.
+   *
+   * For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will automatically select values for bgp_cer_cidr
+   * and bgp_ibm_cidr.
+   *
+   * For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of
+   * "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and
+   * bgp_ibm_cidr must have matching network and subnet mask values.
    *
    * @return the bgpCerCidr
    */
@@ -102,8 +113,14 @@ public class GatewayTemplate extends GenericModel {
   /**
    * Gets the bgpIbmCidr.
    *
-   * BGP IBM CIDR.  Specify a value within `bgp_base_cidr`.  If `bgp_base_cidr` is 169.254.0.0/16 this field can  be
-   * ommitted and a CIDR will be selected automatically.
+   * BGP IBM CIDR.
+   *
+   * For auto IP assignment, omit bgp_cer_cidr and bgp_ibm_cidr.  IBM will automatically select values for bgp_cer_cidr
+   * and bgp_ibm_cidr.
+   *
+   * For explicit IP assignment set a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of
+   * "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and
+   * bgp_ibm_cidr must have matching network and subnet mask values.
    *
    * @return the bgpIbmCidr
    */

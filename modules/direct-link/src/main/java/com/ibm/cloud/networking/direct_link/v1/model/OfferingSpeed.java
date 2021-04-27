@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,6 +12,8 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
@@ -20,10 +22,22 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class OfferingSpeed extends GenericModel {
 
+  protected List<String> capabilities;
   @SerializedName("link_speed")
   protected Long linkSpeed;
   @SerializedName("macsec_enabled")
   protected Boolean macsecEnabled;
+
+  /**
+   * Gets the capabilities.
+   *
+   * Array of capabilities for billing option.
+   *
+   * @return the capabilities
+   */
+  public List<String> getCapabilities() {
+    return capabilities;
+  }
 
   /**
    * Gets the linkSpeed.
