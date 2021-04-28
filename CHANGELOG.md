@@ -1,3 +1,10 @@
+# [0.15.0](https://github.com/IBM/networking-java-sdk/compare/0.14.0...0.15.0) (2021-04-28)
+
+
+### Features
+
+* added 100g changes for DL SDK ([4a65055](https://github.com/IBM/networking-java-sdk/commit/4a65055dbeb615f29f7808b235799770157135c9))
+
 # [0.14.0](https://github.com/IBM/networking-java-sdk/compare/0.13.0...0.14.0) (2020-12-22)
 
 
