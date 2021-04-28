@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -38,31 +38,27 @@ public class GatewayMacsecConfig extends GenericModel {
   }
 
   /**
-   * Packets without MACsec headers are not dropped when security_policy is `should_secure`.
+   * Packets without MACsec headers are dropped when security_policy is `must_secure`.
    */
   public interface SecurityPolicy {
-    /** should_secure. */
-    String SHOULD_SECURE = "should_secure";
+    /** must_secure. */
+    String MUST_SECURE = "must_secure";
   }
 
   /**
-   * Current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway creation and
-   * deletion. Status `key_error` indicates Direct Link was unable to retrieve key materials for one of the specified.
-   * This usually due to inadequate service to service authorization.   Verify the key exists and verify a service to
-   * service policy exists authorization the Direct Link service to access its key material. Correct any problems and
-   * respecify the desired key.  If the problem persists contact IBM support.
+   * Current status of MACsec on this gateway.
+   *
+   * Status 'offline' is returned during gateway creation and deletion.
    */
   public interface Status {
     /** init. */
     String INIT = "init";
-    /** key_error. */
-    String KEY_ERROR = "key_error";
     /** pending. */
     String PENDING = "pending";
+    /** offline. */
+    String OFFLINE = "offline";
     /** secured. */
     String SECURED = "secured";
-    /** unknown. */
-    String UNKNOWN = "unknown";
   }
 
   protected Boolean active;
@@ -194,7 +190,7 @@ public class GatewayMacsecConfig extends GenericModel {
   /**
    * Gets the securityPolicy.
    *
-   * Packets without MACsec headers are not dropped when security_policy is `should_secure`.
+   * Packets without MACsec headers are dropped when security_policy is `must_secure`.
    *
    * @return the securityPolicy
    */
@@ -205,11 +201,9 @@ public class GatewayMacsecConfig extends GenericModel {
   /**
    * Gets the status.
    *
-   * Current status of MACsec on the device for this gateway.  Status 'unknown' is returned during gateway creation and
-   * deletion. Status `key_error` indicates Direct Link was unable to retrieve key materials for one of the specified.
-   * This usually due to inadequate service to service authorization.   Verify the key exists and verify a service to
-   * service policy exists authorization the Direct Link service to access its key material. Correct any problems and
-   * respecify the desired key.  If the problem persists contact IBM support.
+   * Current status of MACsec on this gateway.
+   *
+   * Status 'offline' is returned during gateway creation and deletion.
    *
    * @return the status
    */

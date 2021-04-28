@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -23,10 +23,8 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class Gateway extends GenericModel {
 
   /**
-   * Gateway BGP status.
-   *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
-   * tolerate unexpected values.
+   * Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
+   * using this field  must tolerate unexpected values.
    */
   public interface BgpStatus {
     /** active. */
@@ -40,10 +38,8 @@ public class Gateway extends GenericModel {
   }
 
   /**
-   * Gateway link status.  Only included on type=dedicated gateways.
-   *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
-   * tolerate unexpected values.
+   * Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this property may
+   * expand in the future. Code and processes using this field  must tolerate unexpected values.
    */
   public interface LinkStatus {
     /** down. */
@@ -53,10 +49,8 @@ public class Gateway extends GenericModel {
   }
 
   /**
-   * Gateway operational status.
-   *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
-   * tolerate unexpected values.
+   * Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
+   * processes using this field  must tolerate unexpected values.
    */
   public interface OperationalStatus {
     /** awaiting_completion_notice. */
@@ -88,10 +82,8 @@ public class Gateway extends GenericModel {
   }
 
   /**
-   * Gateway type.
-   *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
-   * tolerate unexpected values.
+   * Gateway type. The list of enumerated values for this property may expand in the future. Code and processes using
+   * this field  must tolerate unexpected values.
    */
   public interface Type {
     /** connect. */
@@ -112,6 +104,8 @@ public class Gateway extends GenericModel {
   protected String bgpIbmCidr;
   @SerializedName("bgp_status")
   protected String bgpStatus;
+  @SerializedName("carrier_name")
+  protected String carrierName;
   @SerializedName("change_request")
   protected GatewayChangeRequest changeRequest;
   @SerializedName("completion_notice_reject_reason")
@@ -121,6 +115,8 @@ public class Gateway extends GenericModel {
   protected String crn;
   @SerializedName("cross_connect_router")
   protected String crossConnectRouter;
+  @SerializedName("customer_name")
+  protected String customerName;
   protected Boolean global;
   protected String id;
   @SerializedName("link_status")
@@ -159,7 +155,11 @@ public class Gateway extends GenericModel {
   /**
    * Gets the bgpBaseCidr.
    *
-   * BGP base CIDR.
+   * (DEPRECATED) BGP base CIDR is deprecated and no longer recognized by the Direct Link APIs.
+   *
+   * See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
+   *
+   * Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
    *
    * @return the bgpBaseCidr
    */
@@ -203,15 +203,24 @@ public class Gateway extends GenericModel {
   /**
    * Gets the bgpStatus.
    *
-   * Gateway BGP status.
-   *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
-   * tolerate unexpected values.
+   * Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
+   * using this field  must tolerate unexpected values.
    *
    * @return the bgpStatus
    */
   public String getBgpStatus() {
     return bgpStatus;
+  }
+
+  /**
+   * Gets the carrierName.
+   *
+   * Carrier name.  Only set for type=dedicated gateways.
+   *
+   * @return the carrierName
+   */
+  public String getCarrierName() {
+    return carrierName;
   }
 
   /**
@@ -271,6 +280,17 @@ public class Gateway extends GenericModel {
   }
 
   /**
+   * Gets the customerName.
+   *
+   * Customer name.  Only set for type=dedicated gateways.
+   *
+   * @return the customerName
+   */
+  public String getCustomerName() {
+    return customerName;
+  }
+
+  /**
    * Gets the global.
    *
    * Gateways with global routing (`true`) can connect to networks outside their associated region.
@@ -295,10 +315,8 @@ public class Gateway extends GenericModel {
   /**
    * Gets the linkStatus.
    *
-   * Gateway link status.  Only included on type=dedicated gateways.
-   *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
-   * tolerate unexpected values.
+   * Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this property may
+   * expand in the future. Code and processes using this field  must tolerate unexpected values.
    *
    * @return the linkStatus
    */
@@ -366,10 +384,8 @@ public class Gateway extends GenericModel {
   /**
    * Gets the operationalStatus.
    *
-   * Gateway operational status.
-   *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
-   * tolerate unexpected values.
+   * Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
+   * processes using this field  must tolerate unexpected values.
    *
    * @return the operationalStatus
    */
@@ -424,10 +440,8 @@ public class Gateway extends GenericModel {
   /**
    * Gets the type.
    *
-   * Gateway type.
-   *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
-   * tolerate unexpected values.
+   * Gateway type. The list of enumerated values for this property may expand in the future. Code and processes using
+   * this field  must tolerate unexpected values.
    *
    * @return the type
    */

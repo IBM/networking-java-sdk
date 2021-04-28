@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Map;
+import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -59,6 +60,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.ListPortsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.LocationCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.LocationCrossConnectRouterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeedCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeed;
 import com.ibm.cloud.networking.direct_link.v1.model.Port;
 import com.ibm.cloud.networking.direct_link.v1.model.PortCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
@@ -885,6 +887,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		OfferingSpeedCollection resObj = res.getResult();
 		assertNotNull(resObj);
 		assertNotEquals(0,resObj.getSpeeds().size());
+		List<OfferingSpeed> speeds = resObj.getSpeeds();
+		assertNotNull(speeds.get(0).getCapabilities());
 
 		// ***************** Attempt to list connect offering speeds  **********************
 		// Construct an instance of the ListOfferingTypeSpeedsOptions model
