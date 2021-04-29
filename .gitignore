@@ -37,6 +37,7 @@ hs_err_pid*
 # credentials files
 *.env
 .*env
+signing.key
 
 # MacOS
 .DS_Store

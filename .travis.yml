@@ -3,16 +3,10 @@ language: java
 dist: xenial
 
 jdk:
-  - openjdk8
+- openjdk8
 
 notifications:
   email: true
-
-env:
-  global:
-    - MVN_ARGS="--settings build/.travis.settings.xml"
-    - BINTRAY_ORG=ibm-cloud-sdks
-    - BINTRAY_REPO=networking-java-sdk
 
 branches:
   except:
@@ -22,63 +16,68 @@ cache:
   directories:
   - "$HOME/.m2"
 
+env:
+  global:
+    - MVN_ARGS="--settings build/.travis.settings.xml"
+
+stages:
+  - name: Build-Test
+  - name: Semantic-Release
+    if: branch = master AND type = push AND fork = false
+  - name: Publish-Release
+    if: tag IS present
+
 before_install:
-- sudo apt-get update
-- sudo apt-get install python
-- nvm install 12
-- npm install -g npm@6.x
-- '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_6de0fb2f002f_key -iv $encrypted_6de0fb2f002f_iv -in directlink.env.enc -out directlink.env -d || true'
-- '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_3d8a3eb98382_key -iv $encrypted_3d8a3eb98382_iv -in transit.env.enc -out transit.env -d || true'
+  - sudo apt-get update
+  - env | grep TRAVIS
+  - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_6de0fb2f002f_key -iv $encrypted_6de0fb2f002f_iv -in directlink.env.enc -out directlink.env -d || true'
+  - '[ "${TRAVIS_PULL_REQUEST}" == "false" ] && openssl aes-256-cbc -K $encrypted_3d8a3eb98382_key -iv $encrypted_3d8a3eb98382_iv -in transit.env.enc -out transit.env -d || true'
 
-install:
-- curl -s https://codecov.io/bash > $HOME/codecov-bash.sh && chmod +x $HOME/codecov-bash.sh
 
-before_script:
-- echo "TRAVIS_TAG = '${TRAVIS_TAG}'"
-- >-
-      [ -n "${TRAVIS_TAG}" ]
-      && mvn versions:set -DnewVersion=${TRAVIS_TAG} -DgenerateBackupPoms=false
-      || true
-
-script:
--  mvn clean verify $MVN_ARGS
- 
-# To enable semantic-release, uncomment these sections.
-before_deploy:
-- pip install --user bump2version
-- npm install @semantic-release/changelog
-- npm install @semantic-release/exec
-- npm install @semantic-release/git
-- npm install @semantic-release/github
-
-deploy:
-  # On master, run semrel to create a new tagged-release.
-  - provider: script
-    script: npx semantic-release
-    skip_cleanup: true
-    on:
-      branch: master
-  # For a tagged release, publish jars on bintray and sync to maven central.
-  - provider: script
-    script: 
-    - >-
-          mvn deploy $MVN_ARGS -DskipTests 
-          && build/bintraySync.sh $BINTRAY_USER $BINTRAY_APIKEY $BINTRAY_ORG $BINTRAY_REPO $TRAVIS_TAG
-    skip_cleanup: true
-    on:
-      tags: true
+jobs:
+  include:
+    - stage: Build-Test
       jdk: openjdk8
-  # Publish javadocs to gh-pages only for a tagged-release.
-  - provider: script
-    script: "./build/publish-javadoc.sh"
-    skip_cleanup: true
-    on:
-      tags: true
+      install:
+        - curl -s https://codecov.io/bash > $HOME/codecov-bash.sh && chmod +x $HOME/codecov-bash.sh
+      script:
+        - build/setMavenVersion.sh
+        - mvn verify -fae -DskipITs $MVN_ARGS
+      after_success:
+        - build/publishCodeCoverage.sh
+
+    - stage: Semantic-Release
+      install:
+        - sudo apt-get install python
+        - nvm install 12
+        - npm install -g npm@6.x
+        - pip install --user bump2version
+        - npm install @semantic-release/changelog
+        - npm install @semantic-release/exec
+        - npm install @semantic-release/git
+        - npm install @semantic-release/github
+      script:
+        - npx semantic-release
+      after_success:
+        - echo "Semantic release has successfully created a new tagged-release"
+
+    - stage: Publish-Release
       jdk: openjdk8
-  # Upload code coverage reports to codecov.io for master or tagged release
-  - provider: script
-    script: $HOME/codecov-bash.sh -s modules/coverage-reports/target/site/jacoco-aggregate -t $CODECOV_TOKEN
-    skip_cleanup: true
-    on:
-      condition: $TRAVIS_BRANCH == master || -n "$TRAVIS_TAG"
-      jdk: openjdk8
+      name: Publish-Javadoc
+      install: true
+      script:
+        - build/setMavenVersion.sh
+        - mvn clean javadoc:aggregate $MVN_ARGS
+        - build/publishJavadoc.sh
+      after_success:
+        - echo "Javadocs successfully published to gh-pages!"
+
+    - jdk: openjdk8
+      name: Publish-To-Maven-Central
+      install: true
+      script:
+        - build/setupSigning.sh
+        - build/setMavenVersion.sh
+        - mvn deploy $MVN_ARGS -DskipTests -P central
+      after_success:
+        - echo "Maven artifacts successfully published to Maven Central!"
