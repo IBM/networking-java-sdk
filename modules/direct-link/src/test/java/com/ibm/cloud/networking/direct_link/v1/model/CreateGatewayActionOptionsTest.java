@@ -14,6 +14,7 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
@@ -38,6 +39,11 @@ public class CreateGatewayActionOptionsTest {
 
   @Test
   public void testCreateGatewayActionOptions() throws Throwable {
+    GatewayActionTemplateAuthenticationKey gatewayActionTemplateAuthenticationKeyModel = new GatewayActionTemplateAuthenticationKey.Builder()
+      .crn("crn:v1:staging:public:kms:us-south:a/3b1bd7fa2bc3406ea70ba4ade8aa3f1b:6f2b3d69-9e70-46e6-bcaa-f96ecc232cbc:key:4f9d186a-5cc1-4305-94fc-af183ddf65bc")
+      .build();
+    assertEquals(gatewayActionTemplateAuthenticationKeyModel.crn(), "crn:v1:staging:public:kms:us-south:a/3b1bd7fa2bc3406ea70ba4ade8aa3f1b:6f2b3d69-9e70-46e6-bcaa-f96ecc232cbc:key:4f9d186a-5cc1-4305-94fc-af183ddf65bc");
+
     GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate gatewayActionTemplateUpdatesItemModel = new GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate.Builder()
       .speedMbps(Long.valueOf("500"))
       .build();
@@ -51,6 +57,7 @@ public class CreateGatewayActionOptionsTest {
     CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
       .id("testString")
       .action("create_gateway_approve")
+      .authenticationKey(gatewayActionTemplateAuthenticationKeyModel)
       .global(true)
       .metered(false)
       .resourceGroup(resourceGroupIdentityModel)
@@ -58,6 +65,7 @@ public class CreateGatewayActionOptionsTest {
       .build();
     assertEquals(createGatewayActionOptionsModel.id(), "testString");
     assertEquals(createGatewayActionOptionsModel.action(), "create_gateway_approve");
+    assertEquals(createGatewayActionOptionsModel.authenticationKey(), gatewayActionTemplateAuthenticationKeyModel);
     assertEquals(createGatewayActionOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(createGatewayActionOptionsModel.metered(), Boolean.valueOf(false));
     assertEquals(createGatewayActionOptionsModel.resourceGroup(), resourceGroupIdentityModel);

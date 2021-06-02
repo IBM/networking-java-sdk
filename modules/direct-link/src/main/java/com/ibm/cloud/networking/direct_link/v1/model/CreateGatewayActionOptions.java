@@ -42,6 +42,7 @@ public class CreateGatewayActionOptions extends GenericModel {
 
   protected String id;
   protected String action;
+  protected GatewayActionTemplateAuthenticationKey authenticationKey;
   protected Boolean global;
   protected Boolean metered;
   protected ResourceGroupIdentity resourceGroup;
@@ -53,6 +54,7 @@ public class CreateGatewayActionOptions extends GenericModel {
   public static class Builder {
     private String id;
     private String action;
+    private GatewayActionTemplateAuthenticationKey authenticationKey;
     private Boolean global;
     private Boolean metered;
     private ResourceGroupIdentity resourceGroup;
@@ -61,6 +63,7 @@ public class CreateGatewayActionOptions extends GenericModel {
     private Builder(CreateGatewayActionOptions createGatewayActionOptions) {
       this.id = createGatewayActionOptions.id;
       this.action = createGatewayActionOptions.action;
+      this.authenticationKey = createGatewayActionOptions.authenticationKey;
       this.global = createGatewayActionOptions.global;
       this.metered = createGatewayActionOptions.metered;
       this.resourceGroup = createGatewayActionOptions.resourceGroup;
@@ -132,6 +135,17 @@ public class CreateGatewayActionOptions extends GenericModel {
     }
 
     /**
+     * Set the authenticationKey.
+     *
+     * @param authenticationKey the authenticationKey
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder authenticationKey(GatewayActionTemplateAuthenticationKey authenticationKey) {
+      this.authenticationKey = authenticationKey;
+      return this;
+    }
+
+    /**
      * Set the global.
      *
      * @param global the global
@@ -184,6 +198,7 @@ public class CreateGatewayActionOptions extends GenericModel {
       "action cannot be null");
     id = builder.id;
     action = builder.action;
+    authenticationKey = builder.authenticationKey;
     global = builder.global;
     metered = builder.metered;
     resourceGroup = builder.resourceGroup;
@@ -219,6 +234,24 @@ public class CreateGatewayActionOptions extends GenericModel {
    */
   public String action() {
     return action;
+  }
+
+  /**
+   * Gets the authenticationKey.
+   *
+   * BGP MD5 authentication key.
+   *
+   * BGP MD5 keys must be type=standard.
+   *
+   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
+   * in length.
+   *
+   * To clear the optional `authentication_key` field patch its crn to `""`.
+   *
+   * @return the authenticationKey
+   */
+  public GatewayActionTemplateAuthenticationKey authenticationKey() {
+    return authenticationKey;
   }
 
   /**

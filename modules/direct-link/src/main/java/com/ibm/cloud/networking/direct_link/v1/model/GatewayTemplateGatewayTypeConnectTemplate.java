@@ -18,7 +18,7 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
 
   /**
-   * Gateway type.
+   * Offering type.
    */
   public interface Type {
     /** connect. */

@@ -13,6 +13,7 @@
 package com.ibm.cloud.networking.direct_link_provider.v2;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -41,11 +43,14 @@ import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderGatewayPor
 import com.ibm.cloud.networking.direct_link_provider.v2.model.GetProviderGatewayOptions;
 import com.ibm.cloud.networking.direct_link_provider.v2.model.DeleteProviderGatewayOptions;
 import com.ibm.cloud.networking.direct_link_provider.v2.model.UpdateProviderGatewayOptions;
-import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
-import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
+// import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItem;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewaysOptions;
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
@@ -69,11 +74,42 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 	Map<String, String> config = null;
 
+	List<String> deleteNotAllowedStatus = Arrays.asList("configuring", "delete_pending");
+
 	/**
 	 * This method provides our config filename to the base class.
 	 */
 	public String getConfigFilename() {
 		return "../../directlink.env";
+	}
+
+	/**
+	 * Approve delete_gateway using Client Actions API
+	 */
+	private void deleteGateways(){
+		// ********** List all gateways ************* 
+		ListGatewaysOptions listGatewaysOptionsModel = new ListGatewaysOptions();
+
+		// Invoke operation with valid options model (positive test)
+		Response<GatewayCollection> lisResp = dlTestService.listGateways(listGatewaysOptionsModel).execute();
+		assertNotNull(lisResp); assertEquals(200, lisResp.getStatusCode());
+		
+		GatewayCollection lisresponseObj = lisResp.getResult();
+		assertNotNull(lisresponseObj); 
+		assertNotEquals(0,lisresponseObj.getGateways().size());
+
+		List<Gateway> gateways = lisresponseObj.getGateways();
+		for(Gateway gateway: gateways){
+			if(gateway.getChangeRequest() != null && gateway.getChangeRequest().getType().equalsIgnoreCase("delete_gateway")){
+				if(gateway.getOperationalStatus().equalsIgnoreCase("provisioned") && gateway.getName().toLowerCase().contains("java-int-sdk-provider")) {
+					// Construct an instance of CreateGatewayActionOptions model and approve the gateway delete request using client account
+					CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder().id(gateway.getId()).action("delete_gateway_approve").build();
+					Response<Gateway> response = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
+					assertNotNull(response);
+					assertEquals(204, response.getStatusCode());
+				}
+			}
+		}
 	}
 
 	/**
@@ -118,28 +154,38 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 	@AfterClass
 	public void cleanup() {
-		// Construct an instance of the DeleteGatewayOptions model
-		if (gatewayId == null) {
-			return;
+		// *************** Delete all SDK created gateways with pending request ******************************
+ 
+		deleteGateways();
+
+		// *************** Delete all SDK created gateways ******************************
+ 
+		// ********** List all provider gateways ************* 
+		ListProviderGatewaysOptions listProviderGatewaysOptions = new ListProviderGatewaysOptions.Builder().build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<ProviderGatewayCollection> provListResp = dlProviderTestService.listProviderGateways(listProviderGatewaysOptions).execute();
+		assertNotNull(provListResp); assertEquals(200, provListResp.getStatusCode());
+		
+		ProviderGatewayCollection providerListResponseObj = provListResp.getResult();
+		assertNotNull(providerListResponseObj); 
+		assertNotEquals(0,providerListResponseObj.getGateways().size());
+
+		List<ProviderGateway> providerGateways = providerListResponseObj.getGateways();
+		for (ProviderGateway gateway: providerGateways) {
+			if(gateway.getName().toLowerCase().contains("java-int-sdk-provider") && !deleteNotAllowedStatus.contains(gateway.getOperationalStatus())) {
+				// Construct an instance of the DeleteProviderGatewayOptions model and re-send delete request using provider account
+				DeleteProviderGatewayOptions deleteProviderGatewayOptionsModel = new DeleteProviderGatewayOptions.Builder(gateway.getId()).build();
+				// Invoke operation with valid options model (positive test)
+				Response<ProviderGateway> deleteGWRes = dlProviderTestService.deleteProviderGateway(deleteProviderGatewayOptionsModel).execute();
+				assertNotNull(deleteGWRes);
+				assertEquals(202, deleteGWRes.getStatusCode());
+			}
 		}
 
-		// Construct an instance of the DeleteProviderGatewayOptions model and re-send delete request using provider account
-		DeleteProviderGatewayOptions deleteProviderGatewayOptionsModel = new DeleteProviderGatewayOptions.Builder(gatewayId).build();
-		// Invoke operation with valid options model (positive test)
-		Response<ProviderGateway> deleteGWRes = dlProviderTestService.deleteProviderGateway(deleteProviderGatewayOptionsModel).execute();
-		assertNotNull(deleteGWRes);
-		assertEquals(202, deleteGWRes.getStatusCode());
-
-		// Construct an instance of CreateGatewayActionOptions model and approve the gateway delete request using client account
-		CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
-				.id(gatewayId).action("delete_gateway_approve").build();
-		
-		Response<Gateway> response = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
-		assertNotNull(response);
-		assertEquals(204, response.getStatusCode());
-
-		// Response does not have a return type. Check that the result is null.
-		assertNull(response.getResult());
+		// *************** Delete Approve all the deleted gateways above ******************************
+		deleteGateways();
+	
 	}
 	
 	@Test 
@@ -481,4 +527,127 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		gatewayId = null; // already cleaned up System.out.
 	}
+
+	/******** Commenting out the MD5 test case till we have a key protect instance in INT environment */
+	
+	// @Test(dependsOnMethods = "testProviderPorts")
+	// public void testProviderGatewaysWithClientApiMD5(){
+	// 	Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+	// 	String customerAccId = config.get("CUSTOMER_ACCT_ID");
+	// 	String authKeyCrn = config.get("AUTHENTICATION_KEY");
+	// 	String gatewayName = "JAVA-INT-SDK-PROVIDER-"+timestamp; 
+	// 	Long bgpAsn = 64999L; 
+	// 	Long speedMbps = 1000L;
+
+	// 	ProviderGatewayPortIdentity portIdentity = new ProviderGatewayPortIdentity.Builder(firstPortId).build();
+
+	// 	assertNotNull(dlProviderTestService);
+	// 	assertNotNull(dlTestService);
+
+	// 	// Construct an instance of the CreateProviderGatewayOptions model
+	// 	CreateProviderGatewayOptions createProviderGatewayOptionsModel = new CreateProviderGatewayOptions.Builder()
+	// 			.bgpAsn(bgpAsn).customerAccountId(customerAccId).name(gatewayName).speedMbps(speedMbps).port(portIdentity).build();
+
+	// 	Response<ProviderGateway> createGWRes = dlProviderTestService.createProviderGateway(createProviderGatewayOptionsModel).execute();
+	// 	assertNotNull(createGWRes);
+	// 	assertEquals(201, createGWRes.getStatusCode());
+	// 	ProviderGateway createGWRespObj = createGWRes.getResult();
+	// 	assertNotNull(createGWRespObj);
+
+	// 	// Save the gateway created
+	// 	gatewayId = createGWRespObj.getId();
+
+	// 	// Construct an instance of the GetGatewayOptions model
+	// 	GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
+	// 	Response<Gateway> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
+	// 	assertNotNull(getGWRes);
+	// 	assertEquals(200, getGWRes.getStatusCode());
+	// 	Gateway getGWRespObj = getGWRes.getResult();
+	// 	assertNotNull(getGWRespObj);
+	// 	assertEquals(getGWRespObj.getId(), gatewayId);
+	// 	assertEquals(getGWRespObj.getName(), gatewayName);
+	// 	assertEquals(getGWRespObj.getBgpAsn(), bgpAsn);
+	// 	assertEquals(getGWRespObj.getSpeedMbps(), speedMbps);
+	// 	assertEquals(getGWRespObj.getOperationalStatus(), "create_pending");
+	// 	assertEquals(getGWRespObj.getPort().getId(), firstPortId);
+	// 	assertNotNull(getGWRespObj.getChangeRequest());
+
+	// 	GatewayActionTemplateAuthenticationKey authenticationKey = new GatewayActionTemplateAuthenticationKey.Builder().crn(authKeyCrn).build();
+	// 	// Construct an instance of CreateGatewayActionOptions model
+	// 	CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
+	// 			.id(gatewayId).action("create_gateway_approve").global(false).metered(false).authenticationKey(authenticationKey).build();
+		
+	// 	Response<Gateway> actionGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
+	// 	assertNotNull(actionGWRes);
+	// 	assertEquals(200, actionGWRes.getStatusCode());
+	// 	Gateway actionGWResObj = actionGWRes.getResult();
+	// 	assertNotNull(actionGWResObj);
+	// 	assertEquals(actionGWResObj.getId(), gatewayId);
+	// 	assertEquals(actionGWResObj.getName(), gatewayName);
+	// 	assertEquals(actionGWResObj.getBgpAsn(), bgpAsn);
+	// 	assertEquals(actionGWResObj.getSpeedMbps(), speedMbps);
+	// 	assertEquals(actionGWResObj.getOperationalStatus(), "create_pending");
+	// 	assertEquals(actionGWResObj.getPort().getId(), firstPortId);
+	// 	assertNull(actionGWResObj.getChangeRequest());
+	// 	assertEquals(actionGWResObj.getAuthenticationKey().getCrn(), authKeyCrn);
+
+	// 	// Construct an instance of GetGatewayOptions model and wait for gateway to move to provisioned state
+	// 	getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
+
+	// 	boolean done = false;
+	// 	int timerCount = 1;
+
+	// 	while (!done) {
+	// 		// Invoke operation with valid options model (positive test)
+	// 		Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+	// 		assertNotNull(res);
+	// 		assertEquals(200, res.getStatusCode());
+
+	// 		Gateway responseObj = res.getResult();
+	// 		assertNotNull(responseObj);
+
+	// 		if (responseObj.getOperationalStatus().equals("provisioned")) {
+	// 			done = true;
+	// 			break;
+	// 		} else if (timerCount > 40) {
+	// 			assertEquals("provisioned", responseObj.getOperationalStatus());
+	// 			done = true;
+	// 		} else {
+	// 			++timerCount;
+	// 			try {
+	// 				Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+	// 			} catch (InterruptedException e) {
+	// 				// 
+	// 			}
+	// 		}
+	// 	}
+
+	// 	// Check if the authentication_key is visible with client api
+	// 	getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
+	// 	getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
+	// 	assertNotNull(getGWRes);
+	// 	assertEquals(200, getGWRes.getStatusCode());
+	// 	getGWRespObj = getGWRes.getResult();
+	// 	assertNotNull(getGWRespObj);
+	// 	assertEquals(getGWRespObj.getId(), gatewayId);
+	// 	assertEquals(getGWRespObj.getName(), gatewayName);
+	// 	assertEquals(actionGWResObj.getAuthenticationKey().getCrn(), authKeyCrn);
+
+	// 	// Construct an instance of the DeleteProviderGatewayOptions model and re-send delete request using provider account
+	// 	DeleteProviderGatewayOptions deleteProviderGatewayOptionsModel = new DeleteProviderGatewayOptions.Builder(gatewayId).build();
+	// 	// Invoke operation with valid options model (positive test)
+	// 	Response<ProviderGateway> deleteGWRes = dlProviderTestService.deleteProviderGateway(deleteProviderGatewayOptionsModel).execute();
+	// 	assertNotNull(deleteGWRes);
+	// 	assertEquals(202, deleteGWRes.getStatusCode());
+
+	// 	// Construct an instance of CreateGatewayActionOptions model and approve the gateway delete request using client account
+	// 	createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
+	// 			.id(gatewayId).action("delete_gateway_approve").build();
+		
+	// 	Response<Gateway> response = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
+	// 	assertNotNull(response);
+	// 	assertEquals(204, response.getStatusCode());
+
+	// 	gatewayId = null; // already cleaned up System.out.
+	// }
 }
