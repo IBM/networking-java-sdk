@@ -82,7 +82,7 @@ public class Gateway extends GenericModel {
   }
 
   /**
-   * Gateway type. The list of enumerated values for this property may expand in the future. Code and processes using
+   * Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
    * this field  must tolerate unexpected values.
    */
   public interface Type {
@@ -92,6 +92,8 @@ public class Gateway extends GenericModel {
     String DEDICATED = "dedicated";
   }
 
+  @SerializedName("authentication_key")
+  protected GatewayAuthenticationKey authenticationKey;
   @SerializedName("bgp_asn")
   protected Long bgpAsn;
   @SerializedName("bgp_base_cidr")
@@ -140,6 +142,24 @@ public class Gateway extends GenericModel {
   protected Long speedMbps;
   protected String type;
   protected Long vlan;
+
+  /**
+   * Gets the authenticationKey.
+   *
+   * BGP MD5 authentication key.
+   *
+   * BGP MD5 keys must be type=standard.
+   *
+   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
+   * in length.
+   *
+   * To clear the optional `authentication_key` field patch its crn to `""`.
+   *
+   * @return the authenticationKey
+   */
+  public GatewayAuthenticationKey getAuthenticationKey() {
+    return authenticationKey;
+  }
 
   /**
    * Gets the bgpAsn.
@@ -440,7 +460,7 @@ public class Gateway extends GenericModel {
   /**
    * Gets the type.
    *
-   * Gateway type. The list of enumerated values for this property may expand in the future. Code and processes using
+   * Offering type. The list of enumerated values for this property may expand in the future. Code and processes using
    * this field  must tolerate unexpected values.
    *
    * @return the type

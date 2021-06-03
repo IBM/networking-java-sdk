@@ -25,7 +25,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class GatewayTemplate extends GenericModel {
 
   /**
-   * Gateway type.
+   * Offering type.
    */
   public interface Type {
     /** connect. */
@@ -188,7 +188,7 @@ public class GatewayTemplate extends GenericModel {
   /**
    * Gets the type.
    *
-   * Gateway type.
+   * Offering type.
    *
    * @return the type
    */

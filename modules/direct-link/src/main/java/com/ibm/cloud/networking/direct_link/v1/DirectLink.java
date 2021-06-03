@@ -318,6 +318,9 @@ public class DirectLink extends BaseService {
     builder.query("version", this.version);
     final JsonObject contentJson = new JsonObject();
     contentJson.addProperty("action", createGatewayActionOptions.action());
+    if (createGatewayActionOptions.authenticationKey() != null) {
+      contentJson.add("authentication_key", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayActionOptions.authenticationKey()));
+    }
     if (createGatewayActionOptions.global() != null) {
       contentJson.addProperty("global", createGatewayActionOptions.global());
     }

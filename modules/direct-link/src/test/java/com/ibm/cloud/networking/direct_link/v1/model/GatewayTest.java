@@ -14,6 +14,7 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayCreate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigActiveCak;
@@ -42,6 +43,7 @@ public class GatewayTest {
   @Test
   public void testGateway() throws Throwable {
     Gateway gatewayModel = new Gateway();
+    assertNull(gatewayModel.getAuthenticationKey());
     assertNull(gatewayModel.getBgpAsn());
     assertNull(gatewayModel.getBgpBaseCidr());
     assertNull(gatewayModel.getBgpCerCidr());
