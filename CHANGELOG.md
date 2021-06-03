@@ -1,3 +1,10 @@
+# [0.16.0](https://github.com/IBM/networking-java-sdk/compare/0.15.0...0.16.0) (2021-06-03)
+
+
+### Features
+
+* **DirectLiink:** add the authentication_key for BGP MD5 authentication ([cfa7cb6](https://github.com/IBM/networking-java-sdk/commit/cfa7cb6b1acc3cd4036fb574365a047bfa1c3b15))
+
 # [0.15.0](https://github.com/IBM/networking-java-sdk/compare/0.14.0...0.15.0) (2021-04-28)
 
 
