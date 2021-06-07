@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,8 +22,44 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class TransitGatewayCollection extends GenericModel {
 
+  protected TransitGatewayCollectionFirst first;
+  protected Long limit;
+  protected TransitGatewayCollectionNext next;
   @SerializedName("transit_gateways")
   protected List<TransitGateway> transitGateways;
+
+  /**
+   * Gets the first.
+   *
+   * A reference to the first page of resources.
+   *
+   * @return the first
+   */
+  public TransitGatewayCollectionFirst getFirst() {
+    return first;
+  }
+
+  /**
+   * Gets the limit.
+   *
+   * The maximum number of gateways returned on one request.
+   *
+   * @return the limit
+   */
+  public Long getLimit() {
+    return limit;
+  }
+
+  /**
+   * Gets the next.
+   *
+   * A reference to the next page of resources; this reference is included for all pages except the last page.
+   *
+   * @return the next
+   */
+  public TransitGatewayCollectionNext getNext() {
+    return next;
+  }
 
   /**
    * Gets the transitGateways.
