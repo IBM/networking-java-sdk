@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,6 +22,8 @@ public class TSLocalLocation extends GenericModel {
 
   /**
    * The type of the location, determining is this a multi-zone region, a single data center, or a point of presence.
+   * The list of enumerated values for this property may expand in the future. Code and processes using this field must
+   * tolerate unexpected values.
    */
   public interface Type {
     /** region. */
@@ -59,6 +61,8 @@ public class TSLocalLocation extends GenericModel {
    * Gets the type.
    *
    * The type of the location, determining is this a multi-zone region, a single data center, or a point of presence.
+   * The list of enumerated values for this property may expand in the future. Code and processes using this field must
+   * tolerate unexpected values.
    *
    * @return the type
    */

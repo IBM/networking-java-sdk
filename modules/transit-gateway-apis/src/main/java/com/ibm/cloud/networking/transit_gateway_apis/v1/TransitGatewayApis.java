@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,6 +10,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.10.3-18e3fe12-20200803-172650
+ */
+
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
 
 import com.google.gson.JsonObject;
@@ -22,11 +27,13 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatew
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetGatewayLocationOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListGatewayLocationsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSLocation;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitConnectionCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGateway;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionCollection;
@@ -40,7 +47,6 @@ import com.ibm.cloud.sdk.core.security.Authenticator;
 import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
 import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
-
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -123,14 +129,62 @@ public class TransitGatewayApis extends BaseService {
   }
 
   /**
+   * Retrieves all connections.
+   *
+   * List all transit gateway connections associated with this account.
+   *
+   * @param listConnectionsOptions the {@link ListConnectionsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link TransitConnectionCollection}
+   */
+  public ServiceCall<TransitConnectionCollection> listConnections(ListConnectionsOptions listConnectionsOptions) {
+    if (listConnectionsOptions == null) {
+      listConnectionsOptions = new ListConnectionsOptions.Builder().build();
+    }
+    String[] pathSegments = { "connections" };
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "listConnections");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", this.version);
+    if (listConnectionsOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listConnectionsOptions.limit()));
+    }
+    if (listConnectionsOptions.start() != null) {
+      builder.query("start", listConnectionsOptions.start());
+    }
+    if (listConnectionsOptions.networkId() != null) {
+      builder.query("network_id", listConnectionsOptions.networkId());
+    }
+    ResponseConverter<TransitConnectionCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitConnectionCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Retrieves all connections.
+   *
+   * List all transit gateway connections associated with this account.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link TransitConnectionCollection}
+   */
+  public ServiceCall<TransitConnectionCollection> listConnections() {
+    return listConnections(null);
+  }
+
+  /**
    * Retrieves all Transit Gateways.
    *
-   * List all the Transit Gateways in the account. User will get a list of Transit Gateways they have access to 'view'.
+   * List all Transit Gateways in account the caller is authorized to view.
    *
    * @param listTransitGatewaysOptions the {@link ListTransitGatewaysOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TransitGatewayCollection}
    */
   public ServiceCall<TransitGatewayCollection> listTransitGateways(ListTransitGatewaysOptions listTransitGatewaysOptions) {
+    if (listTransitGatewaysOptions == null) {
+      listTransitGatewaysOptions = new ListTransitGatewaysOptions.Builder().build();
+    }
     String[] pathSegments = { "transit_gateways" };
     RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "listTransitGateways");
@@ -138,8 +192,12 @@ public class TransitGatewayApis extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (listTransitGatewaysOptions != null) {
-      builder.query("version", this.version);
+    builder.query("version", this.version);
+    if (listTransitGatewaysOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listTransitGatewaysOptions.limit()));
+    }
+    if (listTransitGatewaysOptions.start() != null) {
+      builder.query("start", listTransitGatewaysOptions.start());
     }
     ResponseConverter<TransitGatewayCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayCollection>() { }.getType());
@@ -149,7 +207,7 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Retrieves all Transit Gateways.
    *
-   * List all the Transit Gateways in the account. User will get a list of Transit Gateways they have access to 'view'.
+   * List all Transit Gateways in account the caller is authorized to view.
    *
    * @return a {@link ServiceCall} with a result of type {@link TransitGatewayCollection}
    */
@@ -320,14 +378,35 @@ public class TransitGatewayApis extends BaseService {
     builder.query("version", this.version);
     final JsonObject contentJson = new JsonObject();
     contentJson.addProperty("network_type", createTransitGatewayConnectionOptions.networkType());
+    if (createTransitGatewayConnectionOptions.baseConnectionId() != null) {
+      contentJson.addProperty("base_connection_id", createTransitGatewayConnectionOptions.baseConnectionId());
+    }
+    if (createTransitGatewayConnectionOptions.localGatewayIp() != null) {
+      contentJson.addProperty("local_gateway_ip", createTransitGatewayConnectionOptions.localGatewayIp());
+    }
+    if (createTransitGatewayConnectionOptions.localTunnelIp() != null) {
+      contentJson.addProperty("local_tunnel_ip", createTransitGatewayConnectionOptions.localTunnelIp());
+    }
     if (createTransitGatewayConnectionOptions.name() != null) {
       contentJson.addProperty("name", createTransitGatewayConnectionOptions.name());
+    }
+    if (createTransitGatewayConnectionOptions.networkAccountId() != null) {
+      contentJson.addProperty("network_account_id", createTransitGatewayConnectionOptions.networkAccountId());
     }
     if (createTransitGatewayConnectionOptions.networkId() != null) {
       contentJson.addProperty("network_id", createTransitGatewayConnectionOptions.networkId());
     }
-    if (createTransitGatewayConnectionOptions.networkAccountId() != null) {
-      contentJson.addProperty("network_account_id", createTransitGatewayConnectionOptions.networkAccountId());
+    if (createTransitGatewayConnectionOptions.remoteBgpAsn() != null) {
+      contentJson.addProperty("remote_bgp_asn", createTransitGatewayConnectionOptions.remoteBgpAsn());
+    }
+    if (createTransitGatewayConnectionOptions.remoteGatewayIp() != null) {
+      contentJson.addProperty("remote_gateway_ip", createTransitGatewayConnectionOptions.remoteGatewayIp());
+    }
+    if (createTransitGatewayConnectionOptions.remoteTunnelIp() != null) {
+      contentJson.addProperty("remote_tunnel_ip", createTransitGatewayConnectionOptions.remoteTunnelIp());
+    }
+    if (createTransitGatewayConnectionOptions.zone() != null) {
+      contentJson.add("zone", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayConnectionOptions.zone()));
     }
     builder.bodyJson(contentJson);
     ResponseConverter<TransitGatewayConnectionCust> responseConverter =
@@ -432,7 +511,6 @@ public class TransitGatewayApis extends BaseService {
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
-
     builder.query("version", this.version);
     final JsonObject contentJson = new JsonObject();
     contentJson.addProperty("action", createTransitGatewayConnectionActionsOptions.action());
@@ -457,9 +535,7 @@ public class TransitGatewayApis extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (listGatewayLocationsOptions != null) {
-      builder.query("version", this.version);
-    }
+    builder.query("version", this.version);
     ResponseConverter<TSCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TSCollection>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
