@@ -1,3 +1,17 @@
+# [0.17.0](https://github.com/IBM/networking-java-sdk/compare/0.16.0...0.17.0) (2021-06-17)
+
+
+### Features
+
+* GRE tunnel support for Transit Gateway ([#28](https://github.com/IBM/networking-java-sdk/issues/28)) ([b8c48b7](https://github.com/IBM/networking-java-sdk/commit/b8c48b7d5965f1a84167388b13ad38c9f24be1c1))
+
+# [0.16.0](https://github.com/IBM/networking-java-sdk/compare/0.15.0...0.16.0) (2021-06-03)
+
+
+### Features
+
+* **DirectLiink:** add the authentication_key for BGP MD5 authentication ([cfa7cb6](https://github.com/IBM/networking-java-sdk/commit/cfa7cb6b1acc3cd4036fb574365a047bfa1c3b15))
+
 # [0.15.0](https://github.com/IBM/networking-java-sdk/compare/0.14.0...0.15.0) (2021-04-28)
 
 

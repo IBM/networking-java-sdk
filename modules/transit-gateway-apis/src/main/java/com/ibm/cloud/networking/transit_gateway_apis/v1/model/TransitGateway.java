@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -23,7 +23,8 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class TransitGateway extends GenericModel {
 
   /**
-   * The status of the Transit Gateway.
+   * The status of the Transit Gateway. The list of enumerated values for this property may expand in the future. Code
+   * and processes using this field must tolerate unexpected values.
    */
   public interface Status {
     /** available. */
@@ -130,7 +131,8 @@ public class TransitGateway extends GenericModel {
   /**
    * Gets the status.
    *
-   * The status of the Transit Gateway.
+   * The status of the Transit Gateway. The list of enumerated values for this property may expand in the future. Code
+   * and processes using this field must tolerate unexpected values.
    *
    * @return the status
    */

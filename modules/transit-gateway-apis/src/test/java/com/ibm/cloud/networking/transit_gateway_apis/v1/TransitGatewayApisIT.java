@@ -136,7 +136,10 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		}
 
 		// Construct an instance of the ListTransitGatewaysOptions model
-		ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions();
+		ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions.Builder()
+		.limit(Long.valueOf("50"))
+		.start("")
+		.build();
 	    // Invoke operation with valid options model (positive test)
 	    Response<TransitGatewayCollection> res = testService.listTransitGateways(listTransitGatewaysOptionsModel).execute();
 	    assertNotNull(res);
@@ -313,7 +316,10 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	}
 	private void preTestCleanup(String name) throws InterruptedException {
 		// Construct an instance of the ListTransitGatewaysOptions model
-		ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions();
+		ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions.Builder()
+		.limit(Long.valueOf("50"))
+		.start("")
+		.build();
 	    // Invoke operation with valid options model (positive test)
 	    Response<TransitGatewayCollection> res = testService.listTransitGateways(listTransitGatewaysOptionsModel).execute();
 	    assertNotNull(res);
