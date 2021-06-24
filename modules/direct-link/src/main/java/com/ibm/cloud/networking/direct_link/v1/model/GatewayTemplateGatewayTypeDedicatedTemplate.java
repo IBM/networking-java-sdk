@@ -32,6 +32,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
    * Builder.
    */
   public static class Builder {
+    private GatewayTemplateAuthenticationKey authenticationKey;
     private Long bgpAsn;
     private String bgpBaseCidr;
     private String bgpCerCidr;
@@ -49,6 +50,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     private GatewayMacsecConfigTemplate macsecConfig;
 
     public Builder(GatewayTemplate gatewayTemplateGatewayTypeDedicatedTemplate) {
+      this.authenticationKey = gatewayTemplateGatewayTypeDedicatedTemplate.authenticationKey;
       this.bgpAsn = gatewayTemplateGatewayTypeDedicatedTemplate.bgpAsn;
       this.bgpBaseCidr = gatewayTemplateGatewayTypeDedicatedTemplate.bgpBaseCidr;
       this.bgpCerCidr = gatewayTemplateGatewayTypeDedicatedTemplate.bgpCerCidr;
@@ -106,6 +108,17 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
      */
     public GatewayTemplateGatewayTypeDedicatedTemplate build() {
       return new GatewayTemplateGatewayTypeDedicatedTemplate(this);
+    }
+
+    /**
+     * Set the authenticationKey.
+     *
+     * @param authenticationKey the authenticationKey
+     * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
+     */
+    public Builder authenticationKey(GatewayTemplateAuthenticationKey authenticationKey) {
+      this.authenticationKey = authenticationKey;
+      return this;
     }
 
     /**
@@ -295,6 +308,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       "customerName cannot be null");
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.locationName,
       "locationName cannot be null");
+    authenticationKey = builder.authenticationKey;
     bgpAsn = builder.bgpAsn;
     bgpBaseCidr = builder.bgpBaseCidr;
     bgpCerCidr = builder.bgpCerCidr;

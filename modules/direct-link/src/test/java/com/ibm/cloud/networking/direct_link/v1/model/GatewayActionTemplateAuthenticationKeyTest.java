@@ -15,13 +15,10 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -35,15 +32,15 @@ public class GatewayActionTemplateAuthenticationKeyTest {
   @Test
   public void testGatewayActionTemplateAuthenticationKey() throws Throwable {
     GatewayActionTemplateAuthenticationKey gatewayActionTemplateAuthenticationKeyModel = new GatewayActionTemplateAuthenticationKey.Builder()
-      .crn("crn:v1:staging:public:kms:us-south:a/3b1bd7fa2bc3406ea70ba4ade8aa3f1b:6f2b3d69-9e70-46e6-bcaa-f96ecc232cbc:key:4f9d186a-5cc1-4305-94fc-af183ddf65bc")
+      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
       .build();
-    assertEquals(gatewayActionTemplateAuthenticationKeyModel.crn(), "crn:v1:staging:public:kms:us-south:a/3b1bd7fa2bc3406ea70ba4ade8aa3f1b:6f2b3d69-9e70-46e6-bcaa-f96ecc232cbc:key:4f9d186a-5cc1-4305-94fc-af183ddf65bc");
+    assertEquals(gatewayActionTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
 
     String json = TestUtilities.serialize(gatewayActionTemplateAuthenticationKeyModel);
 
     GatewayActionTemplateAuthenticationKey gatewayActionTemplateAuthenticationKeyModelNew = TestUtilities.deserialize(json, GatewayActionTemplateAuthenticationKey.class);
     assertTrue(gatewayActionTemplateAuthenticationKeyModelNew instanceof GatewayActionTemplateAuthenticationKey);
-    assertEquals(gatewayActionTemplateAuthenticationKeyModelNew.crn(), "crn:v1:staging:public:kms:us-south:a/3b1bd7fa2bc3406ea70ba4ade8aa3f1b:6f2b3d69-9e70-46e6-bcaa-f96ecc232cbc:key:4f9d186a-5cc1-4305-94fc-af183ddf65bc");
+    assertEquals(gatewayActionTemplateAuthenticationKeyModelNew.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

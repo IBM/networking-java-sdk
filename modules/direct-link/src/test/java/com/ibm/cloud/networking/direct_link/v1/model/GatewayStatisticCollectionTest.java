@@ -16,13 +16,11 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatistic;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatisticCollection;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 

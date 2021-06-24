@@ -34,6 +34,8 @@ public class GatewayTemplate extends GenericModel {
     String DEDICATED = "dedicated";
   }
 
+  @SerializedName("authentication_key")
+  protected GatewayTemplateAuthenticationKey authenticationKey;
   @SerializedName("bgp_asn")
   protected Long bgpAsn;
   @SerializedName("bgp_base_cidr")
@@ -63,6 +65,20 @@ public class GatewayTemplate extends GenericModel {
   protected GatewayPortIdentity port;
 
   protected GatewayTemplate() {
+  }
+
+  /**
+   * Gets the authenticationKey.
+   *
+   * The identity of the standard key to use for BGP MD5 authentication key.
+   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
+   * in length.
+   * To clear the optional `authentication_key` field patch its crn to `""`.
+   *
+   * @return the authenticationKey
+   */
+  public GatewayTemplateAuthenticationKey authenticationKey() {
+    return authenticationKey;
   }
 
   /**

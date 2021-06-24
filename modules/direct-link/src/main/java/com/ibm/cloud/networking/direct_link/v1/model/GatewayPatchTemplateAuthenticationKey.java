@@ -19,7 +19,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  * base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
  * `authentication_key` field patch its crn to `""`.
  */
-public class GatewayActionTemplateAuthenticationKey extends GenericModel {
+public class GatewayPatchTemplateAuthenticationKey extends GenericModel {
 
   protected String crn;
 
@@ -29,8 +29,8 @@ public class GatewayActionTemplateAuthenticationKey extends GenericModel {
   public static class Builder {
     private String crn;
 
-    private Builder(GatewayActionTemplateAuthenticationKey gatewayActionTemplateAuthenticationKey) {
-      this.crn = gatewayActionTemplateAuthenticationKey.crn;
+    private Builder(GatewayPatchTemplateAuthenticationKey gatewayPatchTemplateAuthenticationKey) {
+      this.crn = gatewayPatchTemplateAuthenticationKey.crn;
     }
 
     /**
@@ -49,19 +49,19 @@ public class GatewayActionTemplateAuthenticationKey extends GenericModel {
     }
 
     /**
-     * Builds a GatewayActionTemplateAuthenticationKey.
+     * Builds a GatewayPatchTemplateAuthenticationKey.
      *
-     * @return the new GatewayActionTemplateAuthenticationKey instance
+     * @return the new GatewayPatchTemplateAuthenticationKey instance
      */
-    public GatewayActionTemplateAuthenticationKey build() {
-      return new GatewayActionTemplateAuthenticationKey(this);
+    public GatewayPatchTemplateAuthenticationKey build() {
+      return new GatewayPatchTemplateAuthenticationKey(this);
     }
 
     /**
      * Set the crn.
      *
      * @param crn the crn
-     * @return the GatewayActionTemplateAuthenticationKey builder
+     * @return the GatewayPatchTemplateAuthenticationKey builder
      */
     public Builder crn(String crn) {
       this.crn = crn;
@@ -69,7 +69,7 @@ public class GatewayActionTemplateAuthenticationKey extends GenericModel {
     }
   }
 
-  protected GatewayActionTemplateAuthenticationKey(Builder builder) {
+  protected GatewayPatchTemplateAuthenticationKey(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.crn,
       "crn cannot be null");
     crn = builder.crn;
@@ -78,7 +78,7 @@ public class GatewayActionTemplateAuthenticationKey extends GenericModel {
   /**
    * New builder.
    *
-   * @return a GatewayActionTemplateAuthenticationKey builder
+   * @return a GatewayPatchTemplateAuthenticationKey builder
    */
   public Builder newBuilder() {
     return new Builder(this);

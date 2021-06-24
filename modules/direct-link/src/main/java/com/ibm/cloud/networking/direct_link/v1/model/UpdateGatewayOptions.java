@@ -35,6 +35,7 @@ public class UpdateGatewayOptions extends GenericModel {
   }
 
   protected String id;
+  protected GatewayPatchTemplateAuthenticationKey authenticationKey;
   protected Boolean global;
   protected String loaRejectReason;
   protected GatewayMacsecConfigPatchTemplate macsecConfig;
@@ -48,6 +49,7 @@ public class UpdateGatewayOptions extends GenericModel {
    */
   public static class Builder {
     private String id;
+    private GatewayPatchTemplateAuthenticationKey authenticationKey;
     private Boolean global;
     private String loaRejectReason;
     private GatewayMacsecConfigPatchTemplate macsecConfig;
@@ -58,6 +60,7 @@ public class UpdateGatewayOptions extends GenericModel {
 
     private Builder(UpdateGatewayOptions updateGatewayOptions) {
       this.id = updateGatewayOptions.id;
+      this.authenticationKey = updateGatewayOptions.authenticationKey;
       this.global = updateGatewayOptions.global;
       this.loaRejectReason = updateGatewayOptions.loaRejectReason;
       this.macsecConfig = updateGatewayOptions.macsecConfig;
@@ -99,6 +102,17 @@ public class UpdateGatewayOptions extends GenericModel {
      */
     public Builder id(String id) {
       this.id = id;
+      return this;
+    }
+
+    /**
+     * Set the authenticationKey.
+     *
+     * @param authenticationKey the authenticationKey
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder authenticationKey(GatewayPatchTemplateAuthenticationKey authenticationKey) {
+      this.authenticationKey = authenticationKey;
       return this;
     }
 
@@ -184,6 +198,7 @@ public class UpdateGatewayOptions extends GenericModel {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
     id = builder.id;
+    authenticationKey = builder.authenticationKey;
     global = builder.global;
     loaRejectReason = builder.loaRejectReason;
     macsecConfig = builder.macsecConfig;
@@ -211,6 +226,20 @@ public class UpdateGatewayOptions extends GenericModel {
    */
   public String id() {
     return id;
+  }
+
+  /**
+   * Gets the authenticationKey.
+   *
+   * The identity of the standard key to use for BGP MD5 authentication key.
+   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
+   * in length.
+   * To clear the optional `authentication_key` field patch its crn to `""`.
+   *
+   * @return the authenticationKey
+   */
+  public GatewayPatchTemplateAuthenticationKey authenticationKey() {
+    return authenticationKey;
   }
 
   /**

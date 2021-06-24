@@ -15,13 +15,10 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.ListPortsOptions;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -36,11 +33,11 @@ public class ListPortsOptionsTest {
   public void testListPortsOptions() throws Throwable {
     ListPortsOptions listPortsOptionsModel = new ListPortsOptions.Builder()
       .start("testString")
-      .limit(Long.valueOf("26"))
+      .limit(Long.valueOf("1"))
       .locationName("testString")
       .build();
     assertEquals(listPortsOptionsModel.start(), "testString");
-    assertEquals(listPortsOptionsModel.limit(), Long.valueOf("26"));
+    assertEquals(listPortsOptionsModel.limit(), Long.valueOf("1"));
     assertEquals(listPortsOptionsModel.locationName(), "testString");
   }
 }
