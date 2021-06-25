@@ -1,3 +1,10 @@
+# [0.18.0](https://github.com/IBM/networking-java-sdk/compare/0.17.0...0.18.0) (2021-06-25)
+
+
+### Features
+
+* **DirectLink:** implement BGP MD5 changes ([244b32c](https://github.com/IBM/networking-java-sdk/commit/244b32c5e1c30de2c3173d42624acfc724688bd0))
+
 # [0.17.0](https://github.com/IBM/networking-java-sdk/compare/0.16.0...0.17.0) (2021-06-17)
 
 
