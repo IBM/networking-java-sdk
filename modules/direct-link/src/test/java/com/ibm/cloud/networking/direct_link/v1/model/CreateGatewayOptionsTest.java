@@ -17,16 +17,14 @@ import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -39,6 +37,16 @@ public class CreateGatewayOptionsTest {
 
   @Test
   public void testCreateGatewayOptions() throws Throwable {
+    GatewayTemplateAuthenticationKey gatewayTemplateAuthenticationKeyModel = new GatewayTemplateAuthenticationKey.Builder()
+      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+      .build();
+    assertEquals(gatewayTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
+
+    ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
+      .id("56969d6043e9465c883cb9f7363e78e8")
+      .build();
+    assertEquals(resourceGroupIdentityModel.id(), "56969d6043e9465c883cb9f7363e78e8");
+
     GatewayMacsecConfigTemplateFallbackCak gatewayMacsecConfigTemplateFallbackCakModel = new GatewayMacsecConfigTemplateFallbackCak.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
@@ -60,12 +68,8 @@ public class CreateGatewayOptionsTest {
     assertEquals(gatewayMacsecConfigTemplateModel.primaryCak(), gatewayMacsecConfigTemplatePrimaryCakModel);
     assertEquals(gatewayMacsecConfigTemplateModel.windowSize(), Long.valueOf("148809600"));
 
-    ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
-      .id("56969d6043e9465c883cb9f7363e78e8")
-      .build();
-    assertEquals(resourceGroupIdentityModel.id(), "56969d6043e9465c883cb9f7363e78e8");
-
     GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
+      .authenticationKey(gatewayTemplateAuthenticationKeyModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpBaseCidr("testString")
       .bgpCerCidr("169.254.0.10/30")
@@ -82,6 +86,7 @@ public class CreateGatewayOptionsTest {
       .locationName("dal03")
       .macsecConfig(gatewayMacsecConfigTemplateModel)
       .build();
+    assertEquals(gatewayTemplateModel.authenticationKey(), gatewayTemplateAuthenticationKeyModel);
     assertEquals(gatewayTemplateModel.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateModel.bgpBaseCidr(), "testString");
     assertEquals(gatewayTemplateModel.bgpCerCidr(), "169.254.0.10/30");

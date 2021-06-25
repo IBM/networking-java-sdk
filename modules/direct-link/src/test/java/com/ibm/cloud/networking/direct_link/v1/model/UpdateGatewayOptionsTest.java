@@ -16,15 +16,13 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplateFallbackCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplatePrimaryCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayPatchTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -37,6 +35,11 @@ public class UpdateGatewayOptionsTest {
 
   @Test
   public void testUpdateGatewayOptions() throws Throwable {
+    GatewayPatchTemplateAuthenticationKey gatewayPatchTemplateAuthenticationKeyModel = new GatewayPatchTemplateAuthenticationKey.Builder()
+      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+      .build();
+    assertEquals(gatewayPatchTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
+
     GatewayMacsecConfigPatchTemplateFallbackCak gatewayMacsecConfigPatchTemplateFallbackCakModel = new GatewayMacsecConfigPatchTemplateFallbackCak.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
@@ -60,6 +63,7 @@ public class UpdateGatewayOptionsTest {
 
     UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
       .id("testString")
+      .authenticationKey(gatewayPatchTemplateAuthenticationKeyModel)
       .global(true)
       .loaRejectReason("The port mentioned was incorrect")
       .macsecConfig(gatewayMacsecConfigPatchTemplateModel)
@@ -69,6 +73,7 @@ public class UpdateGatewayOptionsTest {
       .speedMbps(Long.valueOf("1000"))
       .build();
     assertEquals(updateGatewayOptionsModel.id(), "testString");
+    assertEquals(updateGatewayOptionsModel.authenticationKey(), gatewayPatchTemplateAuthenticationKeyModel);
     assertEquals(updateGatewayOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(updateGatewayOptionsModel.loaRejectReason(), "The port mentioned was incorrect");
     assertEquals(updateGatewayOptionsModel.macsecConfig(), gatewayMacsecConfigPatchTemplateModel);

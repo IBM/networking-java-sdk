@@ -69,6 +69,8 @@ import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayPatchTemplateAuthenticationKey;
 
 /**
  * Integration test class for the DirectLink service.
@@ -122,6 +124,9 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		// Load up the config properties for this service.
 		config = CredentialUtils.getServiceProperties(serviceName);
+		System.out.println("Config =------- ==== " + config.size());
+		config.forEach((key, value) -> System.out.println(key + ":" + value));
+		System.out.println("Config Log End =============  ");
 
 		String version;
 		// Date date = new Date();  
@@ -137,26 +142,55 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 	@AfterClass
 	public void cleanup() {
-		// Construct an instance of the DeleteGatewayOptions model
-		if (gatewayId == null) {
-			return;
-		}
+		deleteGateways();
+	}
 
-		// Delete any VCs
-		deleteVirtualConnection(gatewayId, classicVcId);
-		deleteVirtualConnection(gatewayId, vpcVcId);
-
-		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId).build();
+	private void deleteGateways() {
+		// ********** List all gateways ************* 
+		ListGatewaysOptions listGatewaysOptionsModel = new ListGatewaysOptions();
 
 		// Invoke operation with valid options model (positive test)
-		Response<Void> Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
-		assertNotNull(Delresponse);
-		assertEquals(204, Delresponse.getStatusCode());
+		Response<GatewayCollection> lisResp = testService.listGateways(listGatewaysOptionsModel).execute();
+		assertNotNull(lisResp); assertEquals(200, lisResp.getStatusCode());
+		
+		GatewayCollection lisresponseObj = lisResp.getResult();
+		assertNotNull(lisresponseObj); 
+		assertNotEquals(0,lisresponseObj.getGateways().size());
 
-		Void delResponseObj = Delresponse.getResult();
+		List<Gateway> gateways = lisresponseObj.getGateways();
+		for(Gateway gateway: gateways){
+			if(!gateway.getOperationalStatus().equalsIgnoreCase("delete_pending") && gateway.getName().toLowerCase().contains("java-int-sdk") && !gateway.isProviderApiManaged())
+			{
+				// Check if it has any VC connected
+				ListGatewayVirtualConnectionsOptions listGatewayVirtualConnectionsOptionsModel = new ListGatewayVirtualConnectionsOptions.Builder()
+				.gatewayId(gateway.getId()).build();
 
-		// Response does not have a return type. Check that the result is null.
-		assertNull(delResponseObj);
+				// Invoke operation with valid options model (positive test)
+				Response<GatewayVirtualConnectionCollection> resp = testService
+						.listGatewayVirtualConnections(listGatewayVirtualConnectionsOptionsModel).execute();
+				assertNotNull(resp);
+				assertEquals(200, resp.getStatusCode());
+				GatewayVirtualConnectionCollection respObj = resp.getResult();
+				
+				if (respObj.getVirtualConnections().size() > 0) {
+					List<GatewayVirtualConnection> vcs = respObj.getVirtualConnections();
+
+					for(GatewayVirtualConnection vc: vcs) {
+						deleteVirtualConnection(gateway.getId(), vc.getId());
+					} 
+				}
+
+				// Delete the DL GW 
+				DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gateway.getId()).build();
+				Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
+				assertNotNull(Delresponse); 
+				assertEquals(204, Delresponse.getStatusCode());
+				
+				Void delResponseObj = Delresponse.getResult();
+				assertNull(delResponseObj);
+			}
+		
+		}
 	}
 
 	// Issue virtual connection delete API and poll for VC to be deleted
@@ -261,12 +295,12 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// ********** List all gateways ************* 
 		ListGatewaysOptions listGatewaysOptionsModel = new ListGatewaysOptions();
 	  
-	  // Invoke operation with valid options model (positive test)
-	  Response<GatewayCollection> lisResp = testService.listGateways(listGatewaysOptionsModel).execute();
-	  assertNotNull(lisResp); assertEquals(200, lisResp.getStatusCode());
-	  
-	  GatewayCollection lisresponseObj = lisResp.getResult();
-	  assertNotNull(lisresponseObj); assertNotEquals(0,lisresponseObj.getGateways().size());
+		// Invoke operation with valid options model (positive test)
+		Response<GatewayCollection> lisResp = testService.listGateways(listGatewaysOptionsModel).execute();
+		assertNotNull(lisResp); assertEquals(200, lisResp.getStatusCode());
+		
+		GatewayCollection lisresponseObj = lisResp.getResult();
+		assertNotNull(lisresponseObj); assertNotEquals(0,lisresponseObj.getGateways().size());
 	  
 		// ********** Patch the gateway using attributes that can be changed with the current gw status ************* 
 		// Construct an instance of the UpdateGatewayOptions model 
@@ -321,7 +355,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		Void delResponseObj = Delresponse.getResult(); // Response does not have a return type. Check that the result is null. 
 		assertNull(delResponseObj);
 	  
-	  gatewayId = null; // already cleaned up System.out.
+	  	gatewayId = null; // already cleaned up System.out.
 	}
 	 
 	// @Test(dependsOnMethods = "testDedicatedGatewayOptions")
@@ -821,7 +855,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// Response does not have a return type. Check that the result is null.
 		assertNull(delResponseObj);
 		gatewayId = null;
- }
+ 	}
    
 	@Test (dependsOnMethods = "testCompletionNotice")
 	public void testOfferings() {
@@ -903,4 +937,82 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		assertNotNull(resObj);
 		assertNotEquals(0,resObj.getSpeeds().size());
 	}
+
+	@Test()
+	public void testDirectLinkGatewayWithMD5(){
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+		assertNotNull(testService);
+		String locationName = config.get("LOCATION_NAME");
+		String gatewayName = "JAVA-INT-SDK-DEDICATED-MD5-"+timestamp; 
+		Long bgpAsn = 64999L; 
+		String bgpBaseCidr = "169.254.0.0/16"; 
+		String crossConnectRouter =	"LAB-xcr01.dal09"; 
+		boolean global = true; 
+		Long speedMbps = 1000L; 
+		boolean metered = false; 
+		String carrierName = "carrier1"; 
+		String customerName = "customer1"; 
+		String gatewayType = "dedicated";
+
+		String authenticationCRN = config.get("AUTHENTICATION_KEY");
+
+		GatewayTemplateAuthenticationKey authKey = new GatewayTemplateAuthenticationKey.Builder(authenticationCRN).build();
+	  
+		GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
+			.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).bgpCerCidr("10.254.30.78/30").bgpIbmCidr("10.254.30.77/30")
+			.global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
+			.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName) 
+			.locationName(locationName).authenticationKey(authKey).build();
+	  
+	  	// ***************** Create dedicated Gateway ********************* //
+		// Construct an instance of the CreateGatewayOptions model 
+		CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder().gatewayTemplate(gatewayTemplateModel).build();
+	  
+		// Invoke operation with valid options model (positive test)
+		Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
+			assertNotNull(response); 
+			assertEquals(201, 
+			response.getStatusCode());
+	  
+		Gateway responseObj = response.getResult(); 
+		assertNotNull(responseObj);
+		assertEquals(responseObj.getName(), gatewayName);
+		assertEquals(responseObj.getAuthenticationKey().getCrn(), authenticationCRN);
+		
+		// save gw id for clean up routine if we terminate
+	  	gatewayId = responseObj.getId();
+	  
+		// ********** Clear the authentication key using Patch gateway ************* 
+		// Construct an instance of the UpdateGatewayOptions model 
+
+		GatewayPatchTemplateAuthenticationKey patchAuthKey = new GatewayPatchTemplateAuthenticationKey.Builder("").build();
+		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+			.authenticationKey(patchAuthKey).build();
+			
+		// Invoke operation with valid options model (positive test) 
+		Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
+		assertNotNull(updateResponse); 
+		assertEquals(200, updateResponse.getStatusCode());
+	  
+		Gateway updateResponseObj = updateResponse.getResult();
+		assertNotNull(updateResponseObj);
+		assertEquals(updateResponseObj.getId(), gatewayId);
+		assertNull(updateResponseObj.getAuthenticationKey());
+		assertEquals(updateResponseObj.getName(), gatewayName);
+
+		// Delete the dedicated GW 
+		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId) .build(); 
+			
+		//  Invoke operation with valid options model (positive test) 
+		Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
+		assertNotNull(Delresponse); 
+		assertEquals(204, Delresponse.getStatusCode());
+		
+		Void delResponseObj = Delresponse.getResult(); // Response does not have a return type. Check that the result is null. 
+		assertNull(delResponseObj);
+	  
+	  	gatewayId = null; // already cleaned up System.out.
+
+	}
+
 }

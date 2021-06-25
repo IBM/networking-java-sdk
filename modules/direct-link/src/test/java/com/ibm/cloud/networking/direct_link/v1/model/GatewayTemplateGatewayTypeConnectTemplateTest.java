@@ -14,16 +14,14 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeConnectTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -36,17 +34,23 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
 
   @Test
   public void testGatewayTemplateGatewayTypeConnectTemplate() throws Throwable {
-    GatewayPortIdentity gatewayPortIdentityModel = new GatewayPortIdentity.Builder()
-      .id("fffdcb1a-fee4-41c7-9e11-9cd99e65c777")
+    GatewayTemplateAuthenticationKey gatewayTemplateAuthenticationKeyModel = new GatewayTemplateAuthenticationKey.Builder()
+      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
       .build();
-    assertEquals(gatewayPortIdentityModel.id(), "fffdcb1a-fee4-41c7-9e11-9cd99e65c777");
+    assertEquals(gatewayTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
 
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
       .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
     assertEquals(resourceGroupIdentityModel.id(), "56969d6043e9465c883cb9f7363e78e8");
 
+    GatewayPortIdentity gatewayPortIdentityModel = new GatewayPortIdentity.Builder()
+      .id("fffdcb1a-fee4-41c7-9e11-9cd99e65c777")
+      .build();
+    assertEquals(gatewayPortIdentityModel.id(), "fffdcb1a-fee4-41c7-9e11-9cd99e65c777");
+
     GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateGatewayTypeConnectTemplateModel = new GatewayTemplateGatewayTypeConnectTemplate.Builder()
+      .authenticationKey(gatewayTemplateAuthenticationKeyModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpBaseCidr("testString")
       .bgpCerCidr("169.254.0.10/30")
@@ -59,6 +63,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
       .type("dedicated")
       .port(gatewayPortIdentityModel)
       .build();
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.authenticationKey(), gatewayTemplateAuthenticationKeyModel);
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpBaseCidr(), "testString");
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpCerCidr(), "169.254.0.10/30");
@@ -75,6 +80,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
 
     GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateGatewayTypeConnectTemplateModelNew = TestUtilities.deserialize(json, GatewayTemplateGatewayTypeConnectTemplate.class);
     assertTrue(gatewayTemplateGatewayTypeConnectTemplateModelNew instanceof GatewayTemplateGatewayTypeConnectTemplate);
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.authenticationKey().toString(), gatewayTemplateAuthenticationKeyModel.toString());
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpBaseCidr(), "testString");
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpCerCidr(), "169.254.0.10/30");

@@ -18,15 +18,12 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateAuthen
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -40,19 +37,19 @@ public class CreateGatewayActionOptionsTest {
   @Test
   public void testCreateGatewayActionOptions() throws Throwable {
     GatewayActionTemplateAuthenticationKey gatewayActionTemplateAuthenticationKeyModel = new GatewayActionTemplateAuthenticationKey.Builder()
-      .crn("crn:v1:staging:public:kms:us-south:a/3b1bd7fa2bc3406ea70ba4ade8aa3f1b:6f2b3d69-9e70-46e6-bcaa-f96ecc232cbc:key:4f9d186a-5cc1-4305-94fc-af183ddf65bc")
+      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
       .build();
-    assertEquals(gatewayActionTemplateAuthenticationKeyModel.crn(), "crn:v1:staging:public:kms:us-south:a/3b1bd7fa2bc3406ea70ba4ade8aa3f1b:6f2b3d69-9e70-46e6-bcaa-f96ecc232cbc:key:4f9d186a-5cc1-4305-94fc-af183ddf65bc");
-
-    GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate gatewayActionTemplateUpdatesItemModel = new GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate.Builder()
-      .speedMbps(Long.valueOf("500"))
-      .build();
-    assertEquals(gatewayActionTemplateUpdatesItemModel.speedMbps(), Long.valueOf("500"));
+    assertEquals(gatewayActionTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
 
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
       .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
     assertEquals(resourceGroupIdentityModel.id(), "56969d6043e9465c883cb9f7363e78e8");
+
+    GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate gatewayActionTemplateUpdatesItemModel = new GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate.Builder()
+      .speedMbps(Long.valueOf("500"))
+      .build();
+    assertEquals(gatewayActionTemplateUpdatesItemModel.speedMbps(), Long.valueOf("500"));
 
     CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
       .id("testString")
@@ -61,7 +58,7 @@ public class CreateGatewayActionOptionsTest {
       .global(true)
       .metered(false)
       .resourceGroup(resourceGroupIdentityModel)
-      .updates(new ArrayList<GatewayActionTemplateUpdatesItem>(Arrays.asList(gatewayActionTemplateUpdatesItemModel)))
+      .updates(new java.util.ArrayList<GatewayActionTemplateUpdatesItem>(java.util.Arrays.asList(gatewayActionTemplateUpdatesItemModel)))
       .build();
     assertEquals(createGatewayActionOptionsModel.id(), "testString");
     assertEquals(createGatewayActionOptionsModel.action(), "create_gateway_approve");
@@ -69,7 +66,7 @@ public class CreateGatewayActionOptionsTest {
     assertEquals(createGatewayActionOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(createGatewayActionOptionsModel.metered(), Boolean.valueOf(false));
     assertEquals(createGatewayActionOptionsModel.resourceGroup(), resourceGroupIdentityModel);
-    assertEquals(createGatewayActionOptionsModel.updates(), new ArrayList<GatewayActionTemplateUpdatesItem>(Arrays.asList(gatewayActionTemplateUpdatesItemModel)));
+    assertEquals(createGatewayActionOptionsModel.updates(), new java.util.ArrayList<GatewayActionTemplateUpdatesItem>(java.util.Arrays.asList(gatewayActionTemplateUpdatesItemModel)));
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

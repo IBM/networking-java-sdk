@@ -146,13 +146,9 @@ public class Gateway extends GenericModel {
   /**
    * Gets the authenticationKey.
    *
-   * BGP MD5 authentication key.
-   *
-   * BGP MD5 keys must be type=standard.
-   *
+   * The identity of the standard key to use for BGP MD5 authentication key.
    * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
    * in length.
-   *
    * To clear the optional `authentication_key` field patch its crn to `""`.
    *
    * @return the authenticationKey

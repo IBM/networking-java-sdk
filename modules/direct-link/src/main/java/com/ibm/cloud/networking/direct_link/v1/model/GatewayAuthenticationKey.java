@@ -15,14 +15,9 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * BGP MD5 authentication key.
- *
- * BGP MD5 keys must be type=standard.
- *
- * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in
- * length.
- *
- * To clear the optional `authentication_key` field patch its crn to `""`.
+ * The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
+ * base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
+ * `authentication_key` field patch its crn to `""`.
  */
 public class GatewayAuthenticationKey extends GenericModel {
 
@@ -31,7 +26,9 @@ public class GatewayAuthenticationKey extends GenericModel {
   /**
    * Gets the crn.
    *
-   * connectivity association key crn.
+   * The CRN of the [Key Protect Standard
+   * Key](https://cloud.ibm.com/docs/key-protect?topic=key-protect-getting-started-tutorial) or [Hyper Protect Crypto
+   * Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started) for this resource.
    *
    * @return the crn
    */
