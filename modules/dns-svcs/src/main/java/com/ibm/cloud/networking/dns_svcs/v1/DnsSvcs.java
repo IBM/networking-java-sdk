@@ -18,6 +18,13 @@
 package com.ibm.cloud.networking.dns_svcs.v1;
 
 import com.google.gson.JsonObject;
+import com.ibm.cloud.sdk.core.http.RequestBuilder;
+import com.ibm.cloud.sdk.core.http.ResponseConverter;
+import com.ibm.cloud.sdk.core.http.ServiceCall;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
+import com.ibm.cloud.sdk.core.service.BaseService;
+import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import com.ibm.cloud.networking.common.SdkCommon;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateDnszoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateLoadBalancerOptions;
@@ -60,15 +67,35 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdatePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateResourceRecordOptions;
-import com.ibm.cloud.sdk.core.http.RequestBuilder;
-import com.ibm.cloud.sdk.core.http.ResponseConverter;
-import com.ibm.cloud.sdk.core.http.ServiceCall;
-import com.ibm.cloud.sdk.core.security.Authenticator;
-import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
-import com.ibm.cloud.sdk.core.service.BaseService;
-import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
+
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.HashMap;
+
+
+
+
+import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolver;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolverList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListForwardingRulesOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.Location;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateForwardingRuleOptions;
+
+
+
 
 /**
  * DNS Services API.
@@ -1155,6 +1182,430 @@ public class DnsSvcs extends BaseService {
     builder.bodyJson(contentJson);
     ResponseConverter<Monitor> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Monitor>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List custom resolvers.
+   *
+   * List the custom resolvers.
+   *
+   * @param listCustomResolversOptions the {@link ListCustomResolversOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link CustomResolverList}
+   */
+  public ServiceCall<CustomResolverList> listCustomResolvers(ListCustomResolversOptions listCustomResolversOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listCustomResolversOptions,
+      "listCustomResolversOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listCustomResolversOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listCustomResolvers");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (listCustomResolversOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", listCustomResolversOptions.xCorrelationId());
+    }
+    ResponseConverter<CustomResolverList> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<CustomResolverList>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Create a custom resolver.
+   *
+   * Create a custom resolver.
+   *
+   * @param createCustomResolverOptions the {@link CreateCustomResolverOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link CustomResolver}
+   */
+  public ServiceCall<CustomResolver> createCustomResolver(CreateCustomResolverOptions createCustomResolverOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createCustomResolverOptions,
+      "createCustomResolverOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createCustomResolverOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createCustomResolver");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (createCustomResolverOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", createCustomResolverOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (createCustomResolverOptions.name() != null) {
+      contentJson.addProperty("name", createCustomResolverOptions.name());
+    }
+    if (createCustomResolverOptions.description() != null) {
+      contentJson.addProperty("description", createCustomResolverOptions.description());
+    }
+    if (createCustomResolverOptions.locations() != null) {
+      contentJson.add("locations", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createCustomResolverOptions.locations()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<CustomResolver> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<CustomResolver>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Delete a custom resolver.
+   *
+   * Delete a custom resolver.
+   *
+   * @param deleteCustomResolverOptions the {@link DeleteCustomResolverOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteCustomResolver(DeleteCustomResolverOptions deleteCustomResolverOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteCustomResolverOptions,
+      "deleteCustomResolverOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deleteCustomResolverOptions.instanceId());
+    pathParamsMap.put("resolver_id", deleteCustomResolverOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deleteCustomResolver");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    if (deleteCustomResolverOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", deleteCustomResolverOptions.xCorrelationId());
+    }
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get a custom resolver.
+   *
+   * Get details of a custom resolver.
+   *
+   * @param getCustomResolverOptions the {@link GetCustomResolverOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link CustomResolver}
+   */
+  public ServiceCall<CustomResolver> getCustomResolver(GetCustomResolverOptions getCustomResolverOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getCustomResolverOptions,
+      "getCustomResolverOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getCustomResolverOptions.instanceId());
+    pathParamsMap.put("resolver_id", getCustomResolverOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getCustomResolver");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (getCustomResolverOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", getCustomResolverOptions.xCorrelationId());
+    }
+    ResponseConverter<CustomResolver> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<CustomResolver>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update the properties of a custom resolver.
+   *
+   * Update the properties of a custom resolver.
+   *
+   * @param updateCustomResolverOptions the {@link UpdateCustomResolverOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link CustomResolver}
+   */
+  public ServiceCall<CustomResolver> updateCustomResolver(UpdateCustomResolverOptions updateCustomResolverOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateCustomResolverOptions,
+      "updateCustomResolverOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateCustomResolverOptions.instanceId());
+    pathParamsMap.put("resolver_id", updateCustomResolverOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateCustomResolver");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (updateCustomResolverOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", updateCustomResolverOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (updateCustomResolverOptions.name() != null) {
+      contentJson.addProperty("name", updateCustomResolverOptions.name());
+    }
+    if (updateCustomResolverOptions.description() != null) {
+      contentJson.addProperty("description", updateCustomResolverOptions.description());
+    }
+    if (updateCustomResolverOptions.enabled() != null) {
+      contentJson.addProperty("enabled", updateCustomResolverOptions.enabled());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<CustomResolver> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<CustomResolver>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Add custom resolver location.
+   *
+   * Add custom resolver location.
+   *
+   * @param addCustomResolverLocationOptions the {@link AddCustomResolverLocationOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link Location}
+   */
+  public ServiceCall<Location> addCustomResolverLocation(AddCustomResolverLocationOptions addCustomResolverLocationOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(addCustomResolverLocationOptions,
+      "addCustomResolverLocationOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", addCustomResolverLocationOptions.instanceId());
+    pathParamsMap.put("resolver_id", addCustomResolverLocationOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/locations", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "addCustomResolverLocation");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (addCustomResolverLocationOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", addCustomResolverLocationOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (addCustomResolverLocationOptions.subnetCrn() != null) {
+      contentJson.addProperty("subnet_crn", addCustomResolverLocationOptions.subnetCrn());
+    }
+    if (addCustomResolverLocationOptions.enabled() != null) {
+      contentJson.addProperty("enabled", addCustomResolverLocationOptions.enabled());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<Location> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Location>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update custom resolver location.
+   *
+   * Update custom resolver location.
+   *
+   * @param updateCustomResolverLocationOptions the {@link UpdateCustomResolverLocationOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link Location}
+   */
+  public ServiceCall<Location> updateCustomResolverLocation(UpdateCustomResolverLocationOptions updateCustomResolverLocationOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateCustomResolverLocationOptions,
+      "updateCustomResolverLocationOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateCustomResolverLocationOptions.instanceId());
+    pathParamsMap.put("resolver_id", updateCustomResolverLocationOptions.resolverId());
+    pathParamsMap.put("location_id", updateCustomResolverLocationOptions.locationId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateCustomResolverLocation");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (updateCustomResolverLocationOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", updateCustomResolverLocationOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (updateCustomResolverLocationOptions.enabled() != null) {
+      contentJson.addProperty("enabled", updateCustomResolverLocationOptions.enabled());
+    }
+    if (updateCustomResolverLocationOptions.subnetCrn() != null) {
+      contentJson.addProperty("subnet_crn", updateCustomResolverLocationOptions.subnetCrn());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<Location> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Location>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Delete custom resolver location.
+   *
+   * Delete custom resolver location.
+   *
+   * @param deleteCustomResolverLocationOptions the {@link DeleteCustomResolverLocationOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteCustomResolverLocation(DeleteCustomResolverLocationOptions deleteCustomResolverLocationOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteCustomResolverLocationOptions,
+      "deleteCustomResolverLocationOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deleteCustomResolverLocationOptions.instanceId());
+    pathParamsMap.put("resolver_id", deleteCustomResolverLocationOptions.resolverId());
+    pathParamsMap.put("location_id", deleteCustomResolverLocationOptions.locationId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/locations/{location_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deleteCustomResolverLocation");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    if (deleteCustomResolverLocationOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", deleteCustomResolverLocationOptions.xCorrelationId());
+    }
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List forwarding rules.
+   *
+   * List the forwarding rules of the given custom resolver.
+   *
+   * @param listForwardingRulesOptions the {@link ListForwardingRulesOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ForwardingRuleList}
+   */
+  public ServiceCall<ForwardingRuleList> listForwardingRules(ListForwardingRulesOptions listForwardingRulesOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listForwardingRulesOptions,
+      "listForwardingRulesOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listForwardingRulesOptions.instanceId());
+    pathParamsMap.put("resolver_id", listForwardingRulesOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listForwardingRules");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (listForwardingRulesOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", listForwardingRulesOptions.xCorrelationId());
+    }
+    ResponseConverter<ForwardingRuleList> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ForwardingRuleList>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Create a forwarding rule.
+   *
+   * Create a forwarding rule for the given custom resolver.
+   *
+   * @param createForwardingRuleOptions the {@link CreateForwardingRuleOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ForwardingRule}
+   */
+  public ServiceCall<ForwardingRule> createForwardingRule(CreateForwardingRuleOptions createForwardingRuleOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createForwardingRuleOptions,
+      "createForwardingRuleOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createForwardingRuleOptions.instanceId());
+    pathParamsMap.put("resolver_id", createForwardingRuleOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createForwardingRule");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (createForwardingRuleOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", createForwardingRuleOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (createForwardingRuleOptions.description() != null) {
+      contentJson.addProperty("description", createForwardingRuleOptions.description());
+    }
+    if (createForwardingRuleOptions.type() != null) {
+      contentJson.addProperty("type", createForwardingRuleOptions.type());
+    }
+    if (createForwardingRuleOptions.match() != null) {
+      contentJson.addProperty("match", createForwardingRuleOptions.match());
+    }
+    if (createForwardingRuleOptions.forwardTo() != null) {
+      contentJson.add("forward_to", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createForwardingRuleOptions.forwardTo()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<ForwardingRule> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ForwardingRule>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Delete a forwarding rule.
+   *
+   * Delete a forwarding rule on the given custom resolver.
+   *
+   * @param deleteForwardingRuleOptions the {@link DeleteForwardingRuleOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteForwardingRule(DeleteForwardingRuleOptions deleteForwardingRuleOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteForwardingRuleOptions,
+      "deleteForwardingRuleOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deleteForwardingRuleOptions.instanceId());
+    pathParamsMap.put("resolver_id", deleteForwardingRuleOptions.resolverId());
+    pathParamsMap.put("rule_id", deleteForwardingRuleOptions.ruleId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deleteForwardingRule");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    if (deleteForwardingRuleOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", deleteForwardingRuleOptions.xCorrelationId());
+    }
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get a forwarding rule.
+   *
+   * Get details of a forwarding rule on the given custom resolver.
+   *
+   * @param getForwardingRuleOptions the {@link GetForwardingRuleOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ForwardingRule}
+   */
+  public ServiceCall<ForwardingRule> getForwardingRule(GetForwardingRuleOptions getForwardingRuleOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getForwardingRuleOptions,
+      "getForwardingRuleOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getForwardingRuleOptions.instanceId());
+    pathParamsMap.put("resolver_id", getForwardingRuleOptions.resolverId());
+    pathParamsMap.put("rule_id", getForwardingRuleOptions.ruleId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getForwardingRule");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (getForwardingRuleOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", getForwardingRuleOptions.xCorrelationId());
+    }
+    ResponseConverter<ForwardingRule> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ForwardingRule>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update the properties of a forwarding rule.
+   *
+   * Update the properties of a forwarding rule on the given custom resolver.
+   *
+   * @param updateForwardingRuleOptions the {@link UpdateForwardingRuleOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ForwardingRule}
+   */
+  public ServiceCall<ForwardingRule> updateForwardingRule(UpdateForwardingRuleOptions updateForwardingRuleOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateForwardingRuleOptions,
+      "updateForwardingRuleOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateForwardingRuleOptions.instanceId());
+    pathParamsMap.put("resolver_id", updateForwardingRuleOptions.resolverId());
+    pathParamsMap.put("rule_id", updateForwardingRuleOptions.ruleId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/forwarding_rules/{rule_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateForwardingRule");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (updateForwardingRuleOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", updateForwardingRuleOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (updateForwardingRuleOptions.description() != null) {
+      contentJson.addProperty("description", updateForwardingRuleOptions.description());
+    }
+    if (updateForwardingRuleOptions.match() != null) {
+      contentJson.addProperty("match", updateForwardingRuleOptions.match());
+    }
+    if (updateForwardingRuleOptions.forwardTo() != null) {
+      contentJson.add("forward_to", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateForwardingRuleOptions.forwardTo()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<ForwardingRule> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ForwardingRule>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

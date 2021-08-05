@@ -12,6 +12,12 @@
  */
 package com.ibm.cloud.networking.dns_svcs.v1;
 
+import com.ibm.cloud.sdk.core.http.Response;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
+import com.ibm.cloud.sdk.core.util.EnvironmentUtils;
 import com.ibm.cloud.networking.dns_svcs.v1.DnsSvcs;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateDnszoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateLoadBalancerOptions;
@@ -101,6 +107,49 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
+
+
+import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolver;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolverList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListForwardingRulesOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.Location;
+import com.ibm.cloud.networking.dns_svcs.v1.model.LocationInput;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateForwardingRuleOptions;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.testng.PowerMockTestCase;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+
+
+
 
 /**
  * Unit test class for the DnsSvcs service.
@@ -1793,6 +1842,708 @@ public class DnsSvcsTest extends PowerMockTestCase {
 
     // Invoke operation with null options model (negative test)
     dnsSvcsService.updateMonitor(null).execute();
+  }
+
+  @Test
+  public void testListCustomResolversWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"custom_resolvers\": [{\"id\": \"5365b73c-ce6f-4d6f-ad9f-d9c131b26370\", \"name\": \"my-resolver\", \"description\": \"custom resolver\", \"enabled\": false, \"health\": \"HEALTHY\", \"locations\": [{\"id\": \"9a234ede-c2b6-4c39-bc27-d39ec139ecdb\", \"subnet_crn\": \"crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04\", \"enabled\": true, \"healthy\": true, \"dns_server_ip\": \"10.10.16.8\"}], \"created_on\": \"2021-04-21T08:18:25.000Z\", \"modified_on\": \"2021-04-21T08:18:25.000Z\"}]}";
+    String listCustomResolversPath = "/instances/testString/custom_resolvers";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the ListCustomResolversOptions model
+    ListCustomResolversOptions listCustomResolversOptionsModel = new ListCustomResolversOptions.Builder()
+    .instanceId("testString")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<CustomResolverList> response = dnsSvcsService.listCustomResolvers(listCustomResolversOptionsModel).execute();
+    assertNotNull(response);
+    CustomResolverList responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listCustomResolversPath);
+  }
+
+  // Test the listCustomResolvers operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListCustomResolversNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.listCustomResolvers(null).execute();
+  }
+
+  @Test
+  public void testCreateCustomResolverWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"5365b73c-ce6f-4d6f-ad9f-d9c131b26370\", \"name\": \"my-resolver\", \"description\": \"custom resolver\", \"enabled\": false, \"health\": \"HEALTHY\", \"locations\": [{\"id\": \"9a234ede-c2b6-4c39-bc27-d39ec139ecdb\", \"subnet_crn\": \"crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04\", \"enabled\": true, \"healthy\": true, \"dns_server_ip\": \"10.10.16.8\"}], \"created_on\": \"2021-04-21T08:18:25.000Z\", \"modified_on\": \"2021-04-21T08:18:25.000Z\"}";
+    String createCustomResolverPath = "/instances/testString/custom_resolvers";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the LocationInput model
+    LocationInput locationInputModel = new LocationInput.Builder()
+    .subnetCrn("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+    .enabled(false)
+    .build();
+
+    // Construct an instance of the CreateCustomResolverOptions model
+    CreateCustomResolverOptions createCustomResolverOptionsModel = new CreateCustomResolverOptions.Builder()
+    .instanceId("testString")
+    .name("my-resolver")
+    .description("custom resolver")
+    .locations(new java.util.ArrayList<LocationInput>(java.util.Arrays.asList(locationInputModel)))
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<CustomResolver> response = dnsSvcsService.createCustomResolver(createCustomResolverOptionsModel).execute();
+    assertNotNull(response);
+    CustomResolver responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createCustomResolverPath);
+  }
+
+  // Test the createCustomResolver operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateCustomResolverNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.createCustomResolver(null).execute();
+  }
+
+  @Test
+  public void testDeleteCustomResolverWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "";
+    String deleteCustomResolverPath = "/instances/testString/custom_resolvers/testString";
+
+    server.enqueue(new MockResponse()
+    .setResponseCode(204)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the DeleteCustomResolverOptions model
+    DeleteCustomResolverOptions deleteCustomResolverOptionsModel = new DeleteCustomResolverOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Void> response = dnsSvcsService.deleteCustomResolver(deleteCustomResolverOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    // Response does not have a return type. Check that the result is null.
+    assertNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteCustomResolverPath);
+  }
+
+  // Test the deleteCustomResolver operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteCustomResolverNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.deleteCustomResolver(null).execute();
+  }
+
+  @Test
+  public void testGetCustomResolverWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"5365b73c-ce6f-4d6f-ad9f-d9c131b26370\", \"name\": \"my-resolver\", \"description\": \"custom resolver\", \"enabled\": false, \"health\": \"HEALTHY\", \"locations\": [{\"id\": \"9a234ede-c2b6-4c39-bc27-d39ec139ecdb\", \"subnet_crn\": \"crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04\", \"enabled\": true, \"healthy\": true, \"dns_server_ip\": \"10.10.16.8\"}], \"created_on\": \"2021-04-21T08:18:25.000Z\", \"modified_on\": \"2021-04-21T08:18:25.000Z\"}";
+    String getCustomResolverPath = "/instances/testString/custom_resolvers/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the GetCustomResolverOptions model
+    GetCustomResolverOptions getCustomResolverOptionsModel = new GetCustomResolverOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<CustomResolver> response = dnsSvcsService.getCustomResolver(getCustomResolverOptionsModel).execute();
+    assertNotNull(response);
+    CustomResolver responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getCustomResolverPath);
+  }
+
+  // Test the getCustomResolver operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetCustomResolverNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.getCustomResolver(null).execute();
+  }
+
+  @Test
+  public void testUpdateCustomResolverWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"5365b73c-ce6f-4d6f-ad9f-d9c131b26370\", \"name\": \"my-resolver\", \"description\": \"custom resolver\", \"enabled\": false, \"health\": \"HEALTHY\", \"locations\": [{\"id\": \"9a234ede-c2b6-4c39-bc27-d39ec139ecdb\", \"subnet_crn\": \"crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04\", \"enabled\": true, \"healthy\": true, \"dns_server_ip\": \"10.10.16.8\"}], \"created_on\": \"2021-04-21T08:18:25.000Z\", \"modified_on\": \"2021-04-21T08:18:25.000Z\"}";
+    String updateCustomResolverPath = "/instances/testString/custom_resolvers/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the UpdateCustomResolverOptions model
+    UpdateCustomResolverOptions updateCustomResolverOptionsModel = new UpdateCustomResolverOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .name("my-resolver")
+    .description("custom resolver")
+    .enabled(false)
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<CustomResolver> response = dnsSvcsService.updateCustomResolver(updateCustomResolverOptionsModel).execute();
+    assertNotNull(response);
+    CustomResolver responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PATCH");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, updateCustomResolverPath);
+  }
+
+  // Test the updateCustomResolver operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testUpdateCustomResolverNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.updateCustomResolver(null).execute();
+  }
+
+  @Test
+  public void testAddCustomResolverLocationWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"9a234ede-c2b6-4c39-bc27-d39ec139ecdb\", \"subnet_crn\": \"crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04\", \"enabled\": true, \"healthy\": true, \"dns_server_ip\": \"10.10.16.8\"}";
+    String addCustomResolverLocationPath = "/instances/testString/custom_resolvers/testString/locations";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the AddCustomResolverLocationOptions model
+    AddCustomResolverLocationOptions addCustomResolverLocationOptionsModel = new AddCustomResolverLocationOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .subnetCrn("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+    .enabled(false)
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Location> response = dnsSvcsService.addCustomResolverLocation(addCustomResolverLocationOptionsModel).execute();
+    assertNotNull(response);
+    Location responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, addCustomResolverLocationPath);
+  }
+
+  // Test the addCustomResolverLocation operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testAddCustomResolverLocationNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.addCustomResolverLocation(null).execute();
+  }
+
+  @Test
+  public void testUpdateCustomResolverLocationWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"9a234ede-c2b6-4c39-bc27-d39ec139ecdb\", \"subnet_crn\": \"crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04\", \"enabled\": true, \"healthy\": true, \"dns_server_ip\": \"10.10.16.8\"}";
+    String updateCustomResolverLocationPath = "/instances/testString/custom_resolvers/testString/locations/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the UpdateCustomResolverLocationOptions model
+    UpdateCustomResolverLocationOptions updateCustomResolverLocationOptionsModel = new UpdateCustomResolverLocationOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .locationId("testString")
+    .enabled(false)
+    .subnetCrn("crn:v1:bluemix:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Location> response = dnsSvcsService.updateCustomResolverLocation(updateCustomResolverLocationOptionsModel).execute();
+    assertNotNull(response);
+    Location responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PATCH");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, updateCustomResolverLocationPath);
+  }
+
+  // Test the updateCustomResolverLocation operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testUpdateCustomResolverLocationNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.updateCustomResolverLocation(null).execute();
+  }
+
+  @Test
+  public void testDeleteCustomResolverLocationWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "";
+    String deleteCustomResolverLocationPath = "/instances/testString/custom_resolvers/testString/locations/testString";
+
+    server.enqueue(new MockResponse()
+    .setResponseCode(204)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the DeleteCustomResolverLocationOptions model
+    DeleteCustomResolverLocationOptions deleteCustomResolverLocationOptionsModel = new DeleteCustomResolverLocationOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .locationId("testString")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Void> response = dnsSvcsService.deleteCustomResolverLocation(deleteCustomResolverLocationOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    // Response does not have a return type. Check that the result is null.
+    assertNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteCustomResolverLocationPath);
+  }
+
+  // Test the deleteCustomResolverLocation operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteCustomResolverLocationNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.deleteCustomResolverLocation(null).execute();
+  }
+
+  @Test
+  public void testListForwardingRulesWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"forwarding_rules\": [{\"id\": \"5365b73c-ce6f-4d6f-ad9f-d9c131b26370\", \"description\": \"forwarding rule\", \"type\": \"zone\", \"match\": \"example.com\", \"forward_to\": [\"161.26.0.7\"], \"created_on\": \"2021-04-21T08:18:25.000Z\", \"modified_on\": \"2021-04-21T08:18:25.000Z\"}]}";
+    String listForwardingRulesPath = "/instances/testString/custom_resolvers/testString/forwarding_rules";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the ListForwardingRulesOptions model
+    ListForwardingRulesOptions listForwardingRulesOptionsModel = new ListForwardingRulesOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<ForwardingRuleList> response = dnsSvcsService.listForwardingRules(listForwardingRulesOptionsModel).execute();
+    assertNotNull(response);
+    ForwardingRuleList responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listForwardingRulesPath);
+  }
+
+  // Test the listForwardingRules operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListForwardingRulesNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.listForwardingRules(null).execute();
+  }
+
+  @Test
+  public void testCreateForwardingRuleWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"5365b73c-ce6f-4d6f-ad9f-d9c131b26370\", \"description\": \"forwarding rule\", \"type\": \"zone\", \"match\": \"example.com\", \"forward_to\": [\"161.26.0.7\"], \"created_on\": \"2021-04-21T08:18:25.000Z\", \"modified_on\": \"2021-04-21T08:18:25.000Z\"}";
+    String createForwardingRulePath = "/instances/testString/custom_resolvers/testString/forwarding_rules";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the CreateForwardingRuleOptions model
+    CreateForwardingRuleOptions createForwardingRuleOptionsModel = new CreateForwardingRuleOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .description("forwarding rule")
+    .type("zone")
+    .match("example.com")
+    .forwardTo(new java.util.ArrayList<String>(java.util.Arrays.asList("161.26.0.7")))
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<ForwardingRule> response = dnsSvcsService.createForwardingRule(createForwardingRuleOptionsModel).execute();
+    assertNotNull(response);
+    ForwardingRule responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createForwardingRulePath);
+  }
+
+  // Test the createForwardingRule operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateForwardingRuleNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.createForwardingRule(null).execute();
+  }
+
+  @Test
+  public void testDeleteForwardingRuleWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "";
+    String deleteForwardingRulePath = "/instances/testString/custom_resolvers/testString/forwarding_rules/testString";
+
+    server.enqueue(new MockResponse()
+    .setResponseCode(204)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the DeleteForwardingRuleOptions model
+    DeleteForwardingRuleOptions deleteForwardingRuleOptionsModel = new DeleteForwardingRuleOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .ruleId("testString")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Void> response = dnsSvcsService.deleteForwardingRule(deleteForwardingRuleOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    // Response does not have a return type. Check that the result is null.
+    assertNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteForwardingRulePath);
+  }
+
+  // Test the deleteForwardingRule operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteForwardingRuleNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.deleteForwardingRule(null).execute();
+  }
+
+  @Test
+  public void testGetForwardingRuleWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"5365b73c-ce6f-4d6f-ad9f-d9c131b26370\", \"description\": \"forwarding rule\", \"type\": \"zone\", \"match\": \"example.com\", \"forward_to\": [\"161.26.0.7\"], \"created_on\": \"2021-04-21T08:18:25.000Z\", \"modified_on\": \"2021-04-21T08:18:25.000Z\"}";
+    String getForwardingRulePath = "/instances/testString/custom_resolvers/testString/forwarding_rules/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the GetForwardingRuleOptions model
+    GetForwardingRuleOptions getForwardingRuleOptionsModel = new GetForwardingRuleOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .ruleId("testString")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<ForwardingRule> response = dnsSvcsService.getForwardingRule(getForwardingRuleOptionsModel).execute();
+    assertNotNull(response);
+    ForwardingRule responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getForwardingRulePath);
+  }
+
+  // Test the getForwardingRule operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetForwardingRuleNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.getForwardingRule(null).execute();
+  }
+
+  @Test
+  public void testUpdateForwardingRuleWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"5365b73c-ce6f-4d6f-ad9f-d9c131b26370\", \"description\": \"forwarding rule\", \"type\": \"zone\", \"match\": \"example.com\", \"forward_to\": [\"161.26.0.7\"], \"created_on\": \"2021-04-21T08:18:25.000Z\", \"modified_on\": \"2021-04-21T08:18:25.000Z\"}";
+    String updateForwardingRulePath = "/instances/testString/custom_resolvers/testString/forwarding_rules/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the UpdateForwardingRuleOptions model
+    UpdateForwardingRuleOptions updateForwardingRuleOptionsModel = new UpdateForwardingRuleOptions.Builder()
+    .instanceId("testString")
+    .resolverId("testString")
+    .ruleId("testString")
+    .description("forwarding rule")
+    .match("example.com")
+    .forwardTo(new java.util.ArrayList<String>(java.util.Arrays.asList("161.26.0.7")))
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<ForwardingRule> response = dnsSvcsService.updateForwardingRule(updateForwardingRuleOptionsModel).execute();
+    assertNotNull(response);
+    ForwardingRule responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PATCH");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, updateForwardingRulePath);
+  }
+
+  // Test the updateForwardingRule operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testUpdateForwardingRuleNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.updateForwardingRule(null).execute();
   }
 
   /** Initialize the server */
