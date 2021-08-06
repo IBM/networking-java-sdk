@@ -1,3 +1,10 @@
+# [0.19.0](https://github.com/IBM/networking-java-sdk/compare/0.18.0...0.19.0) (2021-08-06)
+
+
+### Features
+
+* **customresolver:** resolver, location, fw rules ([b235047](https://github.com/IBM/networking-java-sdk/commit/b23504774fe2982b340e01b277fe8b4725910ef4))
+
 # [0.18.0](https://github.com/IBM/networking-java-sdk/compare/0.17.0...0.18.0) (2021-06-25)
 
 
