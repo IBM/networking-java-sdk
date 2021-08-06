@@ -479,7 +479,7 @@ public class DnsSvcs extends BaseService {
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ResourceRecord>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
-  
+
   /**
    * Export resource records to a zone file.
    *
