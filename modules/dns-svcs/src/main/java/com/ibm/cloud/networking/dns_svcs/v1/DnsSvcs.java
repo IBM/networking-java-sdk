@@ -26,27 +26,45 @@ import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
 import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import com.ibm.cloud.networking.common.SdkCommon;
+
+import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreatePermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreatePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateResourceRecordOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolver;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolverList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeletePermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeletePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteResourceRecordOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Dnszone;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ExportResourceRecordsOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetPermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetPoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetResourceRecordOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsResp;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszones;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszonesOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListForwardingRulesOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListLoadBalancers;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListLoadBalancersOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListMonitors;
@@ -58,11 +76,15 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.ListPoolsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListResourceRecords;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LoadBalancer;
+import com.ibm.cloud.networking.dns_svcs.v1.model.Location;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Monitor;
 import com.ibm.cloud.networking.dns_svcs.v1.model.PermittedNetwork;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Pool;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecord;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdatePoolOptions;
@@ -71,29 +93,9 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateResourceRecordOptions;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.HashMap;
-
-
-
-
-import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolver;
-import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolverList;
-import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverLocationOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteForwardingRuleOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
-import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
-import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.GetForwardingRuleOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.ListForwardingRulesOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.Location;
-import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverLocationOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateForwardingRuleOptions;
-
+import com.ibm.cloud.sdk.core.util.RequestUtils;
+import java.io.InputStream;
+import okhttp3.MultipartBody;
 
 
 
@@ -475,6 +477,69 @@ public class DnsSvcs extends BaseService {
     builder.bodyJson(contentJson);
     ResponseConverter<ResourceRecord> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ResourceRecord>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+  
+  /**
+   * Export resource records to a zone file.
+   *
+   * Export resource records to a zone file.
+   *
+   * @param exportResourceRecordsOptions the {@link ExportResourceRecordsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link InputStream}
+   */
+  public ServiceCall<InputStream> exportResourceRecords(ExportResourceRecordsOptions exportResourceRecordsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(exportResourceRecordsOptions,
+      "exportResourceRecordsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", exportResourceRecordsOptions.instanceId());
+    pathParamsMap.put("dnszone_id", exportResourceRecordsOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/export_resource_records", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "exportResourceRecords");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "text/plain; charset=utf-8");
+    if (exportResourceRecordsOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", exportResourceRecordsOptions.xCorrelationId());
+    }
+    ResponseConverter<InputStream> responseConverter = ResponseConverterUtils.getInputStream();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Import resource records from a zone file.
+   *
+   * Import resource records from a zone file.
+   *
+   * @param importResourceRecordsOptions the {@link ImportResourceRecordsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ImportResourceRecordsResp}
+   */
+  public ServiceCall<ImportResourceRecordsResp> importResourceRecords(ImportResourceRecordsOptions importResourceRecordsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(importResourceRecordsOptions,
+      "importResourceRecordsOptions cannot be null");
+    com.ibm.cloud.sdk.core.util.Validator.isTrue((importResourceRecordsOptions.file() != null), "At least one of  or file must be supplied.");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", importResourceRecordsOptions.instanceId());
+    pathParamsMap.put("dnszone_id", importResourceRecordsOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/import_resource_records", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "importResourceRecords");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (importResourceRecordsOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", importResourceRecordsOptions.xCorrelationId());
+    }
+    MultipartBody.Builder multipartBuilder = new MultipartBody.Builder();
+    multipartBuilder.setType(MultipartBody.FORM);
+    if (importResourceRecordsOptions.file() != null) {
+      okhttp3.RequestBody fileBody = RequestUtils.inputStreamBody(importResourceRecordsOptions.file(), importResourceRecordsOptions.fileContentType());
+      multipartBuilder.addFormDataPart("file", "filename", fileBody);
+    }
+    builder.body(multipartBuilder.build());
+    ResponseConverter<ImportResourceRecordsResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ImportResourceRecordsResp>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

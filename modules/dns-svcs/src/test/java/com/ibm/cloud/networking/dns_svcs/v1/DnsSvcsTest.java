@@ -19,29 +19,46 @@ import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.sdk.core.util.EnvironmentUtils;
 import com.ibm.cloud.networking.dns_svcs.v1.DnsSvcs;
+import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreatePermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreatePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateResourceRecordOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolver;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolverList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeletePermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeletePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteResourceRecordOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Dnszone;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ExportResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.FirstHref;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetPermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetPoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetResourceRecordOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.HealthcheckHeader;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsResp;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszones;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszonesOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListForwardingRulesOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListLoadBalancers;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListLoadBalancersOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListMonitors;
@@ -54,6 +71,8 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.ListResourceRecords;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LoadBalancer;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LoadBalancerAzPoolsItem;
+import com.ibm.cloud.networking.dns_svcs.v1.model.Location;
+import com.ibm.cloud.networking.dns_svcs.v1.model.LocationInput;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Monitor;
 import com.ibm.cloud.networking.dns_svcs.v1.model.NextHref;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Origin;
@@ -78,11 +97,15 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecordUpdateInputRdata
 import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecordUpdateInputRdataRdataPtrRecord;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecordUpdateInputRdataRdataSrvRecord;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecordUpdateInputRdataRdataTxtRecord;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdatePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateResourceRecordOptions;
+
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.security.Authenticator;
@@ -109,25 +132,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 
-import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolver;
-import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolverList;
-import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverLocationOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteForwardingRuleOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
-import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
-import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.GetForwardingRuleOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.ListForwardingRulesOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.Location;
-import com.ibm.cloud.networking.dns_svcs.v1.model.LocationInput;
-import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverLocationOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateForwardingRuleOptions;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -745,6 +750,112 @@ public class DnsSvcsTest extends PowerMockTestCase {
     // Invoke operation with null options model (negative test)
     dnsSvcsService.updateResourceRecord(null).execute();
   }
+  
+  @Test
+  public void testExportResourceRecordsWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "This is a mock binary response.";
+    String exportResourceRecordsPath = "/instances/testString/dnszones/testString/export_resource_records";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "text/plain; charset=utf-8")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the ExportResourceRecordsOptions model
+    ExportResourceRecordsOptions exportResourceRecordsOptionsModel = new ExportResourceRecordsOptions.Builder()
+    .instanceId("testString")
+    .dnszoneId("testString")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<InputStream> response = dnsSvcsService.exportResourceRecords(exportResourceRecordsOptionsModel).execute();
+    assertNotNull(response);
+    InputStream responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, exportResourceRecordsPath);
+  }
+
+  // Test the exportResourceRecords operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testExportResourceRecordsNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    dnsSvcsService.exportResourceRecords(null).execute();
+  }
+
+  @Test
+  public void testImportResourceRecordsWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"total_records_parsed\": 10, \"records_added\": 2, \"records_failed\": 0, \"records_added_by_type\": {\"A\": 10, \"AAAA\": 10, \"CNAME\": 10, \"SRV\": 10, \"TXT\": 10, \"MX\": 10, \"PTR\": 10}, \"records_failed_by_type\": {\"A\": 10, \"AAAA\": 10, \"CNAME\": 10, \"SRV\": 10, \"TXT\": 10, \"MX\": 10, \"PTR\": 10}, \"messages\": [{\"code\": \"conflict\", \"message\": \"A type record conflict with other records\"}], \"errors\": [{\"resource_record\": \"test.example.com A 1.1.1.1\", \"error\": {\"code\": \"internal_server_error\", \"message\": \"An internal error occurred. Try again later.\"}}]}";
+    String importResourceRecordsPath = "/instances/testString/dnszones/testString/import_resource_records";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the ImportResourceRecordsOptions model
+    ImportResourceRecordsOptions importResourceRecordsOptionsModel = new ImportResourceRecordsOptions.Builder()
+    .instanceId("testString")
+    .dnszoneId("testString")
+    .file(TestUtilities.createMockStream("This is a mock file."))
+    .fileContentType("testString")
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<ImportResourceRecordsResp> response = dnsSvcsService.importResourceRecords(importResourceRecordsOptionsModel).execute();
+    assertNotNull(response);
+    ImportResourceRecordsResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+
+      // Check query
+     Map<String, String> query = TestUtilities.parseQueryString(request);
+     assertNull(query);
+
+      // Check request path
+     String parsedPath = TestUtilities.parseReqPath(request);
+     assertEquals(parsedPath, importResourceRecordsPath);
+   }
+
+    // Test the importResourceRecords operation with null options model parameter
+   @Test(expectedExceptions = IllegalArgumentException.class)
+   public void testImportResourceRecordsNoOptions() throws Throwable {
+     // construct the service
+     constructClientService();
+
+      server.enqueue(new MockResponse());
+
+      // Invoke operation with null options model (negative test)
+     dnsSvcsService.importResourceRecords(null).execute();
+   }
 
   @Test
   public void testListPermittedNetworksWOptions() throws Throwable {
