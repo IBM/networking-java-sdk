@@ -13,30 +13,46 @@
 
 package com.ibm.cloud.networking.dns_svcs.v1;
 
-
+import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreatePermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreatePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateResourceRecordOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolver;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolverList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeletePermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeletePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteResourceRecordOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Dnszone;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ExportResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.FirstHref;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetPermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetPoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetResourceRecordOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.HealthcheckHeader;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsResp;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszones;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszonesOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListForwardingRulesOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListLoadBalancers;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListLoadBalancersOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListMonitors;
@@ -49,6 +65,8 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.ListResourceRecords;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LoadBalancer;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LoadBalancerAzPoolsItem;
+import com.ibm.cloud.networking.dns_svcs.v1.model.Location;
+import com.ibm.cloud.networking.dns_svcs.v1.model.LocationInput;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Monitor;
 import com.ibm.cloud.networking.dns_svcs.v1.model.NextHref;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Origin;
@@ -73,7 +91,10 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecordUpdateInputRdata
 import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecordUpdateInputRdataRdataPtrRecord;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecordUpdateInputRdataRdataSrvRecord;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecordUpdateInputRdataRdataTxtRecord;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateDnszoneOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdatePoolOptions;
@@ -95,6 +116,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
+
+
+import com.ibm.cloud.sdk.core.http.ServiceCall;
+import java.io.FileInputStream;
+import java.io.FileWriter;   
+import java.io.IOException;  
+
 /**
  * Integration test class for the DnsSvcs service.
  */
@@ -112,6 +140,11 @@ public class DnsSvcsIT extends SdkIntegrationTestBase {
   String lb_id = null;
   String record_id = null;
   String subnet_id = null;
+  String resolver_id = null;
+  String location_id = null;
+  String rule_id = null;
+  String subnet_id_location =null;
+
   /**
    * This method provides our config filename to the base class.
    */
@@ -135,12 +168,12 @@ public class DnsSvcsIT extends SdkIntegrationTestBase {
     vpc_crn = config.get("VPC_CRN");
     vpc_id = config.get("VPC_ID");
     subnet_id = config.get("SUBNET_ID");
+    subnet_id_location = config.get("DNS_SVCS_CUSTOMER_LOCATION_SUBNET_CRN");
 
     // set mock values for global params
     try {
       service = DnsSvcs.newInstance(serviceName);
     } catch (Exception e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     System.out.println("Setup complete.");
@@ -305,6 +338,75 @@ public class DnsSvcsIT extends SdkIntegrationTestBase {
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
+
+  @Test (dependsOnMethods = "testCreateResourceRecord")
+   public void testExportResourceRecord() throws Exception {
+     try {
+       ResourceRecordInputRdataRdataARecord resourceRecordInputRdataModel = new ResourceRecordInputRdataRdataARecord.Builder()
+       .ip("10.110.201.214")
+       .build();
+
+        CreateResourceRecordOptions createResourceRecordOptions = new CreateResourceRecordOptions.Builder()
+       .instanceId(instance_id)
+       .dnszoneId(zone_id)
+       .name("test.test.com")
+       .type("A")
+       .rdata(resourceRecordInputRdataModel)
+       .xCorrelationId("testString")
+       .build();
+
+        // Invoke operation
+       Response<ResourceRecord> response = service.createResourceRecord(createResourceRecordOptions).execute();
+       // Validate response
+       assertNotNull(response);
+       assertEquals(response.getStatusCode(), 200);
+
+        ResourceRecord resourceRecordResult = response.getResult();
+
+        assertNotNull(resourceRecordResult);
+       record_id = resourceRecordResult.getId();
+       ExportResourceRecordsOptions exportResourceRecordsOptionsModel = new ExportResourceRecordsOptions.Builder()
+       .instanceId(instance_id)
+       .dnszoneId(zone_id)
+       .xCorrelationId("testString")
+       .build();
+       Response<InputStream> responseRec = service.exportResourceRecords(exportResourceRecordsOptionsModel).execute();
+       assertNotNull(responseRec);
+       InputStream responseObj = responseRec.getResult();
+       assertNotNull(responseObj);
+     } catch (ServiceResponseException e) {
+         fail(String.format("Service returned status code %d: %s\nError details: %s",
+           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+     }
+   }
+
+  @Test (dependsOnMethods = "testExportResourceRecord")
+   public void testImportResourceRecord() throws Exception {
+     try {
+       FileWriter myWriter = new FileWriter("records.txt");
+       myWriter.write("example.sdk.cistest-load.com. 1 IN A 1.1.1.1");
+       myWriter.close();
+       FileInputStream  fileInputStream =new FileInputStream("records.txt");
+       // Construct an instance of the ImportResourceRecordsOptions model
+       ImportResourceRecordsOptions importResourceRecordsOptionsModel = new ImportResourceRecordsOptions.Builder()
+       .instanceId(instance_id)
+       .dnszoneId(zone_id)
+       .file(fileInputStream)
+       .fileContentType("testString")
+       .xCorrelationId("testString")
+       .build();
+       Response<ImportResourceRecordsResp> response = service.importResourceRecords(importResourceRecordsOptionsModel).execute();
+       assertNotNull(response);
+       ImportResourceRecordsResp responseObj = response.getResult();
+       assertNotNull(responseObj);
+     } catch (ServiceResponseException e) {
+         fail(String.format("Service returned status code %d: %s\nError details: %s",
+           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+     } catch (IOException e) {
+       System.out.println("An error occurred.");
+     }
+   }
+
 
   @Test (dependsOnMethods = "testUpdateResourceRecord")
   public void testGetResourceRecord() throws Exception {
@@ -826,6 +928,332 @@ public class DnsSvcsIT extends SdkIntegrationTestBase {
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
+  
+  @Test
+  public void testCreateCustomResolver() throws Exception {
+    try {
+      LocationInput locationInputModel = new LocationInput.Builder()
+      .subnetCrn(subnet_id)
+      .enabled(false)
+      .build();
+
+      CreateCustomResolverOptions createCustomResolverOptions = new CreateCustomResolverOptions.Builder()
+      .instanceId(instance_id)
+      .name("my-resolver")
+      .description("custom resolver")
+      .locations(new java.util.ArrayList<LocationInput>(java.util.Arrays.asList(locationInputModel)))
+      .xCorrelationId("testString")
+      .build();
+
+      // Invoke operation
+      Response<CustomResolver> response = service.createCustomResolver(createCustomResolverOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      CustomResolver customresolverResult = response.getResult();
+      resolver_id = customresolverResult.getId();
+
+      assertNotNull(customresolverResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test (dependsOnMethods = "testCreateCustomResolver")
+  public void testListCustomResolvers() throws Exception {
+    try {
+      ListCustomResolversOptions listCustomResolversOptions = new ListCustomResolversOptions.Builder()
+      .instanceId(instance_id)
+      .xCorrelationId("testString")
+      .build();
+
+      // Invoke operation
+      Response<CustomResolverList> response = service.listCustomResolvers(listCustomResolversOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      CustomResolverList listCustomResolverResult = response.getResult();
+
+      assertNotNull(listCustomResolverResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test (dependsOnMethods = "testCreateCustomResolver")
+  public void testGetCustomResolver() throws Exception {
+    try {
+      GetCustomResolverOptions getCustomResolverOptions = new GetCustomResolverOptions.Builder()
+      .instanceId(instance_id)
+      .resolverId(resolver_id)
+      .xCorrelationId("testString")
+      .build();
+
+      // Invoke operation
+      Response<CustomResolver> response = service.getCustomResolver(getCustomResolverOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      CustomResolver customresolverResult = response.getResult();
+
+      assertNotNull(customresolverResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test (dependsOnMethods = "testCreateCustomResolver")
+  public void testUpdateCustomResolver() throws Exception {
+    try {
+      UpdateCustomResolverOptions updateCustomResolverOptions = new UpdateCustomResolverOptions.Builder()
+      .instanceId(instance_id)
+      .resolverId(resolver_id)
+      .name("my-resolver")
+      .description("custom resolver")
+      .enabled(false)
+      .xCorrelationId("testString")
+      .build();
+
+      // Invoke operation
+      Response<CustomResolver> response = service.updateCustomResolver(updateCustomResolverOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      CustomResolver customresolverResult = response.getResult();
+
+      assertNotNull(customresolverResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+@Test (dependsOnMethods = "testCreateCustomResolver")
+public void testAddCustomResolverLocation() throws Exception {
+  try {
+    AddCustomResolverLocationOptions addCustomResolverLocationOptions = new AddCustomResolverLocationOptions.Builder()
+    .instanceId(instance_id)
+    .resolverId(resolver_id)
+    .subnetCrn(subnet_id_location)
+    .enabled(false)
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation
+    Response<Location> response = service.addCustomResolverLocation(addCustomResolverLocationOptions).execute();
+    // Validate response
+    assertNotNull(response);
+    assertEquals(response.getStatusCode(), 200);
+
+    Location customresolverlocationResult = response.getResult();
+
+    assertNotNull(customresolverlocationResult);
+  } catch (ServiceResponseException e) {
+      fail(String.format("Service returned status code %d: %s\nError details: %s",
+        e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+  }
+}
+
+@Test (dependsOnMethods = "testAddCustomResolverLocation")
+public void testUpdateCustomResolverLocation() throws Exception {
+  try {
+    UpdateCustomResolverLocationOptions updateCustomResolverLocationOptions = new UpdateCustomResolverLocationOptions.Builder()
+    .instanceId(instance_id)
+    .resolverId(resolver_id)
+    .locationId(location_id)
+    .enabled(false)
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation
+    Response<Location> response = service.updateCustomResolverLocation(updateCustomResolverLocationOptions).execute();
+    // Validate response
+    assertNotNull(response);
+    assertEquals(response.getStatusCode(), 200);
+
+    Location customresolverlocationResult = response.getResult();
+
+    assertNotNull(customresolverlocationResult);
+  } catch (ServiceResponseException e) {
+      fail(String.format("Service returned status code %d: %s\nError details: %s",
+        e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+  }
+}
+
+@Test (dependsOnMethods = "testCreateCustomResolver")
+public void testCreateForwardingRule() throws Exception {
+  try {
+    CreateForwardingRuleOptions createForwardingRuleOptions = new CreateForwardingRuleOptions.Builder()
+    .instanceId(instance_id)
+    .resolverId(resolver_id)
+    .description("forwarding rule")
+    .type("zone")
+    .match("example.com")
+    .forwardTo(new java.util.ArrayList<String>(java.util.Arrays.asList("161.26.0.7")))
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation
+    Response<ForwardingRule> response = service.createForwardingRule(createForwardingRuleOptions).execute();
+    // Validate response
+    assertNotNull(response);
+    assertEquals(response.getStatusCode(), 200);
+
+    ForwardingRule forwardingruleResult = response.getResult();
+
+    assertNotNull(forwardingruleResult);
+    rule_id = forwardingruleResult.getId();
+  } catch (ServiceResponseException e) {
+      fail(String.format("Service returned status code %d: %s\nError details: %s",
+        e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+  }
+}
+
+@Test (dependsOnMethods = "testCreateForwardingRule")
+public void testListForwardingRules() throws Exception {
+  try {
+    ListForwardingRulesOptions listForwardingRulesOptions = new ListForwardingRulesOptions.Builder()
+    .instanceId(instance_id)
+    .resolverId(resolver_id)
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation
+    Response<ForwardingRuleList> response = service.listForwardingRules(listForwardingRulesOptions).execute();
+    // Validate response
+    assertNotNull(response);
+    assertEquals(response.getStatusCode(), 200);
+
+    ForwardingRuleList listForwardingRulesResult = response.getResult();
+
+    assertNotNull(listForwardingRulesResult);
+  } catch (ServiceResponseException e) {
+      fail(String.format("Service returned status code %d: %s\nError details: %s",
+        e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+  }
+}
+
+@Test (dependsOnMethods = "testCreateForwardingRule")
+public void testGetForwardingRule() throws Exception {
+  try {
+    GetForwardingRuleOptions getForwardingRuleOptions = new GetForwardingRuleOptions.Builder()
+    .instanceId(instance_id)
+    .resolverId(resolver_id)
+    .ruleId(rule_id)
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation
+    Response<ForwardingRule> response = service.getForwardingRule(getForwardingRuleOptions).execute();
+    // Validate response
+    assertNotNull(response);
+    assertEquals(response.getStatusCode(), 200);
+
+    ForwardingRule forwardingruleResult = response.getResult();
+
+    assertNotNull(forwardingruleResult);
+  } catch (ServiceResponseException e) {
+      fail(String.format("Service returned status code %d: %s\nError details: %s",
+        e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+  }
+}
+
+@Test (dependsOnMethods = "testCreateForwardingRule")
+public void testUpdateForwardingRule() throws Exception {
+  try {
+    UpdateForwardingRuleOptions updateForwardingRuleOptions = new UpdateForwardingRuleOptions.Builder()
+    .instanceId(instance_id)
+    .resolverId(resolver_id)
+    .ruleId(rule_id)
+    .description("forwarding rule")
+    .match("example.com")
+    .forwardTo(new java.util.ArrayList<String>(java.util.Arrays.asList("161.26.0.8")))
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation
+    Response<ForwardingRule> response = service.updateForwardingRule(updateForwardingRuleOptions).execute();
+    // Validate response
+    assertNotNull(response);
+    assertEquals(response.getStatusCode(), 200);
+
+    ForwardingRule forwardingruleResult = response.getResult();
+
+    assertNotNull(forwardingruleResult);
+  } catch (ServiceResponseException e) {
+      fail(String.format("Service returned status code %d: %s\nError details: %s",
+        e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+  }
+}
+
+@Test (dependsOnMethods = "testCreateForwardingRule")
+public void testDeleteForwardingRule() throws Exception {
+  try {
+    DeleteForwardingRuleOptions deleteForwardingRuleOptions = new DeleteForwardingRuleOptions.Builder()
+    .instanceId(instance_id)
+    .resolverId(resolver_id)
+    .ruleId(rule_id)
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation
+    Response<Void> response = service.deleteForwardingRule(deleteForwardingRuleOptions).execute();
+    // Validate response
+    assertNotNull(response);
+    assertEquals(response.getStatusCode(), 204);
+  } catch (ServiceResponseException e) {
+      fail(String.format("Service returned status code %d: %s\nError details: %s",
+        e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+  }
+}
+
+@Test (dependsOnMethods = "testAddCustomResolverLocation")
+public void testDeleteCustomResolverLocation() throws Exception {
+  try {
+    DeleteCustomResolverLocationOptions deleteCustomResolverLocationOptions = new DeleteCustomResolverLocationOptions.Builder()
+    .instanceId(instance_id)
+    .resolverId(resolver_id)
+    .locationId(location_id)
+    .xCorrelationId("testString")
+    .build();
+
+    // Invoke operation
+    Response<Void> response = service.deleteCustomResolverLocation(deleteCustomResolverLocationOptions).execute();
+    // Validate response
+    assertNotNull(response);
+    assertEquals(response.getStatusCode(), 204);
+  } catch (ServiceResponseException e) {
+      fail(String.format("Service returned status code %d: %s\nError details: %s",
+        e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+  }
+}
+
+@Test (dependsOnMethods = "testCreateCustomResolver")
+public void testDeleteCustomResolver() throws Exception {
+  try {
+    DeleteCustomResolverOptions deleteCustomResolverOptions = new DeleteCustomResolverOptions.Builder()
+    .instanceId(instance_id)
+    .resolverId(resolver_id)
+    .xCorrelationId("testString")
+    .build();
+    
+    // Invoke operation
+    Response<Void> response = service.deleteCustomResolver(deleteCustomResolverOptions).execute();
+    // Validate response
+    assertNotNull(response);
+    assertEquals(response.getStatusCode(), 204);
+  } catch (ServiceResponseException e) {
+      fail(String.format("Service returned status code %d: %s\nError details: %s",
+        e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+  }
+}
 
   @Test (dependsOnMethods = "testGetResourceRecord")
   public void testDeleteResourceRecord() throws Exception {
@@ -953,6 +1381,12 @@ public class DnsSvcsIT extends SdkIntegrationTestBase {
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
+
+
+
+
+
+
 
   @AfterClass
   public void tearDown() {
