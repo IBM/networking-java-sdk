@@ -1053,7 +1053,7 @@ public void testAddCustomResolverLocation() throws Exception {
     assertEquals(response.getStatusCode(), 200);
 
     Location customresolverlocationResult = response.getResult();
-
+    location_id = customresolverlocationResult.getId();
     assertNotNull(customresolverlocationResult);
   } catch (ServiceResponseException e) {
       fail(String.format("Service returned status code %d: %s\nError details: %s",
