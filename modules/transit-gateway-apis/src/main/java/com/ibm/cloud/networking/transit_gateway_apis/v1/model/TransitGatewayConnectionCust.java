@@ -27,12 +27,14 @@ public class TransitGatewayConnectionCust extends GenericModel {
    * expand in the future. Code and processes using this field must tolerate unexpected values.
    */
   public interface NetworkType {
-    /** vpc. */
-    String VPC = "vpc";
     /** classic. */
     String CLASSIC = "classic";
+    /** directlink. */
+    String DIRECTLINK = "directlink";
     /** gre_tunnel. */
     String GRE_TUNNEL = "gre_tunnel";
+    /** vpc. */
+    String VPC = "vpc";
   }
 
   /**
@@ -118,8 +120,9 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the networkId.
    *
-   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc'.
-   * For network type 'vpc' this is the CRN of the VPC to be connected.
+   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' and
+   * 'directlink'. For network types 'vpc' and 'directlink' it should be the CRN of the target vpc / gateway
+   * respectively.
    *
    * @return the networkId
    */

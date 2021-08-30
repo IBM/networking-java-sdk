@@ -24,12 +24,14 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * support.
    */
   public interface NetworkType {
-    /** vpc. */
-    String VPC = "vpc";
     /** classic. */
     String CLASSIC = "classic";
+    /** directlink. */
+    String DIRECTLINK = "directlink";
     /** gre_tunnel. */
     String GRE_TUNNEL = "gre_tunnel";
+    /** vpc. */
+    String VPC = "vpc";
   }
 
   protected String transitGatewayId;
@@ -353,9 +355,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the networkId.
    *
-   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc'.
-   * For network type 'vpc' this is the CRN of the VPC to be connected. This field is required to be unspecified for
-   * network type 'classic' and 'gre_tunnel' connections.
+   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' and
+   * 'directlink'. For network types 'vpc' and 'directlink' this is the CRN of the VPC / Direct Link gateway
+   * respectively. This field is required to be unspecified for network type 'classic' and 'gre_tunnel' connections.
    *
    * @return the networkId
    */
