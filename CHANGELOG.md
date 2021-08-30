@@ -1,3 +1,10 @@
+# [0.20.0](https://github.com/IBM/networking-java-sdk/compare/0.19.0...0.20.0) (2021-08-30)
+
+
+### Features
+
+* Support for directlink type tgw connections ([#32](https://github.com/IBM/networking-java-sdk/issues/32)) ([aaeef13](https://github.com/IBM/networking-java-sdk/commit/aaeef132f3c87455276e2abdf908d98fc9e6a14e))
+
 # [0.19.0](https://github.com/IBM/networking-java-sdk/compare/0.18.0...0.19.0) (2021-08-06)
 
 
