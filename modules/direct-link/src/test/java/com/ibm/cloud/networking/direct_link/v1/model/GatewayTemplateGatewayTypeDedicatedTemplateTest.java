@@ -73,6 +73,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
       .bgpBaseCidr("testString")
       .bgpCerCidr("169.254.0.10/30")
       .bgpIbmCidr("169.254.0.9/30")
+      .connectionMode("transit")
       .global(true)
       .metered(false)
       .name("myGateway")
@@ -90,6 +91,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.bgpBaseCidr(), "testString");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.bgpCerCidr(), "169.254.0.10/30");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.bgpIbmCidr(), "169.254.0.9/30");
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.connectionMode(), "transit");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.global(), Boolean.valueOf(true));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.name(), "myGateway");
@@ -111,6 +113,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.bgpBaseCidr(), "testString");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.bgpCerCidr(), "169.254.0.10/30");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.bgpIbmCidr(), "169.254.0.9/30");
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.connectionMode(), "transit");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.global(), Boolean.valueOf(true));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.name(), "myGateway");

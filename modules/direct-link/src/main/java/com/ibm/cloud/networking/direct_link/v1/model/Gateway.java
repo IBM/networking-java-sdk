@@ -38,6 +38,18 @@ public class Gateway extends GenericModel {
   }
 
   /**
+   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   */
+  public interface ConnectionMode {
+    /** direct. */
+    String DIRECT = "direct";
+    /** transit. */
+    String TRANSIT = "transit";
+  }
+
+  /**
    * Gateway link status.  Only included on type=dedicated gateways. The list of enumerated values for this property may
    * expand in the future. Code and processes using this field  must tolerate unexpected values.
    */
@@ -112,6 +124,8 @@ public class Gateway extends GenericModel {
   protected GatewayChangeRequest changeRequest;
   @SerializedName("completion_notice_reject_reason")
   protected String completionNoticeRejectReason;
+  @SerializedName("connection_mode")
+  protected String connectionMode;
   @SerializedName("created_at")
   protected Date createdAt;
   protected String crn;
@@ -260,6 +274,19 @@ public class Gateway extends GenericModel {
    */
   public String getCompletionNoticeRejectReason() {
     return completionNoticeRejectReason;
+  }
+
+  /**
+   * Gets the connectionMode.
+   *
+   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   *
+   * @return the connectionMode
+   */
+  public String getConnectionMode() {
+    return connectionMode;
   }
 
   /**

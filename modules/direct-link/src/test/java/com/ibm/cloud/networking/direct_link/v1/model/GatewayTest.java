@@ -50,6 +50,7 @@ public class GatewayTest {
     assertNull(gatewayModel.getCarrierName());
     assertNull(gatewayModel.getChangeRequest());
     assertNull(gatewayModel.getCompletionNoticeRejectReason());
+    assertNull(gatewayModel.getConnectionMode());
     assertNull(gatewayModel.getCreatedAt());
     assertNull(gatewayModel.getCrn());
     assertNull(gatewayModel.getCrossConnectRouter());

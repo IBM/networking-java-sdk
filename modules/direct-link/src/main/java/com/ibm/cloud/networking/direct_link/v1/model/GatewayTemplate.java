@@ -25,6 +25,18 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class GatewayTemplate extends GenericModel {
 
   /**
+   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   */
+  public interface ConnectionMode {
+    /** direct. */
+    String DIRECT = "direct";
+    /** transit. */
+    String TRANSIT = "transit";
+  }
+
+  /**
    * Offering type.
    */
   public interface Type {
@@ -44,6 +56,8 @@ public class GatewayTemplate extends GenericModel {
   protected String bgpCerCidr;
   @SerializedName("bgp_ibm_cidr")
   protected String bgpIbmCidr;
+  @SerializedName("connection_mode")
+  protected String connectionMode;
   protected Boolean global;
   protected Boolean metered;
   protected String name;
@@ -142,6 +156,19 @@ public class GatewayTemplate extends GenericModel {
    */
   public String bgpIbmCidr() {
     return bgpIbmCidr;
+  }
+
+  /**
+   * Gets the connectionMode.
+   *
+   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   *
+   * @return the connectionMode
+   */
+  public String connectionMode() {
+    return connectionMode;
   }
 
   /**

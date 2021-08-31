@@ -20,6 +20,18 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class UpdateGatewayOptions extends GenericModel {
 
   /**
+   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   */
+  public interface ConnectionMode {
+    /** direct. */
+    String DIRECT = "direct";
+    /** transit. */
+    String TRANSIT = "transit";
+  }
+
+  /**
    * Gateway operational status.
    *
    * For gateways pending LOA approval, patch operational_status to the appropriate value to approve or reject its LOA.
@@ -36,6 +48,7 @@ public class UpdateGatewayOptions extends GenericModel {
 
   protected String id;
   protected GatewayPatchTemplateAuthenticationKey authenticationKey;
+  protected String connectionMode;
   protected Boolean global;
   protected String loaRejectReason;
   protected GatewayMacsecConfigPatchTemplate macsecConfig;
@@ -50,6 +63,7 @@ public class UpdateGatewayOptions extends GenericModel {
   public static class Builder {
     private String id;
     private GatewayPatchTemplateAuthenticationKey authenticationKey;
+    private String connectionMode;
     private Boolean global;
     private String loaRejectReason;
     private GatewayMacsecConfigPatchTemplate macsecConfig;
@@ -61,6 +75,7 @@ public class UpdateGatewayOptions extends GenericModel {
     private Builder(UpdateGatewayOptions updateGatewayOptions) {
       this.id = updateGatewayOptions.id;
       this.authenticationKey = updateGatewayOptions.authenticationKey;
+      this.connectionMode = updateGatewayOptions.connectionMode;
       this.global = updateGatewayOptions.global;
       this.loaRejectReason = updateGatewayOptions.loaRejectReason;
       this.macsecConfig = updateGatewayOptions.macsecConfig;
@@ -113,6 +128,17 @@ public class UpdateGatewayOptions extends GenericModel {
      */
     public Builder authenticationKey(GatewayPatchTemplateAuthenticationKey authenticationKey) {
       this.authenticationKey = authenticationKey;
+      return this;
+    }
+
+    /**
+     * Set the connectionMode.
+     *
+     * @param connectionMode the connectionMode
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder connectionMode(String connectionMode) {
+      this.connectionMode = connectionMode;
       return this;
     }
 
@@ -199,6 +225,7 @@ public class UpdateGatewayOptions extends GenericModel {
       "id cannot be empty");
     id = builder.id;
     authenticationKey = builder.authenticationKey;
+    connectionMode = builder.connectionMode;
     global = builder.global;
     loaRejectReason = builder.loaRejectReason;
     macsecConfig = builder.macsecConfig;
@@ -240,6 +267,19 @@ public class UpdateGatewayOptions extends GenericModel {
    */
   public GatewayPatchTemplateAuthenticationKey authenticationKey() {
     return authenticationKey;
+  }
+
+  /**
+   * Gets the connectionMode.
+   *
+   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   *
+   * @return the connectionMode
+   */
+  public String connectionMode() {
+    return connectionMode;
   }
 
   /**
