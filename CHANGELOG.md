@@ -1,3 +1,10 @@
+# [0.21.0](https://github.com/IBM/networking-java-sdk/compare/0.20.0...0.21.0) (2021-08-31)
+
+
+### Features
+
+* **DirectLink:** implement the DLaaS changes for Direct link gateway ([cae57e1](https://github.com/IBM/networking-java-sdk/commit/cae57e113bd26488b28a2961ee558e0bf6b3f84d))
+
 # [0.20.0](https://github.com/IBM/networking-java-sdk/compare/0.19.0...0.20.0) (2021-08-30)
 
 
