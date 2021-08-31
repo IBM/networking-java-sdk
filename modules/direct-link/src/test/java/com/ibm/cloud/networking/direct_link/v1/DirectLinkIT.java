@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -124,9 +125,6 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		// Load up the config properties for this service.
 		config = CredentialUtils.getServiceProperties(serviceName);
-		System.out.println("Config =------- ==== " + config.size());
-		config.forEach((key, value) -> System.out.println(key + ":" + value));
-		System.out.println("Config Log End =============  ");
 
 		String version;
 		// Date date = new Date();  
@@ -159,7 +157,12 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		List<Gateway> gateways = lisresponseObj.getGateways();
 		for(Gateway gateway: gateways){
-			if(!gateway.getOperationalStatus().equalsIgnoreCase("delete_pending") && gateway.getName().toLowerCase().contains("java-int-sdk") && !gateway.isProviderApiManaged())
+			boolean isBreak = false;
+			boolean isProviderApiManaged = false;
+			if(null != gateway.isProviderApiManaged()){
+				isProviderApiManaged=gateway.isProviderApiManaged();
+			}
+			if(!gateway.getOperationalStatus().equalsIgnoreCase("delete_pending") && gateway.getName().toLowerCase().contains("java-int-sdk") && !isProviderApiManaged)
 			{
 				// Check if it has any VC connected
 				ListGatewayVirtualConnectionsOptions listGatewayVirtualConnectionsOptionsModel = new ListGatewayVirtualConnectionsOptions.Builder()
@@ -176,10 +179,17 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 					List<GatewayVirtualConnection> vcs = respObj.getVirtualConnections();
 
 					for(GatewayVirtualConnection vc: vcs) {
+						if (vc.getType().toLowerCase().equals("spoke")){
+							isBreak = true;
+							break;
+						}
 						deleteVirtualConnection(gateway.getId(), vc.getId());
 					} 
 				}
 
+				if (isBreak) {
+					break;
+				}
 				// Delete the DL GW 
 				DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gateway.getId()).build();
 				Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
@@ -198,10 +208,9 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		if (gwId == null || vcId == null) {
 			return;
 		}
-
 		// Construct an instance of the DeleteGatewayVirtualConnectionOptions model
 		DeleteGatewayVirtualConnectionOptions deleteGatewayVirtualConnectionOptionsModel = new DeleteGatewayVirtualConnectionOptions.Builder()
-				.gatewayId(gwId).id(vcId).build();
+		.gatewayId(gwId).id(vcId).build();
 
 		// Delete the virtual connection and make sure the API responds with a 204 status code
 		Response<Void> delVCResponse = testService
@@ -212,7 +221,6 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// Construct an instance of the GetGatewayVirtualConnectionOptions model
 		GetGatewayVirtualConnectionOptions getGatewayVirtualConnectionOptionsModel = new GetGatewayVirtualConnectionOptions.Builder()
 			.gatewayId(gwId).id(vcId).build();
-	
 		// Poll the gateway's virtual connection waiting for it to actually be removed.
 		boolean done = false;
 		int timerCount = 1;
@@ -1014,5 +1022,204 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  	gatewayId = null; // already cleaned up System.out.
 
 	}
+	
+	@Test()
+	public void testDirectLinkDedicatedGatewayWithConnectionMode(){
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+		assertNotNull(testService);
+		String locationName = config.get("LOCATION_NAME");
+		String gatewayName = "JAVA-INT-SDK-DEDICATED-DLAAS-"+timestamp; 
+		Long bgpAsn = 64999L; 
+		String crossConnectRouter =	"LAB-xcr01.dal09"; 
+		boolean global = true; 
+		Long speedMbps = 1000L; 
+		boolean metered = false; 
+		String carrierName = "carrier1"; 
+		String customerName = "customer1"; 
+		String gatewayType = "dedicated";
+		String connectionMode = "direct";
 
+	  
+		GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
+			.bgpAsn(bgpAsn).global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
+			.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName) 
+			.locationName(locationName).connectionMode(connectionMode).build();
+	  
+	  	// ***************** Create dedicated Gateway ********************* //
+		// Construct an instance of the CreateGatewayOptions model 
+		CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder().gatewayTemplate(gatewayTemplateModel).build();
+	  
+		// Invoke operation with valid options model (positive test)
+		Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
+			assertNotNull(response); 
+			assertEquals(201, 
+			response.getStatusCode());
+	  
+		Gateway responseObj = response.getResult(); 
+		assertNotNull(responseObj);
+		assertEquals(responseObj.getName(), gatewayName);
+		assertEquals(responseObj.getConnectionMode(), connectionMode);
+		
+		// save gw id for clean up routine if we terminate
+	  	gatewayId = responseObj.getId();
+	  
+		// ********** Update the connection mode using Patch gateway ************* 
+		// Construct an instance of the UpdateGatewayOptions model 
+		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+			.connectionMode("transit").build();
+			
+		// Invoke operation with valid options model (positive test) 
+		Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
+		assertNotNull(updateResponse); 
+		assertEquals(200, updateResponse.getStatusCode());
+	  
+		Gateway updateResponseObj = updateResponse.getResult();
+		assertNotNull(updateResponseObj);
+		assertEquals(updateResponseObj.getId(), gatewayId);
+		assertEquals(updateResponseObj.getName(), gatewayName);
+		assertEquals(updateResponseObj.getConnectionMode(), "transit");
+
+		// Delete the dedicated GW 
+		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId) .build(); 
+			
+		//  Invoke operation with valid options model (positive test) 
+		Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
+		assertNotNull(Delresponse); 
+		assertEquals(204, Delresponse.getStatusCode());
+		
+		Void delResponseObj = Delresponse.getResult(); // Response does not have a return type. Check that the result is null. 
+		assertNull(delResponseObj);
+	  
+	  	gatewayId = null; // already cleaned up System.out.
+
+	}
+	
+	@Test(dependsOnMethods = "testPorts")
+	public void testDirectLinkConnectGatewayWithConnectionMode(){
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+		assertNotNull(testService);
+		String gatewayName = "JAVA-INT-SDK-CONNECT-DLAAS-"+timestamp; 
+		Long bgpAsn = 64999L;
+		Long speedMbps = 1000L;
+		boolean metered = false;
+		boolean global = false;
+		String gatewayType = "connect";
+		String bgpBaseCidr = "169.254.0.0/16";
+
+		GatewayPortIdentity gatewayPortIdentityModel = new GatewayPortIdentity.Builder().id(firstPortId).build();
+		GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeConnectTemplate.Builder()
+				.bgpAsn(bgpAsn).global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
+				.port(gatewayPortIdentityModel).bgpBaseCidr(bgpBaseCidr).connectionMode("direct").build();
+	  
+	  	// ***************** Create dedicated Gateway ********************* //
+		// Construct an instance of the CreateGatewayOptions model 
+		CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder().gatewayTemplate(gatewayTemplateModel).build();
+	  
+		// Invoke operation with valid options model (positive test)
+		Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
+			assertNotNull(response); 
+			assertEquals(201, 
+			response.getStatusCode());
+	  
+		Gateway responseObj = response.getResult(); 
+		assertNotNull(responseObj);
+		assertEquals(responseObj.getName(), gatewayName);
+		assertEquals(responseObj.getConnectionMode(), "direct");
+		
+		// save gw id for clean up routine if we terminate
+	  	gatewayId = responseObj.getId();
+
+		  // ********** Get the connect just created and wait for it to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(gatewayId).build();
+
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
+
+			responseObj = getGatewayResponse.getResult();
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+	  
+		// ********** Update the connection mode using Patch gateway ************* 
+		// Construct an instance of the UpdateGatewayOptions model 
+		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+			.connectionMode("transit").build();
+			
+		// Invoke operation with valid options model (positive test) 
+		Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
+		assertNotNull(updateResponse); 
+		assertEquals(200, updateResponse.getStatusCode());
+	  
+		Gateway updateResponseObj = updateResponse.getResult();
+		assertNotNull(updateResponseObj);
+		assertEquals(updateResponseObj.getId(), gatewayId);
+		assertEquals(updateResponseObj.getName(), gatewayName);
+		assertEquals(updateResponseObj.getConnectionMode(), "transit");
+
+
+		// ********** Get the connect just created and wait for it to move to provisioned state *************
+		getGatewayOptionsModel = new GetGatewayOptions.Builder().id(gatewayId).build();
+
+		done = false;
+		timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
+
+			responseObj = getGatewayResponse.getResult();
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// Delete the dedicated GW 
+		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId) .build(); 
+			
+		//  Invoke operation with valid options model (positive test) 
+		Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
+		assertNotNull(Delresponse); 
+		assertEquals(204, Delresponse.getStatusCode());
+		
+		Void delResponseObj = Delresponse.getResult(); // Response does not have a return type. Check that the result is null. 
+		assertNull(delResponseObj);
+	  
+	  	gatewayId = null; // already cleaned up System.out.
+
+	}
 }

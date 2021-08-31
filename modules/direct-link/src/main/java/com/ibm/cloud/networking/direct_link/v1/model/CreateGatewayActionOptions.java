@@ -40,9 +40,22 @@ public class CreateGatewayActionOptions extends GenericModel {
     String UPDATE_ATTRIBUTES_REJECT = "update_attributes_reject";
   }
 
+  /**
+   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   */
+  public interface ConnectionMode {
+    /** direct. */
+    String DIRECT = "direct";
+    /** transit. */
+    String TRANSIT = "transit";
+  }
+
   protected String id;
   protected String action;
   protected GatewayActionTemplateAuthenticationKey authenticationKey;
+  protected String connectionMode;
   protected Boolean global;
   protected Boolean metered;
   protected ResourceGroupIdentity resourceGroup;
@@ -55,6 +68,7 @@ public class CreateGatewayActionOptions extends GenericModel {
     private String id;
     private String action;
     private GatewayActionTemplateAuthenticationKey authenticationKey;
+    private String connectionMode;
     private Boolean global;
     private Boolean metered;
     private ResourceGroupIdentity resourceGroup;
@@ -64,6 +78,7 @@ public class CreateGatewayActionOptions extends GenericModel {
       this.id = createGatewayActionOptions.id;
       this.action = createGatewayActionOptions.action;
       this.authenticationKey = createGatewayActionOptions.authenticationKey;
+      this.connectionMode = createGatewayActionOptions.connectionMode;
       this.global = createGatewayActionOptions.global;
       this.metered = createGatewayActionOptions.metered;
       this.resourceGroup = createGatewayActionOptions.resourceGroup;
@@ -146,6 +161,17 @@ public class CreateGatewayActionOptions extends GenericModel {
     }
 
     /**
+     * Set the connectionMode.
+     *
+     * @param connectionMode the connectionMode
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder connectionMode(String connectionMode) {
+      this.connectionMode = connectionMode;
+      return this;
+    }
+
+    /**
      * Set the global.
      *
      * @param global the global
@@ -199,6 +225,7 @@ public class CreateGatewayActionOptions extends GenericModel {
     id = builder.id;
     action = builder.action;
     authenticationKey = builder.authenticationKey;
+    connectionMode = builder.connectionMode;
     global = builder.global;
     metered = builder.metered;
     resourceGroup = builder.resourceGroup;
@@ -248,6 +275,19 @@ public class CreateGatewayActionOptions extends GenericModel {
    */
   public GatewayActionTemplateAuthenticationKey authenticationKey() {
     return authenticationKey;
+  }
+
+  /**
+   * Gets the connectionMode.
+   *
+   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   *
+   * @return the connectionMode
+   */
+  public String connectionMode() {
+    return connectionMode;
   }
 
   /**

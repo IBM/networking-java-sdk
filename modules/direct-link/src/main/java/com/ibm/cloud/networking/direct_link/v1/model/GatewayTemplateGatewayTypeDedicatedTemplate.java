@@ -18,6 +18,18 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate {
 
   /**
+   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
+   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
+   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   */
+  public interface ConnectionMode {
+    /** direct. */
+    String DIRECT = "direct";
+    /** transit. */
+    String TRANSIT = "transit";
+  }
+
+  /**
    * Offering type.
    */
   public interface Type {
@@ -37,6 +49,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     private String bgpBaseCidr;
     private String bgpCerCidr;
     private String bgpIbmCidr;
+    private String connectionMode;
     private Boolean global;
     private Boolean metered;
     private String name;
@@ -55,6 +68,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       this.bgpBaseCidr = gatewayTemplateGatewayTypeDedicatedTemplate.bgpBaseCidr;
       this.bgpCerCidr = gatewayTemplateGatewayTypeDedicatedTemplate.bgpCerCidr;
       this.bgpIbmCidr = gatewayTemplateGatewayTypeDedicatedTemplate.bgpIbmCidr;
+      this.connectionMode = gatewayTemplateGatewayTypeDedicatedTemplate.connectionMode;
       this.global = gatewayTemplateGatewayTypeDedicatedTemplate.global;
       this.metered = gatewayTemplateGatewayTypeDedicatedTemplate.metered;
       this.name = gatewayTemplateGatewayTypeDedicatedTemplate.name;
@@ -162,6 +176,17 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
      */
     public Builder bgpIbmCidr(String bgpIbmCidr) {
       this.bgpIbmCidr = bgpIbmCidr;
+      return this;
+    }
+
+    /**
+     * Set the connectionMode.
+     *
+     * @param connectionMode the connectionMode
+     * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
+     */
+    public Builder connectionMode(String connectionMode) {
+      this.connectionMode = connectionMode;
       return this;
     }
 
@@ -313,6 +338,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     bgpBaseCidr = builder.bgpBaseCidr;
     bgpCerCidr = builder.bgpCerCidr;
     bgpIbmCidr = builder.bgpIbmCidr;
+    connectionMode = builder.connectionMode;
     global = builder.global;
     metered = builder.metered;
     name = builder.name;

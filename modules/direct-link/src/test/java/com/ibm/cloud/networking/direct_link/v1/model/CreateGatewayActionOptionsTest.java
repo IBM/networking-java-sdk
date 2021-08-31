@@ -55,6 +55,7 @@ public class CreateGatewayActionOptionsTest {
       .id("testString")
       .action("create_gateway_approve")
       .authenticationKey(gatewayActionTemplateAuthenticationKeyModel)
+      .connectionMode("transit")
       .global(true)
       .metered(false)
       .resourceGroup(resourceGroupIdentityModel)
@@ -63,6 +64,7 @@ public class CreateGatewayActionOptionsTest {
     assertEquals(createGatewayActionOptionsModel.id(), "testString");
     assertEquals(createGatewayActionOptionsModel.action(), "create_gateway_approve");
     assertEquals(createGatewayActionOptionsModel.authenticationKey(), gatewayActionTemplateAuthenticationKeyModel);
+    assertEquals(createGatewayActionOptionsModel.connectionMode(), "transit");
     assertEquals(createGatewayActionOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(createGatewayActionOptionsModel.metered(), Boolean.valueOf(false));
     assertEquals(createGatewayActionOptionsModel.resourceGroup(), resourceGroupIdentityModel);

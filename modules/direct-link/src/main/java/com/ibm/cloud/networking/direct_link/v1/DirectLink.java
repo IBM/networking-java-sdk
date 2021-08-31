@@ -271,6 +271,9 @@ public class DirectLink extends BaseService {
     if (updateGatewayOptions.authenticationKey() != null) {
       contentJson.add("authentication_key", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateGatewayOptions.authenticationKey()));
     }
+    if (updateGatewayOptions.connectionMode() != null) {
+      contentJson.addProperty("connection_mode", updateGatewayOptions.connectionMode());
+    }
     if (updateGatewayOptions.global() != null) {
       contentJson.addProperty("global", updateGatewayOptions.global());
     }
@@ -325,6 +328,9 @@ public class DirectLink extends BaseService {
     contentJson.addProperty("action", createGatewayActionOptions.action());
     if (createGatewayActionOptions.authenticationKey() != null) {
       contentJson.add("authentication_key", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayActionOptions.authenticationKey()));
+    }
+    if (createGatewayActionOptions.connectionMode() != null) {
+      contentJson.addProperty("connection_mode", createGatewayActionOptions.connectionMode());
     }
     if (createGatewayActionOptions.global() != null) {
       contentJson.addProperty("global", createGatewayActionOptions.global());

@@ -64,6 +64,7 @@ public class UpdateGatewayOptionsTest {
     UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
       .id("testString")
       .authenticationKey(gatewayPatchTemplateAuthenticationKeyModel)
+      .connectionMode("transit")
       .global(true)
       .loaRejectReason("The port mentioned was incorrect")
       .macsecConfig(gatewayMacsecConfigPatchTemplateModel)
@@ -74,6 +75,7 @@ public class UpdateGatewayOptionsTest {
       .build();
     assertEquals(updateGatewayOptionsModel.id(), "testString");
     assertEquals(updateGatewayOptionsModel.authenticationKey(), gatewayPatchTemplateAuthenticationKeyModel);
+    assertEquals(updateGatewayOptionsModel.connectionMode(), "transit");
     assertEquals(updateGatewayOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(updateGatewayOptionsModel.loaRejectReason(), "The port mentioned was incorrect");
     assertEquals(updateGatewayOptionsModel.macsecConfig(), gatewayMacsecConfigPatchTemplateModel);
