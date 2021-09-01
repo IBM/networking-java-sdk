@@ -1,3 +1,10 @@
+## [0.21.1](https://github.com/IBM/networking-java-sdk/compare/0.21.0...0.21.1) (2021-09-01)
+
+
+### Bug Fixes
+
+* publish coverage reports ([#34](https://github.com/IBM/networking-java-sdk/issues/34)) ([60247ae](https://github.com/IBM/networking-java-sdk/commit/60247ae22582fba746b8425d00bf9c2bd0069cd1))
+
 # [0.21.0](https://github.com/IBM/networking-java-sdk/compare/0.20.0...0.21.0) (2021-08-31)
 
 
