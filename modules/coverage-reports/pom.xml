@@ -16,11 +16,12 @@
     <!-- >>> Replace "My Services" with the service category for the project -->
     <name>Networking Coverage Reports</name>
 
+<!--  Need to publish coverage reports since they are last module
     <properties>
-	<!-- There is no need to publish this module's artifacts on maven central -->
         <maven.deploy.skip>true</maven.deploy.skip>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
+ -->
 
     <dependencies>
         <!-- 
