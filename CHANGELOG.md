@@ -1,3 +1,10 @@
+## [0.21.2](https://github.com/IBM/networking-java-sdk/compare/0.21.1...0.21.2) (2021-09-02)
+
+
+### Bug Fixes
+
+* Increase nexus-staging timeout ([#36](https://github.com/IBM/networking-java-sdk/issues/36)) ([99ec9aa](https://github.com/IBM/networking-java-sdk/commit/99ec9aa6828bfd663e17fa82dd09b38b957fff5a))
+
 ## [0.21.1](https://github.com/IBM/networking-java-sdk/compare/0.21.0...0.21.1) (2021-09-01)
 
 
