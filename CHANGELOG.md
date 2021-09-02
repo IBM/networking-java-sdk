@@ -1,3 +1,10 @@
+## [0.21.3](https://github.com/IBM/networking-java-sdk/compare/0.21.2...0.21.3) (2021-09-02)
+
+
+### Bug Fixes
+
+* update package signing key ([#37](https://github.com/IBM/networking-java-sdk/issues/37)) ([0a78b03](https://github.com/IBM/networking-java-sdk/commit/0a78b0308d1014f17f6c9da7578790e77bff4264))
+
 ## [0.21.2](https://github.com/IBM/networking-java-sdk/compare/0.21.1...0.21.2) (2021-09-02)
 
 
