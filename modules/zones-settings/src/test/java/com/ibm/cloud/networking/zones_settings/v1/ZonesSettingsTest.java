@@ -32,6 +32,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.GetCiphersOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHttp2Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetHttp3Options;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetImageLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetIpGeolocationOptions;
@@ -57,6 +58,8 @@ import com.ibm.cloud.networking.zones_settings.v1.model.HotlinkProtectionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.HotlinkProtectionRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.Http2Resp;
 import com.ibm.cloud.networking.zones_settings.v1.model.Http2RespResult;
+import com.ibm.cloud.networking.zones_settings.v1.model.Http3Resp;
+import com.ibm.cloud.networking.zones_settings.v1.model.Http3RespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageLoadOptimizationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageLoadOptimizationRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageSizeOptimizationResp;
@@ -109,6 +112,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.UpdateCiphersOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHttp2Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHttp3Options;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateIpGeolocationOptions;
@@ -1579,6 +1583,80 @@ public class ZonesSettingsTest extends PowerMockTestCase {
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, updateHttp2Path);
+  }
+
+  @Test
+  public void testGetHttp3WOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"result\": {\"id\": \"http3\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2018-09-14T09:49:19.524Z\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
+    String getHttp3Path = "/v1/testString/zones/testString/settings/http3";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the GetHttp3Options model
+    GetHttp3Options getHttp3OptionsModel = new GetHttp3Options();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Http3Resp> response = zonesSettingsService.getHttp3(getHttp3OptionsModel).execute();
+    assertNotNull(response);
+    Http3Resp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getHttp3Path);
+  }
+
+  @Test
+  public void testUpdateHttp3WOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"result\": {\"id\": \"http3\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2018-09-14T09:49:19.524Z\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
+    String updateHttp3Path = "/v1/testString/zones/testString/settings/http3";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the UpdateHttp3Options model
+    UpdateHttp3Options updateHttp3OptionsModel = new UpdateHttp3Options.Builder()
+    .value("on")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Http3Resp> response = zonesSettingsService.updateHttp3(updateHttp3OptionsModel).execute();
+    assertNotNull(response);
+    Http3Resp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PATCH");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, updateHttp3Path);
   }
 
   @Test
