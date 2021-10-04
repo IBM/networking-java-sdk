@@ -32,6 +32,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.GetCiphersOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHttp2Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetHttp3Options;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetImageLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetIpGeolocationOptions;
@@ -55,6 +56,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.GetZoneCnameFlatteningOp
 import com.ibm.cloud.networking.zones_settings.v1.model.GetZoneDnssecOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.HotlinkProtectionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.Http2Resp;
+import com.ibm.cloud.networking.zones_settings.v1.model.Http3Resp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageLoadOptimizationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageSizeOptimizationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.IpGeolocationResp;
@@ -81,6 +83,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.UpdateCiphersOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHttp2Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHttp3Options;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateIpGeolocationOptions;
@@ -115,6 +118,7 @@ import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.HashMap;
 
 /**
  * CIS Zones Settings.
@@ -1641,6 +1645,86 @@ public class ZonesSettings extends BaseService {
     ResponseConverter<Ipv6Resp> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Ipv6Resp>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get http/3 setting.
+   *
+   * Get http/3 setting for a zone.
+   *
+   * @param getHttp3Options the {@link GetHttp3Options} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link Http3Resp}
+   */
+  public ServiceCall<Http3Resp> getHttp3(GetHttp3Options getHttp3Options) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/http3", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getHttp3");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<Http3Resp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Http3Resp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get http/3 setting.
+   *
+   * Get http/3 setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link Http3Resp}
+   */
+  public ServiceCall<Http3Resp> getHttp3() {
+    return getHttp3(null);
+  }
+
+  /**
+   * Update http/3 setting.
+   *
+   * Update http/3 setting for a zone.
+   *
+   * @param updateHttp3Options the {@link UpdateHttp3Options} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link Http3Resp}
+   */
+  public ServiceCall<Http3Resp> updateHttp3(UpdateHttp3Options updateHttp3Options) {
+    boolean skipBody = false;
+    if (updateHttp3Options == null) {
+      updateHttp3Options = new UpdateHttp3Options.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/http3", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateHttp3");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateHttp3Options.value() != null) {
+        contentJson.addProperty("value", updateHttp3Options.value());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<Http3Resp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Http3Resp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update http/3 setting.
+   *
+   * Update http/3 setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link Http3Resp}
+   */
+  public ServiceCall<Http3Resp> updateHttp3() {
+    return updateHttp3(null);
   }
 
   /**

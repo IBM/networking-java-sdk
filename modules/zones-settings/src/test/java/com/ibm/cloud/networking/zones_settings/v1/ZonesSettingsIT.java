@@ -33,6 +33,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.GetCiphersOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHttp2Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetHttp3Options;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetImageLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetIpGeolocationOptions;
@@ -58,6 +59,8 @@ import com.ibm.cloud.networking.zones_settings.v1.model.HotlinkProtectionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.HotlinkProtectionRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.Http2Resp;
 import com.ibm.cloud.networking.zones_settings.v1.model.Http2RespResult;
+import com.ibm.cloud.networking.zones_settings.v1.model.Http3Resp;
+import com.ibm.cloud.networking.zones_settings.v1.model.Http3RespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageLoadOptimizationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageLoadOptimizationRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageSizeOptimizationResp;
@@ -110,6 +113,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.UpdateCiphersOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHttp2Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHttp3Options;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateIpGeolocationOptions;
@@ -992,6 +996,48 @@ public class ZonesSettingsIT extends SdkIntegrationTestBase {
       Http2Resp http2RespResult = response.getResult();
 
       assertNotNull(http2RespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetHttp3() throws Exception {
+    try {
+      GetHttp3Options getHttp3Options = new GetHttp3Options();
+
+      // Invoke operation
+      Response<Http3Resp> response = service.getHttp3(getHttp3Options).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      Http3Resp http3RespResult = response.getResult();
+
+      assertNotNull(http3RespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateHttp3() throws Exception {
+    try {
+      UpdateHttp3Options updateHttp3Options = new UpdateHttp3Options.Builder()
+      .value("on")
+      .build();
+
+      // Invoke operation
+      Response<Http3Resp> response = service.updateHttp3(updateHttp3Options).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      Http3Resp http3RespResult = response.getResult();
+
+      assertNotNull(http3RespResult);
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
