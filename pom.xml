@@ -84,6 +84,7 @@
         <module>modules/zones-settings</module>
         <module>modules/cis-range-applications</module>
         <module>modules/page-rule-api</module>
+        <module>modules/filters</module>
         <module>modules/dns-svcs</module>
 
         <!-- This module should always be listed last -->
