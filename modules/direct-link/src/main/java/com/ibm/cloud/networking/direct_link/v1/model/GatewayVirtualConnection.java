@@ -58,6 +58,8 @@ public class GatewayVirtualConnection extends GenericModel {
     String CLASSIC = "classic";
     /** vpc. */
     String VPC = "vpc";
+    /** transit. */
+    String TRANSIT = "transit";
   }
 
   @SerializedName("created_at")

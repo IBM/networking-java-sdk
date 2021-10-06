@@ -16,6 +16,7 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigActionTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -41,6 +42,13 @@ public class CreateGatewayActionOptionsTest {
       .build();
     assertEquals(gatewayActionTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
 
+    GatewayBfdConfigActionTemplate gatewayBfdConfigActionTemplateModel = new GatewayBfdConfigActionTemplate.Builder()
+      .interval(Long.valueOf("2000"))
+      .multiplier(Long.valueOf("10"))
+      .build();
+    assertEquals(gatewayBfdConfigActionTemplateModel.interval(), Long.valueOf("2000"));
+    assertEquals(gatewayBfdConfigActionTemplateModel.multiplier(), Long.valueOf("10"));
+
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
       .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
@@ -55,6 +63,7 @@ public class CreateGatewayActionOptionsTest {
       .id("testString")
       .action("create_gateway_approve")
       .authenticationKey(gatewayActionTemplateAuthenticationKeyModel)
+      .bfdConfig(gatewayBfdConfigActionTemplateModel)
       .connectionMode("transit")
       .global(true)
       .metered(false)
@@ -64,6 +73,7 @@ public class CreateGatewayActionOptionsTest {
     assertEquals(createGatewayActionOptionsModel.id(), "testString");
     assertEquals(createGatewayActionOptionsModel.action(), "create_gateway_approve");
     assertEquals(createGatewayActionOptionsModel.authenticationKey(), gatewayActionTemplateAuthenticationKeyModel);
+    assertEquals(createGatewayActionOptionsModel.bfdConfig(), gatewayBfdConfigActionTemplateModel);
     assertEquals(createGatewayActionOptionsModel.connectionMode(), "transit");
     assertEquals(createGatewayActionOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(createGatewayActionOptionsModel.metered(), Boolean.valueOf(false));

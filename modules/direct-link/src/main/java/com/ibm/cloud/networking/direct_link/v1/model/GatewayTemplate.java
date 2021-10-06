@@ -48,6 +48,8 @@ public class GatewayTemplate extends GenericModel {
 
   @SerializedName("authentication_key")
   protected GatewayTemplateAuthenticationKey authenticationKey;
+  @SerializedName("bfd_config")
+  protected GatewayBfdConfigTemplate bfdConfig;
   @SerializedName("bgp_asn")
   protected Long bgpAsn;
   @SerializedName("bgp_base_cidr")
@@ -61,6 +63,8 @@ public class GatewayTemplate extends GenericModel {
   protected Boolean global;
   protected Boolean metered;
   protected String name;
+  @SerializedName("patch_panel_completion_notice")
+  protected String patchPanelCompletionNotice;
   @SerializedName("resource_group")
   protected ResourceGroupIdentity resourceGroup;
   @SerializedName("speed_mbps")
@@ -93,6 +97,17 @@ public class GatewayTemplate extends GenericModel {
    */
   public GatewayTemplateAuthenticationKey authenticationKey() {
     return authenticationKey;
+  }
+
+  /**
+   * Gets the bfdConfig.
+   *
+   * BFD configuration information.
+   *
+   * @return the bfdConfig
+   */
+  public GatewayBfdConfigTemplate bfdConfig() {
+    return bfdConfig;
   }
 
   /**
@@ -203,6 +218,17 @@ public class GatewayTemplate extends GenericModel {
    */
   public String name() {
     return name;
+  }
+
+  /**
+   * Gets the patchPanelCompletionNotice.
+   *
+   * Gateway patch panel complete notification from implementation team.
+   *
+   * @return the patchPanelCompletionNotice
+   */
+  public String patchPanelCompletionNotice() {
+    return patchPanelCompletionNotice;
   }
 
   /**

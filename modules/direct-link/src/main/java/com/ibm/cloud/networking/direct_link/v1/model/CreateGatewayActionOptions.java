@@ -41,9 +41,11 @@ public class CreateGatewayActionOptions extends GenericModel {
   }
 
   /**
-   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
-   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
-   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   * Applicable for create_gateway_approve requests to select the type of services this gateway is attached to. Mode
+   * transit indicates this gateway will be attached to Transit Gateway Service and direct means this gateway will be
+   * attached to vpc or classic connection. If unspecified on create_gateway_approve, default value direct is used. The
+   * list of enumerated values for this property may expand in the future. Code and processes using this field must
+   * tolerate unexpected values.
    */
   public interface ConnectionMode {
     /** direct. */
@@ -55,6 +57,7 @@ public class CreateGatewayActionOptions extends GenericModel {
   protected String id;
   protected String action;
   protected GatewayActionTemplateAuthenticationKey authenticationKey;
+  protected GatewayBfdConfigActionTemplate bfdConfig;
   protected String connectionMode;
   protected Boolean global;
   protected Boolean metered;
@@ -68,6 +71,7 @@ public class CreateGatewayActionOptions extends GenericModel {
     private String id;
     private String action;
     private GatewayActionTemplateAuthenticationKey authenticationKey;
+    private GatewayBfdConfigActionTemplate bfdConfig;
     private String connectionMode;
     private Boolean global;
     private Boolean metered;
@@ -78,6 +82,7 @@ public class CreateGatewayActionOptions extends GenericModel {
       this.id = createGatewayActionOptions.id;
       this.action = createGatewayActionOptions.action;
       this.authenticationKey = createGatewayActionOptions.authenticationKey;
+      this.bfdConfig = createGatewayActionOptions.bfdConfig;
       this.connectionMode = createGatewayActionOptions.connectionMode;
       this.global = createGatewayActionOptions.global;
       this.metered = createGatewayActionOptions.metered;
@@ -161,6 +166,17 @@ public class CreateGatewayActionOptions extends GenericModel {
     }
 
     /**
+     * Set the bfdConfig.
+     *
+     * @param bfdConfig the bfdConfig
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder bfdConfig(GatewayBfdConfigActionTemplate bfdConfig) {
+      this.bfdConfig = bfdConfig;
+      return this;
+    }
+
+    /**
      * Set the connectionMode.
      *
      * @param connectionMode the connectionMode
@@ -225,6 +241,7 @@ public class CreateGatewayActionOptions extends GenericModel {
     id = builder.id;
     action = builder.action;
     authenticationKey = builder.authenticationKey;
+    bfdConfig = builder.bfdConfig;
     connectionMode = builder.connectionMode;
     global = builder.global;
     metered = builder.metered;
@@ -266,7 +283,7 @@ public class CreateGatewayActionOptions extends GenericModel {
   /**
    * Gets the authenticationKey.
    *
-   * The identity of the standard key to use for BGP MD5 authentication key.
+   * Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key.
    * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
    * in length.
    * To clear the optional `authentication_key` field patch its crn to `""`.
@@ -278,11 +295,24 @@ public class CreateGatewayActionOptions extends GenericModel {
   }
 
   /**
+   * Gets the bfdConfig.
+   *
+   * Applicable for create_gateway_approve requests to select the gateway's BFD configuration information.
+   *
+   * @return the bfdConfig
+   */
+  public GatewayBfdConfigActionTemplate bfdConfig() {
+    return bfdConfig;
+  }
+
+  /**
    * Gets the connectionMode.
    *
-   * Type of services this Gateway is attached to. Mode transit means this Gateway will be attached to Transit Gateway
-   * Service and direct means this Gateway will be attached to vpc or classic connection. The list of enumerated values
-   * for this property may expand in the future. Code and processes using this field  must tolerate unexpected values.
+   * Applicable for create_gateway_approve requests to select the type of services this gateway is attached to. Mode
+   * transit indicates this gateway will be attached to Transit Gateway Service and direct means this gateway will be
+   * attached to vpc or classic connection. If unspecified on create_gateway_approve, default value direct is used. The
+   * list of enumerated values for this property may expand in the future. Code and processes using this field must
+   * tolerate unexpected values.
    *
    * @return the connectionMode
    */
@@ -293,7 +323,7 @@ public class CreateGatewayActionOptions extends GenericModel {
   /**
    * Gets the global.
    *
-   * Required for create_gateway_approve requests to select the gateway's routing option.  Gateways with global routing
+   * Applicable for create_gateway_approve requests to select the gateway's routing option. Gateways with global routing
    * (`true`) can connect to networks outside of their associated region.
    *
    * @return the global
@@ -305,7 +335,7 @@ public class CreateGatewayActionOptions extends GenericModel {
   /**
    * Gets the metered.
    *
-   * Required for create_gateway_approve requests to select the gateway's metered billing option.  When `true` gateway
+   * Applicable for create_gateway_approve requests to select the gateway's metered billing option.  When `true` gateway
    * usage is billed per gigabyte.  When `false` there is no per gigabyte usage charge, instead a flat rate is charged
    * for the gateway.
    *

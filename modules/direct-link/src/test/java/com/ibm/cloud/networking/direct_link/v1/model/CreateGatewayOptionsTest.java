@@ -14,6 +14,7 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
@@ -41,6 +42,13 @@ public class CreateGatewayOptionsTest {
       .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
       .build();
     assertEquals(gatewayTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
+
+    GatewayBfdConfigTemplate gatewayBfdConfigTemplateModel = new GatewayBfdConfigTemplate.Builder()
+      .interval(Long.valueOf("2000"))
+      .multiplier(Long.valueOf("10"))
+      .build();
+    assertEquals(gatewayBfdConfigTemplateModel.interval(), Long.valueOf("2000"));
+    assertEquals(gatewayBfdConfigTemplateModel.multiplier(), Long.valueOf("10"));
 
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
       .id("56969d6043e9465c883cb9f7363e78e8")
@@ -70,6 +78,7 @@ public class CreateGatewayOptionsTest {
 
     GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
       .authenticationKey(gatewayTemplateAuthenticationKeyModel)
+      .bfdConfig(gatewayBfdConfigTemplateModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpBaseCidr("testString")
       .bgpCerCidr("169.254.0.10/30")
@@ -78,6 +87,7 @@ public class CreateGatewayOptionsTest {
       .global(true)
       .metered(false)
       .name("myGateway")
+      .patchPanelCompletionNotice("patch panel configuration details")
       .resourceGroup(resourceGroupIdentityModel)
       .speedMbps(Long.valueOf("1000"))
       .type("dedicated")
@@ -88,6 +98,7 @@ public class CreateGatewayOptionsTest {
       .macsecConfig(gatewayMacsecConfigTemplateModel)
       .build();
     assertEquals(gatewayTemplateModel.authenticationKey(), gatewayTemplateAuthenticationKeyModel);
+    assertEquals(gatewayTemplateModel.bfdConfig(), gatewayBfdConfigTemplateModel);
     assertEquals(gatewayTemplateModel.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateModel.bgpBaseCidr(), "testString");
     assertEquals(gatewayTemplateModel.bgpCerCidr(), "169.254.0.10/30");
@@ -96,6 +107,7 @@ public class CreateGatewayOptionsTest {
     assertEquals(gatewayTemplateModel.global(), Boolean.valueOf(true));
     assertEquals(gatewayTemplateModel.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateModel.name(), "myGateway");
+    assertEquals(gatewayTemplateModel.patchPanelCompletionNotice(), "patch panel configuration details");
     assertEquals(gatewayTemplateModel.resourceGroup(), resourceGroupIdentityModel);
     assertEquals(gatewayTemplateModel.speedMbps(), Long.valueOf("1000"));
     assertEquals(gatewayTemplateModel.type(), "dedicated");

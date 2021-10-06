@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,6 +20,9 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class UpdateProviderGatewayOptions extends GenericModel {
 
   protected String id;
+  protected Long bgpAsn;
+  protected String bgpCerCidr;
+  protected String bgpIbmCidr;
   protected String name;
   protected Long speedMbps;
 
@@ -28,11 +31,17 @@ public class UpdateProviderGatewayOptions extends GenericModel {
    */
   public static class Builder {
     private String id;
+    private Long bgpAsn;
+    private String bgpCerCidr;
+    private String bgpIbmCidr;
     private String name;
     private Long speedMbps;
 
     private Builder(UpdateProviderGatewayOptions updateProviderGatewayOptions) {
       this.id = updateProviderGatewayOptions.id;
+      this.bgpAsn = updateProviderGatewayOptions.bgpAsn;
+      this.bgpCerCidr = updateProviderGatewayOptions.bgpCerCidr;
+      this.bgpIbmCidr = updateProviderGatewayOptions.bgpIbmCidr;
       this.name = updateProviderGatewayOptions.name;
       this.speedMbps = updateProviderGatewayOptions.speedMbps;
     }
@@ -73,6 +82,39 @@ public class UpdateProviderGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the bgpAsn.
+     *
+     * @param bgpAsn the bgpAsn
+     * @return the UpdateProviderGatewayOptions builder
+     */
+    public Builder bgpAsn(long bgpAsn) {
+      this.bgpAsn = bgpAsn;
+      return this;
+    }
+
+    /**
+     * Set the bgpCerCidr.
+     *
+     * @param bgpCerCidr the bgpCerCidr
+     * @return the UpdateProviderGatewayOptions builder
+     */
+    public Builder bgpCerCidr(String bgpCerCidr) {
+      this.bgpCerCidr = bgpCerCidr;
+      return this;
+    }
+
+    /**
+     * Set the bgpIbmCidr.
+     *
+     * @param bgpIbmCidr the bgpIbmCidr
+     * @return the UpdateProviderGatewayOptions builder
+     */
+    public Builder bgpIbmCidr(String bgpIbmCidr) {
+      this.bgpIbmCidr = bgpIbmCidr;
+      return this;
+    }
+
+    /**
      * Set the name.
      *
      * @param name the name
@@ -99,6 +141,9 @@ public class UpdateProviderGatewayOptions extends GenericModel {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
     id = builder.id;
+    bgpAsn = builder.bgpAsn;
+    bgpCerCidr = builder.bgpCerCidr;
+    bgpIbmCidr = builder.bgpIbmCidr;
     name = builder.name;
     speedMbps = builder.speedMbps;
   }
@@ -121,6 +166,49 @@ public class UpdateProviderGatewayOptions extends GenericModel {
    */
   public String id() {
     return id;
+  }
+
+  /**
+   * Gets the bgpAsn.
+   *
+   * The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0
+   * gateway.
+   *
+   * @return the bgpAsn
+   */
+  public Long bgpAsn() {
+    return bgpAsn;
+  }
+
+  /**
+   * Gets the bgpCerCidr.
+   *
+   * BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+   * router for the DL 2.0 gateway. Customer edge IP and IBM IP should be in the same network. Updating customer edge
+   * router CIDR should be accompanied with IBM CIDR in the request. Update customer edge router IP to a valid
+   * bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must reside in one of "10.254.0.0/16", "172.16.0.0/12",
+   * "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching
+   * network and subnet mask values.
+   *
+   * @return the bgpCerCidr
+   */
+  public String bgpCerCidr() {
+    return bgpCerCidr;
+  }
+
+  /**
+   * Gets the bgpIbmCidr.
+   *
+   * BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+   * gateway. IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with
+   * customer edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value
+   * must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+   *  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+   *
+   * @return the bgpIbmCidr
+   */
+  public String bgpIbmCidr() {
+    return bgpIbmCidr;
   }
 
   /**

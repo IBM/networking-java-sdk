@@ -106,6 +106,8 @@ public class Gateway extends GenericModel {
 
   @SerializedName("authentication_key")
   protected GatewayAuthenticationKey authenticationKey;
+  @SerializedName("bfd_config")
+  protected GatewayBfdConfig bfdConfig;
   @SerializedName("bgp_asn")
   protected Long bgpAsn;
   @SerializedName("bgp_base_cidr")
@@ -118,6 +120,8 @@ public class Gateway extends GenericModel {
   protected String bgpIbmCidr;
   @SerializedName("bgp_status")
   protected String bgpStatus;
+  @SerializedName("bgp_status_updated_at")
+  protected Date bgpStatusUpdatedAt;
   @SerializedName("carrier_name")
   protected String carrierName;
   @SerializedName("change_request")
@@ -137,6 +141,8 @@ public class Gateway extends GenericModel {
   protected String id;
   @SerializedName("link_status")
   protected String linkStatus;
+  @SerializedName("link_status_updated_at")
+  protected Date linkStatusUpdatedAt;
   @SerializedName("location_display_name")
   protected String locationDisplayName;
   @SerializedName("location_name")
@@ -147,6 +153,8 @@ public class Gateway extends GenericModel {
   protected String name;
   @SerializedName("operational_status")
   protected String operationalStatus;
+  @SerializedName("patch_panel_completion_notice")
+  protected String patchPanelCompletionNotice;
   protected GatewayPort port;
   @SerializedName("provider_api_managed")
   protected Boolean providerApiManaged;
@@ -169,6 +177,17 @@ public class Gateway extends GenericModel {
    */
   public GatewayAuthenticationKey getAuthenticationKey() {
     return authenticationKey;
+  }
+
+  /**
+   * Gets the bfdConfig.
+   *
+   * BFD configuration information.
+   *
+   * @return the bfdConfig
+   */
+  public GatewayBfdConfig getBfdConfig() {
+    return bfdConfig;
   }
 
   /**
@@ -240,6 +259,17 @@ public class Gateway extends GenericModel {
    */
   public String getBgpStatus() {
     return bgpStatus;
+  }
+
+  /**
+   * Gets the bgpStatusUpdatedAt.
+   *
+   * Date and time bgp status was updated.
+   *
+   * @return the bgpStatusUpdatedAt
+   */
+  public Date getBgpStatusUpdatedAt() {
+    return bgpStatusUpdatedAt;
   }
 
   /**
@@ -368,6 +398,17 @@ public class Gateway extends GenericModel {
   }
 
   /**
+   * Gets the linkStatusUpdatedAt.
+   *
+   * Date and time link status was updated.
+   *
+   * @return the linkStatusUpdatedAt
+   */
+  public Date getLinkStatusUpdatedAt() {
+    return linkStatusUpdatedAt;
+  }
+
+  /**
    * Gets the locationDisplayName.
    *
    * Gateway location long name.
@@ -434,6 +475,17 @@ public class Gateway extends GenericModel {
    */
   public String getOperationalStatus() {
     return operationalStatus;
+  }
+
+  /**
+   * Gets the patchPanelCompletionNotice.
+   *
+   * Gateway patch panel complete notification from implementation team.
+   *
+   * @return the patchPanelCompletionNotice
+   */
+  public String getPatchPanelCompletionNotice() {
+    return patchPanelCompletionNotice;
   }
 
   /**

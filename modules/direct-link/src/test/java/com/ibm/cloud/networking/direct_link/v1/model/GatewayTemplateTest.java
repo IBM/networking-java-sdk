@@ -13,6 +13,7 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;

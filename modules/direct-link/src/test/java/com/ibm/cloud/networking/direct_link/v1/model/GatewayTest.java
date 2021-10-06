@@ -15,6 +15,7 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfig;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayCreate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigActiveCak;
@@ -24,6 +25,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayPort;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -41,12 +43,14 @@ public class GatewayTest {
   public void testGateway() throws Throwable {
     Gateway gatewayModel = new Gateway();
     assertNull(gatewayModel.getAuthenticationKey());
+    assertNull(gatewayModel.getBfdConfig());
     assertNull(gatewayModel.getBgpAsn());
     assertNull(gatewayModel.getBgpBaseCidr());
     assertNull(gatewayModel.getBgpCerCidr());
     assertNull(gatewayModel.getBgpIbmAsn());
     assertNull(gatewayModel.getBgpIbmCidr());
     assertNull(gatewayModel.getBgpStatus());
+    assertNull(gatewayModel.getBgpStatusUpdatedAt());
     assertNull(gatewayModel.getCarrierName());
     assertNull(gatewayModel.getChangeRequest());
     assertNull(gatewayModel.getCompletionNoticeRejectReason());
@@ -58,12 +62,14 @@ public class GatewayTest {
     assertNull(gatewayModel.isGlobal());
     assertNull(gatewayModel.getId());
     assertNull(gatewayModel.getLinkStatus());
+    assertNull(gatewayModel.getLinkStatusUpdatedAt());
     assertNull(gatewayModel.getLocationDisplayName());
     assertNull(gatewayModel.getLocationName());
     assertNull(gatewayModel.getMacsecConfig());
     assertNull(gatewayModel.isMetered());
     assertNull(gatewayModel.getName());
     assertNull(gatewayModel.getOperationalStatus());
+    assertNull(gatewayModel.getPatchPanelCompletionNotice());
     assertNull(gatewayModel.getPort());
     assertNull(gatewayModel.isProviderApiManaged());
     assertNull(gatewayModel.getResourceGroup());

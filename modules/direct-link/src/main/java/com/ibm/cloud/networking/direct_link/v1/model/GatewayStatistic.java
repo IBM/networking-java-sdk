@@ -18,7 +18,7 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Gateway statistics.  Currently data retrieval is only supported for MACsec configurations.
+ * Gateway statistics and debug commands.
  */
 public class GatewayStatistic extends GenericModel {
 
@@ -32,6 +32,8 @@ public class GatewayStatistic extends GenericModel {
     String MACSEC_POLICY = "macsec_policy";
     /** macsec_mka_statistics. */
     String MACSEC_MKA_STATISTICS = "macsec_mka_statistics";
+    /** bfd_session. */
+    String BFD_SESSION = "bfd_session";
   }
 
   @SerializedName("created_at")
