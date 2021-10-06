@@ -1,3 +1,12 @@
+# [0.22.0](https://github.com/IBM/networking-java-sdk/compare/0.21.3...0.22.0) (2021-10-06)
+
+
+### Features
+
+* **DirectLink:** add the changes to update the BGP parameters - IP and ASN. Also add changes to enable/update BFD ([a9c3e06](https://github.com/IBM/networking-java-sdk/commit/a9c3e065009a5494c422a6456f5b63120a42c735))
+* **filters:** added filters ([e0be7a0](https://github.com/IBM/networking-java-sdk/commit/e0be7a01f2dc528c1797d2debb312897a55d721b))
+* **http3:** added http3 setting ([4e4bfe9](https://github.com/IBM/networking-java-sdk/commit/4e4bfe9475c8e277afd6a72d4be867fd40896884))
+
 ## [0.21.3](https://github.com/IBM/networking-java-sdk/compare/0.21.2...0.21.3) (2021-09-02)
 
 
