@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,6 +10,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.31.0-902c9336-20210504-161156
+ */
+
 package com.ibm.cloud.networking.direct_link_provider.v2;
 
 import com.google.gson.JsonObject;
@@ -32,6 +37,7 @@ import com.ibm.cloud.sdk.core.security.Authenticator;
 import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
 import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -122,21 +128,21 @@ public class DirectLinkProvider extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ProviderGatewayCollection}
    */
   public ServiceCall<ProviderGatewayCollection> listProviderGateways(ListProviderGatewaysOptions listProviderGatewaysOptions) {
-    String[] pathSegments = { "gateways" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    if (listProviderGatewaysOptions == null) {
+      listProviderGatewaysOptions = new ListProviderGatewaysOptions.Builder().build();
+    }
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link_provider", "v2", "listProviderGateways");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (listProviderGatewaysOptions != null) {
-      builder.query("version", this.version);
-      if (listProviderGatewaysOptions.start() != null) {
-        builder.query("start", listProviderGatewaysOptions.start());
-      }
-      if (listProviderGatewaysOptions.limit() != null) {
-        builder.query("limit", String.valueOf(listProviderGatewaysOptions.limit()));
-      }
+    builder.query("version", String.valueOf(this.version));
+    if (listProviderGatewaysOptions.start() != null) {
+      builder.query("start", String.valueOf(listProviderGatewaysOptions.start()));
+    }
+    if (listProviderGatewaysOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listProviderGatewaysOptions.limit()));
     }
     ResponseConverter<ProviderGatewayCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ProviderGatewayCollection>() { }.getType());
@@ -167,16 +173,15 @@ public class DirectLinkProvider extends BaseService {
   public ServiceCall<ProviderGateway> createProviderGateway(CreateProviderGatewayOptions createProviderGatewayOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(createProviderGatewayOptions,
       "createProviderGatewayOptions cannot be null");
-    String[] pathSegments = { "gateways" };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link_provider", "v2", "createProviderGateway");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", this.version);
+    builder.query("version", String.valueOf(this.version));
     if (createProviderGatewayOptions.checkOnly() != null) {
-      builder.query("check_only", createProviderGatewayOptions.checkOnly());
+      builder.query("check_only", String.valueOf(createProviderGatewayOptions.checkOnly()));
     }
     final JsonObject contentJson = new JsonObject();
     contentJson.addProperty("bgp_asn", createProviderGatewayOptions.bgpAsn());
@@ -207,15 +212,15 @@ public class DirectLinkProvider extends BaseService {
   public ServiceCall<ProviderGateway> deleteProviderGateway(DeleteProviderGatewayOptions deleteProviderGatewayOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteProviderGatewayOptions,
       "deleteProviderGatewayOptions cannot be null");
-    String[] pathSegments = { "gateways" };
-    String[] pathParameters = { deleteProviderGatewayOptions.id() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", deleteProviderGatewayOptions.id());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link_provider", "v2", "deleteProviderGateway");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", this.version);
+    builder.query("version", String.valueOf(this.version));
     ResponseConverter<ProviderGateway> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ProviderGateway>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -233,15 +238,15 @@ public class DirectLinkProvider extends BaseService {
   public ServiceCall<ProviderGateway> getProviderGateway(GetProviderGatewayOptions getProviderGatewayOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getProviderGatewayOptions,
       "getProviderGatewayOptions cannot be null");
-    String[] pathSegments = { "gateways" };
-    String[] pathParameters = { getProviderGatewayOptions.id() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", getProviderGatewayOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link_provider", "v2", "getProviderGateway");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", this.version);
+    builder.query("version", String.valueOf(this.version));
     ResponseConverter<ProviderGateway> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ProviderGateway>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -261,16 +266,25 @@ public class DirectLinkProvider extends BaseService {
   public ServiceCall<ProviderGateway> updateProviderGateway(UpdateProviderGatewayOptions updateProviderGatewayOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(updateProviderGatewayOptions,
       "updateProviderGatewayOptions cannot be null");
-    String[] pathSegments = { "gateways" };
-    String[] pathParameters = { updateProviderGatewayOptions.id() };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", updateProviderGatewayOptions.id());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link_provider", "v2", "updateProviderGateway");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", this.version);
+    builder.query("version", String.valueOf(this.version));
     final JsonObject contentJson = new JsonObject();
+    if (updateProviderGatewayOptions.bgpAsn() != null) {
+      contentJson.addProperty("bgp_asn", updateProviderGatewayOptions.bgpAsn());
+    }
+    if (updateProviderGatewayOptions.bgpCerCidr() != null) {
+      contentJson.addProperty("bgp_cer_cidr", updateProviderGatewayOptions.bgpCerCidr());
+    }
+    if (updateProviderGatewayOptions.bgpIbmCidr() != null) {
+      contentJson.addProperty("bgp_ibm_cidr", updateProviderGatewayOptions.bgpIbmCidr());
+    }
     if (updateProviderGatewayOptions.name() != null) {
       contentJson.addProperty("name", updateProviderGatewayOptions.name());
     }
@@ -292,21 +306,21 @@ public class DirectLinkProvider extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ProviderPortCollection}
    */
   public ServiceCall<ProviderPortCollection> listProviderPorts(ListProviderPortsOptions listProviderPortsOptions) {
-    String[] pathSegments = { "ports" };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments));
+    if (listProviderPortsOptions == null) {
+      listProviderPortsOptions = new ListProviderPortsOptions.Builder().build();
+    }
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/ports"));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link_provider", "v2", "listProviderPorts");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (listProviderPortsOptions != null) {
-      builder.query("version", this.version);
-      if (listProviderPortsOptions.start() != null) {
-        builder.query("start", listProviderPortsOptions.start());
-      }
-      if (listProviderPortsOptions.limit() != null) {
-        builder.query("limit", String.valueOf(listProviderPortsOptions.limit()));
-      }
+    builder.query("version", String.valueOf(this.version));
+    if (listProviderPortsOptions.start() != null) {
+      builder.query("start", String.valueOf(listProviderPortsOptions.start()));
+    }
+    if (listProviderPortsOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listProviderPortsOptions.limit()));
     }
     ResponseConverter<ProviderPortCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ProviderPortCollection>() { }.getType());
@@ -335,15 +349,15 @@ public class DirectLinkProvider extends BaseService {
   public ServiceCall<ProviderPort> getProviderPort(GetProviderPortOptions getProviderPortOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getProviderPortOptions,
       "getProviderPortOptions cannot be null");
-    String[] pathSegments = { "ports" };
-    String[] pathParameters = { getProviderPortOptions.id() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", getProviderPortOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/ports/{id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link_provider", "v2", "getProviderPort");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    builder.query("version", this.version);
+    builder.query("version", String.valueOf(this.version));
     ResponseConverter<ProviderPort> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ProviderPort>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);

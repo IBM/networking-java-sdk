@@ -48,6 +48,10 @@ public class UpdateGatewayOptions extends GenericModel {
 
   protected String id;
   protected GatewayPatchTemplateAuthenticationKey authenticationKey;
+  protected GatewayBfdPatchTemplate bfdConfig;
+  protected Long bgpAsn;
+  protected String bgpCerCidr;
+  protected String bgpIbmCidr;
   protected String connectionMode;
   protected Boolean global;
   protected String loaRejectReason;
@@ -55,6 +59,7 @@ public class UpdateGatewayOptions extends GenericModel {
   protected Boolean metered;
   protected String name;
   protected String operationalStatus;
+  protected String patchPanelCompletionNotice;
   protected Long speedMbps;
 
   /**
@@ -63,6 +68,10 @@ public class UpdateGatewayOptions extends GenericModel {
   public static class Builder {
     private String id;
     private GatewayPatchTemplateAuthenticationKey authenticationKey;
+    private GatewayBfdPatchTemplate bfdConfig;
+    private Long bgpAsn;
+    private String bgpCerCidr;
+    private String bgpIbmCidr;
     private String connectionMode;
     private Boolean global;
     private String loaRejectReason;
@@ -70,11 +79,16 @@ public class UpdateGatewayOptions extends GenericModel {
     private Boolean metered;
     private String name;
     private String operationalStatus;
+    private String patchPanelCompletionNotice;
     private Long speedMbps;
 
     private Builder(UpdateGatewayOptions updateGatewayOptions) {
       this.id = updateGatewayOptions.id;
       this.authenticationKey = updateGatewayOptions.authenticationKey;
+      this.bfdConfig = updateGatewayOptions.bfdConfig;
+      this.bgpAsn = updateGatewayOptions.bgpAsn;
+      this.bgpCerCidr = updateGatewayOptions.bgpCerCidr;
+      this.bgpIbmCidr = updateGatewayOptions.bgpIbmCidr;
       this.connectionMode = updateGatewayOptions.connectionMode;
       this.global = updateGatewayOptions.global;
       this.loaRejectReason = updateGatewayOptions.loaRejectReason;
@@ -82,6 +96,7 @@ public class UpdateGatewayOptions extends GenericModel {
       this.metered = updateGatewayOptions.metered;
       this.name = updateGatewayOptions.name;
       this.operationalStatus = updateGatewayOptions.operationalStatus;
+      this.patchPanelCompletionNotice = updateGatewayOptions.patchPanelCompletionNotice;
       this.speedMbps = updateGatewayOptions.speedMbps;
     }
 
@@ -128,6 +143,50 @@ public class UpdateGatewayOptions extends GenericModel {
      */
     public Builder authenticationKey(GatewayPatchTemplateAuthenticationKey authenticationKey) {
       this.authenticationKey = authenticationKey;
+      return this;
+    }
+
+    /**
+     * Set the bfdConfig.
+     *
+     * @param bfdConfig the bfdConfig
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder bfdConfig(GatewayBfdPatchTemplate bfdConfig) {
+      this.bfdConfig = bfdConfig;
+      return this;
+    }
+
+    /**
+     * Set the bgpAsn.
+     *
+     * @param bgpAsn the bgpAsn
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder bgpAsn(long bgpAsn) {
+      this.bgpAsn = bgpAsn;
+      return this;
+    }
+
+    /**
+     * Set the bgpCerCidr.
+     *
+     * @param bgpCerCidr the bgpCerCidr
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder bgpCerCidr(String bgpCerCidr) {
+      this.bgpCerCidr = bgpCerCidr;
+      return this;
+    }
+
+    /**
+     * Set the bgpIbmCidr.
+     *
+     * @param bgpIbmCidr the bgpIbmCidr
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder bgpIbmCidr(String bgpIbmCidr) {
+      this.bgpIbmCidr = bgpIbmCidr;
       return this;
     }
 
@@ -209,6 +268,17 @@ public class UpdateGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the patchPanelCompletionNotice.
+     *
+     * @param patchPanelCompletionNotice the patchPanelCompletionNotice
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder patchPanelCompletionNotice(String patchPanelCompletionNotice) {
+      this.patchPanelCompletionNotice = patchPanelCompletionNotice;
+      return this;
+    }
+
+    /**
      * Set the speedMbps.
      *
      * @param speedMbps the speedMbps
@@ -225,6 +295,10 @@ public class UpdateGatewayOptions extends GenericModel {
       "id cannot be empty");
     id = builder.id;
     authenticationKey = builder.authenticationKey;
+    bfdConfig = builder.bfdConfig;
+    bgpAsn = builder.bgpAsn;
+    bgpCerCidr = builder.bgpCerCidr;
+    bgpIbmCidr = builder.bgpIbmCidr;
     connectionMode = builder.connectionMode;
     global = builder.global;
     loaRejectReason = builder.loaRejectReason;
@@ -232,6 +306,7 @@ public class UpdateGatewayOptions extends GenericModel {
     metered = builder.metered;
     name = builder.name;
     operationalStatus = builder.operationalStatus;
+    patchPanelCompletionNotice = builder.patchPanelCompletionNotice;
     speedMbps = builder.speedMbps;
   }
 
@@ -267,6 +342,63 @@ public class UpdateGatewayOptions extends GenericModel {
    */
   public GatewayPatchTemplateAuthenticationKey authenticationKey() {
     return authenticationKey;
+  }
+
+  /**
+   * Gets the bfdConfig.
+   *
+   * BFD configuration information.
+   *
+   * @return the bfdConfig
+   */
+  public GatewayBfdPatchTemplate bfdConfig() {
+    return bfdConfig;
+  }
+
+  /**
+   * Gets the bgpAsn.
+   *
+   * The autonomous system number (ASN) of Border Gateway Protocol (BGP) configuration for the IBM side of the DL 2.0
+   * gateway.
+   *
+   * @return the bgpAsn
+   */
+  public Long bgpAsn() {
+    return bgpAsn;
+  }
+
+  /**
+   * Gets the bgpCerCidr.
+   *
+   * BGP customer edge router CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on customer edge
+   * router for the DL 2.0 gateway.
+   *
+   * Customer edge IP and IBM IP should be in the same network. Updating customer edge router CIDR should be accompanied
+   * with IBM CIDR in the request. Update customer edge router IP to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the
+   * value must reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public
+   * CIDR.  bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+   *
+   * @return the bgpCerCidr
+   */
+  public String bgpCerCidr() {
+    return bgpCerCidr;
+  }
+
+  /**
+   * Gets the bgpIbmCidr.
+   *
+   * BGP IBM CIDR is the new CIDR (Classless Inter-Domain Routing) value to be updated on IBM edge router for the DL 2.0
+   * gateway.
+   *
+   * IBM IP and customer edge IP should be in the same network. Updating IBM CIDR should be accompanied with customer
+   * edge router CIDR in the request. Update IBM CIDR to a valid bgp_cer_cidr and bgp_ibm_cidr CIDR, the value must
+   * reside in one of "10.254.0.0/16", "172.16.0.0/12", "192.168.0.0/16", "169.254.0.0/16" or an owned public CIDR.
+   * bgp_cer_cidr and bgp_ibm_cidr must have matching network and subnet mask values.
+   *
+   * @return the bgpIbmCidr
+   */
+  public String bgpIbmCidr() {
+    return bgpIbmCidr;
   }
 
   /**
@@ -357,6 +489,17 @@ public class UpdateGatewayOptions extends GenericModel {
    */
   public String operationalStatus() {
     return operationalStatus;
+  }
+
+  /**
+   * Gets the patchPanelCompletionNotice.
+   *
+   * Gateway patch panel complete notification from implementation team.
+   *
+   * @return the patchPanelCompletionNotice
+   */
+  public String patchPanelCompletionNotice() {
+    return patchPanelCompletionNotice;
   }
 
   /**

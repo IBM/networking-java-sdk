@@ -13,6 +13,7 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeConnectTemplate;
@@ -39,6 +40,13 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
       .build();
     assertEquals(gatewayTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
 
+    GatewayBfdConfigTemplate gatewayBfdConfigTemplateModel = new GatewayBfdConfigTemplate.Builder()
+      .interval(Long.valueOf("2000"))
+      .multiplier(Long.valueOf("10"))
+      .build();
+    assertEquals(gatewayBfdConfigTemplateModel.interval(), Long.valueOf("2000"));
+    assertEquals(gatewayBfdConfigTemplateModel.multiplier(), Long.valueOf("10"));
+
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
       .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
@@ -51,6 +59,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
 
     GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateGatewayTypeConnectTemplateModel = new GatewayTemplateGatewayTypeConnectTemplate.Builder()
       .authenticationKey(gatewayTemplateAuthenticationKeyModel)
+      .bfdConfig(gatewayBfdConfigTemplateModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpBaseCidr("testString")
       .bgpCerCidr("169.254.0.10/30")
@@ -59,12 +68,14 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
       .global(true)
       .metered(false)
       .name("myGateway")
+      .patchPanelCompletionNotice("patch panel configuration details")
       .resourceGroup(resourceGroupIdentityModel)
       .speedMbps(Long.valueOf("1000"))
       .type("dedicated")
       .port(gatewayPortIdentityModel)
       .build();
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.authenticationKey(), gatewayTemplateAuthenticationKeyModel);
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bfdConfig(), gatewayBfdConfigTemplateModel);
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpBaseCidr(), "testString");
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpCerCidr(), "169.254.0.10/30");
@@ -73,6 +84,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.global(), Boolean.valueOf(true));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.name(), "myGateway");
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.patchPanelCompletionNotice(), "patch panel configuration details");
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.resourceGroup(), resourceGroupIdentityModel);
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.speedMbps(), Long.valueOf("1000"));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.type(), "dedicated");
@@ -83,6 +95,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
     GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateGatewayTypeConnectTemplateModelNew = TestUtilities.deserialize(json, GatewayTemplateGatewayTypeConnectTemplate.class);
     assertTrue(gatewayTemplateGatewayTypeConnectTemplateModelNew instanceof GatewayTemplateGatewayTypeConnectTemplate);
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.authenticationKey().toString(), gatewayTemplateAuthenticationKeyModel.toString());
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bfdConfig().toString(), gatewayBfdConfigTemplateModel.toString());
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpBaseCidr(), "testString");
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpCerCidr(), "169.254.0.10/30");
@@ -91,6 +104,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.global(), Boolean.valueOf(true));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.name(), "myGateway");
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.patchPanelCompletionNotice(), "patch panel configuration details");
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.resourceGroup().toString(), resourceGroupIdentityModel.toString());
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.speedMbps(), Long.valueOf("1000"));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.type(), "dedicated");

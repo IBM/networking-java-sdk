@@ -15,9 +15,9 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * The identity of the standard key to use for BGP MD5 authentication key. The key material that you provide must be
- * base64 encoded and original string must be maximum 126 ASCII characters in length. To clear the optional
- * `authentication_key` field patch its crn to `""`.
+ * Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key. The key material
+ * that you provide must be base64 encoded and original string must be maximum 126 ASCII characters in length. To clear
+ * the optional `authentication_key` field patch its crn to `""`.
  */
 public class GatewayActionTemplateAuthenticationKey extends GenericModel {
 

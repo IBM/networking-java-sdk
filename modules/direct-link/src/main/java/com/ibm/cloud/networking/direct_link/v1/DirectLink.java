@@ -28,10 +28,12 @@ import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnect
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatisticCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatusOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
@@ -271,6 +273,18 @@ public class DirectLink extends BaseService {
     if (updateGatewayOptions.authenticationKey() != null) {
       contentJson.add("authentication_key", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateGatewayOptions.authenticationKey()));
     }
+    if (updateGatewayOptions.bfdConfig() != null) {
+      contentJson.add("bfd_config", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateGatewayOptions.bfdConfig()));
+    }
+    if (updateGatewayOptions.bgpAsn() != null) {
+      contentJson.addProperty("bgp_asn", updateGatewayOptions.bgpAsn());
+    }
+    if (updateGatewayOptions.bgpCerCidr() != null) {
+      contentJson.addProperty("bgp_cer_cidr", updateGatewayOptions.bgpCerCidr());
+    }
+    if (updateGatewayOptions.bgpIbmCidr() != null) {
+      contentJson.addProperty("bgp_ibm_cidr", updateGatewayOptions.bgpIbmCidr());
+    }
     if (updateGatewayOptions.connectionMode() != null) {
       contentJson.addProperty("connection_mode", updateGatewayOptions.connectionMode());
     }
@@ -291,6 +305,9 @@ public class DirectLink extends BaseService {
     }
     if (updateGatewayOptions.operationalStatus() != null) {
       contentJson.addProperty("operational_status", updateGatewayOptions.operationalStatus());
+    }
+    if (updateGatewayOptions.patchPanelCompletionNotice() != null) {
+      contentJson.addProperty("patch_panel_completion_notice", updateGatewayOptions.patchPanelCompletionNotice());
     }
     if (updateGatewayOptions.speedMbps() != null) {
       contentJson.addProperty("speed_mbps", updateGatewayOptions.speedMbps());
@@ -328,6 +345,9 @@ public class DirectLink extends BaseService {
     contentJson.addProperty("action", createGatewayActionOptions.action());
     if (createGatewayActionOptions.authenticationKey() != null) {
       contentJson.add("authentication_key", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayActionOptions.authenticationKey()));
+    }
+    if (createGatewayActionOptions.bfdConfig() != null) {
+      contentJson.add("bfd_config", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayActionOptions.bfdConfig()));
     }
     if (createGatewayActionOptions.connectionMode() != null) {
       contentJson.addProperty("connection_mode", createGatewayActionOptions.connectionMode());
@@ -430,10 +450,10 @@ public class DirectLink extends BaseService {
   }
 
   /**
-   * Gateway statistics.
+   * Gateway statistics/debug information.
    *
-   * Retrieve gateway statistics.  Specify statistic to retrieve using required `type` query parameter.  Currently data
-   * retrieval is only supported for MACsec configurations.
+   * Retrieve gateway statistics or debug information.  Specify statistic to retrieve using required `type` query
+   * parameter.
    *
    * @param getGatewayStatisticsOptions the {@link GetGatewayStatisticsOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link GatewayStatisticCollection}
@@ -453,6 +473,34 @@ public class DirectLink extends BaseService {
     builder.query("version", String.valueOf(this.version));
     ResponseConverter<GatewayStatisticCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayStatisticCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Gateway status information.
+   *
+   * Retrieve gateway status.  Specify status to retrieve using required `type` query parameter.
+   *
+   * @param getGatewayStatusOptions the {@link GetGatewayStatusOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link GatewayStatusCollection}
+   */
+  public ServiceCall<GatewayStatusCollection> getGatewayStatus(GetGatewayStatusOptions getGatewayStatusOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayStatusOptions,
+      "getGatewayStatusOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", getGatewayStatusOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/status", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getGatewayStatus");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    if (getGatewayStatusOptions.type() != null) {
+      builder.query("type", String.valueOf(getGatewayStatusOptions.type()));
+    }
+    ResponseConverter<GatewayStatusCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayStatusCollection>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

@@ -45,6 +45,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
    */
   public static class Builder {
     private GatewayTemplateAuthenticationKey authenticationKey;
+    private GatewayBfdConfigTemplate bfdConfig;
     private Long bgpAsn;
     private String bgpBaseCidr;
     private String bgpCerCidr;
@@ -53,6 +54,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     private Boolean global;
     private Boolean metered;
     private String name;
+    private String patchPanelCompletionNotice;
     private ResourceGroupIdentity resourceGroup;
     private Long speedMbps;
     private String type;
@@ -64,6 +66,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
 
     public Builder(GatewayTemplate gatewayTemplateGatewayTypeDedicatedTemplate) {
       this.authenticationKey = gatewayTemplateGatewayTypeDedicatedTemplate.authenticationKey;
+      this.bfdConfig = gatewayTemplateGatewayTypeDedicatedTemplate.bfdConfig;
       this.bgpAsn = gatewayTemplateGatewayTypeDedicatedTemplate.bgpAsn;
       this.bgpBaseCidr = gatewayTemplateGatewayTypeDedicatedTemplate.bgpBaseCidr;
       this.bgpCerCidr = gatewayTemplateGatewayTypeDedicatedTemplate.bgpCerCidr;
@@ -72,6 +75,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       this.global = gatewayTemplateGatewayTypeDedicatedTemplate.global;
       this.metered = gatewayTemplateGatewayTypeDedicatedTemplate.metered;
       this.name = gatewayTemplateGatewayTypeDedicatedTemplate.name;
+      this.patchPanelCompletionNotice = gatewayTemplateGatewayTypeDedicatedTemplate.patchPanelCompletionNotice;
       this.resourceGroup = gatewayTemplateGatewayTypeDedicatedTemplate.resourceGroup;
       this.speedMbps = gatewayTemplateGatewayTypeDedicatedTemplate.speedMbps;
       this.type = gatewayTemplateGatewayTypeDedicatedTemplate.type;
@@ -132,6 +136,17 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
      */
     public Builder authenticationKey(GatewayTemplateAuthenticationKey authenticationKey) {
       this.authenticationKey = authenticationKey;
+      return this;
+    }
+
+    /**
+     * Set the bfdConfig.
+     *
+     * @param bfdConfig the bfdConfig
+     * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
+     */
+    public Builder bfdConfig(GatewayBfdConfigTemplate bfdConfig) {
+      this.bfdConfig = bfdConfig;
       return this;
     }
 
@@ -220,6 +235,17 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
      */
     public Builder name(String name) {
       this.name = name;
+      return this;
+    }
+
+    /**
+     * Set the patchPanelCompletionNotice.
+     *
+     * @param patchPanelCompletionNotice the patchPanelCompletionNotice
+     * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
+     */
+    public Builder patchPanelCompletionNotice(String patchPanelCompletionNotice) {
+      this.patchPanelCompletionNotice = patchPanelCompletionNotice;
       return this;
     }
 
@@ -334,6 +360,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.locationName,
       "locationName cannot be null");
     authenticationKey = builder.authenticationKey;
+    bfdConfig = builder.bfdConfig;
     bgpAsn = builder.bgpAsn;
     bgpBaseCidr = builder.bgpBaseCidr;
     bgpCerCidr = builder.bgpCerCidr;
@@ -342,6 +369,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     global = builder.global;
     metered = builder.metered;
     name = builder.name;
+    patchPanelCompletionNotice = builder.patchPanelCompletionNotice;
     resourceGroup = builder.resourceGroup;
     speedMbps = builder.speedMbps;
     type = builder.type;

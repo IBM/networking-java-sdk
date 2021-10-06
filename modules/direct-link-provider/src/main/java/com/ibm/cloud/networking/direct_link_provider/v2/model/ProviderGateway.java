@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -25,7 +25,7 @@ public class ProviderGateway extends GenericModel {
   /**
    * Gateway BGP status.
    *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
+   * The list of enumerated values for this property may expand in the future. Code and processes using this field must
    * tolerate unexpected values.
    */
   public interface BgpStatus {
@@ -42,10 +42,12 @@ public class ProviderGateway extends GenericModel {
   /**
    * Gateway operational status.
    *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
+   * The list of enumerated values for this property may expand in the future. Code and processes using this field must
    * tolerate unexpected values.
    */
   public interface OperationalStatus {
+    /** configuring. */
+    String CONFIGURING = "configuring";
     /** create_pending. */
     String CREATE_PENDING = "create_pending";
     /** create_rejected. */
@@ -137,7 +139,7 @@ public class ProviderGateway extends GenericModel {
    *
    * Gateway BGP status.
    *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
+   * The list of enumerated values for this property may expand in the future. Code and processes using this field must
    * tolerate unexpected values.
    *
    * @return the bgpStatus
@@ -215,7 +217,7 @@ public class ProviderGateway extends GenericModel {
    *
    * Gateway operational status.
    *
-   * The list of enumerated values for this property may expand in the future. Code and processes using this field  must
+   * The list of enumerated values for this property may expand in the future. Code and processes using this field must
    * tolerate unexpected values.
    *
    * @return the operationalStatus

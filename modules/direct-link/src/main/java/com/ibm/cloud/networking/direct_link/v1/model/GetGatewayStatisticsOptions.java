@@ -20,7 +20,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class GetGatewayStatisticsOptions extends GenericModel {
 
   /**
-   * specify statistic to retrieve.
+   * Specify statistic to retrieve.
    */
   public interface Type {
     /** macsec_mka. */
@@ -114,7 +114,7 @@ public class GetGatewayStatisticsOptions extends GenericModel {
   /**
    * Gets the id.
    *
-   * Direct Link Dedicated gateway identifier.
+   * Direct Link gateway identifier.
    *
    * @return the id
    */
@@ -125,7 +125,7 @@ public class GetGatewayStatisticsOptions extends GenericModel {
   /**
    * Gets the type.
    *
-   * specify statistic to retrieve.
+   * Specify statistic to retrieve.
    *
    * @return the type
    */

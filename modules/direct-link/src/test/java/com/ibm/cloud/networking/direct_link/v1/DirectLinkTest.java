@@ -23,15 +23,25 @@ import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnect
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItem;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfig;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigActionTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdPatchTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequest;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayCreate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayDelete;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayUpdateAttributes;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItem;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItem;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItemGatewayClientSpeedUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
@@ -49,6 +59,11 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayPort;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatistic;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatisticCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatus;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusGatewayBFDStatus;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusGatewayBGPStatus;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusGatewayLinkStatus;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeConnectTemplate;
@@ -57,6 +72,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatusOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
@@ -160,7 +176,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testListGatewaysWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"gateways\": [{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}]}";
+    String mockResponseBody = "{\"gateways\": [{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}]}";
     String listGatewaysPath = "/gateways";
 
     server.enqueue(new MockResponse()
@@ -197,7 +213,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testCreateGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String mockResponseBody = "{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
     String createGatewayPath = "/gateways";
 
     server.enqueue(new MockResponse()
@@ -210,6 +226,12 @@ public class DirectLinkTest extends PowerMockTestCase {
     // Construct an instance of the GatewayTemplateAuthenticationKey model
     GatewayTemplateAuthenticationKey gatewayTemplateAuthenticationKeyModel = new GatewayTemplateAuthenticationKey.Builder()
     .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+    .build();
+
+    // Construct an instance of the GatewayBfdConfigTemplate model
+    GatewayBfdConfigTemplate gatewayBfdConfigTemplateModel = new GatewayBfdConfigTemplate.Builder()
+    .interval(Long.valueOf("2000"))
+    .multiplier(Long.valueOf("10"))
     .build();
 
     // Construct an instance of the ResourceGroupIdentity model
@@ -238,6 +260,7 @@ public class DirectLinkTest extends PowerMockTestCase {
     // Construct an instance of the GatewayTemplateGatewayTypeDedicatedTemplate model
     GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
     .authenticationKey(gatewayTemplateAuthenticationKeyModel)
+    .bfdConfig(gatewayBfdConfigTemplateModel)
     .bgpAsn(Long.valueOf("64999"))
     .bgpBaseCidr("testString")
     .bgpCerCidr("169.254.0.10/30")
@@ -246,6 +269,7 @@ public class DirectLinkTest extends PowerMockTestCase {
     .global(true)
     .metered(false)
     .name("myGateway")
+    .patchPanelCompletionNotice("patch panel configuration details")
     .resourceGroup(resourceGroupIdentityModel)
     .speedMbps(Long.valueOf("1000"))
     .type("dedicated")
@@ -348,7 +372,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testGetGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String mockResponseBody = "{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
     String getGatewayPath = "/gateways/testString";
 
     server.enqueue(new MockResponse()
@@ -399,7 +423,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testUpdateGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String mockResponseBody = "{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
     String updateGatewayPath = "/gateways/testString";
 
     server.enqueue(new MockResponse()
@@ -412,6 +436,12 @@ public class DirectLinkTest extends PowerMockTestCase {
     // Construct an instance of the GatewayPatchTemplateAuthenticationKey model
     GatewayPatchTemplateAuthenticationKey gatewayPatchTemplateAuthenticationKeyModel = new GatewayPatchTemplateAuthenticationKey.Builder()
     .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+    .build();
+
+    // Construct an instance of the GatewayBfdPatchTemplate model
+    GatewayBfdPatchTemplate gatewayBfdPatchTemplateModel = new GatewayBfdPatchTemplate.Builder()
+    .interval(Long.valueOf("2000"))
+    .multiplier(Long.valueOf("10"))
     .build();
 
     // Construct an instance of the GatewayMacsecConfigPatchTemplateFallbackCak model
@@ -436,6 +466,10 @@ public class DirectLinkTest extends PowerMockTestCase {
     UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
     .id("testString")
     .authenticationKey(gatewayPatchTemplateAuthenticationKeyModel)
+    .bfdConfig(gatewayBfdPatchTemplateModel)
+    .bgpAsn(Long.valueOf("64999"))
+    .bgpCerCidr("169.254.0.10/30")
+    .bgpIbmCidr("169.254.0.9/30")
     .connectionMode("transit")
     .global(true)
     .loaRejectReason("The port mentioned was incorrect")
@@ -443,6 +477,7 @@ public class DirectLinkTest extends PowerMockTestCase {
     .metered(false)
     .name("testGateway")
     .operationalStatus("loa_accepted")
+    .patchPanelCompletionNotice("patch panel configuration details")
     .speedMbps(Long.valueOf("1000"))
     .build();
 
@@ -482,7 +517,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testCreateGatewayActionWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String mockResponseBody = "{\"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
     String createGatewayActionPath = "/gateways/testString/actions";
 
     server.enqueue(new MockResponse()
@@ -495,6 +530,12 @@ public class DirectLinkTest extends PowerMockTestCase {
     // Construct an instance of the GatewayActionTemplateAuthenticationKey model
     GatewayActionTemplateAuthenticationKey gatewayActionTemplateAuthenticationKeyModel = new GatewayActionTemplateAuthenticationKey.Builder()
     .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+    .build();
+
+    // Construct an instance of the GatewayBfdConfigActionTemplate model
+    GatewayBfdConfigActionTemplate gatewayBfdConfigActionTemplateModel = new GatewayBfdConfigActionTemplate.Builder()
+    .interval(Long.valueOf("2000"))
+    .multiplier(Long.valueOf("10"))
     .build();
 
     // Construct an instance of the ResourceGroupIdentity model
@@ -512,6 +553,7 @@ public class DirectLinkTest extends PowerMockTestCase {
     .id("testString")
     .action("create_gateway_approve")
     .authenticationKey(gatewayActionTemplateAuthenticationKeyModel)
+    .bfdConfig(gatewayBfdConfigActionTemplateModel)
     .connectionMode("transit")
     .global(true)
     .metered(false)
@@ -758,6 +800,59 @@ public class DirectLinkTest extends PowerMockTestCase {
 
     // Invoke operation with null options model (negative test)
     directLinkService.getGatewayStatistics(null).execute();
+  }
+
+  @Test
+  public void testGetGatewayStatusWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"status\": [{\"type\": \"bgp\", \"updated_at\": \"2020-08-20T06:58:41.909Z\", \"value\": \"active\"}]}";
+    String getGatewayStatusPath = "/gateways/testString/status";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the GetGatewayStatusOptions model
+    GetGatewayStatusOptions getGatewayStatusOptionsModel = new GetGatewayStatusOptions.Builder()
+    .id("testString")
+    .type("bgp")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<GatewayStatusCollection> response = directLinkService.getGatewayStatus(getGatewayStatusOptionsModel).execute();
+    assertNotNull(response);
+    GatewayStatusCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    assertEquals(query.get("type"), "bgp");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getGatewayStatusPath);
+  }
+
+  // Test the getGatewayStatus operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetGatewayStatusNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    directLinkService.getGatewayStatus(null).execute();
   }
 
   @Test

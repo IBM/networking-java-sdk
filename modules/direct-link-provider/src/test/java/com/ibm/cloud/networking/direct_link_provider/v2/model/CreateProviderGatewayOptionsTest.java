@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -16,13 +16,10 @@ package com.ibm.cloud.networking.direct_link_provider.v2.model;
 import com.ibm.cloud.networking.direct_link_provider.v2.model.CreateProviderGatewayOptions;
 import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderGatewayPortIdentity;
 import com.ibm.cloud.networking.direct_link_provider.v2.utils.TestUtilities;
-
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-
 import java.util.HashMap;
 import java.util.List;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -42,7 +39,7 @@ public class CreateProviderGatewayOptionsTest {
 
     CreateProviderGatewayOptions createProviderGatewayOptionsModel = new CreateProviderGatewayOptions.Builder()
       .bgpAsn(Long.valueOf("64999"))
-      .customerAccountId("57a7d05f36894e3cb9b46a43556d903e")
+      .customerAccountId("4111d05f36894e3cb9b46a43556d9000")
       .name("myGateway")
       .port(providerGatewayPortIdentityModel)
       .speedMbps(Long.valueOf("1000"))
@@ -51,7 +48,7 @@ public class CreateProviderGatewayOptionsTest {
       .checkOnly("testString")
       .build();
     assertEquals(createProviderGatewayOptionsModel.bgpAsn(), Long.valueOf("64999"));
-    assertEquals(createProviderGatewayOptionsModel.customerAccountId(), "57a7d05f36894e3cb9b46a43556d903e");
+    assertEquals(createProviderGatewayOptionsModel.customerAccountId(), "4111d05f36894e3cb9b46a43556d9000");
     assertEquals(createProviderGatewayOptionsModel.name(), "myGateway");
     assertEquals(createProviderGatewayOptionsModel.port(), providerGatewayPortIdentityModel);
     assertEquals(createProviderGatewayOptionsModel.speedMbps(), Long.valueOf("1000"));
