@@ -1,3 +1,10 @@
+## [0.22.2](https://github.com/IBM/networking-java-sdk/compare/0.22.1...0.22.2) (2021-10-13)
+
+
+### Bug Fixes
+
+* add --batch flag to signing key import ([#43](https://github.com/IBM/networking-java-sdk/issues/43)) ([324652d](https://github.com/IBM/networking-java-sdk/commit/324652d7923e60815288339a7f2d65a9f9a2b7b3))
+
 ## [0.22.1](https://github.com/IBM/networking-java-sdk/compare/0.22.0...0.22.1) (2021-10-13)
 
 
