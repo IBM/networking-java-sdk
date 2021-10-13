@@ -258,6 +258,19 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		}
 	
 	}
+
+	private String getPortForConnect(List<Port> ports){
+		String providerToBeUsed = "DL2-TEST";
+		String portId = "";
+
+		for (Port port: ports){
+			if (port.getProviderName().equals(providerToBeUsed)){
+				portId = port.getId();
+			}
+		}
+
+		return portId;
+	}
 	
 	@Test 
 	public void testDedicatedGatewayOptions() { 
@@ -478,7 +491,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		assertNotNull(resObj);
 
 		// Save the first port found for get port and connect gw tests
-		firstPortId = resObj.getPorts().get(0).getId();
+		firstPortId = getPortForConnect(resObj.getPorts());
 
 		// ***************** Get details of the 1st port *********************
 		// Construct an instance of the GetPortOptions model
