@@ -1,3 +1,11 @@
+## [0.22.3](https://github.com/IBM/networking-java-sdk/compare/0.22.2...0.22.3) (2021-10-13)
+
+
+### Bug Fixes
+
+* add --batch flag to signing key import ([#43](https://github.com/IBM/networking-java-sdk/issues/43)) ([4a082b4](https://github.com/IBM/networking-java-sdk/commit/4a082b4ca801747c5655ecd846494af73416b0cb))
+* fix the Directlink test cases for connect provider to skip the Equinix provider ([ee231a5](https://github.com/IBM/networking-java-sdk/commit/ee231a5f7d1911034ab10e7955016c2dcf320713))
+
 ## [0.22.2](https://github.com/IBM/networking-java-sdk/compare/0.22.1...0.22.2) (2021-10-13)
 
 
