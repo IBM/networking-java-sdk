@@ -932,16 +932,11 @@ public class DnsSvcsIT extends SdkIntegrationTestBase {
   @Test
   public void testCreateCustomResolver() throws Exception {
     try {
-      LocationInput locationInputModel = new LocationInput.Builder()
-      .subnetCrn(subnet_id)
-      .enabled(false)
-      .build();
 
       CreateCustomResolverOptions createCustomResolverOptions = new CreateCustomResolverOptions.Builder()
       .instanceId(instance_id)
       .name("my-resolver")
       .description("custom resolver")
-      .locations(new java.util.ArrayList<LocationInput>(java.util.Arrays.asList(locationInputModel)))
       .xCorrelationId("testString")
       .build();
 
