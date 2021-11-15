@@ -16,17 +16,28 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.TransitGatewayApis;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionActionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetGatewayLocationOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListGatewayLocationsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionsOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayRouteReportsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupReference;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReport;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportCollection;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportConnection;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportConnectionBgp;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportConnectionRoute;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportOverlappingRoute;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportOverlappingRouteGroup;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSLocalLocation;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSLocation;
@@ -53,28 +64,24 @@ import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.security.Authenticator;
 import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.sdk.core.util.EnvironmentUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
-
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
@@ -82,7 +89,7 @@ import static org.testng.Assert.*;
  * Unit test class for the TransitGatewayApis service.
  */
 @PrepareForTest({ EnvironmentUtils.class })
-@PowerMockIgnore("javax.net.ssl.*")
+@PowerMockIgnore({"javax.net.ssl.*", "org.mockito.*"})
 public class TransitGatewayApisTest extends PowerMockTestCase {
 
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
@@ -132,7 +139,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testListConnectionsWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"connections\": [{\"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"name\": \"Transit_Service_SJ_DL\", \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"transit_gateway\": {\"crn\": \"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"id\": \"456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"name\": \"my-transit-gw100\"}, \"updated_at\": \"2019-01-01T12:00:00\", \"zone\": {\"name\": \"us-south-1\"}}], \"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa\"}}";
+    String mockResponseBody = "{\"connections\": [{\"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"name\": \"Transit_Service_SJ_DL\", \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"transit_gateway\": {\"crn\": \"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"id\": \"456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"name\": \"my-transit-gw100\"}, \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa\"}}";
     String listConnectionsPath = "/connections";
 
     server.enqueue(new MockResponse()
@@ -172,11 +179,267 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listConnectionsPath);
   }
+  
+  public void testListConnectionsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListConnectionsWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testListConnectionsWOptions();
+
+    // Disable retries and run testListConnectionsWOptions.
+    transitGatewayApisService.disableRetries();
+    testListConnectionsWOptions();
+  }  
+
+  @Test
+  public void testListTransitGatewayRouteReportsWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"route_reports\": [{\"connections\": [{\"bgps\": [{\"as_path\": \"(65201 4201065544) 4203065544\", \"is_used\": true, \"local_preference\": \"190\", \"prefix\": \"172.17.0.0/16\"}], \"id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"name\": \"transit-connection-vpc1\", \"routes\": [{\"prefix\": \"192.168.0.0/16\"}], \"type\": \"vpc\"}], \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"overlapping_routes\": [{\"routes\": [{\"connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\", \"prefix\": \"prefix\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
+    String listTransitGatewayRouteReportsPath = "/transit_gateways/testString/route_reports";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the ListTransitGatewayRouteReportsOptions model
+    ListTransitGatewayRouteReportsOptions listTransitGatewayRouteReportsOptionsModel = new ListTransitGatewayRouteReportsOptions.Builder()
+    .transitGatewayId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<RouteReportCollection> response = transitGatewayApisService.listTransitGatewayRouteReports(listTransitGatewayRouteReportsOptionsModel).execute();
+    assertNotNull(response);
+    RouteReportCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listTransitGatewayRouteReportsPath);
+  }
+  
+  public void testListTransitGatewayRouteReportsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListTransitGatewayRouteReportsWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testListTransitGatewayRouteReportsWOptions();
+
+    // Disable retries and run testListTransitGatewayRouteReportsWOptions.
+    transitGatewayApisService.disableRetries();
+    testListTransitGatewayRouteReportsWOptions();
+  }  
+
+  // Test the listTransitGatewayRouteReports operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListTransitGatewayRouteReportsNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.listTransitGatewayRouteReports(null).execute();
+  }
+
+  @Test
+  public void testCreateTransitGatewayRouteReportWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"connections\": [{\"bgps\": [{\"as_path\": \"(65201 4201065544) 4203065544\", \"is_used\": true, \"local_preference\": \"190\", \"prefix\": \"172.17.0.0/16\"}], \"id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"name\": \"transit-connection-vpc1\", \"routes\": [{\"prefix\": \"192.168.0.0/16\"}], \"type\": \"vpc\"}], \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"overlapping_routes\": [{\"routes\": [{\"connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\", \"prefix\": \"prefix\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
+    String createTransitGatewayRouteReportPath = "/transit_gateways/testString/route_reports";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(202)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the CreateTransitGatewayRouteReportOptions model
+    CreateTransitGatewayRouteReportOptions createTransitGatewayRouteReportOptionsModel = new CreateTransitGatewayRouteReportOptions.Builder()
+    .transitGatewayId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<RouteReport> response = transitGatewayApisService.createTransitGatewayRouteReport(createTransitGatewayRouteReportOptionsModel).execute();
+    assertNotNull(response);
+    RouteReport responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createTransitGatewayRouteReportPath);
+  }
+  
+  public void testCreateTransitGatewayRouteReportWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateTransitGatewayRouteReportWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testCreateTransitGatewayRouteReportWOptions();
+
+    // Disable retries and run testCreateTransitGatewayRouteReportWOptions.
+    transitGatewayApisService.disableRetries();
+    testCreateTransitGatewayRouteReportWOptions();
+  }  
+
+  // Test the createTransitGatewayRouteReport operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateTransitGatewayRouteReportNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.createTransitGatewayRouteReport(null).execute();
+  }
+
+  @Test
+  public void testDeleteTransitGatewayRouteReportWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "";
+    String deleteTransitGatewayRouteReportPath = "/transit_gateways/testString/route_reports/testString";
+
+    server.enqueue(new MockResponse()
+    .setResponseCode(204)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the DeleteTransitGatewayRouteReportOptions model
+    DeleteTransitGatewayRouteReportOptions deleteTransitGatewayRouteReportOptionsModel = new DeleteTransitGatewayRouteReportOptions.Builder()
+    .transitGatewayId("testString")
+    .id("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Void> response = transitGatewayApisService.deleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    // Response does not have a return type. Check that the result is null.
+    assertNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteTransitGatewayRouteReportPath);
+  }
+  
+  public void testDeleteTransitGatewayRouteReportWOptionsWRetries() throws Throwable {
+    // Enable retries and run testDeleteTransitGatewayRouteReportWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testDeleteTransitGatewayRouteReportWOptions();
+
+    // Disable retries and run testDeleteTransitGatewayRouteReportWOptions.
+    transitGatewayApisService.disableRetries();
+    testDeleteTransitGatewayRouteReportWOptions();
+  }  
+
+  // Test the deleteTransitGatewayRouteReport operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteTransitGatewayRouteReportNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.deleteTransitGatewayRouteReport(null).execute();
+  }
+
+  @Test
+  public void testGetTransitGatewayRouteReportWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"connections\": [{\"bgps\": [{\"as_path\": \"(65201 4201065544) 4203065544\", \"is_used\": true, \"local_preference\": \"190\", \"prefix\": \"172.17.0.0/16\"}], \"id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"name\": \"transit-connection-vpc1\", \"routes\": [{\"prefix\": \"192.168.0.0/16\"}], \"type\": \"vpc\"}], \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"overlapping_routes\": [{\"routes\": [{\"connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\", \"prefix\": \"prefix\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
+    String getTransitGatewayRouteReportPath = "/transit_gateways/testString/route_reports/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the GetTransitGatewayRouteReportOptions model
+    GetTransitGatewayRouteReportOptions getTransitGatewayRouteReportOptionsModel = new GetTransitGatewayRouteReportOptions.Builder()
+    .transitGatewayId("testString")
+    .id("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<RouteReport> response = transitGatewayApisService.getTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModel).execute();
+    assertNotNull(response);
+    RouteReport responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getTransitGatewayRouteReportPath);
+  }
+  
+  public void testGetTransitGatewayRouteReportWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetTransitGatewayRouteReportWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testGetTransitGatewayRouteReportWOptions();
+
+    // Disable retries and run testGetTransitGatewayRouteReportWOptions.
+    transitGatewayApisService.disableRetries();
+    testGetTransitGatewayRouteReportWOptions();
+  }  
+
+  // Test the getTransitGatewayRouteReport operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetTransitGatewayRouteReportNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.getTransitGatewayRouteReport(null).execute();
+  }
 
   @Test
   public void testListTransitGatewaysWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}, \"transit_gateways\": [{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}]}";
+    String mockResponseBody = "{\"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}, \"transit_gateways\": [{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
     String listTransitGatewaysPath = "/transit_gateways";
 
     server.enqueue(new MockResponse()
@@ -214,11 +477,21 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listTransitGatewaysPath);
   }
+  
+  public void testListTransitGatewaysWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListTransitGatewaysWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testListTransitGatewaysWOptions();
+
+    // Disable retries and run testListTransitGatewaysWOptions.
+    transitGatewayApisService.disableRetries();
+    testListTransitGatewaysWOptions();
+  }  
 
   @Test
   public void testCreateTransitGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}";
+    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
     String createTransitGatewayPath = "/transit_gateways";
 
     server.enqueue(new MockResponse()
@@ -261,6 +534,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createTransitGatewayPath);
   }
+  
+  public void testCreateTransitGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateTransitGatewayWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testCreateTransitGatewayWOptions();
+
+    // Disable retries and run testCreateTransitGatewayWOptions.
+    transitGatewayApisService.disableRetries();
+    testCreateTransitGatewayWOptions();
+  }  
 
   // Test the createTransitGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -312,6 +595,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, deleteTransitGatewayPath);
   }
+  
+  public void testDeleteTransitGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testDeleteTransitGatewayWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testDeleteTransitGatewayWOptions();
+
+    // Disable retries and run testDeleteTransitGatewayWOptions.
+    transitGatewayApisService.disableRetries();
+    testDeleteTransitGatewayWOptions();
+  }  
 
   // Test the deleteTransitGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -328,7 +621,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testGetTransitGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}";
+    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
     String getTransitGatewayPath = "/transit_gateways/testString";
 
     server.enqueue(new MockResponse()
@@ -363,6 +656,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getTransitGatewayPath);
   }
+  
+  public void testGetTransitGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetTransitGatewayWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testGetTransitGatewayWOptions();
+
+    // Disable retries and run testGetTransitGatewayWOptions.
+    transitGatewayApisService.disableRetries();
+    testGetTransitGatewayWOptions();
+  }  
 
   // Test the getTransitGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -379,7 +682,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testUpdateTransitGatewayWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00\"}";
+    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
     String updateTransitGatewayPath = "/transit_gateways/testString";
 
     server.enqueue(new MockResponse()
@@ -416,6 +719,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, updateTransitGatewayPath);
   }
+  
+  public void testUpdateTransitGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testUpdateTransitGatewayWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testUpdateTransitGatewayWOptions();
+
+    // Disable retries and run testUpdateTransitGatewayWOptions.
+    transitGatewayApisService.disableRetries();
+    testUpdateTransitGatewayWOptions();
+  }  
 
   // Test the updateTransitGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -432,7 +745,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testListTransitGatewayConnectionsWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"connections\": [{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\", \"zone\": {\"name\": \"us-south-1\"}}]}";
+    String mockResponseBody = "{\"connections\": [{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}]}";
     String listTransitGatewayConnectionsPath = "/transit_gateways/testString/connections";
 
     server.enqueue(new MockResponse()
@@ -467,6 +780,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listTransitGatewayConnectionsPath);
   }
+  
+  public void testListTransitGatewayConnectionsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListTransitGatewayConnectionsWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testListTransitGatewayConnectionsWOptions();
+
+    // Disable retries and run testListTransitGatewayConnectionsWOptions.
+    transitGatewayApisService.disableRetries();
+    testListTransitGatewayConnectionsWOptions();
+  }  
 
   // Test the listTransitGatewayConnections operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -483,7 +806,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testCreateTransitGatewayConnectionWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\", \"zone\": {\"name\": \"us-south-1\"}}";
+    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
     String createTransitGatewayConnectionPath = "/transit_gateways/testString/connections";
 
     server.enqueue(new MockResponse()
@@ -534,6 +857,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createTransitGatewayConnectionPath);
   }
+  
+  public void testCreateTransitGatewayConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateTransitGatewayConnectionWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testCreateTransitGatewayConnectionWOptions();
+
+    // Disable retries and run testCreateTransitGatewayConnectionWOptions.
+    transitGatewayApisService.disableRetries();
+    testCreateTransitGatewayConnectionWOptions();
+  }  
 
   // Test the createTransitGatewayConnection operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -586,6 +919,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, deleteTransitGatewayConnectionPath);
   }
+  
+  public void testDeleteTransitGatewayConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testDeleteTransitGatewayConnectionWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testDeleteTransitGatewayConnectionWOptions();
+
+    // Disable retries and run testDeleteTransitGatewayConnectionWOptions.
+    transitGatewayApisService.disableRetries();
+    testDeleteTransitGatewayConnectionWOptions();
+  }  
 
   // Test the deleteTransitGatewayConnection operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -602,7 +945,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testGetTransitGatewayConnectionWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\", \"zone\": {\"name\": \"us-south-1\"}}";
+    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
     String getTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
 
     server.enqueue(new MockResponse()
@@ -638,6 +981,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getTransitGatewayConnectionPath);
   }
+  
+  public void testGetTransitGatewayConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetTransitGatewayConnectionWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testGetTransitGatewayConnectionWOptions();
+
+    // Disable retries and run testGetTransitGatewayConnectionWOptions.
+    transitGatewayApisService.disableRetries();
+    testGetTransitGatewayConnectionWOptions();
+  }  
 
   // Test the getTransitGatewayConnection operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -654,7 +1007,7 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   @Test
   public void testUpdateTransitGatewayConnectionWOptions() throws Throwable {
     // Schedule some responses.
-    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00\", \"zone\": {\"name\": \"us-south-1\"}}";
+    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
     String updateTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
 
     server.enqueue(new MockResponse()
@@ -691,6 +1044,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, updateTransitGatewayConnectionPath);
   }
+  
+  public void testUpdateTransitGatewayConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testUpdateTransitGatewayConnectionWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testUpdateTransitGatewayConnectionWOptions();
+
+    // Disable retries and run testUpdateTransitGatewayConnectionWOptions.
+    transitGatewayApisService.disableRetries();
+    testUpdateTransitGatewayConnectionWOptions();
+  }  
 
   // Test the updateTransitGatewayConnection operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -744,6 +1107,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createTransitGatewayConnectionActionsPath);
   }
+  
+  public void testCreateTransitGatewayConnectionActionsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateTransitGatewayConnectionActionsWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testCreateTransitGatewayConnectionActionsWOptions();
+
+    // Disable retries and run testCreateTransitGatewayConnectionActionsWOptions.
+    transitGatewayApisService.disableRetries();
+    testCreateTransitGatewayConnectionActionsWOptions();
+  }  
 
   // Test the createTransitGatewayConnectionActions operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -793,6 +1166,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewayLocationsPath);
   }
+  
+  public void testListGatewayLocationsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListGatewayLocationsWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testListGatewayLocationsWOptions();
+
+    // Disable retries and run testListGatewayLocationsWOptions.
+    transitGatewayApisService.disableRetries();
+    testListGatewayLocationsWOptions();
+  }  
 
   @Test
   public void testGetGatewayLocationWOptions() throws Throwable {
@@ -832,6 +1215,16 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getGatewayLocationPath);
   }
+  
+  public void testGetGatewayLocationWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetGatewayLocationWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testGetGatewayLocationWOptions();
+
+    // Disable retries and run testGetGatewayLocationWOptions.
+    transitGatewayApisService.disableRetries();
+    testGetGatewayLocationWOptions();
+  }  
 
   // Test the getGatewayLocation operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)

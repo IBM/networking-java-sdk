@@ -13,8 +13,7 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSLocalLocation;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSLocation;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportOverlappingRoute;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -24,18 +23,16 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the TSLocation model.
+ * Unit test class for the RouteReportOverlappingRoute model.
  */
-public class TSLocationTest {
+public class RouteReportOverlappingRouteTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testTSLocation() throws Throwable {
-    TSLocation tsLocationModel = new TSLocation();
-    assertNull(tsLocationModel.getBillingLocation());
-    assertNull(tsLocationModel.getName());
-    assertNull(tsLocationModel.getType());
-    assertNull(tsLocationModel.getLocalConnectionLocations());
+  public void testRouteReportOverlappingRoute() throws Throwable {
+    RouteReportOverlappingRoute routeReportOverlappingRouteModel = new RouteReportOverlappingRoute();
+    assertNull(routeReportOverlappingRouteModel.getConnectionId());
+    assertNull(routeReportOverlappingRouteModel.getPrefix());
   }
 }

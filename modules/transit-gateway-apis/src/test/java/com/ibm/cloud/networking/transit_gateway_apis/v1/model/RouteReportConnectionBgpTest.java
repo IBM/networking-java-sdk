@@ -13,8 +13,7 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSLocalLocation;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSLocation;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportConnectionBgp;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -24,18 +23,18 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the TSLocation model.
+ * Unit test class for the RouteReportConnectionBgp model.
  */
-public class TSLocationTest {
+public class RouteReportConnectionBgpTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testTSLocation() throws Throwable {
-    TSLocation tsLocationModel = new TSLocation();
-    assertNull(tsLocationModel.getBillingLocation());
-    assertNull(tsLocationModel.getName());
-    assertNull(tsLocationModel.getType());
-    assertNull(tsLocationModel.getLocalConnectionLocations());
+  public void testRouteReportConnectionBgp() throws Throwable {
+    RouteReportConnectionBgp routeReportConnectionBgpModel = new RouteReportConnectionBgp();
+    assertNull(routeReportConnectionBgpModel.getAsPath());
+    assertNull(routeReportConnectionBgpModel.isIsUsed());
+    assertNull(routeReportConnectionBgpModel.getLocalPreference());
+    assertNull(routeReportConnectionBgpModel.getPrefix());
   }
 }

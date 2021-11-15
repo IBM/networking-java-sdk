@@ -13,10 +13,12 @@
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.List;
@@ -54,7 +56,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	 */
 	@BeforeClass
 	public void constructService() {
-			// Ask super if we should skip the tests.
+		// Ask super if we should skip the tests.
 		if (skipTests()) {
 			return;
 		}
@@ -92,177 +94,11 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	@Test
 	public void testTransitGatewayOptions() throws InterruptedException {
 		assertNotNull(testService);
-		String locationName = config.get("LOCATION");
         preTestCleanup("SDK-JAVA");
-		String name = config.get("GW_NAME");
-	    // Construct an instance of the CreateTransitGatewayOptions model
-		CreateTransitGatewayOptions createTransitGatewayOptionsModel = new CreateTransitGatewayOptions.Builder(locationName, name)
-		.build();
-
-	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGateway> response = testService.createTransitGateway(createTransitGatewayOptionsModel).execute();
-	    assertNotNull(response);
-	    TransitGateway responseObj = response.getResult();
-		assertNotNull(responseObj);
-		assertEquals(responseObj.getName(), name);
-		assertEquals(responseObj.getLocation(), locationName);
-	    String tgGatewayId = responseObj.getId();
-
-	    // Gateway creation might not be instantaneous.  Poll the Gateway looking for 'available' status.  Fail after 2 min
-		int timer = 0;
-		while(true) {
-			// Construct an instance of the GetTransitGatewayOptions model
-			GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
-			.id(tgGatewayId)
-			.build();
-
-			// Invoke operation with valid options model (positive test)
-			Response<TransitGateway> resp = testService.getTransitGateway(getTransitGatewayOptionsModel).execute();
-			assertNotNull(resp);
-			TransitGateway respObj = resp.getResult();
-			assertNotNull(respObj);
-
-			if("available".equals(respObj.getStatus())){
-				break;
-			}// other than available, see if we have reached the timeout value.  If so, exit with failure
-			if(timer > 24) { // 2 min timer (24x5sec)
-				assertEquals("available",respObj.getStatus());// timed out fail if status is not available
-				break;
-			} else {
-				// Still exists, wait 5 sec
-				Thread.sleep(5000);
-				timer = timer + 1;
-			}
-		}
-
-		// Construct an instance of the ListTransitGatewaysOptions model
-		ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions.Builder()
-		.limit(Long.valueOf("50"))
-		.start("")
-		.build();
-	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGatewayCollection> res = testService.listTransitGateways(listTransitGatewaysOptionsModel).execute();
-	    assertNotNull(res);
-	    TransitGatewayCollection resObj = res.getResult();
-	    assertNotNull(resObj);
-		assertNotNull(resObj.getTransitGateways());
 		
-	   	// Construct an instance of the UpdateTransitGatewayOptions model
-		String gatewayNameUpdate = "Test-SDK-JAVA-INT-TG-PATCH";
-	    UpdateTransitGatewayOptions updateTransitGatewayOptionsModel = new UpdateTransitGatewayOptions.Builder()
-	    .id(tgGatewayId)
-	    .name(gatewayNameUpdate)
-	    .build();
-
-	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGateway> updateResp = testService.updateTransitGateway(updateTransitGatewayOptionsModel).execute();
-	    assertNotNull(updateResp);
-	    TransitGateway updateRespObj = updateResp.getResult();
-	    assertNotNull(updateRespObj);
-		assertEquals(updateRespObj.getName(), gatewayNameUpdate);
-		
-	  	// Construct an instance of the GetTransitGatewayOptions model
-	    GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
-	    .id(tgGatewayId)
-	    .build();
-
-	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGateway> resp = testService.getTransitGateway(getTransitGatewayOptionsModel).execute();
-	    assertNotNull(resp);
-	    TransitGateway respObj = resp.getResult();
-	    assertNotNull(respObj);
-		assertEquals(respObj.getId(), tgGatewayId);
-
-	   	// Construct an instance of the CreateTransitGatewayConnectionOptions model
-	 	String crn = config.get("VPC_CRN");
-		String connectionName = "Test-SDK-JAVA-INT-TG-CONN";
-		String connectionNetworkType = "vpc";
-	    CreateTransitGatewayConnectionOptions createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
-	    .transitGatewayId(tgGatewayId)
-	    .networkType(connectionNetworkType)
-	    .name(connectionName)
-	    .networkId(crn)
-	    .build();
-
-	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGatewayConnectionCust> createResp = testService.createTransitGatewayConnection(createTransitGatewayConnectionOptionsModel).execute();
-	    assertNotNull(createResp);
-	    TransitGatewayConnectionCust createRespObj = createResp.getResult();
-	    assertNotNull(createRespObj);
-		assertNotNull(createRespObj.getId());
-		assertEquals(createRespObj.getName(), connectionName);
-		assertEquals(createRespObj.getNetworkId(), crn);
-		assertEquals(createRespObj.getNetworkType(), connectionNetworkType);
-	    String tgConnId=createRespObj.getId();
-	    
-		timer = 0;
-		while(true) {
-			 // Construct an instance of the GetTransitGatewayConnectionOptions model
-		    GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
-		    .transitGatewayId(tgGatewayId)
-		    .id(tgConnId)
-		    .build();
-
-		    // Invoke operation with valid options model (positive test)
-		    Response<TransitGatewayConnectionCust> tgConnresp = testService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
-			 assertNotNull(tgConnresp);
-		    TransitGatewayConnectionCust tgConnrespObj = tgConnresp.getResult();
-		    assertNotNull(tgConnrespObj);
-
-	        if("attached".equals(tgConnrespObj.getStatus())){
-	        	break;
-	        }// other than available, see if we have reached the timeout value.  If so, exit with failure
-			if(timer > 24) { // 2 min timer (24x5sec)
-				assertEquals("attached",tgConnrespObj.getStatus());// timed out fail if status is not available
-				break;
-			} else {
-				// Still exists, wait 5 sec
-				Thread.sleep(5000);
-				timer = timer + 1;
-			}
-	   }
-		 	
-	    // Construct an instance of the ListTransitGatewayConnectionsOptions model
-	    ListTransitGatewayConnectionsOptions listTransitGatewayConnectionsOptionsModel = new ListTransitGatewayConnectionsOptions.Builder()
-	    .transitGatewayId(tgGatewayId)
-	    .build();
-
-	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGatewayConnectionCollection> listTGConnResponse = testService.listTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel).execute();
-	    assertNotNull(listTGConnResponse);
-	    TransitGatewayConnectionCollection listTGConnResponseObj = listTGConnResponse.getResult();
-	    assertNotNull(listTGConnResponseObj);
-		assertNotNull(listTGConnResponseObj.getConnections());
-
-	    // Construct an instance of the UpdateTransitGatewayConnectionOptions model
-		String connectionNameUpdate = "Test-SDK-JAVA-INT-TG-CONN-PATCH";
-	    UpdateTransitGatewayConnectionOptions updateTransitGatewayConnectionOptionsModel = new UpdateTransitGatewayConnectionOptions.Builder()
-	    .transitGatewayId(tgGatewayId)
-	    .id(tgConnId)
-	    .name(connectionNameUpdate)
-	    .build();
-
-	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGatewayConnectionCust> updateTGConnResp = testService.updateTransitGatewayConnection(updateTransitGatewayConnectionOptionsModel).execute();
-	    assertNotNull(updateTGConnResp);
-	    TransitGatewayConnectionCust updateTGConnRespObj = updateTGConnResp.getResult();
-	    assertNotNull(updateTGConnRespObj);
-		assertEquals(updateTGConnRespObj.getName(),connectionNameUpdate);
-
-		 // Construct an instance of the GetTransitGatewayConnectionOptions model
-	    GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
-	    .transitGatewayId(tgGatewayId)
-	    .id(tgConnId)
-	    .build();
-
-	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGatewayConnectionCust> tgConnresp = testService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
-		 assertNotNull(tgConnresp);
-	    TransitGatewayConnectionCust tgConnrespObj = tgConnresp.getResult();
-	    assertNotNull(tgConnrespObj);
-		assertEquals(tgConnrespObj.getId(), tgConnId);
-
-	    // Construct an instance of the ListGatewayLocationsOptions model
+		///////////////////////////////////////////
+		// Success: LIST Transit Locations:
+		///////////////////////////////////////////
 	    ListGatewayLocationsOptions listGatewayLocationsOptionsModel = new ListGatewayLocationsOptions();
 
 	    // Invoke operation with valid options model (positive test)
@@ -271,8 +107,11 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    TSCollection tgLocResponseObj = tgLocResponse.getResult();
 	    assertNotNull(tgLocResponseObj);
 		assertNotNull(tgLocResponseObj.getLocations());
-
-	    String instanceLoc = config.get("LOCATION");
+		
+		///////////////////////////////////////////
+		// Success: GET Transit Location:
+		///////////////////////////////////////////
+		String instanceLoc = config.get("LOCATION");
 	    // Construct an instance of the GetGatewayLocationOptions model
 	    GetGatewayLocationOptions getGatewayLocationOptionsModel = new GetGatewayLocationOptions.Builder()
 	    .name(instanceLoc)
@@ -284,36 +123,622 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    TSLocation locRespObj = locResp.getResult();
 	    assertNotNull(locRespObj);
 		assertEquals(locRespObj.getName(), instanceLoc);
+		
+		///////////////////////////////////////////
+		// Success: POST Transit Gateway:
+		///////////////////////////////////////////
+		String locationName = config.get("LOCATION");
+		int stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		String name = config.get("GW_NAME") + "_" + String.valueOf(stamp);
 
-	    // Construct an instance of the DeleteTransitGatewayConnectionOptions model
-	    DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
-	    .transitGatewayId(tgGatewayId)
-	    .id(tgConnId)
+		// Construct an instance of the CreateTransitGatewayOptions model
+		CreateTransitGatewayOptions createTransitGatewayOptionsModel = new CreateTransitGatewayOptions.Builder(locationName, name)
+		.build();
+
+	    // Invoke operation with valid options model (positive test)
+	    Response<TransitGateway> response = testService.createTransitGateway(createTransitGatewayOptionsModel).execute();
+	    assertNotNull(response);
+	    TransitGateway responseObj = response.getResult();
+		assertNotNull(responseObj);
+		assertEquals(responseObj.getName(), name);
+		assertEquals(responseObj.getLocation(), locationName);
+	    String gatewayID = responseObj.getId();
+
+	    // Gateway creation might not be instantaneous. Poll the  
+		// Gateway looking for 'available' status. Fail after 2 min
+		isResourceAvailable(gatewayID, "", "");
+		
+		///////////////////////////////////////////
+		// Success: GET Transit Gateway:
+		///////////////////////////////////////////
+	    GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
+	    .id(gatewayID) // Construct an instance of the GetTransitGatewayOptions model
 	    .build();
 
 	    // Invoke operation with valid options model (positive test)
-	    Response<Void> delResponse = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
-	    assertNotNull(delResponse);
-	    Void delResponseObj = delResponse.getResult();
-	    // Response does not have a return type. Check that the result is null.
-	    assertNull(delResponseObj);
+	    Response<TransitGateway> resp = testService.getTransitGateway(getTransitGatewayOptionsModel).execute();
+	    assertNotNull(resp);
+	    TransitGateway respObj = resp.getResult();
+	    assertNotNull(respObj);
+		assertEquals(respObj.getId(), gatewayID);
+		
+		///////////////////////////////////////////
+        // Success: UPDATE Transit Gateway:
+        ///////////////////////////////////////////
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		String gatewayNameUpdate = "UPDATED-" + config.get("GW_NAME") + "_" + String.valueOf(stamp);
+		
+		// Construct an instance of the UpdateTransitGatewayOptions model
+	    UpdateTransitGatewayOptions updateTransitGatewayOptionsModel = new UpdateTransitGatewayOptions.Builder()
+	    .id(gatewayID)
+	    .name(gatewayNameUpdate)
+	    .build();
 
-		// Connection deletion might not be instantaneous.  Poll the Connection looking for a 404 error code being returned.  Fail after 2 min
-		checkConnDelete(getTransitGatewayConnectionOptionsModel);
+	    // Invoke operation with valid options model (positive test)
+	    Response<TransitGateway> updateResp = testService.updateTransitGateway(updateTransitGatewayOptionsModel).execute();
+	    assertNotNull(updateResp);
+	    TransitGateway updateRespObj = updateResp.getResult();
+	    assertNotNull(updateRespObj);
+		assertEquals(updateRespObj.getName(), gatewayNameUpdate);
+		
+		///////////////////////////////////////////
+		// Success: LIST Transit Gateways:
+		///////////////////////////////////////////
+		ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions.Builder()
+		.limit(Long.valueOf("50")) // Construct an instance of the ListTransitGatewaysOptions model
+		.start("")
+		.build();
+
+	    // Invoke operation with valid options model (positive test)
+	    Response<TransitGatewayCollection> res = testService.listTransitGateways(listTransitGatewaysOptionsModel).execute();
+	    assertNotNull(res);
+	    TransitGatewayCollection resObj = res.getResult();
+	    assertNotNull(resObj);
+		assertNotNull(resObj.getTransitGateways());
+		
+		////////////////////////////////////////////
+		// Success: POST Transit CLASSIC Connection:
+		////////////////////////////////////////////
+		String connectionNetworkType = "classic";
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		String connectionName = "CLASSIC-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+
+		// Construct an instance of the CreateTransitGatewayConnectionOptions model
+	    CreateTransitGatewayConnectionOptions createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) 
+	    .networkType(connectionNetworkType)
+	    .name(connectionName)
+	    .build(); 
+
+	    // Invoke operation with valid options model (positive test)
+	    Response<TransitGatewayConnectionCust> connCreateResp = testService.createTransitGatewayConnection(createTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(connCreateResp);
 	    
-	    // Construct an instance of the DeleteTransitGatewayOptions model
-	    DeleteTransitGatewayOptions deleteTransitGatewayOptionsModel = new DeleteTransitGatewayOptions.Builder()
-	    .id(tgGatewayId)
+		TransitGatewayConnectionCust connCreateRespObj = connCreateResp.getResult();
+	    assertNotNull(connCreateRespObj);
+		assertNotNull(connCreateRespObj.getId());
+		assertEquals(connCreateRespObj.getName(), connectionName);
+		assertEquals(connCreateRespObj.getNetworkType(), connectionNetworkType);
+	    String classicConnId = connCreateRespObj.getId();
+
+		// Connection creation might not be instantaneous. Poll the  
+		// Connection looking for 'attached' status. Fail after 2 min
+		isResourceAvailable(gatewayID, classicConnId, "");
+
+		///////////////////////////////////////////
+		// Success: POST Transit VPC Connection:
+		///////////////////////////////////////////
+		String vpcCrn = config.get("VPC_CRN");
+		connectionNetworkType = "vpc";
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		connectionName = "VPC-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+
+		// Construct an instance of the CreateTransitGatewayConnectionOptions model
+	    createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) 
+	    .networkType(connectionNetworkType)
+	    .name(connectionName)
+	    .networkId(vpcCrn)
+	    .build(); 
+
+	    // Invoke operation with valid options model (positive test)
+	    connCreateResp = testService.createTransitGatewayConnection(createTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(connCreateResp);
+	    
+		connCreateRespObj = connCreateResp.getResult();
+	    assertNotNull(connCreateRespObj);
+		assertNotNull(connCreateRespObj.getId());
+		assertEquals(connCreateRespObj.getName(), connectionName);
+		assertEquals(connCreateRespObj.getNetworkId(), vpcCrn);
+		assertEquals(connCreateRespObj.getNetworkType(), connectionNetworkType);
+	    String vpcConnId = connCreateRespObj.getId();
+
+		// Connection creation might not be instantaneous. Poll the  
+		// Connection looking for 'attached' status. Fail after 2 min
+		isResourceAvailable(gatewayID, vpcConnId, "");
+
+		///////////////////////////////////////////
+		// Success: POST Transit DL Connection:
+		///////////////////////////////////////////
+		String dlCrn = config.get("DL_CRN");
+		connectionNetworkType = "directlink";
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		connectionName = "DL-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+
+		// Construct an instance of the CreateTransitGatewayConnectionOptions model
+	    createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) 
+	    .networkType(connectionNetworkType)
+	    .name(connectionName)
+	    .networkId(dlCrn)
+	    .build(); 
+
+	    // Invoke operation with valid options model (positive test)
+	    connCreateResp = testService.createTransitGatewayConnection(createTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(connCreateResp);
+	    
+		connCreateRespObj = connCreateResp.getResult();
+	    assertNotNull(connCreateRespObj);
+		assertNotNull(connCreateRespObj.getId());
+		assertEquals(connCreateRespObj.getName(), connectionName);
+		assertEquals(connCreateRespObj.getNetworkId(), dlCrn);
+		assertEquals(connCreateRespObj.getNetworkType(), connectionNetworkType);
+	    String dlConnId = connCreateRespObj.getId();
+
+		// Connection creation might not be instantaneous. Poll the  
+		// Connection looking for 'attached' status. Fail after 2 min
+		isResourceAvailable(gatewayID, dlConnId, "");
+
+		////////////////////////////////////////////
+		// Success: POST Transit GRE Connection:
+		////////////////////////////////////////////
+		connectionNetworkType = "gre_tunnel";
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		connectionName = "GRE-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+
+		// Construct an instance of the ZoneIdentityByName model
+		ZoneIdentityByName zoneIdentityModel = new ZoneIdentityByName.Builder()
+		.name("us-south-1")
+		.build();
+
+		// Construct an instance of the CreateTransitGatewayConnectionOptions model
+	    createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) 
+	    .networkType(connectionNetworkType)
+	    .name(connectionName)
+		.zone(zoneIdentityModel)
+		.localGatewayIp("192.168.100.1")
+		.localTunnelIp("192.168.101.1")
+		.remoteGatewayIp("10.242.63.12")
+		.remoteTunnelIp("192.168.101.2")
+		.baseConnectionId(classicConnId)
+		.build(); 
+
+	    // Invoke operation with valid options model (positive test)
+	    connCreateResp = testService.createTransitGatewayConnection(createTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(connCreateResp);
+	    
+		connCreateRespObj = connCreateResp.getResult();
+	    assertNotNull(connCreateRespObj);
+		assertNotNull(connCreateRespObj.getId());
+		assertEquals(connCreateRespObj.getName(), connectionName);
+		assertEquals(connCreateRespObj.getNetworkType(), connectionNetworkType);
+	    String greConnId = connCreateRespObj.getId();
+
+		// Connection creation might not be instantaneous. Poll the  
+		// Connection looking for 'attached' status. Fail after 2 min
+		isResourceAvailable(gatewayID, greConnId, "");
+		
+		///////////////////////////////////////////
+		// Success: GET Transit CLASSIC Connection:
+		///////////////////////////////////////////
+	    GetTransitGatewayConnectionOptions getClassicTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the GetTransitGatewayConnectionOptions model
+	    .id(classicConnId)
 	    .build();
 
 	    // Invoke operation with valid options model (positive test)
-	    Response<Void> delTGresponse = testService.deleteTransitGateway(deleteTransitGatewayOptionsModel).execute();
-	    assertNotNull(delTGresponse);
-	    Void delTGresponseObj = delTGresponse.getResult();
-	    // Response does not have a return type. Check that the result is null.
-	    assertNull(delTGresponseObj);
+	    Response<TransitGatewayConnectionCust> getConnResp = testService.getTransitGatewayConnection(getClassicTransitGatewayConnectionOptionsModel).execute();
+		assertNotNull(getConnResp);
 
+	    TransitGatewayConnectionCust getConnRespObjObj = getConnResp.getResult();
+	    assertNotNull(getConnRespObjObj);
+		assertEquals(getConnRespObjObj.getId(), classicConnId);
+		
+		///////////////////////////////////////////
+		// Success: GET Transit VPC Connection:
+		///////////////////////////////////////////
+	    GetTransitGatewayConnectionOptions getVpcTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+		.transitGatewayId(gatewayID) // Construct an instance of the GetTransitGatewayConnectionOptions model
+	    .id(vpcConnId)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	   	getConnResp = testService.getTransitGatewayConnection(getVpcTransitGatewayConnectionOptionsModel).execute();
+		assertNotNull(getConnResp);
+
+	    getConnRespObjObj = getConnResp.getResult();
+	    assertNotNull(getConnRespObjObj);
+		assertEquals(getConnRespObjObj.getId(), vpcConnId);
+
+		///////////////////////////////////////////
+		// Success: GET Transit DL Connection:
+		///////////////////////////////////////////
+	    GetTransitGatewayConnectionOptions getDLTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the GetTransitGatewayConnectionOptions model
+	    .id(dlConnId)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	   	getConnResp = testService.getTransitGatewayConnection(getDLTransitGatewayConnectionOptionsModel).execute();
+		assertNotNull(getConnResp);
+
+	    getConnRespObjObj = getConnResp.getResult();
+	    assertNotNull(getConnRespObjObj);
+		assertEquals(getConnRespObjObj.getId(), dlConnId);
+
+		///////////////////////////////////////////
+		// Success: GET Transit GRE Connection:
+		///////////////////////////////////////////
+	    GetTransitGatewayConnectionOptions getGreTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the GetTransitGatewayConnectionOptions model
+	    .id(greConnId)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	   	getConnResp = testService.getTransitGatewayConnection(getGreTransitGatewayConnectionOptionsModel).execute();
+		assertNotNull(getConnResp);
+
+	    getConnRespObjObj = getConnResp.getResult();
+	    assertNotNull(getConnRespObjObj);
+		assertEquals(getConnRespObjObj.getId(), greConnId);
+		
+		//////////////////////////////////////////////
+		// Success: UPDATE Transit CLASSIC Connection:
+		////////////////////////////////////////////// 
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		String updatedNameCLASSIC = "UPDATED-CLASSIC-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+
+	    UpdateTransitGatewayConnectionOptions updateTransitGatewayConnectionOptionsModel = new UpdateTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the UpdateTransitGatewayConnectionOptions model
+	    .id(classicConnId)
+	    .name(updatedNameCLASSIC)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    Response<TransitGatewayConnectionCust> updateTGConnResp = testService.updateTransitGatewayConnection(updateTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(updateTGConnResp);
+	    TransitGatewayConnectionCust updateTGConnRespObj = updateTGConnResp.getResult();
+	    assertNotNull(updateTGConnRespObj);
+		assertEquals(updateTGConnRespObj.getName(),updatedNameCLASSIC);
+		
+		///////////////////////////////////////////
+		// Success: UPDATE Transit VPC Connection:
+		/////////////////////////////////////////// 
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		String updatedNameVPC = "UPDATED-VPC-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+
+	    updateTransitGatewayConnectionOptionsModel = new UpdateTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the UpdateTransitGatewayConnectionOptions model
+	    .id(vpcConnId)
+	    .name(updatedNameVPC)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    updateTGConnResp = testService.updateTransitGatewayConnection(updateTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(updateTGConnResp);
+	    updateTGConnRespObj = updateTGConnResp.getResult();
+	    assertNotNull(updateTGConnRespObj);
+		assertEquals(updateTGConnRespObj.getName(),updatedNameVPC);
+
+		///////////////////////////////////////////
+		// Success: UPDATE Transit DL Connection:
+		/////////////////////////////////////////// 
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		String updatedNameDL = "UPDATED-DL-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+
+	    updateTransitGatewayConnectionOptionsModel = new UpdateTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the UpdateTransitGatewayConnectionOptions model
+	    .id(dlConnId)
+	    .name(updatedNameDL)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    updateTGConnResp = testService.updateTransitGatewayConnection(updateTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(updateTGConnResp);
+	    updateTGConnRespObj = updateTGConnResp.getResult();
+	    assertNotNull(updateTGConnRespObj);
+		assertEquals(updateTGConnRespObj.getName(),updatedNameDL);
+
+		///////////////////////////////////////////
+		// Success: UPDATE Transit GRE Connection:
+		/////////////////////////////////////////// 
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		String updatedNameGRE = "UPDATED-GRE-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+
+	    updateTransitGatewayConnectionOptionsModel = new UpdateTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the UpdateTransitGatewayConnectionOptions model
+	    .id(greConnId)
+	    .name(updatedNameGRE)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    updateTGConnResp = testService.updateTransitGatewayConnection(updateTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(updateTGConnResp);
+	    updateTGConnRespObj = updateTGConnResp.getResult();
+	    assertNotNull(updateTGConnRespObj);
+		assertEquals(updateTGConnRespObj.getName(),updatedNameGRE);
+		
+		///////////////////////////////////////////
+		// Success: LIST Transit Connections:
+		/////////////////////////////////////////// 	
+	    ListTransitGatewayConnectionsOptions listTransitGatewayConnectionsOptionsModel = new ListTransitGatewayConnectionsOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the ListTransitGatewayConnectionsOptions model
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    Response<TransitGatewayConnectionCollection> listConnResp = testService.listTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel).execute();
+	    assertNotNull(listConnResp);
+
+	    TransitGatewayConnectionCollection listConnRespObj = listConnResp.getResult();
+	    assertNotNull(listConnRespObj);
+
+		List<TransitGatewayConnectionCust> connections = listConnRespObj.getConnections();
+		assertNotEquals(connections.size(), 0);
+
+		boolean foundDL = false;
+		boolean foundVPC = false;
+		boolean foundGRE = false;
+		boolean foundCLASSIC = false;
+		for (TransitGatewayConnectionCust conn : connections) {
+			if (conn.getId().equals(classicConnId)){
+				assertEquals(conn.getNetworkType(), "classic");
+				assertEquals(conn.getName(), updatedNameCLASSIC);
+				foundCLASSIC = true;
+
+			} else if (conn.getId().equals(dlConnId)){
+				assertEquals(conn.getNetworkType(), "directlink");
+				assertEquals(conn.getName(), updatedNameDL);
+				foundDL = true;
+
+			} else if (conn.getId().equals(vpcConnId)){
+				assertEquals(conn.getNetworkType(), "vpc");
+				assertEquals(conn.getName(), updatedNameVPC);
+				foundVPC = true;
+
+			} else if (conn.getId().equals(greConnId)){
+				assertEquals(conn.getNetworkType(), "gre_tunnel");
+				assertEquals(conn.getName(), updatedNameGRE);
+				foundGRE = true;
+			}
+		}
+		assertEquals(true, foundDL);
+		assertEquals(true, foundVPC);
+		assertEquals(true, foundGRE);
+		assertEquals(true, foundCLASSIC);
+		
+		///////////////////////////////////////////
+		// Success: POST Gateway Route Report:
+		///////////////////////////////////////////
+	    CreateTransitGatewayRouteReportOptions createTransitGatewayRouteReportOptionsModel = new CreateTransitGatewayRouteReportOptions
+		.Builder() // Construct an instance of the CreateTransitGatewayRouteReportOptions model  
+	    .transitGatewayId(gatewayID)
+	    .build();
+
+		// Invoke operation with valid options model (positive test)
+	    Response<RouteReport> rrCreateResp = testService.createTransitGatewayRouteReport(createTransitGatewayRouteReportOptionsModel).execute();
+	    assertNotNull(rrCreateResp);
+	    
+		RouteReport rrCreateRespObj = rrCreateResp.getResult();
+	    assertNotNull(rrCreateRespObj);
+		assertNotNull(rrCreateRespObj.getId());
+
+		assertNotEquals(rrCreateRespObj.getStatus(), "");
+		assertNotEquals(rrCreateRespObj.getCreatedAt(), "");
+		assertNotEquals(rrCreateRespObj.getUpdatedAt(), "");
+		
+		String rrId = rrCreateRespObj.getId();
+
+		// Route report creation might not be instantaneous. Poll the  
+		// Route report looking for 'complete' status. Fail after 2 min
+		isResourceAvailable(gatewayID, "", rrId);
+		
+		///////////////////////////////////////////
+		// Success: GET Gateway Route Report:
+		///////////////////////////////////////////
+		GetTransitGatewayRouteReportOptions getTransitGatewayRouteReportOptionsModel = new GetTransitGatewayRouteReportOptions
+		.Builder() // Construct an instance of the GetTransitGatewayRouteReportOptions model 
+		.transitGatewayId(gatewayID)
+		.id(rrId)
+		.build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<RouteReport> rrGetResp = testService.getTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModel).execute();
+		assertNotNull(rrGetResp);
+		RouteReport rrGetRespObj = rrGetResp.getResult();
+		assertNotNull(rrGetRespObj);	
+		
+		List<RouteReportConnection> rrConnections = rrGetRespObj.getConnections();
+		assertNotNull(rrConnections);
+		assertNotEquals(rrConnections.size(), 0);
+		assertEquals(rrGetRespObj.getId(), rrId);
+		assertNotEquals(rrGetRespObj.getCreatedAt(), "");
+		assertNotEquals(rrGetRespObj.getUpdatedAt(), "");
+		assertEquals(rrGetRespObj.getStatus(), "complete");
+
+		foundDL = false;
+		foundVPC = false;
+		foundGRE = false;
+		foundCLASSIC = false;
+		for (RouteReportConnection rrConn : rrConnections) {
+			if(rrConn.getId().equals(vpcConnId)){
+				assertEquals(rrConn.getType(), "vpc");
+				assertEquals(rrConn.getName(), updatedNameVPC);
+				foundVPC = true;
+			} else if (rrConn.getId().equals(classicConnId)){
+				assertEquals(rrConn.getType(), "classic");
+				assertEquals(rrConn.getName(), updatedNameCLASSIC);
+				foundCLASSIC = true;
+
+			} else if (rrConn.getId().equals(dlConnId)){
+				assertEquals(rrConn.getType(), "directlink");
+				assertEquals(rrConn.getName(), updatedNameDL);
+				foundDL = true;
+
+			} else if (rrConn.getId().equals(greConnId)){
+				assertEquals(rrConn.getType(), "gre_tunnel");
+				assertEquals(rrConn.getName(), updatedNameGRE);
+				foundGRE = true;
+			}
+		}
+		assertEquals(true, foundDL);
+		assertEquals(true, foundVPC);
+		assertEquals(true, foundGRE);
+		assertEquals(true, foundCLASSIC);
+		
+		///////////////////////////////////////////
+		// Success: LIST Gateway Route Report:
+		///////////////////////////////////////////
+	    ListTransitGatewayRouteReportsOptions listTransitGatewayRouteReportsOptionsModel = new ListTransitGatewayRouteReportsOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the ListTransitGatewayRouteReportsOptions model
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    Response<RouteReportCollection> rrListResp = testService.listTransitGatewayRouteReports(listTransitGatewayRouteReportsOptionsModel).execute();
+	    assertNotNull(rrListResp);
+	    RouteReportCollection rrListRespObj = rrListResp.getResult();
+	    assertNotNull(rrListRespObj);
+		List<RouteReport> routeReports = rrListRespObj.getRouteReports();
+		assertNotNull(routeReports);
+
+		boolean foundRR = false;
+		for (RouteReport rr : routeReports) {
+			if (rr.getId().equals(rrId)){
+				assertNotNull(rr.getConnections());
+				assertNotEquals(rr.getCreatedAt(), "");
+				assertNotEquals(rr.getUpdatedAt(), "");
+				assertEquals(rr.getStatus(), "complete");
+				assertNotEquals(rr.getConnections().size(), 0);
+				foundRR = true;
+			}
+		}
+		assertEquals(true, foundRR);
+		
+		///////////////////////////////////////////
+		// Success: DELETE Gateway Route Report:
+		///////////////////////////////////////////
+		DeleteTransitGatewayRouteReportOptions deleteTransitGatewayRouteReportOptionsModel = new DeleteTransitGatewayRouteReportOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the DeleteTransitGatewayRouteReportOptions model
+	    .id(rrId)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    Response<Void> rrDelResp = testService.deleteTransitGatewayRouteReport(deleteTransitGatewayRouteReportOptionsModel).execute();
+	    assertNotNull(rrDelResp);
+	    
+		// Response does not have a return type. Check that the result is null.
+	    Void rrDelRespObj = rrDelResp.getResult();
+	    assertNull(rrDelRespObj);
+
+		// Route report deletion might not be instantaneous. 
+		checkResourceDeletion(null, null, getTransitGatewayRouteReportOptionsModel);
+
+		///////////////////////////////////////////
+		// Success: DELETE Transit GRE Connection:
+		///////////////////////////////////////////
+	    DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the DeleteTransitGatewayConnectionOptions model
+	    .id(greConnId)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    Response<Void> delConnResp = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(delConnResp);
+	    
+		// Response does not have a return type. Check that the result is null.
+	    Void delConnRespObj = delConnResp.getResult();
+	    assertNull(delConnRespObj);
+
+		// Connection deletion might not be instantaneous.  
+		checkResourceDeletion(null, getGreTransitGatewayConnectionOptionsModel, null);
+				
+		///////////////////////////////////////////
+		// Success: DELETE Transit VPC Connection:
+		///////////////////////////////////////////
+	    deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the DeleteTransitGatewayConnectionOptions model
+	    .id(vpcConnId)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    delConnResp = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(delConnResp);
+	    
+		// Response does not have a return type. Check that the result is null.
+	    delConnRespObj = delConnResp.getResult();
+	    assertNull(delConnRespObj);
+
+		// Connection deletion might not be instantaneous.  
+		checkResourceDeletion(null, getVpcTransitGatewayConnectionOptionsModel, null);
+		
+		///////////////////////////////////////////
+		// Success: DELETE Transit DL Connection:
+		///////////////////////////////////////////
+	    deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the DeleteTransitGatewayConnectionOptions model
+	    .id(dlConnId)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    delConnResp = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(delConnResp);
+	    
+		// Response does not have a return type. Check that the result is null.
+	    delConnRespObj = delConnResp.getResult();
+	    assertNull(delConnRespObj);
+
+		// Connection deletion might not be instantaneous.  
+		checkResourceDeletion(null, getDLTransitGatewayConnectionOptionsModel, null);
+		
+		//////////////////////////////////////////////
+		// Success: DELETE Transit CLASSIC Connection:
+		//////////////////////////////////////////////
+	    deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+	    .transitGatewayId(gatewayID) // Construct an instance of the DeleteTransitGatewayConnectionOptions model
+	    .id(classicConnId)
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    delConnResp = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+	    assertNotNull(delConnResp);
+	    
+		// Response does not have a return type. Check that the result is null.
+	    delConnRespObj = delConnResp.getResult();
+	    assertNull(delConnRespObj);
+
+		// Connection deletion might not be instantaneous.  
+		checkResourceDeletion(null, getClassicTransitGatewayConnectionOptionsModel, null);
+		
+		///////////////////////////////////////////
+		// Success: DELETE Transit Gateway:
+		///////////////////////////////////////////
+	    DeleteTransitGatewayOptions deleteTransitGatewayOptionsModel = new DeleteTransitGatewayOptions.Builder()
+	    .id(gatewayID) // Construct an instance of the DeleteTransitGatewayOptions model
+	    .build();
+
+	    // Invoke operation with valid options model (positive test)
+	    Response<Void> delGtwResp = testService.deleteTransitGateway(deleteTransitGatewayOptionsModel).execute();
+	    assertNotNull(delGtwResp);
+	    
+		// Response does not have a return type. Check that the result is null.
+	    Void delGtwRespObj = delGtwResp.getResult();
+	    assertNull(delGtwRespObj);
 	}
+	
+	///////////////////////////////////////////////////////////////////////////////
+	//                           Test Helper Methods                             //
+	///////////////////////////////////////////////////////////////////////////////
+
 	private void preTestCleanup(String name) throws InterruptedException {
 		// Construct an instance of the ListTransitGatewaysOptions model
 		ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions.Builder()
@@ -326,36 +751,61 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    TransitGatewayCollection resObj = res.getResult();
 		List<TransitGateway> gateways = resObj.getTransitGateways();
 		for (TransitGateway gtw : gateways) {
+			// Only process SDK test resources.
 			if (gtw.getName().contains(name)) {
 				ListTransitGatewayConnectionsOptions listTransitGatewayConnectionsOptionsModel = new ListTransitGatewayConnectionsOptions.Builder()
 	            .transitGatewayId(gtw.getId())
 				.build();
 				
-                Response<TransitGatewayConnectionCollection> listTGConnResponse = testService.listTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel).execute();
-	            assertNotNull(listTGConnResponse);
-	            TransitGatewayConnectionCollection listTGConnResponseObj = listTGConnResponse.getResult();
-				List<TransitGatewayConnectionCust> connections = listTGConnResponseObj.getConnections();
+                Response<TransitGatewayConnectionCollection> listConnResp = testService.listTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel).execute();
+	            assertNotNull(listConnResp);
+	            TransitGatewayConnectionCollection listConnRespObj = listConnResp.getResult();
+				List<TransitGatewayConnectionCust> connections = listConnRespObj.getConnections();
 				if (!connections.isEmpty()) {
+					List<String> connectionIDs = new ArrayList<String>();
 					for (TransitGatewayConnectionCust conn : connections) {
-                        DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
-	                    .transitGatewayId(gtw.getId())
-	                    .id(conn.getId())
-	                    .build();
+						// Deletes GRE Connections first.
+						if (conn.getNetworkType().contains("gre_tunnel")) {
+							DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+							.transitGatewayId(gtw.getId())
+							.id(conn.getId())
+							.build();
 
-	                    // Invoke operation with valid options model (positive test)
-	                    Response<Void> delResponse = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
-	                    assertNotNull(delResponse);
-	                    Void delResponseObj = delResponse.getResult();
-	    
+							Response<Void> delResponse = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+							assertNotNull(delResponse);
+
+							GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+							.transitGatewayId(gtw.getId())
+							.id(conn.getId())
+							.build();
+							
+							// Connection deletion might not be instantaneous.
+							checkResourceDeletion(null, getTransitGatewayConnectionOptionsModel, null);
+						} else {
+							connectionIDs.add(conn.getId());
+						}
+					}
+
+					// Deletes Connections from other types.
+					for (String connID : connectionIDs) {
+						DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+						.transitGatewayId(gtw.getId())
+						.id(connID)
+						.build();
+
+						Response<Void> delResponse = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+						assertNotNull(delResponse);
+
 						GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
-		                .transitGatewayId(gtw.getId())
-		                .id(conn.getId())
+						.transitGatewayId(gtw.getId())
+						.id(connID)
 						.build();
 						
-                        // Connection deletion might not be instantaneous.  Poll the Connection looking for a 404 error code being returned.  Fail after 2 min
-		                checkConnDelete(getTransitGatewayConnectionOptionsModel);
-					}
+						// Connection deletion might not be instantaneous.
+						checkResourceDeletion(null, getTransitGatewayConnectionOptionsModel, null);			
+					} 
 				}
+
 				// Construct an instance of the DeleteTransitGatewayOptions model
 				DeleteTransitGatewayOptions deleteTransitGatewayOptionsModel = new DeleteTransitGatewayOptions.Builder()
 				.id(gtw.getId())
@@ -364,55 +814,112 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 				// Invoke operation with valid options model (positive test)
 				Response<Void> delTGresponse = testService.deleteTransitGateway(deleteTransitGatewayOptionsModel).execute();
 				assertNotNull(delTGresponse);
-				Void delTGresponseObj = delTGresponse.getResult();
-
+				
 				// Construct an instance of the GetTransitGatewayOptions model
 				GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
 				.id(gtw.getId())
 				.build();
 
-				checkGatewayDelete(getTransitGatewayOptionsModel);
+				checkResourceDeletion(getTransitGatewayOptionsModel, null, null);
 			}
 		}
 	}
-	private void checkGatewayDelete(GetTransitGatewayOptions gtwOptionsModel) throws InterruptedException {
+
+	private void checkResourceDeletion(GetTransitGatewayOptions gtwModel, GetTransitGatewayConnectionOptions connModel, GetTransitGatewayRouteReportOptions rrModel) throws InterruptedException {
 		int timer = 0;
 		while(true) {
-			Response<TransitGateway> resp = null;
 			// Invoke operation with valid options model (positive test)
 			try {
-				resp = testService.getTransitGateway(gtwOptionsModel).execute();
+				if (connModel != null){
+					Response<TransitGatewayConnectionCust> connGetResp = testService.getTransitGatewayConnection(connModel).execute();
+					assertNotNull(connGetResp); 
+				} else if (gtwModel != null){
+					Response<TransitGateway> gtwGetResp = testService.getTransitGateway(gtwModel).execute();
+					assertNotNull(gtwGetResp);	
+				} else {
+					Response<RouteReport> rrGetResp = testService.getTransitGatewayRouteReport(rrModel).execute();
+					assertNotNull(rrGetResp); 
+				}
 			} catch (NotFoundException e) {
 				break;
 			}
 
-			assertNotNull(resp); 
 			Thread.sleep(10000);
 			timer = timer + 1;
-			
-			if(timer > 24) { // 4 min timer (24x10sec)
-				break;
-			}
-		}
-	}  
-	private void checkConnDelete(GetTransitGatewayConnectionOptions connOptionsModel) throws InterruptedException {
-		int timer = 0;
-		while(true) {
-			Response<TransitGatewayConnectionCust> tgConnrespDeletion = null;
-			// Invoke operation with valid options model (positive test)
-			try {
-				tgConnrespDeletion = testService.getTransitGatewayConnection(connOptionsModel).execute();
-			} catch (NotFoundException e) {
-				break;
-			}
 
-			assertNotNull(tgConnrespDeletion); 
-			Thread.sleep(10000);
-			timer = timer + 1;
-			
-			if(timer > 24) { // 4 min timer (24x10sec)
+			// 4 min timer (24x10sec)
+			if(timer > 24) { 
 				break;
 			}
 	  	}
+	}
+
+	private void isResourceAvailable(String gatewayID, String connID, String rrID) throws InterruptedException {
+		int timer = 0;
+		int delay = 5000;
+		boolean breaker = false;
+
+		while(true) {
+			if (connID.equals("") == false){
+				GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+				.transitGatewayId(gatewayID)
+				.id(connID)
+				.build();
+	
+				Response<TransitGatewayConnectionCust> connGetResp = testService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
+				 assertNotNull(connGetResp);
+				TransitGatewayConnectionCust connGetRespObj = connGetResp.getResult();
+				assertNotNull(connGetRespObj);
+	
+				if("attached".equals(connGetRespObj.getStatus())){
+					breaker = true;
+				}
+				delay = 8000;
+			} else if (rrID.equals("") == false){
+				GetTransitGatewayRouteReportOptions getTransitGatewayRouteReportOptionsModel = new GetTransitGatewayRouteReportOptions
+				.Builder()
+				.transitGatewayId(gatewayID)
+				.id(rrID)
+				.build();
+	
+				Response<RouteReport> rrGetResp = testService.getTransitGatewayRouteReport(getTransitGatewayRouteReportOptionsModel).execute();
+				assertNotNull(rrGetResp);
+				RouteReport rrGetRespObj = rrGetResp.getResult();
+				assertNotNull(rrGetRespObj);
+
+				if("complete".equals(rrGetRespObj.getStatus())){
+					breaker = true;
+				} 
+				delay = 10000;
+			} else {
+				GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
+				.id(gatewayID)
+				.build();
+
+				Response<TransitGateway> gtwGetResp = testService.getTransitGateway(getTransitGatewayOptionsModel).execute();
+				assertNotNull(gtwGetResp);
+				TransitGateway gtwGetRespObj = gtwGetResp.getResult();
+				assertNotNull(gtwGetRespObj);
+
+				if("available".equals(gtwGetRespObj.getStatus())){
+					breaker = true;
+				}
+			}
+			// available/attached/complete status is reached.
+	        if(breaker){
+	        	break;
+	        } 
+			
+			// If not available/attached/complete status is reached.
+			if(timer > 24) {
+				// timed out fail if resourse is not available. 
+				assertEquals("complete", "non-complete");
+				break;
+			} else {
+				// Still exists, wait 5 or 10 sec.
+				Thread.sleep(delay);
+				timer = timer + 1;
+			}
+		}
 	}
 }
