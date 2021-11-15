@@ -1,3 +1,10 @@
+# [0.23.0](https://github.com/IBM/networking-java-sdk/compare/0.22.3...0.23.0) (2021-11-15)
+
+
+### Features
+
+* Added Gateway Route Reports Integration tests for JAVA-SDK. ([f2706bd](https://github.com/IBM/networking-java-sdk/commit/f2706bd5461418d233f4dadfae1b94fedd67db45))
+
 ## [0.22.3](https://github.com/IBM/networking-java-sdk/compare/0.22.2...0.22.3) (2021-10-13)
 
 
