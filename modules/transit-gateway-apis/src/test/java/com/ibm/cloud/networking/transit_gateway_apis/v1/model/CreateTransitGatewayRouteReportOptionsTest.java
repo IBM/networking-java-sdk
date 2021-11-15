@@ -13,8 +13,7 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSLocalLocation;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSLocation;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -24,18 +23,23 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the TSLocation model.
+ * Unit test class for the CreateTransitGatewayRouteReportOptions model.
  */
-public class TSLocationTest {
+public class CreateTransitGatewayRouteReportOptionsTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testTSLocation() throws Throwable {
-    TSLocation tsLocationModel = new TSLocation();
-    assertNull(tsLocationModel.getBillingLocation());
-    assertNull(tsLocationModel.getName());
-    assertNull(tsLocationModel.getType());
-    assertNull(tsLocationModel.getLocalConnectionLocations());
+  public void testCreateTransitGatewayRouteReportOptions() throws Throwable {
+    CreateTransitGatewayRouteReportOptions createTransitGatewayRouteReportOptionsModel = new CreateTransitGatewayRouteReportOptions.Builder()
+      .transitGatewayId("testString")
+      .build();
+    assertEquals(createTransitGatewayRouteReportOptionsModel.transitGatewayId(), "testString");
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateTransitGatewayRouteReportOptionsError() throws Throwable {
+    new CreateTransitGatewayRouteReportOptions.Builder().build();
+  }
+
 }

@@ -26,7 +26,7 @@
             of the SDK generator used to generate your SDK code.
             See this link for details: https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/Compatibility-Chart
         -->
-        <sdk-core-version>9.10.3</sdk-core-version>
+        <sdk-core-version>9.13.3</sdk-core-version>
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.1.0</testng-version>
