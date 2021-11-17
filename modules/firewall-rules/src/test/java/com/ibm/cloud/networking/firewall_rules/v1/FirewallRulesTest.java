@@ -141,15 +141,15 @@ public class FirewallRulesTest extends PowerMockTestCase {
     assertEquals(parsedPath, listAllFirewallRulesPath);
   }
   
-  public void testListAllFirewallRulesWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListAllFirewallRulesWOptions.
-    firewallRulesService.enableRetries(4, 30);
-    testListAllFirewallRulesWOptions();
+  // public void testListAllFirewallRulesWOptionsWRetries() throws Throwable {
+  //   // Enable retries and run testListAllFirewallRulesWOptions.
+  //   firewallRulesService.enableRetries(4, 30);
+  //   testListAllFirewallRulesWOptions();
 
-    // Disable retries and run testListAllFirewallRulesWOptions.
-    firewallRulesService.disableRetries();
-    testListAllFirewallRulesWOptions();
-  }  
+  //   // Disable retries and run testListAllFirewallRulesWOptions.
+  //   firewallRulesService.disableRetries();
+  //   testListAllFirewallRulesWOptions();
+  // }  
 
   // Test the listAllFirewallRules operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -217,15 +217,15 @@ public class FirewallRulesTest extends PowerMockTestCase {
     assertEquals(parsedPath, createFirewallRulesPath);
   }
   
-  public void testCreateFirewallRulesWOptionsWRetries() throws Throwable {
-    // Enable retries and run testCreateFirewallRulesWOptions.
-    firewallRulesService.enableRetries(4, 30);
-    testCreateFirewallRulesWOptions();
+  // public void testCreateFirewallRulesWOptionsWRetries() throws Throwable {
+  //   // Enable retries and run testCreateFirewallRulesWOptions.
+  //   firewallRulesService.enableRetries(4, 30);
+  //   testCreateFirewallRulesWOptions();
 
-    // Disable retries and run testCreateFirewallRulesWOptions.
-    firewallRulesService.disableRetries();
-    testCreateFirewallRulesWOptions();
-  }  
+  //   // Disable retries and run testCreateFirewallRulesWOptions.
+  //   firewallRulesService.disableRetries();
+  //   testCreateFirewallRulesWOptions();
+  // }  
 
   // Test the createFirewallRules operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -295,15 +295,15 @@ public class FirewallRulesTest extends PowerMockTestCase {
     assertEquals(parsedPath, updateFirewllRulesPath);
   }
   
-  public void testUpdateFirewllRulesWOptionsWRetries() throws Throwable {
-    // Enable retries and run testUpdateFirewllRulesWOptions.
-    firewallRulesService.enableRetries(4, 30);
-    testUpdateFirewllRulesWOptions();
+  // public void testUpdateFirewllRulesWOptionsWRetries() throws Throwable {
+  //   // Enable retries and run testUpdateFirewllRulesWOptions.
+  //   firewallRulesService.enableRetries(4, 30);
+  //   testUpdateFirewllRulesWOptions();
 
-    // Disable retries and run testUpdateFirewllRulesWOptions.
-    firewallRulesService.disableRetries();
-    testUpdateFirewllRulesWOptions();
-  }  
+  //   // Disable retries and run testUpdateFirewllRulesWOptions.
+  //   firewallRulesService.disableRetries();
+  //   testUpdateFirewllRulesWOptions();
+  // }  
 
   // Test the updateFirewllRules operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -360,15 +360,15 @@ public class FirewallRulesTest extends PowerMockTestCase {
     assertEquals(parsedPath, deleteFirewallRulesPath);
   }
   
-  public void testDeleteFirewallRulesWOptionsWRetries() throws Throwable {
-    // Enable retries and run testDeleteFirewallRulesWOptions.
-    firewallRulesService.enableRetries(4, 30);
-    testDeleteFirewallRulesWOptions();
+  // public void testDeleteFirewallRulesWOptionsWRetries() throws Throwable {
+  //   // Enable retries and run testDeleteFirewallRulesWOptions.
+  //   firewallRulesService.enableRetries(4, 30);
+  //   testDeleteFirewallRulesWOptions();
 
-    // Disable retries and run testDeleteFirewallRulesWOptions.
-    firewallRulesService.disableRetries();
-    testDeleteFirewallRulesWOptions();
-  }  
+  //   // Disable retries and run testDeleteFirewallRulesWOptions.
+  //   firewallRulesService.disableRetries();
+  //   testDeleteFirewallRulesWOptions();
+  // }  
 
   // Test the deleteFirewallRules operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -424,15 +424,15 @@ public class FirewallRulesTest extends PowerMockTestCase {
     assertEquals(parsedPath, deleteFirewallRulePath);
   }
   
-  public void testDeleteFirewallRuleWOptionsWRetries() throws Throwable {
-    // Enable retries and run testDeleteFirewallRuleWOptions.
-    firewallRulesService.enableRetries(4, 30);
-    testDeleteFirewallRuleWOptions();
+  // public void testDeleteFirewallRuleWOptionsWRetries() throws Throwable {
+  //   // Enable retries and run testDeleteFirewallRuleWOptions.
+  //   firewallRulesService.enableRetries(4, 30);
+  //   testDeleteFirewallRuleWOptions();
 
-    // Disable retries and run testDeleteFirewallRuleWOptions.
-    firewallRulesService.disableRetries();
-    testDeleteFirewallRuleWOptions();
-  }  
+  //   // Disable retries and run testDeleteFirewallRuleWOptions.
+  //   firewallRulesService.disableRetries();
+  //   testDeleteFirewallRuleWOptions();
+  // }  
 
   // Test the deleteFirewallRule operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -488,15 +488,15 @@ public class FirewallRulesTest extends PowerMockTestCase {
     assertEquals(parsedPath, getFirewallRulePath);
   }
   
-  public void testGetFirewallRuleWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetFirewallRuleWOptions.
-    firewallRulesService.enableRetries(4, 30);
-    testGetFirewallRuleWOptions();
+  // public void testGetFirewallRuleWOptionsWRetries() throws Throwable {
+  //   // Enable retries and run testGetFirewallRuleWOptions.
+  //   firewallRulesService.enableRetries(4, 30);
+  //   testGetFirewallRuleWOptions();
 
-    // Disable retries and run testGetFirewallRuleWOptions.
-    firewallRulesService.disableRetries();
-    testGetFirewallRuleWOptions();
-  }  
+  //   // Disable retries and run testGetFirewallRuleWOptions.
+  //   firewallRulesService.disableRetries();
+  //   testGetFirewallRuleWOptions();
+  // }  
 
   // Test the getFirewallRule operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -561,15 +561,15 @@ public class FirewallRulesTest extends PowerMockTestCase {
     assertEquals(parsedPath, updateFirewallRulePath);
   }
   
-  public void testUpdateFirewallRuleWOptionsWRetries() throws Throwable {
-    // Enable retries and run testUpdateFirewallRuleWOptions.
-    firewallRulesService.enableRetries(4, 30);
-    testUpdateFirewallRuleWOptions();
+  // public void testUpdateFirewallRuleWOptionsWRetries() throws Throwable {
+  //   // Enable retries and run testUpdateFirewallRuleWOptions.
+  //   firewallRulesService.enableRetries(4, 30);
+  //   testUpdateFirewallRuleWOptions();
 
-    // Disable retries and run testUpdateFirewallRuleWOptions.
-    firewallRulesService.disableRetries();
-    testUpdateFirewallRuleWOptions();
-  }  
+  //   // Disable retries and run testUpdateFirewallRuleWOptions.
+  //   firewallRulesService.disableRetries();
+  //   testUpdateFirewallRuleWOptions();
+  // }  
 
   // Test the updateFirewallRule operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
