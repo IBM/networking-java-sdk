@@ -1,3 +1,10 @@
+# [0.24.0](https://github.com/IBM/networking-java-sdk/compare/0.23.0...0.24.0) (2021-11-18)
+
+
+### Features
+
+* **firewallrules:** Added firewallrules ([d1752e3](https://github.com/IBM/networking-java-sdk/commit/d1752e341a2b0cca3a51c84320459eedf9c26bee))
+
 # [0.23.0](https://github.com/IBM/networking-java-sdk/compare/0.22.3...0.23.0) (2021-11-15)
 
 
