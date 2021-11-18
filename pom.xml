@@ -86,6 +86,7 @@
         <module>modules/page-rule-api</module>
         <module>modules/filters</module>
         <module>modules/dns-svcs</module>
+        <module>modules/firewall-rules</module>
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
