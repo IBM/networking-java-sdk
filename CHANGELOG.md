@@ -1,3 +1,10 @@
+## [0.24.1](https://github.com/IBM/networking-java-sdk/compare/0.24.0...0.24.1) (2021-11-22)
+
+
+### Bug Fixes
+
+* Updated Java SDK per latest updates in sdk-core templates. ([8581feb](https://github.com/IBM/networking-java-sdk/commit/8581feb4d581a146ff4db3f5ef119ce94dfbffea))
+
 # [0.24.0](https://github.com/IBM/networking-java-sdk/compare/0.23.0...0.24.0) (2021-11-18)
 
 
