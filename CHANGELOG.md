@@ -1,3 +1,10 @@
+# [0.25.0](https://github.com/IBM/networking-java-sdk/compare/0.24.1...0.25.0) (2022-01-11)
+
+
+### Features
+
+* **Webhooks:** Added Webhooks ([24ac713](https://github.com/IBM/networking-java-sdk/commit/24ac713bf94bdb6c7facbd0ee8546514b54ab354))
+
 ## [0.24.1](https://github.com/IBM/networking-java-sdk/compare/0.24.0...0.24.1) (2021-11-22)
 
 
