@@ -184,6 +184,11 @@
             <artifactId>firewall-rules</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>webhooks</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
     </dependencies>
 
