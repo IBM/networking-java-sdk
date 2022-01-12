@@ -88,6 +88,7 @@
         <module>modules/dns-svcs</module>
         <module>modules/firewall-rules</module>
         <module>modules/webhooks</module>
+        <module>modules/alerts</module>
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
