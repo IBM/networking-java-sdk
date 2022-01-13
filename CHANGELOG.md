@@ -1,3 +1,10 @@
+# [0.26.0](https://github.com/IBM/networking-java-sdk/compare/0.25.0...0.26.0) (2022-01-13)
+
+
+### Features
+
+* **Alert-policies:** added alert-policies ([bb15391](https://github.com/IBM/networking-java-sdk/commit/bb15391ea4471a225375865a05be226cce3bfbda))
+
 # [0.25.0](https://github.com/IBM/networking-java-sdk/compare/0.24.1...0.25.0) (2022-01-11)
 
 
