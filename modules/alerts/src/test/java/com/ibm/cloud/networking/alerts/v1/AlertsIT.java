@@ -79,7 +79,7 @@ public class AlertsIT extends SdkIntegrationTestBase {
       // Load Config
       crn = config.get("CRN");
       zoneIdentifier = config.get("ZONE_ID");
-      xAuthUserToken = config.get("ZaHkAf0iNXNWn8ySUJjTJHkzlanchfnR4TISjOPC_I1U");
+      xAuthUserToken = config.get("CIS_SERVICES_APIKEY");
       System.out.println(xAuthUserToken);
       // set mock values for global params
       try {
