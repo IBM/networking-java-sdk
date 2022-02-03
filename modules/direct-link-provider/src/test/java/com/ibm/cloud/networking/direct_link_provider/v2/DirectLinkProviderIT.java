@@ -25,6 +25,7 @@ import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import java.sql.Timestamp;
 
@@ -50,6 +51,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdate
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewaysOptions;
@@ -64,7 +66,6 @@ import com.ibm.cloud.sdk.core.util.CredentialUtils;
  * How to run the tests:
  *    mvn -Dtest=DirectLinkProviderIT -DfailIfNoTests=false test
  */
-
 public class DirectLinkProviderIT extends SdkIntegrationTestBase {
     // Directlink Provider service v2
     public DirectLinkProvider dlProviderTestService = null;
@@ -397,7 +398,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		assertNotNull(updateGWResObj);
 		assertEquals(updateGWResObj.getId(), gatewayId);
 		assertEquals(updateGWResObj.getName(), updatedGatewayName);
-		assertEquals(updateGWResObj.getSpeedMbps(), speedMbps); // Speed not yet updated
+		assertEquals(updateGWResObj.getSpeedMbps(), speedMbps); // Speed not updated until request is approved.
 
 		// Construct an instance GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate
 		List <GatewayActionTemplateUpdatesItem> updatesAction = new ArrayList<GatewayActionTemplateUpdatesItem>();
@@ -763,7 +764,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 			assertEquals(errResponse.getMessage(), "Please make sure localIP and remoteIP are not in use");
 		}
 
-		// Construct an instance GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate
+		// Construct an instance of GatewayActionTemplateUpdatesItem
 		List <GatewayActionTemplateUpdatesItem> updatesAction = new ArrayList<GatewayActionTemplateUpdatesItem>();
 
 		// Add BGP ASN to updates attributes
@@ -943,5 +944,184 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		gatewayId = null; // already cleaned up System.out.
 	}
+	
+	@Test(dependsOnMethods = "testProviderPorts")
+	public void testProviderGatewaysWithClientApiVlan(){
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+		String customerAccId = config.get("CUSTOMER_ACCT_ID");
+		String gatewayName = "JAVA-INT-SDK-PROVIDER-VLAN"+timestamp; 
+		Long bgpAsn = 64999L; 
+		Long speedMbps = 1000L;
+		Long vlan = 38L;
+		Long updatedVlan = 94L;
+		ProviderGatewayPortIdentity portIdentity = new ProviderGatewayPortIdentity.Builder(firstPortId).build();
 
+		assertNotNull(dlProviderTestService);
+		assertNotNull(dlTestService);
+
+		// Construct an instance of the CreateProviderGatewayOptions model
+		CreateProviderGatewayOptions createProviderGatewayOptionsModel = new CreateProviderGatewayOptions.Builder()
+				.bgpAsn(bgpAsn).customerAccountId(customerAccId).name(gatewayName).speedMbps(speedMbps).vlan(vlan).port(portIdentity).build();
+
+		Response<ProviderGateway> createGWRes = dlProviderTestService.createProviderGateway(createProviderGatewayOptionsModel).execute();
+		assertNotNull(createGWRes);
+		assertEquals(201, createGWRes.getStatusCode());
+		ProviderGateway createGWRespObj = createGWRes.getResult();
+		assertNotNull(createGWRespObj);
+
+		// Save the gateway created
+		gatewayId = createGWRespObj.getId();
+
+		// Construct an instance of the GetGatewayOptions model
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
+		Response<Gateway> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
+		assertNotNull(getGWRes);
+		assertEquals(200, getGWRes.getStatusCode());
+		Gateway getGWRespObj = getGWRes.getResult();
+		assertNotNull(getGWRespObj);
+		assertEquals(getGWRespObj.getId(), gatewayId);
+		assertEquals(getGWRespObj.getName(), gatewayName);
+		assertEquals(getGWRespObj.getBgpAsn(), bgpAsn);
+		assertEquals(getGWRespObj.getSpeedMbps(), speedMbps);
+		assertEquals(getGWRespObj.getVlan(), vlan);
+		assertEquals(getGWRespObj.getOperationalStatus(), "create_pending");
+		assertEquals(getGWRespObj.getPort().getId(), firstPortId);
+		assertNotNull(getGWRespObj.getChangeRequest());
+
+		// Construct an instance of CreateGatewayActionOptions model
+		CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
+				.id(gatewayId).action("create_gateway_approve").global(false).metered(false).build();
+
+		Response<Gateway> actionGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
+		assertNotNull(actionGWRes);
+		assertEquals(200, actionGWRes.getStatusCode());
+		Gateway actionGWResObj = actionGWRes.getResult();
+		assertNotNull(actionGWResObj);
+		assertEquals(actionGWResObj.getId(), gatewayId);
+		assertEquals(actionGWResObj.getName(), gatewayName);
+		assertEquals(actionGWResObj.getBgpAsn(), bgpAsn);
+		assertEquals(actionGWResObj.getSpeedMbps(), speedMbps);
+		assertEquals(actionGWResObj.getVlan(), vlan);
+		assertEquals(actionGWResObj.getOperationalStatus(), "create_pending");
+		assertEquals(actionGWResObj.getPort().getId(), firstPortId);
+		assertNull(actionGWResObj.getChangeRequest());
+
+		// Construct an instance of GetGatewayOptions model and wait for gateway to move to provisioned state
+		getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
+
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(res);
+			assertEquals(200, res.getStatusCode());
+
+			Gateway responseObj = res.getResult();
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// ********** Update the VLAN ID using Patch gateway ************* 
+		UpdateProviderGatewayOptions updateGatewayOptionsModel = new UpdateProviderGatewayOptions.Builder().id(gatewayId)
+				.vlan(updatedVlan).build();
+
+			Response<ProviderGateway> updateResponse = dlProviderTestService.updateProviderGateway(updateGatewayOptionsModel).execute();
+			assertNotNull(updateResponse); 
+			assertEquals(200, updateResponse.getStatusCode());
+
+			ProviderGateway updateResponseObj = updateResponse.getResult();
+			assertNotNull(updateResponseObj);
+			assertEquals(updateResponseObj.getId(), gatewayId);
+			assertEquals(updateResponseObj.getName(), gatewayName);
+			assertEquals(updateResponseObj.getVlan(), vlan); // Not updated until approve action
+			assertNotNull(updateResponseObj.getChangeRequest());
+
+		// Construct an instance GatewayActionTemplateUpdatesItem
+		List <GatewayActionTemplateUpdatesItem> updatesAction = new ArrayList<GatewayActionTemplateUpdatesItem>();
+
+		// Add VLAN to updates attributes
+		GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate vlanUpdate = new GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate.Builder()
+				.vlan(updatedVlan).build();
+		updatesAction.add(vlanUpdate);
+
+		// Construct an instance of CreateGatewayActionOptions model
+		createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
+				.id(gatewayId).action("update_attributes_approve").updates(updatesAction).build();
+
+		actionGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
+		assertNotNull(actionGWRes);
+		assertEquals(200, actionGWRes.getStatusCode());	
+		actionGWResObj = actionGWRes.getResult();
+		assertNotNull(actionGWResObj);
+		assertEquals(actionGWResObj.getVlan(), updatedVlan);
+
+		// Construct an instance of GetGatewayOptions model and wait for gateway to move to provisioned state
+		getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
+
+		done = false;
+		timerCount = 1;
+
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// 
+		}
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(res);
+			assertEquals(200, res.getStatusCode());
+
+			Gateway responseObj = res.getResult();
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// Construct an instance of the DeleteProviderGatewayOptions model and re-send delete request using provider account
+		DeleteProviderGatewayOptions deleteProviderGatewayOptionsModel = new DeleteProviderGatewayOptions.Builder(gatewayId).build();
+		// Invoke operation with valid options model (positive test)
+		Response<ProviderGateway> deleteGWRes = dlProviderTestService.deleteProviderGateway(deleteProviderGatewayOptionsModel).execute();
+		assertNotNull(deleteGWRes);
+		assertEquals(202, deleteGWRes.getStatusCode());
+
+		// Construct an instance of CreateGatewayActionOptions model and approve the gateway delete request using client account
+		createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
+				.id(gatewayId).action("delete_gateway_approve").build();
+
+		Response<Gateway> response = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
+		assertNotNull(response);
+		assertEquals(204, response.getStatusCode());
+
+		gatewayId = null; // already cleaned up System.out.
+	}
 }

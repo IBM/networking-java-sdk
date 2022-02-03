@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,6 +22,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  * - GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate
  * - GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate
  * - GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate
+ * - GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate
  */
 public class GatewayActionTemplateUpdatesItem extends GenericModel {
 
@@ -33,6 +34,7 @@ public class GatewayActionTemplateUpdatesItem extends GenericModel {
   protected String bgpIbmCidr;
   @SerializedName("bgp_asn")
   protected Long bgpAsn;
+  protected Long vlan;
 
   protected GatewayActionTemplateUpdatesItem() {
   }
@@ -92,6 +94,17 @@ public class GatewayActionTemplateUpdatesItem extends GenericModel {
    */
   public Long bgpAsn() {
     return bgpAsn;
+  }
+
+  /**
+   * Gets the vlan.
+   *
+   * VLAN to be updated for this gateway.
+   *
+   * @return the vlan
+   */
+  public Long vlan() {
+    return vlan;
   }
 }
 

@@ -22,6 +22,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  * - ProviderGatewayUpdateAttributesUpdatesItemProviderGatewaySpeedUpdate
  * - ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate
  * - ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate
+ * - ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayVLAN
  */
 public class ProviderGatewayUpdateAttributesUpdatesItem extends GenericModel {
 
@@ -33,6 +34,7 @@ public class ProviderGatewayUpdateAttributesUpdatesItem extends GenericModel {
   protected String bgpIbmCidr;
   @SerializedName("bgp_asn")
   protected Long bgpAsn;
+  protected Long vlan;
 
   protected ProviderGatewayUpdateAttributesUpdatesItem() {
   }
@@ -92,6 +94,19 @@ public class ProviderGatewayUpdateAttributesUpdatesItem extends GenericModel {
    */
   public Long getBgpAsn() {
     return bgpAsn;
+  }
+
+  /**
+   * Gets the vlan.
+   *
+   * VLAN to be updated for this gateway.
+   *
+   * VLAN provided should be in the range 1 to 4094.
+   *
+   * @return the vlan
+   */
+  public Long getVlan() {
+    return vlan;
   }
 }
 

@@ -33,6 +33,7 @@ import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderGatewayUpd
 import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPASNUpdate;
 import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayBGPIPUpdate;
 import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderGatewayUpdateAttributesUpdatesItemProviderGatewaySpeedUpdate;
+import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayVLAN;
 import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderPort;
 import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderPortCollection;
 import com.ibm.cloud.networking.direct_link_provider.v2.model.ProviderPortCollectionFirst;
@@ -156,6 +157,16 @@ public class DirectLinkProviderTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listProviderGatewaysPath);
   }
+  
+  public void testListProviderGatewaysWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListProviderGatewaysWOptions.
+    directLinkProviderService.enableRetries(4, 30);
+    testListProviderGatewaysWOptions();
+
+    // Disable retries and run testListProviderGatewaysWOptions.
+    directLinkProviderService.disableRetries();
+    testListProviderGatewaysWOptions();
+  }  
 
   @Test
   public void testCreateProviderGatewayWOptions() throws Throwable {
@@ -184,6 +195,7 @@ public class DirectLinkProviderTest extends PowerMockTestCase {
     .speedMbps(Long.valueOf("1000"))
     .bgpCerCidr("10.254.30.78/30")
     .bgpIbmCidr("10.254.30.77/30")
+    .vlan(Long.valueOf("10"))
     .checkOnly("testString")
     .build();
 
@@ -208,6 +220,16 @@ public class DirectLinkProviderTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createProviderGatewayPath);
   }
+  
+  public void testCreateProviderGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateProviderGatewayWOptions.
+    directLinkProviderService.enableRetries(4, 30);
+    testCreateProviderGatewayWOptions();
+
+    // Disable retries and run testCreateProviderGatewayWOptions.
+    directLinkProviderService.disableRetries();
+    testCreateProviderGatewayWOptions();
+  }  
 
   // Test the createProviderGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -259,6 +281,16 @@ public class DirectLinkProviderTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, deleteProviderGatewayPath);
   }
+  
+  public void testDeleteProviderGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testDeleteProviderGatewayWOptions.
+    directLinkProviderService.enableRetries(4, 30);
+    testDeleteProviderGatewayWOptions();
+
+    // Disable retries and run testDeleteProviderGatewayWOptions.
+    directLinkProviderService.disableRetries();
+    testDeleteProviderGatewayWOptions();
+  }  
 
   // Test the deleteProviderGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -310,6 +342,16 @@ public class DirectLinkProviderTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getProviderGatewayPath);
   }
+  
+  public void testGetProviderGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetProviderGatewayWOptions.
+    directLinkProviderService.enableRetries(4, 30);
+    testGetProviderGatewayWOptions();
+
+    // Disable retries and run testGetProviderGatewayWOptions.
+    directLinkProviderService.disableRetries();
+    testGetProviderGatewayWOptions();
+  }  
 
   // Test the getProviderGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -344,6 +386,7 @@ public class DirectLinkProviderTest extends PowerMockTestCase {
     .bgpIbmCidr("169.254.0.9/30")
     .name("myNewGateway")
     .speedMbps(Long.valueOf("1000"))
+    .vlan(Long.valueOf("10"))
     .build();
 
     // Invoke operation with valid options model (positive test)
@@ -366,6 +409,16 @@ public class DirectLinkProviderTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, updateProviderGatewayPath);
   }
+  
+  public void testUpdateProviderGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testUpdateProviderGatewayWOptions.
+    directLinkProviderService.enableRetries(4, 30);
+    testUpdateProviderGatewayWOptions();
+
+    // Disable retries and run testUpdateProviderGatewayWOptions.
+    directLinkProviderService.disableRetries();
+    testUpdateProviderGatewayWOptions();
+  }  
 
   // Test the updateProviderGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -420,6 +473,16 @@ public class DirectLinkProviderTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listProviderPortsPath);
   }
+  
+  public void testListProviderPortsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListProviderPortsWOptions.
+    directLinkProviderService.enableRetries(4, 30);
+    testListProviderPortsWOptions();
+
+    // Disable retries and run testListProviderPortsWOptions.
+    directLinkProviderService.disableRetries();
+    testListProviderPortsWOptions();
+  }  
 
   @Test
   public void testGetProviderPortWOptions() throws Throwable {
@@ -459,6 +522,16 @@ public class DirectLinkProviderTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getProviderPortPath);
   }
+  
+  public void testGetProviderPortWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetProviderPortWOptions.
+    directLinkProviderService.enableRetries(4, 30);
+    testGetProviderPortWOptions();
+
+    // Disable retries and run testGetProviderPortWOptions.
+    directLinkProviderService.disableRetries();
+    testGetProviderPortWOptions();
+  }  
 
   // Test the getProviderPort operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)

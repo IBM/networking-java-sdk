@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -26,6 +26,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdate
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientBGPASNUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientBGPIPUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfig;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigActionTemplate;
@@ -39,10 +40,12 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGateway
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPASNUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientBGPIPUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientSpeedUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayUpdateAttributesUpdatesItemGatewayClientVLANUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItem;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItemGatewayClientBGPASNUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItemGatewayClientBGPIPUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItemGatewayClientSpeedUpdate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestUpdatesItemGatewayClientVLANUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigActiveCak;
@@ -209,6 +212,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewaysPath);
   }
+  
+  public void testListGatewaysWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListGatewaysWOptions.
+    directLinkService.enableRetries(4, 30);
+    testListGatewaysWOptions();
+
+    // Disable retries and run testListGatewaysWOptions.
+    directLinkService.disableRetries();
+    testListGatewaysWOptions();
+  }  
 
   @Test
   public void testCreateGatewayWOptions() throws Throwable {
@@ -305,6 +318,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createGatewayPath);
   }
+  
+  public void testCreateGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateGatewayWOptions.
+    directLinkService.enableRetries(4, 30);
+    testCreateGatewayWOptions();
+
+    // Disable retries and run testCreateGatewayWOptions.
+    directLinkService.disableRetries();
+    testCreateGatewayWOptions();
+  }  
 
   // Test the createGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -356,6 +379,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, deleteGatewayPath);
   }
+  
+  public void testDeleteGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testDeleteGatewayWOptions.
+    directLinkService.enableRetries(4, 30);
+    testDeleteGatewayWOptions();
+
+    // Disable retries and run testDeleteGatewayWOptions.
+    directLinkService.disableRetries();
+    testDeleteGatewayWOptions();
+  }  
 
   // Test the deleteGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -407,6 +440,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getGatewayPath);
   }
+  
+  public void testGetGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetGatewayWOptions.
+    directLinkService.enableRetries(4, 30);
+    testGetGatewayWOptions();
+
+    // Disable retries and run testGetGatewayWOptions.
+    directLinkService.disableRetries();
+    testGetGatewayWOptions();
+  }  
 
   // Test the getGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -501,6 +544,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, updateGatewayPath);
   }
+  
+  public void testUpdateGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testUpdateGatewayWOptions.
+    directLinkService.enableRetries(4, 30);
+    testUpdateGatewayWOptions();
+
+    // Disable retries and run testUpdateGatewayWOptions.
+    directLinkService.disableRetries();
+    testUpdateGatewayWOptions();
+  }  
 
   // Test the updateGateway operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -581,6 +634,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createGatewayActionPath);
   }
+  
+  public void testCreateGatewayActionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateGatewayActionWOptions.
+    directLinkService.enableRetries(4, 30);
+    testCreateGatewayActionWOptions();
+
+    // Disable retries and run testCreateGatewayActionWOptions.
+    directLinkService.disableRetries();
+    testCreateGatewayActionWOptions();
+  }  
 
   // Test the createGatewayAction operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -632,6 +695,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewayCompletionNoticePath);
   }
+  
+  public void testListGatewayCompletionNoticeWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListGatewayCompletionNoticeWOptions.
+    directLinkService.enableRetries(4, 30);
+    testListGatewayCompletionNoticeWOptions();
+
+    // Disable retries and run testListGatewayCompletionNoticeWOptions.
+    directLinkService.disableRetries();
+    testListGatewayCompletionNoticeWOptions();
+  }  
 
   // Test the listGatewayCompletionNotice operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -685,6 +758,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createGatewayCompletionNoticePath);
   }
+  
+  public void testCreateGatewayCompletionNoticeWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateGatewayCompletionNoticeWOptions.
+    directLinkService.enableRetries(4, 30);
+    testCreateGatewayCompletionNoticeWOptions();
+
+    // Disable retries and run testCreateGatewayCompletionNoticeWOptions.
+    directLinkService.disableRetries();
+    testCreateGatewayCompletionNoticeWOptions();
+  }  
 
   // Test the createGatewayCompletionNotice operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -736,6 +819,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewayLetterOfAuthorizationPath);
   }
+  
+  public void testListGatewayLetterOfAuthorizationWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListGatewayLetterOfAuthorizationWOptions.
+    directLinkService.enableRetries(4, 30);
+    testListGatewayLetterOfAuthorizationWOptions();
+
+    // Disable retries and run testListGatewayLetterOfAuthorizationWOptions.
+    directLinkService.disableRetries();
+    testListGatewayLetterOfAuthorizationWOptions();
+  }  
 
   // Test the listGatewayLetterOfAuthorization operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -765,7 +858,7 @@ public class DirectLinkTest extends PowerMockTestCase {
     // Construct an instance of the GetGatewayStatisticsOptions model
     GetGatewayStatisticsOptions getGatewayStatisticsOptionsModel = new GetGatewayStatisticsOptions.Builder()
     .id("testString")
-    .type("macsec_mka")
+    .type("macsec_mka_session")
     .build();
 
     // Invoke operation with valid options model (positive test)
@@ -783,12 +876,22 @@ public class DirectLinkTest extends PowerMockTestCase {
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     // Get query params
-    assertEquals(query.get("type"), "macsec_mka");
+    assertEquals(query.get("type"), "macsec_mka_session");
     assertEquals(query.get("version"), "testString");
     // Check request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getGatewayStatisticsPath);
   }
+  
+  public void testGetGatewayStatisticsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetGatewayStatisticsWOptions.
+    directLinkService.enableRetries(4, 30);
+    testGetGatewayStatisticsWOptions();
+
+    // Disable retries and run testGetGatewayStatisticsWOptions.
+    directLinkService.disableRetries();
+    testGetGatewayStatisticsWOptions();
+  }  
 
   // Test the getGatewayStatistics operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -842,6 +945,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getGatewayStatusPath);
   }
+  
+  public void testGetGatewayStatusWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetGatewayStatusWOptions.
+    directLinkService.enableRetries(4, 30);
+    testGetGatewayStatusWOptions();
+
+    // Disable retries and run testGetGatewayStatusWOptions.
+    directLinkService.disableRetries();
+    testGetGatewayStatusWOptions();
+  }  
 
   // Test the getGatewayStatus operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -893,6 +1006,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listOfferingTypeLocationsPath);
   }
+  
+  public void testListOfferingTypeLocationsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListOfferingTypeLocationsWOptions.
+    directLinkService.enableRetries(4, 30);
+    testListOfferingTypeLocationsWOptions();
+
+    // Disable retries and run testListOfferingTypeLocationsWOptions.
+    directLinkService.disableRetries();
+    testListOfferingTypeLocationsWOptions();
+  }  
 
   // Test the listOfferingTypeLocations operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -945,6 +1068,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listOfferingTypeLocationCrossConnectRoutersPath);
   }
+  
+  public void testListOfferingTypeLocationCrossConnectRoutersWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListOfferingTypeLocationCrossConnectRoutersWOptions.
+    directLinkService.enableRetries(4, 30);
+    testListOfferingTypeLocationCrossConnectRoutersWOptions();
+
+    // Disable retries and run testListOfferingTypeLocationCrossConnectRoutersWOptions.
+    directLinkService.disableRetries();
+    testListOfferingTypeLocationCrossConnectRoutersWOptions();
+  }  
 
   // Test the listOfferingTypeLocationCrossConnectRouters operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -996,6 +1129,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listOfferingTypeSpeedsPath);
   }
+  
+  public void testListOfferingTypeSpeedsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListOfferingTypeSpeedsWOptions.
+    directLinkService.enableRetries(4, 30);
+    testListOfferingTypeSpeedsWOptions();
+
+    // Disable retries and run testListOfferingTypeSpeedsWOptions.
+    directLinkService.disableRetries();
+    testListOfferingTypeSpeedsWOptions();
+  }  
 
   // Test the listOfferingTypeSpeeds operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -1052,6 +1195,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listPortsPath);
   }
+  
+  public void testListPortsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListPortsWOptions.
+    directLinkService.enableRetries(4, 30);
+    testListPortsWOptions();
+
+    // Disable retries and run testListPortsWOptions.
+    directLinkService.disableRetries();
+    testListPortsWOptions();
+  }  
 
   @Test
   public void testGetPortWOptions() throws Throwable {
@@ -1091,6 +1244,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getPortPath);
   }
+  
+  public void testGetPortWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetPortWOptions.
+    directLinkService.enableRetries(4, 30);
+    testGetPortWOptions();
+
+    // Disable retries and run testGetPortWOptions.
+    directLinkService.disableRetries();
+    testGetPortWOptions();
+  }  
 
   // Test the getPort operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -1142,6 +1305,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewayVirtualConnectionsPath);
   }
+  
+  public void testListGatewayVirtualConnectionsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListGatewayVirtualConnectionsWOptions.
+    directLinkService.enableRetries(4, 30);
+    testListGatewayVirtualConnectionsWOptions();
+
+    // Disable retries and run testListGatewayVirtualConnectionsWOptions.
+    directLinkService.disableRetries();
+    testListGatewayVirtualConnectionsWOptions();
+  }  
 
   // Test the listGatewayVirtualConnections operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -1196,6 +1369,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createGatewayVirtualConnectionPath);
   }
+  
+  public void testCreateGatewayVirtualConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateGatewayVirtualConnectionWOptions.
+    directLinkService.enableRetries(4, 30);
+    testCreateGatewayVirtualConnectionWOptions();
+
+    // Disable retries and run testCreateGatewayVirtualConnectionWOptions.
+    directLinkService.disableRetries();
+    testCreateGatewayVirtualConnectionWOptions();
+  }  
 
   // Test the createGatewayVirtualConnection operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -1248,6 +1431,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, deleteGatewayVirtualConnectionPath);
   }
+  
+  public void testDeleteGatewayVirtualConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testDeleteGatewayVirtualConnectionWOptions.
+    directLinkService.enableRetries(4, 30);
+    testDeleteGatewayVirtualConnectionWOptions();
+
+    // Disable retries and run testDeleteGatewayVirtualConnectionWOptions.
+    directLinkService.disableRetries();
+    testDeleteGatewayVirtualConnectionWOptions();
+  }  
 
   // Test the deleteGatewayVirtualConnection operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -1300,6 +1493,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getGatewayVirtualConnectionPath);
   }
+  
+  public void testGetGatewayVirtualConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetGatewayVirtualConnectionWOptions.
+    directLinkService.enableRetries(4, 30);
+    testGetGatewayVirtualConnectionWOptions();
+
+    // Disable retries and run testGetGatewayVirtualConnectionWOptions.
+    directLinkService.disableRetries();
+    testGetGatewayVirtualConnectionWOptions();
+  }  
 
   // Test the getGatewayVirtualConnection operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
@@ -1354,6 +1557,16 @@ public class DirectLinkTest extends PowerMockTestCase {
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, updateGatewayVirtualConnectionPath);
   }
+  
+  public void testUpdateGatewayVirtualConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testUpdateGatewayVirtualConnectionWOptions.
+    directLinkService.enableRetries(4, 30);
+    testUpdateGatewayVirtualConnectionWOptions();
+
+    // Disable retries and run testUpdateGatewayVirtualConnectionWOptions.
+    directLinkService.disableRetries();
+    testUpdateGatewayVirtualConnectionWOptions();
+  }  
 
   // Test the updateGatewayVirtualConnection operation with null options model parameter
   @Test(expectedExceptions = IllegalArgumentException.class)
