@@ -1,3 +1,10 @@
+# [0.27.0](https://github.com/IBM/networking-java-sdk/compare/0.26.0...0.27.0) (2022-02-04)
+
+
+### Features
+
+* allow the DirectLink provider to provide/edit the VLAN while creating/updating the Provider GWs ([#56](https://github.com/IBM/networking-java-sdk/issues/56)) ([bd9fd9f](https://github.com/IBM/networking-java-sdk/commit/bd9fd9f95d05935acf23f6a4f93d65fb86a2159c))
+
 # [0.26.0](https://github.com/IBM/networking-java-sdk/compare/0.25.0...0.26.0) (2022-01-13)
 
 
