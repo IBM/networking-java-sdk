@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import java.sql.Timestamp;
 
@@ -83,7 +84,6 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
  * How to run the tests:
  *    mvn -Dtest=DirectLinkIT -DfailIfNoTests=false test
  */
-
 public class DirectLinkIT extends SdkIntegrationTestBase {
 	// Directlink service v1 integration
 	public DirectLink testService = null;

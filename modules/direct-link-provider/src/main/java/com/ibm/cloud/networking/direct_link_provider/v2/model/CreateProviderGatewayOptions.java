@@ -26,6 +26,7 @@ public class CreateProviderGatewayOptions extends GenericModel {
   protected Long speedMbps;
   protected String bgpCerCidr;
   protected String bgpIbmCidr;
+  protected Long vlan;
   protected String checkOnly;
 
   /**
@@ -39,6 +40,7 @@ public class CreateProviderGatewayOptions extends GenericModel {
     private Long speedMbps;
     private String bgpCerCidr;
     private String bgpIbmCidr;
+    private Long vlan;
     private String checkOnly;
 
     private Builder(CreateProviderGatewayOptions createProviderGatewayOptions) {
@@ -49,6 +51,7 @@ public class CreateProviderGatewayOptions extends GenericModel {
       this.speedMbps = createProviderGatewayOptions.speedMbps;
       this.bgpCerCidr = createProviderGatewayOptions.bgpCerCidr;
       this.bgpIbmCidr = createProviderGatewayOptions.bgpIbmCidr;
+      this.vlan = createProviderGatewayOptions.vlan;
       this.checkOnly = createProviderGatewayOptions.checkOnly;
     }
 
@@ -162,6 +165,17 @@ public class CreateProviderGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the vlan.
+     *
+     * @param vlan the vlan
+     * @return the CreateProviderGatewayOptions builder
+     */
+    public Builder vlan(long vlan) {
+      this.vlan = vlan;
+      return this;
+    }
+
+    /**
      * Set the checkOnly.
      *
      * @param checkOnly the checkOnly
@@ -191,6 +205,7 @@ public class CreateProviderGatewayOptions extends GenericModel {
     speedMbps = builder.speedMbps;
     bgpCerCidr = builder.bgpCerCidr;
     bgpIbmCidr = builder.bgpIbmCidr;
+    vlan = builder.vlan;
     checkOnly = builder.checkOnly;
   }
 
@@ -296,6 +311,19 @@ public class CreateProviderGatewayOptions extends GenericModel {
    */
   public String bgpIbmCidr() {
     return bgpIbmCidr;
+  }
+
+  /**
+   * Gets the vlan.
+   *
+   * VLAN requested for this gateway.
+   *
+   * VLAN provided should be in the range 1 to 4094.
+   *
+   * @return the vlan
+   */
+  public Long vlan() {
+    return vlan;
   }
 
   /**

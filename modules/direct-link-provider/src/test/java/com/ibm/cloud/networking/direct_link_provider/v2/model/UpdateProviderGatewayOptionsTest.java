@@ -38,6 +38,7 @@ public class UpdateProviderGatewayOptionsTest {
       .bgpIbmCidr("169.254.0.9/30")
       .name("myNewGateway")
       .speedMbps(Long.valueOf("1000"))
+      .vlan(Long.valueOf("10"))
       .build();
     assertEquals(updateProviderGatewayOptionsModel.id(), "testString");
     assertEquals(updateProviderGatewayOptionsModel.bgpAsn(), Long.valueOf("64999"));
@@ -45,6 +46,7 @@ public class UpdateProviderGatewayOptionsTest {
     assertEquals(updateProviderGatewayOptionsModel.bgpIbmCidr(), "169.254.0.9/30");
     assertEquals(updateProviderGatewayOptionsModel.name(), "myNewGateway");
     assertEquals(updateProviderGatewayOptionsModel.speedMbps(), Long.valueOf("1000"));
+    assertEquals(updateProviderGatewayOptionsModel.vlan(), Long.valueOf("10"));
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

@@ -45,6 +45,7 @@ public class CreateProviderGatewayOptionsTest {
       .speedMbps(Long.valueOf("1000"))
       .bgpCerCidr("10.254.30.78/30")
       .bgpIbmCidr("10.254.30.77/30")
+      .vlan(Long.valueOf("10"))
       .checkOnly("testString")
       .build();
     assertEquals(createProviderGatewayOptionsModel.bgpAsn(), Long.valueOf("64999"));
@@ -54,6 +55,7 @@ public class CreateProviderGatewayOptionsTest {
     assertEquals(createProviderGatewayOptionsModel.speedMbps(), Long.valueOf("1000"));
     assertEquals(createProviderGatewayOptionsModel.bgpCerCidr(), "10.254.30.78/30");
     assertEquals(createProviderGatewayOptionsModel.bgpIbmCidr(), "10.254.30.77/30");
+    assertEquals(createProviderGatewayOptionsModel.vlan(), Long.valueOf("10"));
     assertEquals(createProviderGatewayOptionsModel.checkOnly(), "testString");
   }
 

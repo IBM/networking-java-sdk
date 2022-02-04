@@ -25,6 +25,7 @@ public class UpdateProviderGatewayOptions extends GenericModel {
   protected String bgpIbmCidr;
   protected String name;
   protected Long speedMbps;
+  protected Long vlan;
 
   /**
    * Builder.
@@ -36,6 +37,7 @@ public class UpdateProviderGatewayOptions extends GenericModel {
     private String bgpIbmCidr;
     private String name;
     private Long speedMbps;
+    private Long vlan;
 
     private Builder(UpdateProviderGatewayOptions updateProviderGatewayOptions) {
       this.id = updateProviderGatewayOptions.id;
@@ -44,6 +46,7 @@ public class UpdateProviderGatewayOptions extends GenericModel {
       this.bgpIbmCidr = updateProviderGatewayOptions.bgpIbmCidr;
       this.name = updateProviderGatewayOptions.name;
       this.speedMbps = updateProviderGatewayOptions.speedMbps;
+      this.vlan = updateProviderGatewayOptions.vlan;
     }
 
     /**
@@ -135,6 +138,17 @@ public class UpdateProviderGatewayOptions extends GenericModel {
       this.speedMbps = speedMbps;
       return this;
     }
+
+    /**
+     * Set the vlan.
+     *
+     * @param vlan the vlan
+     * @return the UpdateProviderGatewayOptions builder
+     */
+    public Builder vlan(long vlan) {
+      this.vlan = vlan;
+      return this;
+    }
   }
 
   protected UpdateProviderGatewayOptions(Builder builder) {
@@ -146,6 +160,7 @@ public class UpdateProviderGatewayOptions extends GenericModel {
     bgpIbmCidr = builder.bgpIbmCidr;
     name = builder.name;
     speedMbps = builder.speedMbps;
+    vlan = builder.vlan;
   }
 
   /**
@@ -231,6 +246,19 @@ public class UpdateProviderGatewayOptions extends GenericModel {
    */
   public Long speedMbps() {
     return speedMbps;
+  }
+
+  /**
+   * Gets the vlan.
+   *
+   * VLAN to be modified for this gateway.
+   *
+   * VLAN provided should be in the range 1 to 4094.
+   *
+   * @return the vlan
+   */
+  public Long vlan() {
+    return vlan;
   }
 }
 

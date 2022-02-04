@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -23,10 +23,14 @@ public class GetGatewayStatisticsOptions extends GenericModel {
    * Specify statistic to retrieve.
    */
   public interface Type {
-    /** macsec_mka. */
-    String MACSEC_MKA = "macsec_mka";
-    /** macsec_security. */
-    String MACSEC_SECURITY = "macsec_security";
+    /** macsec_mka_session. */
+    String MACSEC_MKA_SESSION = "macsec_mka_session";
+    /** macsec_policy. */
+    String MACSEC_POLICY = "macsec_policy";
+    /** macsec_mka_statistics. */
+    String MACSEC_MKA_STATISTICS = "macsec_mka_statistics";
+    /** bfd_session. */
+    String BFD_SESSION = "bfd_session";
   }
 
   protected String id;

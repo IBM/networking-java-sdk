@@ -275,7 +275,7 @@ public class ProviderGateway extends GenericModel {
   /**
    * Gets the vlan.
    *
-   * VLAN allocated for this gateway.
+   * VLAN for this gateway.
    *
    * @return the vlan
    */
