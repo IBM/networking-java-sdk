@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -11,6 +11,9 @@
  * specific language governing permissions and limitations under the License.
  */
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
@@ -34,6 +37,16 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     String VPC = "vpc";
   }
 
+  /**
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   */
+  public interface PrefixFiltersDefault {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
   protected String transitGatewayId;
   protected String networkType;
   protected String baseConnectionId;
@@ -42,6 +55,8 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   protected String name;
   protected String networkAccountId;
   protected String networkId;
+  protected List<TransitGatewayConnectionPrefixFilter> prefixFilters;
+  protected String prefixFiltersDefault;
   protected String remoteBgpAsn;
   protected String remoteGatewayIp;
   protected String remoteTunnelIp;
@@ -59,6 +74,8 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     private String name;
     private String networkAccountId;
     private String networkId;
+    private List<TransitGatewayConnectionPrefixFilter> prefixFilters;
+    private String prefixFiltersDefault;
     private String remoteBgpAsn;
     private String remoteGatewayIp;
     private String remoteTunnelIp;
@@ -73,6 +90,8 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
       this.name = createTransitGatewayConnectionOptions.name;
       this.networkAccountId = createTransitGatewayConnectionOptions.networkAccountId;
       this.networkId = createTransitGatewayConnectionOptions.networkId;
+      this.prefixFilters = createTransitGatewayConnectionOptions.prefixFilters;
+      this.prefixFiltersDefault = createTransitGatewayConnectionOptions.prefixFiltersDefault;
       this.remoteBgpAsn = createTransitGatewayConnectionOptions.remoteBgpAsn;
       this.remoteGatewayIp = createTransitGatewayConnectionOptions.remoteGatewayIp;
       this.remoteTunnelIp = createTransitGatewayConnectionOptions.remoteTunnelIp;
@@ -103,6 +122,22 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
      */
     public CreateTransitGatewayConnectionOptions build() {
       return new CreateTransitGatewayConnectionOptions(this);
+    }
+
+    /**
+     * Adds an prefixFilters to prefixFilters.
+     *
+     * @param prefixFilters the new prefixFilters
+     * @return the CreateTransitGatewayConnectionOptions builder
+     */
+    public Builder addPrefixFilters(TransitGatewayConnectionPrefixFilter prefixFilters) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(prefixFilters,
+        "prefixFilters cannot be null");
+      if (this.prefixFilters == null) {
+        this.prefixFilters = new ArrayList<TransitGatewayConnectionPrefixFilter>();
+      }
+      this.prefixFilters.add(prefixFilters);
+      return this;
     }
 
     /**
@@ -194,6 +229,29 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     }
 
     /**
+     * Set the prefixFilters.
+     * Existing prefixFilters will be replaced.
+     *
+     * @param prefixFilters the prefixFilters
+     * @return the CreateTransitGatewayConnectionOptions builder
+     */
+    public Builder prefixFilters(List<TransitGatewayConnectionPrefixFilter> prefixFilters) {
+      this.prefixFilters = prefixFilters;
+      return this;
+    }
+
+    /**
+     * Set the prefixFiltersDefault.
+     *
+     * @param prefixFiltersDefault the prefixFiltersDefault
+     * @return the CreateTransitGatewayConnectionOptions builder
+     */
+    public Builder prefixFiltersDefault(String prefixFiltersDefault) {
+      this.prefixFiltersDefault = prefixFiltersDefault;
+      return this;
+    }
+
+    /**
      * Set the remoteBgpAsn.
      *
      * @param remoteBgpAsn the remoteBgpAsn
@@ -251,6 +309,8 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     name = builder.name;
     networkAccountId = builder.networkAccountId;
     networkId = builder.networkId;
+    prefixFilters = builder.prefixFilters;
+    prefixFiltersDefault = builder.prefixFiltersDefault;
     remoteBgpAsn = builder.remoteBgpAsn;
     remoteGatewayIp = builder.remoteGatewayIp;
     remoteTunnelIp = builder.remoteTunnelIp;
@@ -363,6 +423,31 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    */
   public String networkId() {
     return networkId;
+  }
+
+  /**
+   * Gets the prefixFilters.
+   *
+   * Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk type
+   * 'vpc', 'classic' and 'directlink' connections. They are not allowed for type 'gre_tunnel' connections. This is
+   * order dependent with those first in the array being applied first, and those at the end of the array being applied
+   * last, or just before applying the default.
+   *
+   * @return the prefixFilters
+   */
+  public List<TransitGatewayConnectionPrefixFilter> prefixFilters() {
+    return prefixFilters;
+  }
+
+  /**
+   * Gets the prefixFiltersDefault.
+   *
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   *
+   * @return the prefixFiltersDefault
+   */
+  public String prefixFiltersDefault() {
+    return prefixFiltersDefault;
   }
 
   /**

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,6 +13,7 @@
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -35,6 +36,16 @@ public class TransitConnection extends GenericModel {
     String GRE_TUNNEL = "gre_tunnel";
     /** vpc. */
     String VPC = "vpc";
+  }
+
+  /**
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   */
+  public interface PrefixFiltersDefault {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
   }
 
   /**
@@ -93,6 +104,10 @@ public class TransitConnection extends GenericModel {
   protected String networkId;
   @SerializedName("network_type")
   protected String networkType;
+  @SerializedName("prefix_filters")
+  protected List<TransitGatewayConnectionPrefixFilterReference> prefixFilters;
+  @SerializedName("prefix_filters_default")
+  protected String prefixFiltersDefault;
   @SerializedName("remote_bgp_asn")
   protected Long remoteBgpAsn;
   @SerializedName("remote_gateway_ip")
@@ -234,6 +249,29 @@ public class TransitConnection extends GenericModel {
    */
   public String getNetworkType() {
     return networkType;
+  }
+
+  /**
+   * Gets the prefixFilters.
+   *
+   * Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
+   * array being applied first, and those at the end of the array is applied last, or just before the default.
+   *
+   * @return the prefixFilters
+   */
+  public List<TransitGatewayConnectionPrefixFilterReference> getPrefixFilters() {
+    return prefixFilters;
+  }
+
+  /**
+   * Gets the prefixFiltersDefault.
+   *
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   *
+   * @return the prefixFiltersDefault
+   */
+  public String getPrefixFiltersDefault() {
+    return prefixFiltersDefault;
   }
 
   /**

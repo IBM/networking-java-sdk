@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.41.1-790c0dfc-20211021-231519
+ * IBM OpenAPI SDK Code Generator Version: 3.43.5-e0ec19e2-20220124-172004
  */
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
@@ -21,20 +21,26 @@ import com.google.gson.JsonObject;
 import com.ibm.cloud.networking.common.SdkCommon;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionActionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayConnectionOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetGatewayLocationOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListGatewayLocationsOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionPrefixFiltersOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayRouteReportsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCollection;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCust;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReport;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSCollection;
@@ -45,6 +51,7 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayColl
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionCust;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayOptions;
 import com.ibm.cloud.sdk.core.http.RequestBuilder;
 import com.ibm.cloud.sdk.core.http.ResponseConverter;
@@ -177,6 +184,167 @@ public class TransitGatewayApis extends BaseService {
    */
   public ServiceCall<TransitConnectionCollection> listConnections() {
     return listConnections(null);
+  }
+
+  /**
+   * Retrieves all prefix filters in a Transit Gateway connection.
+   *
+   * This request retrieves all prefix filters in a Transit Gateway connection.
+   *
+   * @param listTransitGatewayConnectionPrefixFiltersOptions the {@link ListTransitGatewayConnectionPrefixFiltersOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link PrefixFilterCollection}
+   */
+  public ServiceCall<PrefixFilterCollection> listTransitGatewayConnectionPrefixFilters(ListTransitGatewayConnectionPrefixFiltersOptions listTransitGatewayConnectionPrefixFiltersOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listTransitGatewayConnectionPrefixFiltersOptions,
+      "listTransitGatewayConnectionPrefixFiltersOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", listTransitGatewayConnectionPrefixFiltersOptions.transitGatewayId());
+    pathParamsMap.put("id", listTransitGatewayConnectionPrefixFiltersOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "listTransitGatewayConnectionPrefixFilters");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<PrefixFilterCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<PrefixFilterCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Add a prefix filter to a Transit Gateway Connection.
+   *
+   * Add a prefix filter to a Transit Gateway Connection.
+   *
+   * @param createTransitGatewayConnectionPrefixFilterOptions the {@link CreateTransitGatewayConnectionPrefixFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link PrefixFilterCust}
+   */
+  public ServiceCall<PrefixFilterCust> createTransitGatewayConnectionPrefixFilter(CreateTransitGatewayConnectionPrefixFilterOptions createTransitGatewayConnectionPrefixFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createTransitGatewayConnectionPrefixFilterOptions,
+      "createTransitGatewayConnectionPrefixFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", createTransitGatewayConnectionPrefixFilterOptions.transitGatewayId());
+    pathParamsMap.put("id", createTransitGatewayConnectionPrefixFilterOptions.id());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "createTransitGatewayConnectionPrefixFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("action", createTransitGatewayConnectionPrefixFilterOptions.action());
+    contentJson.addProperty("prefix", createTransitGatewayConnectionPrefixFilterOptions.prefix());
+    if (createTransitGatewayConnectionPrefixFilterOptions.before() != null) {
+      contentJson.addProperty("before", createTransitGatewayConnectionPrefixFilterOptions.before());
+    }
+    if (createTransitGatewayConnectionPrefixFilterOptions.ge() != null) {
+      contentJson.addProperty("ge", createTransitGatewayConnectionPrefixFilterOptions.ge());
+    }
+    if (createTransitGatewayConnectionPrefixFilterOptions.le() != null) {
+      contentJson.addProperty("le", createTransitGatewayConnectionPrefixFilterOptions.le());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<PrefixFilterCust> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<PrefixFilterCust>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Remove prefix filter from Transit Gateway Connection.
+   *
+   * Delete a prefix filter.
+   *
+   * @param deleteTransitGatewayConnectionPrefixFilterOptions the {@link DeleteTransitGatewayConnectionPrefixFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteTransitGatewayConnectionPrefixFilter(DeleteTransitGatewayConnectionPrefixFilterOptions deleteTransitGatewayConnectionPrefixFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteTransitGatewayConnectionPrefixFilterOptions,
+      "deleteTransitGatewayConnectionPrefixFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", deleteTransitGatewayConnectionPrefixFilterOptions.transitGatewayId());
+    pathParamsMap.put("id", deleteTransitGatewayConnectionPrefixFilterOptions.id());
+    pathParamsMap.put("filter_id", deleteTransitGatewayConnectionPrefixFilterOptions.filterId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "deleteTransitGatewayConnectionPrefixFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Retrieves specified Transit Gateway connection prefix filter.
+   *
+   * This request retrieves a prefix filter from the Transit Gateway Connection.
+   *
+   * @param getTransitGatewayConnectionPrefixFilterOptions the {@link GetTransitGatewayConnectionPrefixFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link PrefixFilterCust}
+   */
+  public ServiceCall<PrefixFilterCust> getTransitGatewayConnectionPrefixFilter(GetTransitGatewayConnectionPrefixFilterOptions getTransitGatewayConnectionPrefixFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getTransitGatewayConnectionPrefixFilterOptions,
+      "getTransitGatewayConnectionPrefixFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", getTransitGatewayConnectionPrefixFilterOptions.transitGatewayId());
+    pathParamsMap.put("id", getTransitGatewayConnectionPrefixFilterOptions.id());
+    pathParamsMap.put("filter_id", getTransitGatewayConnectionPrefixFilterOptions.filterId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "getTransitGatewayConnectionPrefixFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<PrefixFilterCust> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<PrefixFilterCust>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Updates specified Transit Gateway connection prefix filter.
+   *
+   * Update prefix filter for a Transit Gateway Connection.
+   *
+   * @param updateTransitGatewayConnectionPrefixFilterOptions the {@link UpdateTransitGatewayConnectionPrefixFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link PrefixFilterCust}
+   */
+  public ServiceCall<PrefixFilterCust> updateTransitGatewayConnectionPrefixFilter(UpdateTransitGatewayConnectionPrefixFilterOptions updateTransitGatewayConnectionPrefixFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateTransitGatewayConnectionPrefixFilterOptions,
+      "updateTransitGatewayConnectionPrefixFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", updateTransitGatewayConnectionPrefixFilterOptions.transitGatewayId());
+    pathParamsMap.put("id", updateTransitGatewayConnectionPrefixFilterOptions.id());
+    pathParamsMap.put("filter_id", updateTransitGatewayConnectionPrefixFilterOptions.filterId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/prefix_filters/{filter_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "updateTransitGatewayConnectionPrefixFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    if (updateTransitGatewayConnectionPrefixFilterOptions.action() != null) {
+      contentJson.addProperty("action", updateTransitGatewayConnectionPrefixFilterOptions.action());
+    }
+    if (updateTransitGatewayConnectionPrefixFilterOptions.before() != null) {
+      contentJson.addProperty("before", updateTransitGatewayConnectionPrefixFilterOptions.before());
+    }
+    if (updateTransitGatewayConnectionPrefixFilterOptions.ge() != null) {
+      contentJson.addProperty("ge", updateTransitGatewayConnectionPrefixFilterOptions.ge());
+    }
+    if (updateTransitGatewayConnectionPrefixFilterOptions.le() != null) {
+      contentJson.addProperty("le", updateTransitGatewayConnectionPrefixFilterOptions.le());
+    }
+    if (updateTransitGatewayConnectionPrefixFilterOptions.prefix() != null) {
+      contentJson.addProperty("prefix", updateTransitGatewayConnectionPrefixFilterOptions.prefix());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<PrefixFilterCust> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<PrefixFilterCust>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
   }
 
   /**
@@ -502,6 +670,12 @@ public class TransitGatewayApis extends BaseService {
     if (createTransitGatewayConnectionOptions.networkId() != null) {
       contentJson.addProperty("network_id", createTransitGatewayConnectionOptions.networkId());
     }
+    if (createTransitGatewayConnectionOptions.prefixFilters() != null) {
+      contentJson.add("prefix_filters", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayConnectionOptions.prefixFilters()));
+    }
+    if (createTransitGatewayConnectionOptions.prefixFiltersDefault() != null) {
+      contentJson.addProperty("prefix_filters_default", createTransitGatewayConnectionOptions.prefixFiltersDefault());
+    }
     if (createTransitGatewayConnectionOptions.remoteBgpAsn() != null) {
       contentJson.addProperty("remote_bgp_asn", createTransitGatewayConnectionOptions.remoteBgpAsn());
     }
@@ -595,6 +769,9 @@ public class TransitGatewayApis extends BaseService {
     final JsonObject contentJson = new JsonObject();
     if (updateTransitGatewayConnectionOptions.name() != null) {
       contentJson.addProperty("name", updateTransitGatewayConnectionOptions.name());
+    }
+    if (updateTransitGatewayConnectionOptions.prefixFiltersDefault() != null) {
+      contentJson.addProperty("prefix_filters_default", updateTransitGatewayConnectionOptions.prefixFiltersDefault());
     }
     builder.bodyJson(contentJson);
     ResponseConverter<TransitGatewayConnectionCust> responseConverter =
