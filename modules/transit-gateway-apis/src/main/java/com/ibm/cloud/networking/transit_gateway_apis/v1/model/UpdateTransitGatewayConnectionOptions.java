@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,9 +19,20 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class UpdateTransitGatewayConnectionOptions extends GenericModel {
 
+  /**
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   */
+  public interface PrefixFiltersDefault {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
   protected String transitGatewayId;
   protected String id;
   protected String name;
+  protected String prefixFiltersDefault;
 
   /**
    * Builder.
@@ -30,11 +41,13 @@ public class UpdateTransitGatewayConnectionOptions extends GenericModel {
     private String transitGatewayId;
     private String id;
     private String name;
+    private String prefixFiltersDefault;
 
     private Builder(UpdateTransitGatewayConnectionOptions updateTransitGatewayConnectionOptions) {
       this.transitGatewayId = updateTransitGatewayConnectionOptions.transitGatewayId;
       this.id = updateTransitGatewayConnectionOptions.id;
       this.name = updateTransitGatewayConnectionOptions.name;
+      this.prefixFiltersDefault = updateTransitGatewayConnectionOptions.prefixFiltersDefault;
     }
 
     /**
@@ -95,6 +108,17 @@ public class UpdateTransitGatewayConnectionOptions extends GenericModel {
       this.name = name;
       return this;
     }
+
+    /**
+     * Set the prefixFiltersDefault.
+     *
+     * @param prefixFiltersDefault the prefixFiltersDefault
+     * @return the UpdateTransitGatewayConnectionOptions builder
+     */
+    public Builder prefixFiltersDefault(String prefixFiltersDefault) {
+      this.prefixFiltersDefault = prefixFiltersDefault;
+      return this;
+    }
   }
 
   protected UpdateTransitGatewayConnectionOptions(Builder builder) {
@@ -105,6 +129,7 @@ public class UpdateTransitGatewayConnectionOptions extends GenericModel {
     transitGatewayId = builder.transitGatewayId;
     id = builder.id;
     name = builder.name;
+    prefixFiltersDefault = builder.prefixFiltersDefault;
   }
 
   /**
@@ -149,6 +174,17 @@ public class UpdateTransitGatewayConnectionOptions extends GenericModel {
    */
   public String name() {
     return name;
+  }
+
+  /**
+   * Gets the prefixFiltersDefault.
+   *
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   *
+   * @return the prefixFiltersDefault
+   */
+  public String prefixFiltersDefault() {
+    return prefixFiltersDefault;
   }
 }
 
