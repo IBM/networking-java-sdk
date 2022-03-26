@@ -1,3 +1,10 @@
+# [0.28.0](https://github.com/IBM/networking-java-sdk/compare/0.27.0...0.28.0) (2022-03-26)
+
+
+### Features
+
+* Added Prefix-Filters API functionality with Integration Tests to Transit JAVA-SDK. ([#57](https://github.com/IBM/networking-java-sdk/issues/57)) ([edcd68e](https://github.com/IBM/networking-java-sdk/commit/edcd68e2610088c641153e8e5c03dc72261ed7a2))
+
 # [0.27.0](https://github.com/IBM/networking-java-sdk/compare/0.26.0...0.27.0) (2022-02-04)
 
 
