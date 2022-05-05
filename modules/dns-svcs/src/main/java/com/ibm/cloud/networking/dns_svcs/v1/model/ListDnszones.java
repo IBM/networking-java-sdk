@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -25,10 +25,13 @@ public class ListDnszones extends GenericModel {
   protected List<Dnszone> dnszones;
   protected Long offset;
   protected Long limit;
+  protected Long count;
   @SerializedName("total_count")
   protected Long totalCount;
-  protected FirstHref first;
-  protected NextHref next;
+  protected PaginationRef first;
+  protected PaginationRef last;
+  protected PaginationRef previous;
+  protected PaginationRef next;
 
   /**
    * Gets the dnszones.
@@ -44,7 +47,7 @@ public class ListDnszones extends GenericModel {
   /**
    * Gets the offset.
    *
-   * Specify how many DNS zones to skip over, the default value is 0.
+   * The number of resources to skip over.
    *
    * @return the offset
    */
@@ -55,7 +58,7 @@ public class ListDnszones extends GenericModel {
   /**
    * Gets the limit.
    *
-   * Specify how many DNS zones are returned, the default value is 10.
+   * The maximum number of resources might be returned.
    *
    * @return the limit
    */
@@ -64,9 +67,20 @@ public class ListDnszones extends GenericModel {
   }
 
   /**
+   * Gets the count.
+   *
+   * The number of resources are returned.
+   *
+   * @return the count
+   */
+  public Long getCount() {
+    return count;
+  }
+
+  /**
    * Gets the totalCount.
    *
-   * Total number of DNS zones.
+   * Total number of resources.
    *
    * @return the totalCount
    */
@@ -81,8 +95,30 @@ public class ListDnszones extends GenericModel {
    *
    * @return the first
    */
-  public FirstHref getFirst() {
+  public PaginationRef getFirst() {
     return first;
+  }
+
+  /**
+   * Gets the last.
+   *
+   * href.
+   *
+   * @return the last
+   */
+  public PaginationRef getLast() {
+    return last;
+  }
+
+  /**
+   * Gets the previous.
+   *
+   * href.
+   *
+   * @return the previous
+   */
+  public PaginationRef getPrevious() {
+    return previous;
   }
 
   /**
@@ -92,7 +128,7 @@ public class ListDnszones extends GenericModel {
    *
    * @return the next
    */
-  public NextHref getNext() {
+  public PaginationRef getNext() {
     return next;
   }
 }

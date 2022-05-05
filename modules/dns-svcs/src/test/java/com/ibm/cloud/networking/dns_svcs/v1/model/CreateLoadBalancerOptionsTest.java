@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,10 +13,10 @@
 
 package com.ibm.cloud.networking.dns_svcs.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LoadBalancerAzPoolsItem;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,7 +49,7 @@ public class CreateLoadBalancerOptionsTest {
       .enabled(true)
       .ttl(Long.valueOf("120"))
       .fallbackPool("24ccf79a-4ae0-4769-b4c8-17f8f230072e")
-      .defaultPools(new java.util.ArrayList<String>(java.util.Arrays.asList("testString")))
+      .defaultPools(new java.util.ArrayList<String>(java.util.Arrays.asList("24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74")))
       .azPools(new java.util.ArrayList<LoadBalancerAzPoolsItem>(java.util.Arrays.asList(loadBalancerAzPoolsItemModel)))
       .xCorrelationId("testString")
       .build();
@@ -60,7 +60,7 @@ public class CreateLoadBalancerOptionsTest {
     assertEquals(createLoadBalancerOptionsModel.enabled(), Boolean.valueOf(true));
     assertEquals(createLoadBalancerOptionsModel.ttl(), Long.valueOf("120"));
     assertEquals(createLoadBalancerOptionsModel.fallbackPool(), "24ccf79a-4ae0-4769-b4c8-17f8f230072e");
-    assertEquals(createLoadBalancerOptionsModel.defaultPools(), new java.util.ArrayList<String>(java.util.Arrays.asList("testString")));
+    assertEquals(createLoadBalancerOptionsModel.defaultPools(), new java.util.ArrayList<String>(java.util.Arrays.asList("24ccf79a-4ae0-4769-b4c8-17f8f230072e", "13fa7d9e-aeff-4e14-8300-58021db9ee74")));
     assertEquals(createLoadBalancerOptionsModel.azPools(), new java.util.ArrayList<LoadBalancerAzPoolsItem>(java.util.Arrays.asList(loadBalancerAzPoolsItemModel)));
     assertEquals(createLoadBalancerOptionsModel.xCorrelationId(), "testString");
   }

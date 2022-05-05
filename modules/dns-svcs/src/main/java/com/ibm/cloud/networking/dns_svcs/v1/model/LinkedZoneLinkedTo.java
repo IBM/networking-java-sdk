@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,24 +12,39 @@
  */
 package com.ibm.cloud.networking.dns_svcs.v1.model;
 
+import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * href.
+ * The owner's instance and zone that the zone is linked to.
  */
-public class FirstHref extends GenericModel {
+public class LinkedZoneLinkedTo extends GenericModel {
 
-  protected String href;
+  @SerializedName("instance_crn")
+  protected String instanceCrn;
+  @SerializedName("zone_id")
+  protected String zoneId;
 
   /**
-   * Gets the href.
+   * Gets the instanceCrn.
    *
-   * href.
+   * The owner's instance CRN.
    *
-   * @return the href
+   * @return the instanceCrn
    */
-  public String getHref() {
-    return href;
+  public String getInstanceCrn() {
+    return instanceCrn;
+  }
+
+  /**
+   * Gets the zoneId.
+   *
+   * The owner's DNS zone.
+   *
+   * @return the zoneId
+   */
+  public String getZoneId() {
+    return zoneId;
   }
 }
 

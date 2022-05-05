@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -21,6 +21,8 @@ public class ListPoolsOptions extends GenericModel {
 
   protected String instanceId;
   protected String xCorrelationId;
+  protected Long offset;
+  protected Long limit;
 
   /**
    * Builder.
@@ -28,10 +30,14 @@ public class ListPoolsOptions extends GenericModel {
   public static class Builder {
     private String instanceId;
     private String xCorrelationId;
+    private Long offset;
+    private Long limit;
 
     private Builder(ListPoolsOptions listPoolsOptions) {
       this.instanceId = listPoolsOptions.instanceId;
       this.xCorrelationId = listPoolsOptions.xCorrelationId;
+      this.offset = listPoolsOptions.offset;
+      this.limit = listPoolsOptions.limit;
     }
 
     /**
@@ -79,6 +85,28 @@ public class ListPoolsOptions extends GenericModel {
       this.xCorrelationId = xCorrelationId;
       return this;
     }
+
+    /**
+     * Set the offset.
+     *
+     * @param offset the offset
+     * @return the ListPoolsOptions builder
+     */
+    public Builder offset(long offset) {
+      this.offset = offset;
+      return this;
+    }
+
+    /**
+     * Set the limit.
+     *
+     * @param limit the limit
+     * @return the ListPoolsOptions builder
+     */
+    public Builder limit(long limit) {
+      this.limit = limit;
+      return this;
+    }
   }
 
   protected ListPoolsOptions(Builder builder) {
@@ -86,6 +114,8 @@ public class ListPoolsOptions extends GenericModel {
       "instanceId cannot be empty");
     instanceId = builder.instanceId;
     xCorrelationId = builder.xCorrelationId;
+    offset = builder.offset;
+    limit = builder.limit;
   }
 
   /**
@@ -117,6 +147,28 @@ public class ListPoolsOptions extends GenericModel {
    */
   public String xCorrelationId() {
     return xCorrelationId;
+  }
+
+  /**
+   * Gets the offset.
+   *
+   * Specify how many resources to skip over, the default value is 0.
+   *
+   * @return the offset
+   */
+  public Long offset() {
+    return offset;
+  }
+
+  /**
+   * Gets the limit.
+   *
+   * Specify maximum resources might be returned.
+   *
+   * @return the limit
+   */
+  public Long limit() {
+    return limit;
   }
 }
 

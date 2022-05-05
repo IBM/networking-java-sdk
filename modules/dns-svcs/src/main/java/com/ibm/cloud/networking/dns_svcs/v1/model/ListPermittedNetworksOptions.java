@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,8 +22,6 @@ public class ListPermittedNetworksOptions extends GenericModel {
   protected String instanceId;
   protected String dnszoneId;
   protected String xCorrelationId;
-  protected Long offset;
-  protected Long limit;
 
   /**
    * Builder.
@@ -32,15 +30,11 @@ public class ListPermittedNetworksOptions extends GenericModel {
     private String instanceId;
     private String dnszoneId;
     private String xCorrelationId;
-    private Long offset;
-    private Long limit;
 
     private Builder(ListPermittedNetworksOptions listPermittedNetworksOptions) {
       this.instanceId = listPermittedNetworksOptions.instanceId;
       this.dnszoneId = listPermittedNetworksOptions.dnszoneId;
       this.xCorrelationId = listPermittedNetworksOptions.xCorrelationId;
-      this.offset = listPermittedNetworksOptions.offset;
-      this.limit = listPermittedNetworksOptions.limit;
     }
 
     /**
@@ -101,28 +95,6 @@ public class ListPermittedNetworksOptions extends GenericModel {
       this.xCorrelationId = xCorrelationId;
       return this;
     }
-
-    /**
-     * Set the offset.
-     *
-     * @param offset the offset
-     * @return the ListPermittedNetworksOptions builder
-     */
-    public Builder offset(long offset) {
-      this.offset = offset;
-      return this;
-    }
-
-    /**
-     * Set the limit.
-     *
-     * @param limit the limit
-     * @return the ListPermittedNetworksOptions builder
-     */
-    public Builder limit(long limit) {
-      this.limit = limit;
-      return this;
-    }
   }
 
   protected ListPermittedNetworksOptions(Builder builder) {
@@ -133,8 +105,6 @@ public class ListPermittedNetworksOptions extends GenericModel {
     instanceId = builder.instanceId;
     dnszoneId = builder.dnszoneId;
     xCorrelationId = builder.xCorrelationId;
-    offset = builder.offset;
-    limit = builder.limit;
   }
 
   /**
@@ -177,28 +147,6 @@ public class ListPermittedNetworksOptions extends GenericModel {
    */
   public String xCorrelationId() {
     return xCorrelationId;
-  }
-
-  /**
-   * Gets the offset.
-   *
-   * Specify how many resource records to skip over, the default value is 0.
-   *
-   * @return the offset
-   */
-  public Long offset() {
-    return offset;
-  }
-
-  /**
-   * Gets the limit.
-   *
-   * Specify how many resource records are returned, the default value is 200.
-   *
-   * @return the limit
-   */
-  public Long limit() {
-    return limit;
   }
 }
 
