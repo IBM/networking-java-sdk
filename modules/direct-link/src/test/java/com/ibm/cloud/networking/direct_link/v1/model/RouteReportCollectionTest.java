@@ -13,18 +13,13 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
-import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfig;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayCreate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigActiveCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigFallbackCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPrimaryCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayPort;
-import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupReference;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportConnection;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOnPremRoute;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRouteForConnection;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRouteGroup;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportRoute;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.DateUtils;
@@ -37,15 +32,15 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the GatewayCollection model.
+ * Unit test class for the RouteReportCollection model.
  */
-public class GatewayCollectionTest {
+public class RouteReportCollectionTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testGatewayCollection() throws Throwable {
-    GatewayCollection gatewayCollectionModel = new GatewayCollection();
-    assertNull(gatewayCollectionModel.getGateways());
+  public void testRouteReportCollection() throws Throwable {
+    RouteReportCollection routeReportCollectionModel = new RouteReportCollection();
+    assertNull(routeReportCollectionModel.getRouteReports());
   }
 }

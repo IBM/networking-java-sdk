@@ -12,6 +12,8 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
@@ -46,6 +48,8 @@ public class GatewayTemplate extends GenericModel {
     String DEDICATED = "dedicated";
   }
 
+  @SerializedName("as_prepends")
+  protected List<AsPrependTemplate> asPrepends;
   @SerializedName("authentication_key")
   protected GatewayTemplateAuthenticationKey authenticationKey;
   @SerializedName("bfd_config")
@@ -83,6 +87,17 @@ public class GatewayTemplate extends GenericModel {
   protected GatewayPortIdentity port;
 
   protected GatewayTemplate() {
+  }
+
+  /**
+   * Gets the asPrepends.
+   *
+   * array of AS Prepend configuration information.
+   *
+   * @return the asPrepends
+   */
+  public List<AsPrependTemplate> asPrepends() {
+    return asPrepends;
   }
 
   /**

@@ -13,6 +13,7 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfig;
@@ -42,6 +43,7 @@ public class GatewayTest {
   @Test
   public void testGateway() throws Throwable {
     Gateway gatewayModel = new Gateway();
+    assertNull(gatewayModel.getAsPrepends());
     assertNull(gatewayModel.getAuthenticationKey());
     assertNull(gatewayModel.getBfdConfig());
     assertNull(gatewayModel.getBgpAsn());

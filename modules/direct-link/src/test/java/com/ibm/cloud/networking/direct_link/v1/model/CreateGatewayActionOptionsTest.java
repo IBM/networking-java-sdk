@@ -13,6 +13,7 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
@@ -37,6 +38,15 @@ public class CreateGatewayActionOptionsTest {
 
   @Test
   public void testCreateGatewayActionOptions() throws Throwable {
+    AsPrependTemplate asPrependTemplateModel = new AsPrependTemplate.Builder()
+      .length(Long.valueOf("4"))
+      .policy("import")
+      .prefix("172.17.0.0/16")
+      .build();
+    assertEquals(asPrependTemplateModel.length(), Long.valueOf("4"));
+    assertEquals(asPrependTemplateModel.policy(), "import");
+    assertEquals(asPrependTemplateModel.prefix(), "172.17.0.0/16");
+
     GatewayActionTemplateAuthenticationKey gatewayActionTemplateAuthenticationKeyModel = new GatewayActionTemplateAuthenticationKey.Builder()
       .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
       .build();
@@ -62,6 +72,7 @@ public class CreateGatewayActionOptionsTest {
     CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
       .id("testString")
       .action("create_gateway_approve")
+      .asPrepends(new java.util.ArrayList<AsPrependTemplate>(java.util.Arrays.asList(asPrependTemplateModel)))
       .authenticationKey(gatewayActionTemplateAuthenticationKeyModel)
       .bfdConfig(gatewayBfdConfigActionTemplateModel)
       .connectionMode("transit")
@@ -72,6 +83,7 @@ public class CreateGatewayActionOptionsTest {
       .build();
     assertEquals(createGatewayActionOptionsModel.id(), "testString");
     assertEquals(createGatewayActionOptionsModel.action(), "create_gateway_approve");
+    assertEquals(createGatewayActionOptionsModel.asPrepends(), new java.util.ArrayList<AsPrependTemplate>(java.util.Arrays.asList(asPrependTemplateModel)));
     assertEquals(createGatewayActionOptionsModel.authenticationKey(), gatewayActionTemplateAuthenticationKeyModel);
     assertEquals(createGatewayActionOptionsModel.bfdConfig(), gatewayBfdConfigActionTemplateModel);
     assertEquals(createGatewayActionOptionsModel.connectionMode(), "transit");

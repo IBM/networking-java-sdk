@@ -13,35 +13,35 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
-import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the GatewayTemplate model.
+ * Unit test class for the DeleteGatewayRouteReportOptions model.
  */
-public class GatewayTemplateTest {
+public class DeleteGatewayRouteReportOptionsTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
-  // TODO: Add tests for models that are abstract
   @Test
-  public void testGatewayTemplate() throws Throwable {
-    GatewayTemplate gatewayTemplateModel = new GatewayTemplate();
-    assertNotNull(gatewayTemplateModel);
+  public void testDeleteGatewayRouteReportOptions() throws Throwable {
+    DeleteGatewayRouteReportOptions deleteGatewayRouteReportOptionsModel = new DeleteGatewayRouteReportOptions.Builder()
+      .gatewayId("testString")
+      .id("testString")
+      .build();
+    assertEquals(deleteGatewayRouteReportOptionsModel.gatewayId(), "testString");
+    assertEquals(deleteGatewayRouteReportOptionsModel.id(), "testString");
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteGatewayRouteReportOptionsError() throws Throwable {
+    new DeleteGatewayRouteReportOptions.Builder().build();
+  }
+
 }

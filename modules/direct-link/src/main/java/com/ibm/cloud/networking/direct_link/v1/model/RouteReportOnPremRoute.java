@@ -12,26 +12,38 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import java.util.List;
-
+import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * gateway status.
+ * on-prem route.
  */
-public class GatewayStatusCollection extends GenericModel {
+public class RouteReportOnPremRoute extends GenericModel {
 
-  protected List<GatewayStatus> status;
+  @SerializedName("next_hop")
+  protected String nextHop;
+  protected String prefix;
 
   /**
-   * Gets the status.
+   * Gets the nextHop.
    *
-   * array of status.
+   * Next hop address.
    *
-   * @return the status
+   * @return the nextHop
    */
-  public List<GatewayStatus> getStatus() {
-    return status;
+  public String getNextHop() {
+    return nextHop;
+  }
+
+  /**
+   * Gets the prefix.
+   *
+   * prefix.
+   *
+   * @return the prefix
+   */
+  public String getPrefix() {
+    return prefix;
   }
 }
 

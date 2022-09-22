@@ -12,26 +12,24 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import java.util.List;
-
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * gateway status.
+ * route.
  */
-public class GatewayStatusCollection extends GenericModel {
+public class RouteReportRoute extends GenericModel {
 
-  protected List<GatewayStatus> status;
+  protected String prefix;
 
   /**
-   * Gets the status.
+   * Gets the prefix.
    *
-   * array of status.
+   * prefix.
    *
-   * @return the status
+   * @return the prefix
    */
-  public List<GatewayStatus> getStatus() {
-    return status;
+  public String getPrefix() {
+    return prefix;
   }
 }
 
