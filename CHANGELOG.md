@@ -1,3 +1,10 @@
+# [0.29.0](https://github.com/IBM/networking-java-sdk/compare/0.28.0...0.29.0) (2022-09-23)
+
+
+### Features
+
+* AS Prepend and Route Report support for Direct Link ([#59](https://github.com/IBM/networking-java-sdk/issues/59)) ([d9febc8](https://github.com/IBM/networking-java-sdk/commit/d9febc8d635f67c193bb6d18c5cf297c31f3f935))
+
 # [0.28.0](https://github.com/IBM/networking-java-sdk/compare/0.27.0...0.28.0) (2022-03-26)
 
 
