@@ -12,26 +12,18 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import java.util.List;
-
-import com.ibm.cloud.sdk.core.service.model.GenericModel;
-
 /**
- * gateway status.
+ * overlapping route details.
  */
-public class GatewayStatusCollection extends GenericModel {
-
-  protected List<GatewayStatus> status;
+public class RouteReportOverlappingRouteForConnection extends RouteReportOverlappingRoute {
 
   /**
-   * Gets the status.
-   *
-   * array of status.
-   *
-   * @return the status
+   * type of the route.
    */
-  public List<GatewayStatus> getStatus() {
-    return status;
+  public interface Type {
+    /** virtual_connection. */
+    String VIRTUAL_CONNECTION = "virtual_connection";
   }
+
 }
 

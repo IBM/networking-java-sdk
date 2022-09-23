@@ -12,6 +12,9 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Gateway fields specific to type=dedicated gateway create.
  */
@@ -44,6 +47,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
    * Builder.
    */
   public static class Builder {
+    private List<AsPrependTemplate> asPrepends;
     private GatewayTemplateAuthenticationKey authenticationKey;
     private GatewayBfdConfigTemplate bfdConfig;
     private Long bgpAsn;
@@ -65,6 +69,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     private GatewayMacsecConfigTemplate macsecConfig;
 
     public Builder(GatewayTemplate gatewayTemplateGatewayTypeDedicatedTemplate) {
+      this.asPrepends = gatewayTemplateGatewayTypeDedicatedTemplate.asPrepends;
       this.authenticationKey = gatewayTemplateGatewayTypeDedicatedTemplate.authenticationKey;
       this.bfdConfig = gatewayTemplateGatewayTypeDedicatedTemplate.bfdConfig;
       this.bgpAsn = gatewayTemplateGatewayTypeDedicatedTemplate.bgpAsn;
@@ -126,6 +131,34 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
      */
     public GatewayTemplateGatewayTypeDedicatedTemplate build() {
       return new GatewayTemplateGatewayTypeDedicatedTemplate(this);
+    }
+
+    /**
+     * Adds an asPrepends to asPrepends.
+     *
+     * @param asPrepends the new asPrepends
+     * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
+     */
+    public Builder addAsPrepends(AsPrependTemplate asPrepends) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(asPrepends,
+        "asPrepends cannot be null");
+      if (this.asPrepends == null) {
+        this.asPrepends = new ArrayList<AsPrependTemplate>();
+      }
+      this.asPrepends.add(asPrepends);
+      return this;
+    }
+
+    /**
+     * Set the asPrepends.
+     * Existing asPrepends will be replaced.
+     *
+     * @param asPrepends the asPrepends
+     * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
+     */
+    public Builder asPrepends(List<AsPrependTemplate> asPrepends) {
+      this.asPrepends = asPrepends;
+      return this;
     }
 
     /**
@@ -359,6 +392,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       "customerName cannot be null");
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.locationName,
       "locationName cannot be null");
+    asPrepends = builder.asPrepends;
     authenticationKey = builder.authenticationKey;
     bfdConfig = builder.bfdConfig;
     bgpAsn = builder.bgpAsn;

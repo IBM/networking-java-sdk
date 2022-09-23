@@ -13,6 +13,7 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
@@ -21,6 +22,8 @@ import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
@@ -35,6 +38,15 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
 
   @Test
   public void testGatewayTemplateGatewayTypeConnectTemplate() throws Throwable {
+    AsPrependTemplate asPrependTemplateModel = new AsPrependTemplate.Builder()
+      .length(Long.valueOf("4"))
+      .policy("import")
+      .prefix("172.17.0.0/16")
+      .build();
+    assertEquals(asPrependTemplateModel.length(), Long.valueOf("4"));
+    assertEquals(asPrependTemplateModel.policy(), "import");
+    assertEquals(asPrependTemplateModel.prefix(), "172.17.0.0/16");
+
     GatewayTemplateAuthenticationKey gatewayTemplateAuthenticationKeyModel = new GatewayTemplateAuthenticationKey.Builder()
       .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
       .build();
@@ -58,6 +70,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
     assertEquals(gatewayPortIdentityModel.id(), "fffdcb1a-fee4-41c7-9e11-9cd99e65c777");
 
     GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateGatewayTypeConnectTemplateModel = new GatewayTemplateGatewayTypeConnectTemplate.Builder()
+      .asPrepends(new java.util.ArrayList<AsPrependTemplate>(java.util.Arrays.asList(asPrependTemplateModel)))
       .authenticationKey(gatewayTemplateAuthenticationKeyModel)
       .bfdConfig(gatewayBfdConfigTemplateModel)
       .bgpAsn(Long.valueOf("64999"))
@@ -74,6 +87,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
       .type("dedicated")
       .port(gatewayPortIdentityModel)
       .build();
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.asPrepends(), new java.util.ArrayList<AsPrependTemplate>(java.util.Arrays.asList(asPrependTemplateModel)));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.authenticationKey(), gatewayTemplateAuthenticationKeyModel);
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bfdConfig(), gatewayBfdConfigTemplateModel);
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpAsn(), Long.valueOf("64999"));

@@ -14,24 +14,26 @@ package com.ibm.cloud.networking.direct_link.v1.model;
 
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * gateway status.
+ * route reports.
  */
-public class GatewayStatusCollection extends GenericModel {
+public class RouteReportCollection extends GenericModel {
 
-  protected List<GatewayStatus> status;
+  @SerializedName("route_reports")
+  protected List<RouteReport> routeReports;
 
   /**
-   * Gets the status.
+   * Gets the routeReports.
    *
-   * array of status.
+   * Array of route reports.
    *
-   * @return the status
+   * @return the routeReports
    */
-  public List<GatewayStatus> getStatus() {
-    return status;
+  public List<RouteReport> getRouteReports() {
+    return routeReports;
   }
 }
 

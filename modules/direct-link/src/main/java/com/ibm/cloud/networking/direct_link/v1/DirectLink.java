@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.43.0-49eab5c7-20211117-152138
+ * IBM OpenAPI SDK Code Generator Version: 3.40.0-910cf8c2-20211006-154754
  */
 
 package com.ibm.cloud.networking.direct_link.v1;
@@ -22,8 +22,10 @@ import com.ibm.cloud.networking.common.SdkCommon;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayCompletionNoticeOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
@@ -32,12 +34,14 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatusOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayLetterOfAuthorizationOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayRouteReportsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayVirtualConnectionsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewaysOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListOfferingTypeLocationCrossConnectRoutersOptions;
@@ -49,6 +53,8 @@ import com.ibm.cloud.networking.direct_link.v1.model.LocationCrossConnectRouterC
 import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeedCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.Port;
 import com.ibm.cloud.networking.direct_link.v1.model.PortCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
 import com.ibm.cloud.sdk.core.http.RequestBuilder;
@@ -141,6 +147,110 @@ public class DirectLink extends BaseService {
   public void setVersion(final String version) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(version, "version cannot be empty.");
     this.version = version;
+  }
+
+  /**
+   * List route reports.
+   *
+   * Retrieve all route reports for the specified Direct Link gateway.
+   *
+   * @param listGatewayRouteReportsOptions the {@link ListGatewayRouteReportsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteReportCollection}
+   */
+  public ServiceCall<RouteReportCollection> listGatewayRouteReports(ListGatewayRouteReportsOptions listGatewayRouteReportsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayRouteReportsOptions,
+      "listGatewayRouteReportsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", listGatewayRouteReportsOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayRouteReports");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RouteReportCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReportCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Request a route report.
+   *
+   * Request route report generation.  While report generation is in progress, additional requests to generate a report
+   * are ignored and return the current pending report. While `status` is `pending`, `gateway_routes`, `on_prem_routes`,
+   * `virtual_connection_routes`, and `overlapping_routes` will be empty arrays. These fields will be filled when the
+   * `status` enters the `completed` status.  Call `get_gateway_route_report` with the pending route report's `id` to
+   * check on the current status of the report.
+   *
+   * @param createGatewayRouteReportOptions the {@link CreateGatewayRouteReportOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteReport}
+   */
+  public ServiceCall<RouteReport> createGatewayRouteReport(CreateGatewayRouteReportOptions createGatewayRouteReportOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createGatewayRouteReportOptions,
+      "createGatewayRouteReportOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", createGatewayRouteReportOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "createGatewayRouteReport");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RouteReport> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReport>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Delete route report.
+   *
+   * Delete a route report.
+   *
+   * @param deleteGatewayRouteReportOptions the {@link DeleteGatewayRouteReportOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteGatewayRouteReport(DeleteGatewayRouteReportOptions deleteGatewayRouteReportOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteGatewayRouteReportOptions,
+      "deleteGatewayRouteReportOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", deleteGatewayRouteReportOptions.gatewayId());
+    pathParamsMap.put("id", deleteGatewayRouteReportOptions.id());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "deleteGatewayRouteReport");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Retrieve route report.
+   *
+   * Retrieve a route report.
+   *
+   * @param getGatewayRouteReportOptions the {@link GetGatewayRouteReportOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteReport}
+   */
+  public ServiceCall<RouteReport> getGatewayRouteReport(GetGatewayRouteReportOptions getGatewayRouteReportOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayRouteReportOptions,
+      "getGatewayRouteReportOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", getGatewayRouteReportOptions.gatewayId());
+    pathParamsMap.put("id", getGatewayRouteReportOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getGatewayRouteReport");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RouteReport> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReport>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
   }
 
   /**
@@ -343,6 +453,9 @@ public class DirectLink extends BaseService {
     builder.query("version", String.valueOf(this.version));
     final JsonObject contentJson = new JsonObject();
     contentJson.addProperty("action", createGatewayActionOptions.action());
+    if (createGatewayActionOptions.asPrepends() != null) {
+      contentJson.add("as_prepends", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayActionOptions.asPrepends()));
+    }
     if (createGatewayActionOptions.authenticationKey() != null) {
       contentJson.add("authentication_key", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayActionOptions.authenticationKey()));
     }

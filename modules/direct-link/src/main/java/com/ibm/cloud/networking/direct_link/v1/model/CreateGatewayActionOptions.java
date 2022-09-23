@@ -56,6 +56,7 @@ public class CreateGatewayActionOptions extends GenericModel {
 
   protected String id;
   protected String action;
+  protected List<AsPrependTemplate> asPrepends;
   protected GatewayActionTemplateAuthenticationKey authenticationKey;
   protected GatewayBfdConfigActionTemplate bfdConfig;
   protected String connectionMode;
@@ -70,6 +71,7 @@ public class CreateGatewayActionOptions extends GenericModel {
   public static class Builder {
     private String id;
     private String action;
+    private List<AsPrependTemplate> asPrepends;
     private GatewayActionTemplateAuthenticationKey authenticationKey;
     private GatewayBfdConfigActionTemplate bfdConfig;
     private String connectionMode;
@@ -81,6 +83,7 @@ public class CreateGatewayActionOptions extends GenericModel {
     private Builder(CreateGatewayActionOptions createGatewayActionOptions) {
       this.id = createGatewayActionOptions.id;
       this.action = createGatewayActionOptions.action;
+      this.asPrepends = createGatewayActionOptions.asPrepends;
       this.authenticationKey = createGatewayActionOptions.authenticationKey;
       this.bfdConfig = createGatewayActionOptions.bfdConfig;
       this.connectionMode = createGatewayActionOptions.connectionMode;
@@ -114,6 +117,22 @@ public class CreateGatewayActionOptions extends GenericModel {
      */
     public CreateGatewayActionOptions build() {
       return new CreateGatewayActionOptions(this);
+    }
+
+    /**
+     * Adds an asPrepends to asPrepends.
+     *
+     * @param asPrepends the new asPrepends
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder addAsPrepends(AsPrependTemplate asPrepends) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(asPrepends,
+        "asPrepends cannot be null");
+      if (this.asPrepends == null) {
+        this.asPrepends = new ArrayList<AsPrependTemplate>();
+      }
+      this.asPrepends.add(asPrepends);
+      return this;
     }
 
     /**
@@ -151,6 +170,18 @@ public class CreateGatewayActionOptions extends GenericModel {
      */
     public Builder action(String action) {
       this.action = action;
+      return this;
+    }
+
+    /**
+     * Set the asPrepends.
+     * Existing asPrepends will be replaced.
+     *
+     * @param asPrepends the asPrepends
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder asPrepends(List<AsPrependTemplate> asPrepends) {
+      this.asPrepends = asPrepends;
       return this;
     }
 
@@ -240,6 +271,7 @@ public class CreateGatewayActionOptions extends GenericModel {
       "action cannot be null");
     id = builder.id;
     action = builder.action;
+    asPrepends = builder.asPrepends;
     authenticationKey = builder.authenticationKey;
     bfdConfig = builder.bfdConfig;
     connectionMode = builder.connectionMode;
@@ -278,6 +310,18 @@ public class CreateGatewayActionOptions extends GenericModel {
    */
   public String action() {
     return action;
+  }
+
+  /**
+   * Gets the asPrepends.
+   *
+   * Applicable for create_gateway_approve requests to create AS Prepends. Contains an array of AS Prepend configuration
+   * information.
+   *
+   * @return the asPrepends
+   */
+  public List<AsPrependTemplate> asPrepends() {
+    return asPrepends;
   }
 
   /**

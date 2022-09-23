@@ -17,21 +17,21 @@ import java.util.List;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * gateway status.
+ * Collection of overlapping route.
  */
-public class GatewayStatusCollection extends GenericModel {
+public class RouteReportOverlappingRouteGroup extends GenericModel {
 
-  protected List<GatewayStatus> status;
+  protected List<RouteReportOverlappingRoute> routes;
 
   /**
-   * Gets the status.
+   * Gets the routes.
    *
-   * array of status.
+   * Array of overlapping connection/prefix pairs.
    *
-   * @return the status
+   * @return the routes
    */
-  public List<GatewayStatus> getStatus() {
-    return status;
+  public List<RouteReportOverlappingRoute> getRoutes() {
+    return routes;
   }
 }
 

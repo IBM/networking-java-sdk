@@ -12,6 +12,9 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Gateway fields specific to type=connect gateway create.
  */
@@ -44,6 +47,7 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
    * Builder.
    */
   public static class Builder {
+    private List<AsPrependTemplate> asPrepends;
     private GatewayTemplateAuthenticationKey authenticationKey;
     private GatewayBfdConfigTemplate bfdConfig;
     private Long bgpAsn;
@@ -61,6 +65,7 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
     private GatewayPortIdentity port;
 
     public Builder(GatewayTemplate gatewayTemplateGatewayTypeConnectTemplate) {
+      this.asPrepends = gatewayTemplateGatewayTypeConnectTemplate.asPrepends;
       this.authenticationKey = gatewayTemplateGatewayTypeConnectTemplate.authenticationKey;
       this.bfdConfig = gatewayTemplateGatewayTypeConnectTemplate.bfdConfig;
       this.bgpAsn = gatewayTemplateGatewayTypeConnectTemplate.bgpAsn;
@@ -112,6 +117,34 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
      */
     public GatewayTemplateGatewayTypeConnectTemplate build() {
       return new GatewayTemplateGatewayTypeConnectTemplate(this);
+    }
+
+    /**
+     * Adds an asPrepends to asPrepends.
+     *
+     * @param asPrepends the new asPrepends
+     * @return the GatewayTemplateGatewayTypeConnectTemplate builder
+     */
+    public Builder addAsPrepends(AsPrependTemplate asPrepends) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(asPrepends,
+        "asPrepends cannot be null");
+      if (this.asPrepends == null) {
+        this.asPrepends = new ArrayList<AsPrependTemplate>();
+      }
+      this.asPrepends.add(asPrepends);
+      return this;
+    }
+
+    /**
+     * Set the asPrepends.
+     * Existing asPrepends will be replaced.
+     *
+     * @param asPrepends the asPrepends
+     * @return the GatewayTemplateGatewayTypeConnectTemplate builder
+     */
+    public Builder asPrepends(List<AsPrependTemplate> asPrepends) {
+      this.asPrepends = asPrepends;
+      return this;
     }
 
     /**
@@ -295,6 +328,7 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
       "type cannot be null");
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.port,
       "port cannot be null");
+    asPrepends = builder.asPrepends;
     authenticationKey = builder.authenticationKey;
     bfdConfig = builder.bfdConfig;
     bgpAsn = builder.bgpAsn;

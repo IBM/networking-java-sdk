@@ -13,6 +13,7 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -104,6 +105,8 @@ public class Gateway extends GenericModel {
     String DEDICATED = "dedicated";
   }
 
+  @SerializedName("as_prepends")
+  protected List<AsPrepend> asPrepends;
   @SerializedName("authentication_key")
   protected GatewayAuthenticationKey authenticationKey;
   @SerializedName("bfd_config")
@@ -164,6 +167,17 @@ public class Gateway extends GenericModel {
   protected Long speedMbps;
   protected String type;
   protected Long vlan;
+
+  /**
+   * Gets the asPrepends.
+   *
+   * array of AS Prepend information.
+   *
+   * @return the asPrepends
+   */
+  public List<AsPrepend> getAsPrepends() {
+    return asPrepends;
+  }
 
   /**
    * Gets the authenticationKey.
