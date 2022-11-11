@@ -55,6 +55,7 @@ public class CreateTransitGatewayConnectionOptionsTest {
       .transitGatewayId("testString")
       .networkType("vpc")
       .baseConnectionId("975f58c1-afe7-469a-9727-7f3d720f2d32")
+      .baseNetworkType("classic")
       .localGatewayIp("192.168.100.1")
       .localTunnelIp("192.168.129.2")
       .name("Transit_Service_BWTN_SJ_DL")
@@ -62,7 +63,7 @@ public class CreateTransitGatewayConnectionOptionsTest {
       .networkId("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
       .prefixFilters(new java.util.ArrayList<TransitGatewayConnectionPrefixFilter>(java.util.Arrays.asList(transitGatewayConnectionPrefixFilterModel)))
       .prefixFiltersDefault("permit")
-      .remoteBgpAsn("65010")
+      .remoteBgpAsn(Long.valueOf("65010"))
       .remoteGatewayIp("10.242.63.12")
       .remoteTunnelIp("192.168.129.1")
       .zone(zoneIdentityModel)
@@ -70,6 +71,7 @@ public class CreateTransitGatewayConnectionOptionsTest {
     assertEquals(createTransitGatewayConnectionOptionsModel.transitGatewayId(), "testString");
     assertEquals(createTransitGatewayConnectionOptionsModel.networkType(), "vpc");
     assertEquals(createTransitGatewayConnectionOptionsModel.baseConnectionId(), "975f58c1-afe7-469a-9727-7f3d720f2d32");
+    assertEquals(createTransitGatewayConnectionOptionsModel.baseNetworkType(), "classic");
     assertEquals(createTransitGatewayConnectionOptionsModel.localGatewayIp(), "192.168.100.1");
     assertEquals(createTransitGatewayConnectionOptionsModel.localTunnelIp(), "192.168.129.2");
     assertEquals(createTransitGatewayConnectionOptionsModel.name(), "Transit_Service_BWTN_SJ_DL");
@@ -77,7 +79,7 @@ public class CreateTransitGatewayConnectionOptionsTest {
     assertEquals(createTransitGatewayConnectionOptionsModel.networkId(), "crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b");
     assertEquals(createTransitGatewayConnectionOptionsModel.prefixFilters(), new java.util.ArrayList<TransitGatewayConnectionPrefixFilter>(java.util.Arrays.asList(transitGatewayConnectionPrefixFilterModel)));
     assertEquals(createTransitGatewayConnectionOptionsModel.prefixFiltersDefault(), "permit");
-    assertEquals(createTransitGatewayConnectionOptionsModel.remoteBgpAsn(), "65010");
+    assertEquals(createTransitGatewayConnectionOptionsModel.remoteBgpAsn(), Long.valueOf("65010"));
     assertEquals(createTransitGatewayConnectionOptionsModel.remoteGatewayIp(), "10.242.63.12");
     assertEquals(createTransitGatewayConnectionOptionsModel.remoteTunnelIp(), "192.168.129.1");
     assertEquals(createTransitGatewayConnectionOptionsModel.zone(), zoneIdentityModel);

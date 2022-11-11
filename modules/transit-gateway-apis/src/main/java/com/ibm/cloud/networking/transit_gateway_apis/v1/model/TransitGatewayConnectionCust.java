@@ -24,6 +24,14 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class TransitGatewayConnectionCust extends GenericModel {
 
   /**
+   * The type of network the GRE tunnel is targeting.
+   */
+  public interface BaseNetworkType {
+    /** classic. */
+    String CLASSIC = "classic";
+  }
+
+  /**
    * Defines what type of network is connected via this connection. The list of enumerated values for this property may
    * expand in the future. Code and processes using this field must tolerate unexpected values.
    */
@@ -34,8 +42,12 @@ public class TransitGatewayConnectionCust extends GenericModel {
     String DIRECTLINK = "directlink";
     /** gre_tunnel. */
     String GRE_TUNNEL = "gre_tunnel";
+    /** unbound_gre_tunnel. */
+    String UNBOUND_GRE_TUNNEL = "unbound_gre_tunnel";
     /** vpc. */
     String VPC = "vpc";
+    /** power_virtual_server. */
+    String POWER_VIRTUAL_SERVER = "power_virtual_server";
   }
 
   /**
@@ -83,8 +95,14 @@ public class TransitGatewayConnectionCust extends GenericModel {
     String DETACHING = "detaching";
     /** detached. */
     String DETACHED = "detached";
+    /** suspending. */
+    String SUSPENDING = "suspending";
+    /** suspended. */
+    String SUSPENDED = "suspended";
   }
 
+  @SerializedName("base_network_type")
+  protected String baseNetworkType;
   protected String name;
   @SerializedName("network_id")
   protected String networkId;
@@ -122,6 +140,17 @@ public class TransitGatewayConnectionCust extends GenericModel {
   protected TransitGatewayConnectionCustZone zone;
 
   /**
+   * Gets the baseNetworkType.
+   *
+   * The type of network the GRE tunnel is targeting.
+   *
+   * @return the baseNetworkType
+   */
+  public String getBaseNetworkType() {
+    return baseNetworkType;
+  }
+
+  /**
    * Gets the name.
    *
    * The user-defined name for this transit gateway connection.
@@ -135,9 +164,9 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the networkId.
    *
-   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' and
-   * 'directlink'. For network types 'vpc' and 'directlink' it should be the CRN of the target vpc / gateway
-   * respectively.
+   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
+   * 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink' this is
+   * the CRN of the VPC / PowerVS / Direct Link gateway respectively.
    *
    * @return the networkId
    */
@@ -196,7 +225,7 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the localBgpAsn.
    *
-   * Local network BGP ASN.  This field only applies to network type 'gre_tunnel' connections.
+   * Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
    *
    * @return the localBgpAsn
    */
@@ -207,7 +236,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the localGatewayIp.
    *
-   * Local gateway IP address.  This field only applies to network type 'gre_tunnel' connections.
+   * Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+   * connections.
    *
    * @return the localGatewayIp
    */
@@ -218,7 +248,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the localTunnelIp.
    *
-   * Local tunnel IP address.  This field only applies to network type 'gre_tunnel' connections.
+   * Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+   * connections.
    *
    * @return the localTunnelIp
    */
@@ -229,7 +260,7 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the mtu.
    *
-   * GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' connections.
+   * GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
    *
    * @return the mtu
    */
@@ -275,7 +306,7 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the remoteBgpAsn.
    *
-   * Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' connections.
+   * Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
    *
    * @return the remoteBgpAsn
    */
@@ -286,7 +317,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the remoteGatewayIp.
    *
-   * Remote gateway IP address.  This field only applies to network type 'gre_tunnel' connections.
+   * Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+   * connections.
    *
    * @return the remoteGatewayIp
    */
@@ -297,7 +329,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the remoteTunnelIp.
    *
-   * Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' connections.
+   * Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+   * connections.
    *
    * @return the remoteTunnelIp
    */
@@ -344,7 +377,7 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the zone.
    *
-   * Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
+   * Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
    *
    * @return the zone
    */

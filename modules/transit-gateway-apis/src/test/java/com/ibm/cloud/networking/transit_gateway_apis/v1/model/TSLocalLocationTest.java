@@ -34,6 +34,7 @@ public class TSLocalLocationTest {
     TSLocalLocation tsLocalLocationModel = new TSLocalLocation();
     assertNull(tsLocalLocationModel.getDisplayName());
     assertNull(tsLocalLocationModel.getName());
+    assertNull(tsLocalLocationModel.getSupportedConnectionTypes());
     assertNull(tsLocalLocationModel.getType());
   }
 }

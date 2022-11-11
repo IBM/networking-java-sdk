@@ -35,6 +35,8 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGateway
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCust;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterPut;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ReplaceTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReport;
@@ -146,6 +148,312 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
   }
 
   @Test
+  public void testListTransitGatewaysWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}, \"transit_gateways\": [{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
+    String listTransitGatewaysPath = "/transit_gateways";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the ListTransitGatewaysOptions model
+    ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions.Builder()
+    .limit(Long.valueOf("1"))
+    .start("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TransitGatewayCollection> response = transitGatewayApisService.listTransitGateways(listTransitGatewaysOptionsModel).execute();
+    assertNotNull(response);
+    TransitGatewayCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    assertEquals(Long.valueOf(query.get("limit")), Long.valueOf("1"));
+    assertEquals(query.get("start"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listTransitGatewaysPath);
+  }
+  
+  public void testListTransitGatewaysWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListTransitGatewaysWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testListTransitGatewaysWOptions();
+
+    // Disable retries and run testListTransitGatewaysWOptions.
+    transitGatewayApisService.disableRetries();
+    testListTransitGatewaysWOptions();
+  }  
+
+  @Test
+  public void testCreateTransitGatewayWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
+    String createTransitGatewayPath = "/transit_gateways";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(201)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the ResourceGroupIdentity model
+    ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
+    .id("56969d6043e9465c883cb9f7363e78e8")
+    .build();
+
+    // Construct an instance of the CreateTransitGatewayOptions model
+    CreateTransitGatewayOptions createTransitGatewayOptionsModel = new CreateTransitGatewayOptions.Builder()
+    .location("us-south")
+    .name("Transit_Service_BWTN_SJ_DL")
+    .global(true)
+    .resourceGroup(resourceGroupIdentityModel)
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TransitGateway> response = transitGatewayApisService.createTransitGateway(createTransitGatewayOptionsModel).execute();
+    assertNotNull(response);
+    TransitGateway responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createTransitGatewayPath);
+  }
+  
+  public void testCreateTransitGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateTransitGatewayWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testCreateTransitGatewayWOptions();
+
+    // Disable retries and run testCreateTransitGatewayWOptions.
+    transitGatewayApisService.disableRetries();
+    testCreateTransitGatewayWOptions();
+  }  
+
+  // Test the createTransitGateway operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateTransitGatewayNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.createTransitGateway(null).execute();
+  }
+
+  @Test
+  public void testDeleteTransitGatewayWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "";
+    String deleteTransitGatewayPath = "/transit_gateways/testString";
+
+    server.enqueue(new MockResponse()
+    .setResponseCode(204)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the DeleteTransitGatewayOptions model
+    DeleteTransitGatewayOptions deleteTransitGatewayOptionsModel = new DeleteTransitGatewayOptions.Builder()
+    .id("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Void> response = transitGatewayApisService.deleteTransitGateway(deleteTransitGatewayOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    // Response does not have a return type. Check that the result is null.
+    assertNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteTransitGatewayPath);
+  }
+  
+  public void testDeleteTransitGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testDeleteTransitGatewayWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testDeleteTransitGatewayWOptions();
+
+    // Disable retries and run testDeleteTransitGatewayWOptions.
+    transitGatewayApisService.disableRetries();
+    testDeleteTransitGatewayWOptions();
+  }  
+
+  // Test the deleteTransitGateway operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteTransitGatewayNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.deleteTransitGateway(null).execute();
+  }
+
+  @Test
+  public void testGetTransitGatewayWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
+    String getTransitGatewayPath = "/transit_gateways/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the GetTransitGatewayOptions model
+    GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
+    .id("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TransitGateway> response = transitGatewayApisService.getTransitGateway(getTransitGatewayOptionsModel).execute();
+    assertNotNull(response);
+    TransitGateway responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getTransitGatewayPath);
+  }
+  
+  public void testGetTransitGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetTransitGatewayWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testGetTransitGatewayWOptions();
+
+    // Disable retries and run testGetTransitGatewayWOptions.
+    transitGatewayApisService.disableRetries();
+    testGetTransitGatewayWOptions();
+  }  
+
+  // Test the getTransitGateway operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetTransitGatewayNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.getTransitGateway(null).execute();
+  }
+
+  @Test
+  public void testUpdateTransitGatewayWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
+    String updateTransitGatewayPath = "/transit_gateways/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the UpdateTransitGatewayOptions model
+    UpdateTransitGatewayOptions updateTransitGatewayOptionsModel = new UpdateTransitGatewayOptions.Builder()
+    .id("testString")
+    .global(true)
+    .name("my-transit-gateway")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TransitGateway> response = transitGatewayApisService.updateTransitGateway(updateTransitGatewayOptionsModel).execute();
+    assertNotNull(response);
+    TransitGateway responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PATCH");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, updateTransitGatewayPath);
+  }
+  
+  public void testUpdateTransitGatewayWOptionsWRetries() throws Throwable {
+    // Enable retries and run testUpdateTransitGatewayWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testUpdateTransitGatewayWOptions();
+
+    // Disable retries and run testUpdateTransitGatewayWOptions.
+    transitGatewayApisService.disableRetries();
+    testUpdateTransitGatewayWOptions();
+  }  
+
+  // Test the updateTransitGateway operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testUpdateTransitGatewayNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.updateTransitGateway(null).execute();
+  }
+
+  @Test
   public void testListConnectionsWOptions() throws Throwable {
     // Schedule some responses.
     String mockResponseBody = "{\"connections\": [{\"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"name\": \"Transit_Service_SJ_DL\", \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"transit_gateway\": {\"crn\": \"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"id\": \"456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"name\": \"my-transit-gw100\"}, \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOVQxNjoyMDoyMC4yMjQ5NzNa\"}}";
@@ -198,6 +506,514 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
     transitGatewayApisService.disableRetries();
     testListConnectionsWOptions();
   }  
+
+  @Test
+  public void testListTransitGatewayConnectionsWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"connections\": [{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}]}";
+    String listTransitGatewayConnectionsPath = "/transit_gateways/testString/connections";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the ListTransitGatewayConnectionsOptions model
+    ListTransitGatewayConnectionsOptions listTransitGatewayConnectionsOptionsModel = new ListTransitGatewayConnectionsOptions.Builder()
+    .transitGatewayId("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TransitGatewayConnectionCollection> response = transitGatewayApisService.listTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel).execute();
+    assertNotNull(response);
+    TransitGatewayConnectionCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listTransitGatewayConnectionsPath);
+  }
+  
+  public void testListTransitGatewayConnectionsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListTransitGatewayConnectionsWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testListTransitGatewayConnectionsWOptions();
+
+    // Disable retries and run testListTransitGatewayConnectionsWOptions.
+    transitGatewayApisService.disableRetries();
+    testListTransitGatewayConnectionsWOptions();
+  }  
+
+  // Test the listTransitGatewayConnections operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListTransitGatewayConnectionsNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.listTransitGatewayConnections(null).execute();
+  }
+
+  @Test
+  public void testCreateTransitGatewayConnectionWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
+    String createTransitGatewayConnectionPath = "/transit_gateways/testString/connections";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(201)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the TransitGatewayConnectionPrefixFilter model
+    TransitGatewayConnectionPrefixFilter transitGatewayConnectionPrefixFilterModel = new TransitGatewayConnectionPrefixFilter.Builder()
+    .action("permit")
+    .ge(Long.valueOf("0"))
+    .le(Long.valueOf("32"))
+    .prefix("192.168.100.0/24")
+    .build();
+
+    // Construct an instance of the ZoneIdentityByName model
+    ZoneIdentityByName zoneIdentityModel = new ZoneIdentityByName.Builder()
+    .name("us-south-1")
+    .build();
+
+    // Construct an instance of the CreateTransitGatewayConnectionOptions model
+    CreateTransitGatewayConnectionOptions createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
+    .transitGatewayId("testString")
+    .networkType("vpc")
+    .baseConnectionId("975f58c1-afe7-469a-9727-7f3d720f2d32")
+    .baseNetworkType("classic")
+    .localGatewayIp("192.168.100.1")
+    .localTunnelIp("192.168.129.2")
+    .name("Transit_Service_BWTN_SJ_DL")
+    .networkAccountId("28e4d90ac7504be694471ee66e70d0d5")
+    .networkId("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
+    .prefixFilters(new java.util.ArrayList<TransitGatewayConnectionPrefixFilter>(java.util.Arrays.asList(transitGatewayConnectionPrefixFilterModel)))
+    .prefixFiltersDefault("permit")
+    .remoteBgpAsn(Long.valueOf("65010"))
+    .remoteGatewayIp("10.242.63.12")
+    .remoteTunnelIp("192.168.129.1")
+    .zone(zoneIdentityModel)
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TransitGatewayConnectionCust> response = transitGatewayApisService.createTransitGatewayConnection(createTransitGatewayConnectionOptionsModel).execute();
+    assertNotNull(response);
+    TransitGatewayConnectionCust responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createTransitGatewayConnectionPath);
+  }
+  
+  public void testCreateTransitGatewayConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateTransitGatewayConnectionWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testCreateTransitGatewayConnectionWOptions();
+
+    // Disable retries and run testCreateTransitGatewayConnectionWOptions.
+    transitGatewayApisService.disableRetries();
+    testCreateTransitGatewayConnectionWOptions();
+  }  
+
+  // Test the createTransitGatewayConnection operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateTransitGatewayConnectionNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.createTransitGatewayConnection(null).execute();
+  }
+
+  @Test
+  public void testDeleteTransitGatewayConnectionWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "";
+    String deleteTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
+
+    server.enqueue(new MockResponse()
+    .setResponseCode(204)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the DeleteTransitGatewayConnectionOptions model
+    DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+    .transitGatewayId("testString")
+    .id("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Void> response = transitGatewayApisService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    // Response does not have a return type. Check that the result is null.
+    assertNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteTransitGatewayConnectionPath);
+  }
+  
+  public void testDeleteTransitGatewayConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testDeleteTransitGatewayConnectionWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testDeleteTransitGatewayConnectionWOptions();
+
+    // Disable retries and run testDeleteTransitGatewayConnectionWOptions.
+    transitGatewayApisService.disableRetries();
+    testDeleteTransitGatewayConnectionWOptions();
+  }  
+
+  // Test the deleteTransitGatewayConnection operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteTransitGatewayConnectionNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.deleteTransitGatewayConnection(null).execute();
+  }
+
+  @Test
+  public void testGetTransitGatewayConnectionWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
+    String getTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the GetTransitGatewayConnectionOptions model
+    GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+    .transitGatewayId("testString")
+    .id("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TransitGatewayConnectionCust> response = transitGatewayApisService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
+    assertNotNull(response);
+    TransitGatewayConnectionCust responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getTransitGatewayConnectionPath);
+  }
+  
+  public void testGetTransitGatewayConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetTransitGatewayConnectionWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testGetTransitGatewayConnectionWOptions();
+
+    // Disable retries and run testGetTransitGatewayConnectionWOptions.
+    transitGatewayApisService.disableRetries();
+    testGetTransitGatewayConnectionWOptions();
+  }  
+
+  // Test the getTransitGatewayConnection operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetTransitGatewayConnectionNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.getTransitGatewayConnection(null).execute();
+  }
+
+  @Test
+  public void testUpdateTransitGatewayConnectionWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
+    String updateTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the UpdateTransitGatewayConnectionOptions model
+    UpdateTransitGatewayConnectionOptions updateTransitGatewayConnectionOptionsModel = new UpdateTransitGatewayConnectionOptions.Builder()
+    .transitGatewayId("testString")
+    .id("testString")
+    .name("Transit_Service_BWTN_SJ_DL")
+    .prefixFiltersDefault("permit")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TransitGatewayConnectionCust> response = transitGatewayApisService.updateTransitGatewayConnection(updateTransitGatewayConnectionOptionsModel).execute();
+    assertNotNull(response);
+    TransitGatewayConnectionCust responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PATCH");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, updateTransitGatewayConnectionPath);
+  }
+  
+  public void testUpdateTransitGatewayConnectionWOptionsWRetries() throws Throwable {
+    // Enable retries and run testUpdateTransitGatewayConnectionWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testUpdateTransitGatewayConnectionWOptions();
+
+    // Disable retries and run testUpdateTransitGatewayConnectionWOptions.
+    transitGatewayApisService.disableRetries();
+    testUpdateTransitGatewayConnectionWOptions();
+  }  
+
+  // Test the updateTransitGatewayConnection operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testUpdateTransitGatewayConnectionNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.updateTransitGatewayConnection(null).execute();
+  }
+
+  @Test
+  public void testCreateTransitGatewayConnectionActionsWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "";
+    String createTransitGatewayConnectionActionsPath = "/transit_gateways/testString/connections/testString/actions";
+
+    server.enqueue(new MockResponse()
+    .setResponseCode(204)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the CreateTransitGatewayConnectionActionsOptions model
+    CreateTransitGatewayConnectionActionsOptions createTransitGatewayConnectionActionsOptionsModel = new CreateTransitGatewayConnectionActionsOptions.Builder()
+    .transitGatewayId("testString")
+    .id("testString")
+    .action("approve")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<Void> response = transitGatewayApisService.createTransitGatewayConnectionActions(createTransitGatewayConnectionActionsOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    // Response does not have a return type. Check that the result is null.
+    assertNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createTransitGatewayConnectionActionsPath);
+  }
+  
+  public void testCreateTransitGatewayConnectionActionsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testCreateTransitGatewayConnectionActionsWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testCreateTransitGatewayConnectionActionsWOptions();
+
+    // Disable retries and run testCreateTransitGatewayConnectionActionsWOptions.
+    transitGatewayApisService.disableRetries();
+    testCreateTransitGatewayConnectionActionsWOptions();
+  }  
+
+  // Test the createTransitGatewayConnectionActions operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateTransitGatewayConnectionActionsNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.createTransitGatewayConnectionActions(null).execute();
+  }
+
+  @Test
+  public void testListGatewayLocationsWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"locations\": [{\"billing_location\": \"us\", \"name\": \"us-south\", \"type\": \"region\"}]}";
+    String listGatewayLocationsPath = "/locations";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the ListGatewayLocationsOptions model
+    ListGatewayLocationsOptions listGatewayLocationsOptionsModel = new ListGatewayLocationsOptions();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TSCollection> response = transitGatewayApisService.listGatewayLocations(listGatewayLocationsOptionsModel).execute();
+    assertNotNull(response);
+    TSCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listGatewayLocationsPath);
+  }
+  
+  public void testListGatewayLocationsWOptionsWRetries() throws Throwable {
+    // Enable retries and run testListGatewayLocationsWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testListGatewayLocationsWOptions();
+
+    // Disable retries and run testListGatewayLocationsWOptions.
+    transitGatewayApisService.disableRetries();
+    testListGatewayLocationsWOptions();
+  }  
+
+  @Test
+  public void testGetGatewayLocationWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"billing_location\": \"us\", \"name\": \"us-south\", \"type\": \"region\", \"local_connection_locations\": [{\"display_name\": \"Dallas\", \"name\": \"us-south\", \"supported_connection_types\": [\"supportedConnectionTypes\"], \"type\": \"region\"}]}";
+    String getGatewayLocationPath = "/locations/testString";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(200)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the GetGatewayLocationOptions model
+    GetGatewayLocationOptions getGatewayLocationOptionsModel = new GetGatewayLocationOptions.Builder()
+    .name("testString")
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<TSLocation> response = transitGatewayApisService.getGatewayLocation(getGatewayLocationOptionsModel).execute();
+    assertNotNull(response);
+    TSLocation responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getGatewayLocationPath);
+  }
+  
+  public void testGetGatewayLocationWOptionsWRetries() throws Throwable {
+    // Enable retries and run testGetGatewayLocationWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testGetGatewayLocationWOptions();
+
+    // Disable retries and run testGetGatewayLocationWOptions.
+    transitGatewayApisService.disableRetries();
+    testGetGatewayLocationWOptions();
+  }  
+
+  // Test the getGatewayLocation operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetGatewayLocationNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.getGatewayLocation(null).execute();
+  }
 
   @Test
   public void testListTransitGatewayConnectionPrefixFiltersWOptions() throws Throwable {
@@ -326,6 +1142,77 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
 
     // Invoke operation with null options model (negative test)
     transitGatewayApisService.createTransitGatewayConnectionPrefixFilter(null).execute();
+  }
+
+  @Test
+  public void testReplaceTransitGatewayConnectionPrefixFilterWOptions() throws Throwable {
+    // Schedule some responses.
+    String mockResponseBody = "{\"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
+    String replaceTransitGatewayConnectionPrefixFilterPath = "/transit_gateways/testString/connections/testString/prefix_filters";
+
+    server.enqueue(new MockResponse()
+    .setHeader("Content-type", "application/json")
+    .setResponseCode(201)
+    .setBody(mockResponseBody));
+
+    constructClientService();
+
+    // Construct an instance of the PrefixFilterPut model
+    PrefixFilterPut prefixFilterPutModel = new PrefixFilterPut.Builder()
+    .action("permit")
+    .ge(Long.valueOf("0"))
+    .le(Long.valueOf("32"))
+    .prefix("192.168.100.0/24")
+    .build();
+
+    // Construct an instance of the ReplaceTransitGatewayConnectionPrefixFilterOptions model
+    ReplaceTransitGatewayConnectionPrefixFilterOptions replaceTransitGatewayConnectionPrefixFilterOptionsModel = new ReplaceTransitGatewayConnectionPrefixFilterOptions.Builder()
+    .transitGatewayId("testString")
+    .id("testString")
+    .prefixFilters(new java.util.ArrayList<PrefixFilterPut>(java.util.Arrays.asList(prefixFilterPutModel)))
+    .build();
+
+    // Invoke operation with valid options model (positive test)
+    Response<PrefixFilterCollection> response = transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptionsModel).execute();
+    assertNotNull(response);
+    PrefixFilterCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PUT");
+
+    // Check query
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    // Get query params
+    assertEquals(query.get("version"), "testString");
+    // Check request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, replaceTransitGatewayConnectionPrefixFilterPath);
+  }
+  
+  public void testReplaceTransitGatewayConnectionPrefixFilterWOptionsWRetries() throws Throwable {
+    // Enable retries and run testReplaceTransitGatewayConnectionPrefixFilterWOptions.
+    transitGatewayApisService.enableRetries(4, 30);
+    testReplaceTransitGatewayConnectionPrefixFilterWOptions();
+
+    // Disable retries and run testReplaceTransitGatewayConnectionPrefixFilterWOptions.
+    transitGatewayApisService.disableRetries();
+    testReplaceTransitGatewayConnectionPrefixFilterWOptions();
+  }  
+
+  // Test the replaceTransitGatewayConnectionPrefixFilter operation with null options model parameter
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testReplaceTransitGatewayConnectionPrefixFilterNoOptions() throws Throwable {
+    // construct the service
+    constructClientService();
+
+    server.enqueue(new MockResponse());
+
+    // Invoke operation with null options model (negative test)
+    transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(null).execute();
   }
 
   @Test
@@ -766,819 +1653,6 @@ public class TransitGatewayApisTest extends PowerMockTestCase {
 
     // Invoke operation with null options model (negative test)
     transitGatewayApisService.getTransitGatewayRouteReport(null).execute();
-  }
-
-  @Test
-  public void testListTransitGatewaysWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}, \"transit_gateways\": [{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
-    String listTransitGatewaysPath = "/transit_gateways";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the ListTransitGatewaysOptions model
-    ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions.Builder()
-    .limit(Long.valueOf("1"))
-    .start("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TransitGatewayCollection> response = transitGatewayApisService.listTransitGateways(listTransitGatewaysOptionsModel).execute();
-    assertNotNull(response);
-    TransitGatewayCollection responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    assertEquals(Long.valueOf(query.get("limit")), Long.valueOf("1"));
-    assertEquals(query.get("start"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, listTransitGatewaysPath);
-  }
-  
-  public void testListTransitGatewaysWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListTransitGatewaysWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testListTransitGatewaysWOptions();
-
-    // Disable retries and run testListTransitGatewaysWOptions.
-    transitGatewayApisService.disableRetries();
-    testListTransitGatewaysWOptions();
-  }  
-
-  @Test
-  public void testCreateTransitGatewayWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
-    String createTransitGatewayPath = "/transit_gateways";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(201)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the ResourceGroupIdentity model
-    ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
-    .id("56969d6043e9465c883cb9f7363e78e8")
-    .build();
-
-    // Construct an instance of the CreateTransitGatewayOptions model
-    CreateTransitGatewayOptions createTransitGatewayOptionsModel = new CreateTransitGatewayOptions.Builder()
-    .location("us-south")
-    .name("Transit_Service_BWTN_SJ_DL")
-    .global(true)
-    .resourceGroup(resourceGroupIdentityModel)
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TransitGateway> response = transitGatewayApisService.createTransitGateway(createTransitGatewayOptionsModel).execute();
-    assertNotNull(response);
-    TransitGateway responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "POST");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, createTransitGatewayPath);
-  }
-  
-  public void testCreateTransitGatewayWOptionsWRetries() throws Throwable {
-    // Enable retries and run testCreateTransitGatewayWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testCreateTransitGatewayWOptions();
-
-    // Disable retries and run testCreateTransitGatewayWOptions.
-    transitGatewayApisService.disableRetries();
-    testCreateTransitGatewayWOptions();
-  }  
-
-  // Test the createTransitGateway operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testCreateTransitGatewayNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.createTransitGateway(null).execute();
-  }
-
-  @Test
-  public void testDeleteTransitGatewayWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "";
-    String deleteTransitGatewayPath = "/transit_gateways/testString";
-
-    server.enqueue(new MockResponse()
-    .setResponseCode(204)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the DeleteTransitGatewayOptions model
-    DeleteTransitGatewayOptions deleteTransitGatewayOptionsModel = new DeleteTransitGatewayOptions.Builder()
-    .id("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<Void> response = transitGatewayApisService.deleteTransitGateway(deleteTransitGatewayOptionsModel).execute();
-    assertNotNull(response);
-    Void responseObj = response.getResult();
-    // Response does not have a return type. Check that the result is null.
-    assertNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "DELETE");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, deleteTransitGatewayPath);
-  }
-  
-  public void testDeleteTransitGatewayWOptionsWRetries() throws Throwable {
-    // Enable retries and run testDeleteTransitGatewayWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testDeleteTransitGatewayWOptions();
-
-    // Disable retries and run testDeleteTransitGatewayWOptions.
-    transitGatewayApisService.disableRetries();
-    testDeleteTransitGatewayWOptions();
-  }  
-
-  // Test the deleteTransitGateway operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testDeleteTransitGatewayNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.deleteTransitGateway(null).execute();
-  }
-
-  @Test
-  public void testGetTransitGatewayWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
-    String getTransitGatewayPath = "/transit_gateways/testString";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the GetTransitGatewayOptions model
-    GetTransitGatewayOptions getTransitGatewayOptionsModel = new GetTransitGatewayOptions.Builder()
-    .id("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TransitGateway> response = transitGatewayApisService.getTransitGateway(getTransitGatewayOptionsModel).execute();
-    assertNotNull(response);
-    TransitGateway responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, getTransitGatewayPath);
-  }
-  
-  public void testGetTransitGatewayWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetTransitGatewayWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testGetTransitGatewayWOptions();
-
-    // Disable retries and run testGetTransitGatewayWOptions.
-    transitGatewayApisService.disableRetries();
-    testGetTransitGatewayWOptions();
-  }  
-
-  // Test the getTransitGateway operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testGetTransitGatewayNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.getTransitGateway(null).execute();
-  }
-
-  @Test
-  public void testUpdateTransitGatewayWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\", \"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
-    String updateTransitGatewayPath = "/transit_gateways/testString";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the UpdateTransitGatewayOptions model
-    UpdateTransitGatewayOptions updateTransitGatewayOptionsModel = new UpdateTransitGatewayOptions.Builder()
-    .id("testString")
-    .global(true)
-    .name("my-transit-gateway")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TransitGateway> response = transitGatewayApisService.updateTransitGateway(updateTransitGatewayOptionsModel).execute();
-    assertNotNull(response);
-    TransitGateway responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "PATCH");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, updateTransitGatewayPath);
-  }
-  
-  public void testUpdateTransitGatewayWOptionsWRetries() throws Throwable {
-    // Enable retries and run testUpdateTransitGatewayWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testUpdateTransitGatewayWOptions();
-
-    // Disable retries and run testUpdateTransitGatewayWOptions.
-    transitGatewayApisService.disableRetries();
-    testUpdateTransitGatewayWOptions();
-  }  
-
-  // Test the updateTransitGateway operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testUpdateTransitGatewayNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.updateTransitGateway(null).execute();
-  }
-
-  @Test
-  public void testListTransitGatewayConnectionsWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"connections\": [{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}]}";
-    String listTransitGatewayConnectionsPath = "/transit_gateways/testString/connections";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the ListTransitGatewayConnectionsOptions model
-    ListTransitGatewayConnectionsOptions listTransitGatewayConnectionsOptionsModel = new ListTransitGatewayConnectionsOptions.Builder()
-    .transitGatewayId("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TransitGatewayConnectionCollection> response = transitGatewayApisService.listTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel).execute();
-    assertNotNull(response);
-    TransitGatewayConnectionCollection responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, listTransitGatewayConnectionsPath);
-  }
-  
-  public void testListTransitGatewayConnectionsWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListTransitGatewayConnectionsWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testListTransitGatewayConnectionsWOptions();
-
-    // Disable retries and run testListTransitGatewayConnectionsWOptions.
-    transitGatewayApisService.disableRetries();
-    testListTransitGatewayConnectionsWOptions();
-  }  
-
-  // Test the listTransitGatewayConnections operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testListTransitGatewayConnectionsNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.listTransitGatewayConnections(null).execute();
-  }
-
-  @Test
-  public void testCreateTransitGatewayConnectionWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
-    String createTransitGatewayConnectionPath = "/transit_gateways/testString/connections";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(201)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the TransitGatewayConnectionPrefixFilter model
-    TransitGatewayConnectionPrefixFilter transitGatewayConnectionPrefixFilterModel = new TransitGatewayConnectionPrefixFilter.Builder()
-    .action("permit")
-    .ge(Long.valueOf("0"))
-    .le(Long.valueOf("32"))
-    .prefix("192.168.100.0/24")
-    .build();
-
-    // Construct an instance of the ZoneIdentityByName model
-    ZoneIdentityByName zoneIdentityModel = new ZoneIdentityByName.Builder()
-    .name("us-south-1")
-    .build();
-
-    // Construct an instance of the CreateTransitGatewayConnectionOptions model
-    CreateTransitGatewayConnectionOptions createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
-    .transitGatewayId("testString")
-    .networkType("vpc")
-    .baseConnectionId("975f58c1-afe7-469a-9727-7f3d720f2d32")
-    .localGatewayIp("192.168.100.1")
-    .localTunnelIp("192.168.129.2")
-    .name("Transit_Service_BWTN_SJ_DL")
-    .networkAccountId("28e4d90ac7504be694471ee66e70d0d5")
-    .networkId("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
-    .prefixFilters(new java.util.ArrayList<TransitGatewayConnectionPrefixFilter>(java.util.Arrays.asList(transitGatewayConnectionPrefixFilterModel)))
-    .prefixFiltersDefault("permit")
-    .remoteBgpAsn("65010")
-    .remoteGatewayIp("10.242.63.12")
-    .remoteTunnelIp("192.168.129.1")
-    .zone(zoneIdentityModel)
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TransitGatewayConnectionCust> response = transitGatewayApisService.createTransitGatewayConnection(createTransitGatewayConnectionOptionsModel).execute();
-    assertNotNull(response);
-    TransitGatewayConnectionCust responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "POST");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, createTransitGatewayConnectionPath);
-  }
-  
-  public void testCreateTransitGatewayConnectionWOptionsWRetries() throws Throwable {
-    // Enable retries and run testCreateTransitGatewayConnectionWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testCreateTransitGatewayConnectionWOptions();
-
-    // Disable retries and run testCreateTransitGatewayConnectionWOptions.
-    transitGatewayApisService.disableRetries();
-    testCreateTransitGatewayConnectionWOptions();
-  }  
-
-  // Test the createTransitGatewayConnection operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testCreateTransitGatewayConnectionNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.createTransitGatewayConnection(null).execute();
-  }
-
-  @Test
-  public void testDeleteTransitGatewayConnectionWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "";
-    String deleteTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
-
-    server.enqueue(new MockResponse()
-    .setResponseCode(204)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the DeleteTransitGatewayConnectionOptions model
-    DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
-    .transitGatewayId("testString")
-    .id("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<Void> response = transitGatewayApisService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
-    assertNotNull(response);
-    Void responseObj = response.getResult();
-    // Response does not have a return type. Check that the result is null.
-    assertNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "DELETE");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, deleteTransitGatewayConnectionPath);
-  }
-  
-  public void testDeleteTransitGatewayConnectionWOptionsWRetries() throws Throwable {
-    // Enable retries and run testDeleteTransitGatewayConnectionWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testDeleteTransitGatewayConnectionWOptions();
-
-    // Disable retries and run testDeleteTransitGatewayConnectionWOptions.
-    transitGatewayApisService.disableRetries();
-    testDeleteTransitGatewayConnectionWOptions();
-  }  
-
-  // Test the deleteTransitGatewayConnection operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testDeleteTransitGatewayConnectionNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.deleteTransitGatewayConnection(null).execute();
-  }
-
-  @Test
-  public void testGetTransitGatewayConnectionWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
-    String getTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the GetTransitGatewayConnectionOptions model
-    GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
-    .transitGatewayId("testString")
-    .id("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TransitGatewayConnectionCust> response = transitGatewayApisService.getTransitGatewayConnection(getTransitGatewayConnectionOptionsModel).execute();
-    assertNotNull(response);
-    TransitGatewayConnectionCust responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, getTransitGatewayConnectionPath);
-  }
-  
-  public void testGetTransitGatewayConnectionWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetTransitGatewayConnectionWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testGetTransitGatewayConnectionWOptions();
-
-    // Disable retries and run testGetTransitGatewayConnectionWOptions.
-    transitGatewayApisService.disableRetries();
-    testGetTransitGatewayConnectionWOptions();
-  }  
-
-  // Test the getTransitGatewayConnection operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testGetTransitGatewayConnectionNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.getTransitGatewayConnection(null).execute();
-  }
-
-  @Test
-  public void testUpdateTransitGatewayConnectionWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"28e4d90ac7504be694471ee66e70d0d5\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
-    String updateTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the UpdateTransitGatewayConnectionOptions model
-    UpdateTransitGatewayConnectionOptions updateTransitGatewayConnectionOptionsModel = new UpdateTransitGatewayConnectionOptions.Builder()
-    .transitGatewayId("testString")
-    .id("testString")
-    .name("Transit_Service_BWTN_SJ_DL")
-    .prefixFiltersDefault("permit")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TransitGatewayConnectionCust> response = transitGatewayApisService.updateTransitGatewayConnection(updateTransitGatewayConnectionOptionsModel).execute();
-    assertNotNull(response);
-    TransitGatewayConnectionCust responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "PATCH");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, updateTransitGatewayConnectionPath);
-  }
-  
-  public void testUpdateTransitGatewayConnectionWOptionsWRetries() throws Throwable {
-    // Enable retries and run testUpdateTransitGatewayConnectionWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testUpdateTransitGatewayConnectionWOptions();
-
-    // Disable retries and run testUpdateTransitGatewayConnectionWOptions.
-    transitGatewayApisService.disableRetries();
-    testUpdateTransitGatewayConnectionWOptions();
-  }  
-
-  // Test the updateTransitGatewayConnection operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testUpdateTransitGatewayConnectionNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.updateTransitGatewayConnection(null).execute();
-  }
-
-  @Test
-  public void testCreateTransitGatewayConnectionActionsWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "";
-    String createTransitGatewayConnectionActionsPath = "/transit_gateways/testString/connections/testString/actions";
-
-    server.enqueue(new MockResponse()
-    .setResponseCode(204)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the CreateTransitGatewayConnectionActionsOptions model
-    CreateTransitGatewayConnectionActionsOptions createTransitGatewayConnectionActionsOptionsModel = new CreateTransitGatewayConnectionActionsOptions.Builder()
-    .transitGatewayId("testString")
-    .id("testString")
-    .action("approve")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<Void> response = transitGatewayApisService.createTransitGatewayConnectionActions(createTransitGatewayConnectionActionsOptionsModel).execute();
-    assertNotNull(response);
-    Void responseObj = response.getResult();
-    // Response does not have a return type. Check that the result is null.
-    assertNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "POST");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, createTransitGatewayConnectionActionsPath);
-  }
-  
-  public void testCreateTransitGatewayConnectionActionsWOptionsWRetries() throws Throwable {
-    // Enable retries and run testCreateTransitGatewayConnectionActionsWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testCreateTransitGatewayConnectionActionsWOptions();
-
-    // Disable retries and run testCreateTransitGatewayConnectionActionsWOptions.
-    transitGatewayApisService.disableRetries();
-    testCreateTransitGatewayConnectionActionsWOptions();
-  }  
-
-  // Test the createTransitGatewayConnectionActions operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testCreateTransitGatewayConnectionActionsNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.createTransitGatewayConnectionActions(null).execute();
-  }
-
-  @Test
-  public void testListGatewayLocationsWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"locations\": [{\"billing_location\": \"us\", \"name\": \"us-south\", \"type\": \"region\"}]}";
-    String listGatewayLocationsPath = "/locations";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the ListGatewayLocationsOptions model
-    ListGatewayLocationsOptions listGatewayLocationsOptionsModel = new ListGatewayLocationsOptions();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TSCollection> response = transitGatewayApisService.listGatewayLocations(listGatewayLocationsOptionsModel).execute();
-    assertNotNull(response);
-    TSCollection responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, listGatewayLocationsPath);
-  }
-  
-  public void testListGatewayLocationsWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListGatewayLocationsWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testListGatewayLocationsWOptions();
-
-    // Disable retries and run testListGatewayLocationsWOptions.
-    transitGatewayApisService.disableRetries();
-    testListGatewayLocationsWOptions();
-  }  
-
-  @Test
-  public void testGetGatewayLocationWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"billing_location\": \"us\", \"name\": \"us-south\", \"type\": \"region\", \"local_connection_locations\": [{\"display_name\": \"Dallas\", \"name\": \"us-south\", \"type\": \"region\"}]}";
-    String getGatewayLocationPath = "/locations/testString";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the GetGatewayLocationOptions model
-    GetGatewayLocationOptions getGatewayLocationOptionsModel = new GetGatewayLocationOptions.Builder()
-    .name("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<TSLocation> response = transitGatewayApisService.getGatewayLocation(getGatewayLocationOptionsModel).execute();
-    assertNotNull(response);
-    TSLocation responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, getGatewayLocationPath);
-  }
-  
-  public void testGetGatewayLocationWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetGatewayLocationWOptions.
-    transitGatewayApisService.enableRetries(4, 30);
-    testGetGatewayLocationWOptions();
-
-    // Disable retries and run testGetGatewayLocationWOptions.
-    transitGatewayApisService.disableRetries();
-    testGetGatewayLocationWOptions();
-  }  
-
-  // Test the getGatewayLocation operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testGetGatewayLocationNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    transitGatewayApisService.getGatewayLocation(null).execute();
   }
 
   /** Initialize the server */

@@ -12,6 +12,8 @@
  */
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
@@ -28,11 +30,15 @@ public class TSLocalLocation extends GenericModel {
   public interface Type {
     /** region. */
     String REGION = "region";
+    /** dc. */
+    String DC = "dc";
   }
 
   @SerializedName("display_name")
   protected String displayName;
   protected String name;
+  @SerializedName("supported_connection_types")
+  protected List<String> supportedConnectionTypes;
   protected String type;
 
   /**
@@ -55,6 +61,17 @@ public class TSLocalLocation extends GenericModel {
    */
   public String getName() {
     return name;
+  }
+
+  /**
+   * Gets the supportedConnectionTypes.
+   *
+   * Array of supported connection types.
+   *
+   * @return the supportedConnectionTypes
+   */
+  public List<String> getSupportedConnectionTypes() {
+    return supportedConnectionTypes;
   }
 
   /**
