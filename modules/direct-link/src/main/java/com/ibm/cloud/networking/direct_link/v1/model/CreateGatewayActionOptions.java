@@ -80,6 +80,11 @@ public class CreateGatewayActionOptions extends GenericModel {
     private ResourceGroupIdentity resourceGroup;
     private List<GatewayActionTemplateUpdatesItem> updates;
 
+    /**
+     * Instantiates a new Builder from an existing CreateGatewayActionOptions instance.
+     *
+     * @param createGatewayActionOptions the instance to initialize the Builder with
+     */
     private Builder(CreateGatewayActionOptions createGatewayActionOptions) {
       this.id = createGatewayActionOptions.id;
       this.action = createGatewayActionOptions.action;
@@ -263,6 +268,8 @@ public class CreateGatewayActionOptions extends GenericModel {
       return this;
     }
   }
+
+  protected CreateGatewayActionOptions() { }
 
   protected CreateGatewayActionOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,

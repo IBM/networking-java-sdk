@@ -13,9 +13,9 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -35,10 +35,12 @@ public class AsPrependTemplateTest {
       .length(Long.valueOf("4"))
       .policy("import")
       .prefix("172.17.0.0/16")
+      .specificPrefixes(java.util.Arrays.asList("192.168.3.0/24"))
       .build();
     assertEquals(asPrependTemplateModel.length(), Long.valueOf("4"));
     assertEquals(asPrependTemplateModel.policy(), "import");
     assertEquals(asPrependTemplateModel.prefix(), "172.17.0.0/16");
+    assertEquals(asPrependTemplateModel.specificPrefixes(), java.util.Arrays.asList("192.168.3.0/24"));
 
     String json = TestUtilities.serialize(asPrependTemplateModel);
 

@@ -68,6 +68,11 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     private String locationName;
     private GatewayMacsecConfigTemplate macsecConfig;
 
+    /**
+     * Instantiates a new Builder from an existing GatewayTemplateGatewayTypeDedicatedTemplate instance.
+     *
+     * @param gatewayTemplateGatewayTypeDedicatedTemplate the instance to initialize the Builder with
+     */
     public Builder(GatewayTemplate gatewayTemplateGatewayTypeDedicatedTemplate) {
       this.asPrepends = gatewayTemplateGatewayTypeDedicatedTemplate.asPrepends;
       this.authenticationKey = gatewayTemplateGatewayTypeDedicatedTemplate.authenticationKey;
@@ -370,6 +375,8 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       return this;
     }
   }
+
+  protected GatewayTemplateGatewayTypeDedicatedTemplate() { }
 
   protected GatewayTemplateGatewayTypeDedicatedTemplate(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.bgpAsn,

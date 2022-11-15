@@ -86,8 +86,7 @@ public class GatewayTemplate extends GenericModel {
   protected GatewayMacsecConfigTemplate macsecConfig;
   protected GatewayPortIdentity port;
 
-  protected GatewayTemplate() {
-  }
+  protected GatewayTemplate() { }
 
   /**
    * Gets the asPrepends.

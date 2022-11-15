@@ -13,9 +13,9 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +37,7 @@ public class AsPrependTest {
     assertNull(asPrependModel.getLength());
     assertNull(asPrependModel.getPolicy());
     assertNull(asPrependModel.getPrefix());
+    assertNull(asPrependModel.getSpecificPrefixes());
     assertNull(asPrependModel.getUpdatedAt());
   }
 }

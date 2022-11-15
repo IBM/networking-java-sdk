@@ -13,12 +13,13 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * AS Prepend.
+ * Gateway AS Prepend object.
  */
 public class AsPrepend extends GenericModel {
 
@@ -38,8 +39,12 @@ public class AsPrepend extends GenericModel {
   protected Long length;
   protected String policy;
   protected String prefix;
+  @SerializedName("specific_prefixes")
+  protected List<String> specificPrefixes;
   @SerializedName("updated_at")
   protected Date updatedAt;
+
+  protected AsPrepend() { }
 
   /**
    * Gets the createdAt.
@@ -94,6 +99,18 @@ public class AsPrepend extends GenericModel {
    */
   public String getPrefix() {
     return prefix;
+  }
+
+  /**
+   * Gets the specificPrefixes.
+   *
+   * Array of prefixes this AS Prepend applies to. This parameter is not returned when AS Prepend applies to all
+   * prefixes.  Note that ordering is not significant and may differ from request order.
+   *
+   * @return the specificPrefixes
+   */
+  public List<String> getSpecificPrefixes() {
+    return specificPrefixes;
   }
 
   /**

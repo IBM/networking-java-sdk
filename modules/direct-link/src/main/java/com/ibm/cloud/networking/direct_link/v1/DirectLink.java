@@ -12,13 +12,22 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.40.0-910cf8c2-20211006-154754
+ * IBM OpenAPI SDK Code Generator Version: 3.58.0-ac124633-20221004-152309
  */
 
 package com.ibm.cloud.networking.direct_link.v1;
 
 import com.google.gson.JsonObject;
+import com.ibm.cloud.sdk.core.http.RequestBuilder;
+import com.ibm.cloud.sdk.core.http.ResponseConverter;
+import com.ibm.cloud.sdk.core.http.ServiceCall;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
+import com.ibm.cloud.sdk.core.service.BaseService;
+import com.ibm.cloud.sdk.core.util.RequestUtils;
+import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import com.ibm.cloud.networking.common.SdkCommon;
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrependCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayCompletionNoticeOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
@@ -39,6 +48,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatusOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayAsPrependsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayLetterOfAuthorizationOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayRouteReportsOptions;
@@ -53,18 +63,11 @@ import com.ibm.cloud.networking.direct_link.v1.model.LocationCrossConnectRouterC
 import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeedCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.Port;
 import com.ibm.cloud.networking.direct_link.v1.model.PortCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayAsPrependsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
-import com.ibm.cloud.sdk.core.http.RequestBuilder;
-import com.ibm.cloud.sdk.core.http.ResponseConverter;
-import com.ibm.cloud.sdk.core.http.ServiceCall;
-import com.ibm.cloud.sdk.core.security.Authenticator;
-import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
-import com.ibm.cloud.sdk.core.service.BaseService;
-import com.ibm.cloud.sdk.core.util.RequestUtils;
-import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,8 +81,14 @@ import okhttp3.MultipartBody;
  */
 public class DirectLink extends BaseService {
 
+  /**
+   * Default service name used when configuring the `DirectLink` client.
+   */
   public static final String DEFAULT_SERVICE_NAME = "direct_link";
 
+  /**
+   * Default service endpoint URL.
+   */
   public static final String DEFAULT_SERVICE_URL = "https://directlink.cloud.ibm.com/v1";
 
   private String version;
@@ -147,6 +156,63 @@ public class DirectLink extends BaseService {
   public void setVersion(final String version) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(version, "version cannot be empty.");
     this.version = version;
+  }
+
+  /**
+   * List AS Prepends.
+   *
+   * Retrieve all AS Prepends for the specified Direct Link gateway.
+   *
+   * @param listGatewayAsPrependsOptions the {@link ListGatewayAsPrependsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
+   */
+  public ServiceCall<AsPrependCollection> listGatewayAsPrepends(ListGatewayAsPrependsOptions listGatewayAsPrependsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayAsPrependsOptions,
+      "listGatewayAsPrependsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", listGatewayAsPrependsOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayAsPrepends");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<AsPrependCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Replace existing AS Prepends.
+   *
+   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
+   * individual AS Prepend item is unchanged.
+   *
+   * @param replaceGatewayAsPrependsOptions the {@link ReplaceGatewayAsPrependsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
+   */
+  public ServiceCall<AsPrependCollection> replaceGatewayAsPrepends(ReplaceGatewayAsPrependsOptions replaceGatewayAsPrependsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(replaceGatewayAsPrependsOptions,
+      "replaceGatewayAsPrependsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", replaceGatewayAsPrependsOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "replaceGatewayAsPrepends");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.header("If-Match", replaceGatewayAsPrependsOptions.ifMatch());
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    if (replaceGatewayAsPrependsOptions.asPrepends() != null) {
+      contentJson.add("as_prepends", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(replaceGatewayAsPrependsOptions.asPrepends()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<AsPrependCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
   }
 
   /**

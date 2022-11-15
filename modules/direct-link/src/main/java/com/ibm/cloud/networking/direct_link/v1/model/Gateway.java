@@ -168,6 +168,8 @@ public class Gateway extends GenericModel {
   protected String type;
   protected Long vlan;
 
+  protected Gateway() { }
+
   /**
    * Gets the asPrepends.
    *

@@ -12,6 +12,10 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
@@ -32,6 +36,8 @@ public class AsPrependTemplate extends GenericModel {
   protected Long length;
   protected String policy;
   protected String prefix;
+  @SerializedName("specific_prefixes")
+  protected List<String> specificPrefixes;
 
   /**
    * Builder.
@@ -40,11 +46,18 @@ public class AsPrependTemplate extends GenericModel {
     private Long length;
     private String policy;
     private String prefix;
+    private List<String> specificPrefixes;
 
+    /**
+     * Instantiates a new Builder from an existing AsPrependTemplate instance.
+     *
+     * @param asPrependTemplate the instance to initialize the Builder with
+     */
     private Builder(AsPrependTemplate asPrependTemplate) {
       this.length = asPrependTemplate.length;
       this.policy = asPrependTemplate.policy;
       this.prefix = asPrependTemplate.prefix;
+      this.specificPrefixes = asPrependTemplate.specificPrefixes;
     }
 
     /**
@@ -71,6 +84,22 @@ public class AsPrependTemplate extends GenericModel {
      */
     public AsPrependTemplate build() {
       return new AsPrependTemplate(this);
+    }
+
+    /**
+     * Adds an specificPrefixes to specificPrefixes.
+     *
+     * @param specificPrefixes the new specificPrefixes
+     * @return the AsPrependTemplate builder
+     */
+    public Builder addSpecificPrefixes(String specificPrefixes) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(specificPrefixes,
+        "specificPrefixes cannot be null");
+      if (this.specificPrefixes == null) {
+        this.specificPrefixes = new ArrayList<String>();
+      }
+      this.specificPrefixes.add(specificPrefixes);
+      return this;
     }
 
     /**
@@ -105,7 +134,21 @@ public class AsPrependTemplate extends GenericModel {
       this.prefix = prefix;
       return this;
     }
+
+    /**
+     * Set the specificPrefixes.
+     * Existing specificPrefixes will be replaced.
+     *
+     * @param specificPrefixes the specificPrefixes
+     * @return the AsPrependTemplate builder
+     */
+    public Builder specificPrefixes(List<String> specificPrefixes) {
+      this.specificPrefixes = specificPrefixes;
+      return this;
+    }
   }
+
+  protected AsPrependTemplate() { }
 
   protected AsPrependTemplate(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.length,
@@ -115,6 +158,7 @@ public class AsPrependTemplate extends GenericModel {
     length = builder.length;
     policy = builder.policy;
     prefix = builder.prefix;
+    specificPrefixes = builder.specificPrefixes;
   }
 
   /**
@@ -129,7 +173,7 @@ public class AsPrependTemplate extends GenericModel {
   /**
    * Gets the length.
    *
-   * Number of times the ASN to appended to the AS Path.
+   * Number of times the ASN to be prepended to the AS Path.
    *
    * @return the length
    */
@@ -158,6 +202,17 @@ public class AsPrependTemplate extends GenericModel {
    */
   public String prefix() {
     return prefix;
+  }
+
+  /**
+   * Gets the specificPrefixes.
+   *
+   * Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
+   *
+   * @return the specificPrefixes
+   */
+  public List<String> specificPrefixes() {
+    return specificPrefixes;
   }
 }
 
