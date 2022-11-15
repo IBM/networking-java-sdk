@@ -691,7 +691,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	public void testConnectGatewayListASPrependsOptions() {
 		assertNotNull(testService);
 
-		// Construct an instance of the AsPrependTemplate model
+		// Construct an instance of the AsPrependTemplate model with Specific Prefixes
 		AsPrependTemplate asPrependTemplateModel = new AsPrependTemplate.Builder()
 		.length(Long.valueOf("4"))
 		.policy("import")
