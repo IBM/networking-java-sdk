@@ -1,3 +1,12 @@
+# [0.30.0](https://github.com/IBM/networking-java-sdk/compare/0.29.0...0.30.0) (2022-11-18)
+
+
+### Features
+
+* added AS-Prepends ([19779f4](https://github.com/IBM/networking-java-sdk/commit/19779f4ed9820ec9e9cc97e9a32d283e550d0c93))
+* **AS-Prepends:** added AS-Prepends ([3e6dd38](https://github.com/IBM/networking-java-sdk/commit/3e6dd388e61c60486a7cc2ac4ce9c642af489125))
+* **AS-Prepends:** added AS-Prepends latest ([a68c75d](https://github.com/IBM/networking-java-sdk/commit/a68c75d34e5e0a0a1fe7890c28ec68ccc1b8bd44))
+
 # [0.29.0](https://github.com/IBM/networking-java-sdk/compare/0.28.0...0.29.0) (2022-09-23)
 
 
