@@ -33,6 +33,12 @@ import java.sql.Timestamp;
 
 import java.text.SimpleDateFormat;
 
+
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrependCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrependEntry;
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrependPrefixArrayTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayCompletionNoticeOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayVirtualConnectionOptions;
@@ -51,6 +57,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCol
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayAsPrependsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayLetterOfAuthorizationOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayVirtualConnectionsOptions;
@@ -65,16 +72,24 @@ import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeedCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeed;
 import com.ibm.cloud.networking.direct_link.v1.model.Port;
 import com.ibm.cloud.networking.direct_link.v1.model.PortCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayAsPrependsOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdPatchTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatusOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayRouteReportOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayRouteReportsOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayRouteReportOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayRouteReportOptions;
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
+import com.ibm.cloud.sdk.core.service.exception.NotFoundException;
 // import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 // import com.ibm.cloud.networking.direct_link.v1.model.GatewayPatchTemplateAuthenticationKey;
 
@@ -91,6 +106,9 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	String firstPortId = null;
 	String classicVcId = null;
 	String vpcVcId = null;
+	String dedicatedGatewayId = null;
+	String connectGatewayId = null;
+	String eTag = null;
 
 	Map<String, String> config = null;
 
@@ -144,10 +162,46 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 	@AfterClass
 	public void cleanup() {
-		deleteGateways();
+		// First Clean Up the Virtual Connections
+		deleteVirtualConnection(connectGatewayId, classicVcId); 
+		deleteVirtualConnection(connectGatewayId, vpcVcId); 
+		classicVcId = null;
+		vpcVcId = null;
+
+		// After the VCs are cleaned up now clean up the GWs
+		// cleanUpSDKGateways();
+
+		
 	}
 	
-	private void deleteGateways() {
+	private void cleanUpSDKGateways() {
+		
+		// ************** Delete the Dedicated Gateway created in our tests ************* 
+		// Construct an instance of the DeleteGatewayOptions model
+		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(dedicatedGatewayId).build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<Void> Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
+		assertNotNull(Delresponse);
+		Void delResponseObj = Delresponse.getResult();
+		// Response does not have a return type. Check that the result is null.
+		assertNull(delResponseObj);
+		assertEquals(204, Delresponse.getStatusCode());
+		dedicatedGatewayId = null;
+
+		// ************** Delete the Connect Gateway created in our tests ************* 
+		// Construct an instance of the DeleteGatewayOptions model
+		deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(connectGatewayId).build();
+
+		// Invoke operation with valid options model (positive test)
+		Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
+		assertNotNull(Delresponse);
+		delResponseObj = Delresponse.getResult();
+		// Response does not have a return type. Check that the result is null.
+		assertNull(delResponseObj);
+		assertEquals(204, Delresponse.getStatusCode());
+		connectGatewayId = null;
+
 		// ********** List all gateways ************* 
 		ListGatewaysOptions listGatewaysOptionsModel = new ListGatewaysOptions();
 
@@ -196,13 +250,13 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 				}
 
 				// Delete the DL GW 
-				DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gateway.getId()).build();
-				Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
-				assertNotNull(Delresponse); 
-				assertEquals(204, Delresponse.getStatusCode());
+				DeleteGatewayOptions deleteGatewayOptionsModel1 = new DeleteGatewayOptions.Builder().id(gateway.getId()).build();
+				Response<Void>  Delresponse1 = testService.deleteGateway(deleteGatewayOptionsModel1).execute();
+				assertNotNull(Delresponse1); 
+				assertEquals(204, Delresponse1.getStatusCode());
 				
-				Void delResponseObj = Delresponse.getResult();
-				assertNull(delResponseObj);
+				Void delResponseObj1 = Delresponse1.getResult();
+				assertNull(delResponseObj1);
 			}
 		
 		}
@@ -270,6 +324,62 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		}
 
 		return portId;
+	}
+
+	private void isRouteReportAvailable(String gatewayId, String routeReportId) {
+		// Poll the gateway's route report to be completed
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			try {
+				// Query the virtual connection to see if it still exists.
+				GetGatewayRouteReportOptions getGatewayRouteReportOptions = new GetGatewayRouteReportOptions.Builder().gatewayId(gatewayId).id(routeReportId).build();
+				Response<RouteReport> response = testService.getGatewayRouteReport(getGatewayRouteReportOptions).execute();
+				assertEquals(200, response.getStatusCode());
+				RouteReport report = response.getResult();
+
+				// Check if the route report is completed within the specified time 
+				if (timerCount > 40) {
+						// Timed out.  Throw an error
+						assertEquals("complete", report.getStatus());
+						done = true;
+				} else {
+					++timerCount;
+					try {
+						Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+					} catch (InterruptedException e) {
+					// 
+					}
+				}
+			} catch (com.ibm.cloud.sdk.core.service.exception.NotFoundException nfe) {
+				// When the virtual connection no longer exists, this exception is thrown.
+				done = true;
+			}
+		}
+	}
+
+	private void checkRouteReportDeletion(GetGatewayRouteReportOptions routeReportOptions) throws InterruptedException {
+		int timer = 0;
+		while(true) {
+			// Invoke operation with valid options model (positive test)
+			try {
+				if (routeReportOptions != null) {
+					Response<RouteReport> rrGetResp = testService.getGatewayRouteReport(routeReportOptions).execute();
+					assertNotNull(rrGetResp); 
+				}
+			} catch (NotFoundException e) {
+				break;
+			}
+
+			Thread.sleep(10000);
+			timer = timer + 1;
+
+			// 4 min timer (24x10sec)
+			if(timer > 24) { 
+				break;
+			}
+	  	}
 	}
 	
 	@Test 
@@ -517,8 +627,16 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		String gatewayType = "connect";
 		String bgpBaseCidr = "169.254.0.0/16";
 
+		// Construct an instance of the AsPrependTemplate model
+		AsPrependTemplate asPrependTemplateModel = new AsPrependTemplate.Builder()
+		.length(Long.valueOf("4"))
+		.policy("import")
+		.specificPrefixes(java.util.Arrays.asList("192.168.3.0/24"))
+		.build();
+
 		GatewayPortIdentity gatewayPortIdentityModel = new GatewayPortIdentity.Builder().id(firstPortId).build();
 		GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeConnectTemplate.Builder()
+		.asPrepends(java.util.Arrays.asList(asPrependTemplateModel))
 				.bgpAsn(bgpAsn).global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
 				.port(gatewayPortIdentityModel).bgpBaseCidr(bgpBaseCidr).build();
 
@@ -535,13 +653,10 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		Gateway responseObj = response.getResult();
 		assertNotNull(responseObj);
 
-		gatewayId = responseObj.getId();
+		connectGatewayId = responseObj.getId();
 
-		// Before a connect gateway can be deleted, it must be in the "provisioned"
-		// state. This happens automagically, but we need to wait/poll for it.
-
-		// ********** Get the connect just created *************
-		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(gatewayId).build();
+		// ********** Wait for the GW to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(connectGatewayId).build();
 
 		boolean done = false;
 		int timerCount = 1;
@@ -558,7 +673,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
 				done = true;
 				break;
-			} else if (timerCount > 40) {
+			} else if (timerCount > 80) {
 				assertEquals("provisioned", responseObj.getOperationalStatus());
 				done = true;
 			} else {
@@ -570,63 +685,82 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 				}
 			}
 		}
-		
-		// Delete the connect GW 
-		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(responseObj.getId()) .build(); 
-		// Invoke operation with valid options model (positive test)
-		Response<Void> Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
-		assertNotNull(Delresponse);
-		assertEquals(204, Delresponse.getStatusCode());
-
-		Void delResponseObj = Delresponse.getResult();
-
-		// Response does not have a return type. Check that the result is null.
-		assertNull(delResponseObj);
-		gatewayId = null; // already cleaned up 
 	}
+
+	@Test(dependsOnMethods = "testConnectGatewayOptions")
+	public void testConnectGatewayListASPrependsOptions() {
+		assertNotNull(testService);
+
+		// Construct an instance of the AsPrependTemplate model with Specific Prefixes
+		AsPrependTemplate asPrependTemplateModel = new AsPrependTemplate.Builder()
+		.length(Long.valueOf("4"))
+		.policy("import")
+		.specificPrefixes(java.util.Arrays.asList("192.168.3.0/24"))
+		.build();
+
+		// Construct an instance of the ListGatewayAsPrependsOptions model
+		ListGatewayAsPrependsOptions listGatewayAsPrependsOptionsModel = new ListGatewayAsPrependsOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.build();
+  
+	  // Invoke listGatewayAsPrepends() with a valid options model and verify the result
+	  Response<AsPrependCollection> response = testService.listGatewayAsPrepends(listGatewayAsPrependsOptionsModel).execute();
+	  assertNotNull(response);
+	  // System.out.println("List of headers " + response.getHeaders().values("etag"));
+	  AsPrependCollection responseObj = response.getResult();
+	  assertNotNull(responseObj);
+	  eTag = response.getHeaders().values("etag").get(0);
+  
+	  // Verify the contents of the request sent to the mock server
+	  
+	  // Verify request path
+	  AsPrependEntry as = responseObj.getAsPrepends().get(0);
+	  assertEquals(asPrependTemplateModel.length(), as.getLength());
+	  assertEquals(asPrependTemplateModel.policy(), as.getPolicy());
+	  assertEquals(asPrependTemplateModel.specificPrefixes(), as.getSpecificPrefixes());
+	}
+
+	@Test(dependsOnMethods = "testConnectGatewayOptions")
+  	public void testConnectGatewayReplaceAsPrependsWOptions() {
+		assertNotNull(testService);
+		// Construct an instance of the AsPrependPrefixArrayTemplate model
+		AsPrependPrefixArrayTemplate asPrependPrefixArrayTemplateModel = new AsPrependPrefixArrayTemplate.Builder()
+		.length(Long.valueOf("5"))
+		.policy("export")
+		.specificPrefixes(java.util.Arrays.asList("10.10.10.0/24"))
+		.build();
+
+		// Construct an instance of the ReplaceGatewayAsPrependsOptions model
+		ReplaceGatewayAsPrependsOptions replaceGatewayAsPrependsOptionsModel = new ReplaceGatewayAsPrependsOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.ifMatch(eTag)
+		.asPrepends(java.util.Arrays.asList(asPrependPrefixArrayTemplateModel))
+		.build();
+
+		// Invoke replaceGatewayAsPrepends() with a valid options model and verify the result
+		Response<AsPrependCollection> response = testService.replaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel).execute();
+		assertNotNull(response);
+		AsPrependCollection responseObj = response.getResult();
+		assertNotNull(responseObj);
+
+		// Verify the contents of the request sent to the mock server
+		AsPrependEntry as = responseObj.getAsPrepends().get(0);
+	  	assertEquals(asPrependPrefixArrayTemplateModel.length(), as.getLength());
+	  	assertEquals(asPrependPrefixArrayTemplateModel.policy(), as.getPolicy());
+	  	assertEquals(asPrependPrefixArrayTemplateModel.specificPrefixes(), as.getSpecificPrefixes());
+    
+  }
 	
 	@Test (dependsOnMethods = "testConnectGatewayOptions")
 	public void testVirtualConnection() {
 		assertNotNull(testService);
-		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
-
-		String locationName = config.get("LOCATION_NAME");// "dal09";//read this from env file
-		String gatewayName = "JAVA-INT-SDK-VC-" + timestamp;
-		Long bgpAsn = 64999L;
-		String bgpBaseCidr = "169.254.0.0/16";
-		String crossConnectRouter = "LAB-xcr01.dal09";
-		boolean global = true;
-		Long speedMbps = 1000L;
-		boolean metered = false;
-		String carrierName = "carrier1";
-		String customerName = "customer1";
-		String gatewayType = "dedicated";
-
-		// ********** Create a dedicated gateway *************
-		GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
-				.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
-				.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName)
-				.locationName(locationName).build();
-		
-		// Construct an instance of the CreateGatewayOptions model
-		CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder()
-				.gatewayTemplate(gatewayTemplateModel).build();
-
-		// Invoke operation with valid options model (positive test)
-		Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
-		assertNotNull(response);
-		assertEquals(201, response.getStatusCode());
-		Gateway responseObj = response.getResult();
-		assertNotNull(responseObj);
-		
-		gatewayId = responseObj.getId();
 
 		String crn = config.get("GEN2_VPC_CRN");
 
 		// ********** Create a VPC virtual connection *************
 		// Construct an instance of the CreateGatewayVirtualConnectionOptions model
 		CreateGatewayVirtualConnectionOptions createGatewayVirtualConnectionOptionsModel = new CreateGatewayVirtualConnectionOptions.Builder()
-			.gatewayId(gatewayId).name("JAVA-INT-SDK-VPC-VC").type("vpc").networkId(crn).build();
+			.gatewayId(connectGatewayId).name("JAVA-INT-SDK-VPC-VC").type("vpc").networkId(crn).build();
 
 		// Invoke operation with valid options model (positive test)
 		Response<GatewayVirtualConnection> createResp = testService
@@ -643,7 +777,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// ********** Create a Classic virtual connection *************
 		// Construct an instance of the CreateGatewayVirtualConnectionOptions model
 		createGatewayVirtualConnectionOptionsModel = new CreateGatewayVirtualConnectionOptions.Builder()
-			.gatewayId(gatewayId).name("JAVA-INT-SDK-CLASSIC-VC").type("classic").build();
+			.gatewayId(connectGatewayId).name("JAVA-INT-SDK-CLASSIC-VC").type("classic").build();
 
 		// Invoke operation with valid options model (positive test)
 		createResp = testService.createGatewayVirtualConnection(createGatewayVirtualConnectionOptionsModel).execute();
@@ -659,7 +793,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// ********** List all the VCs (should be 2) *************
 		// Construct an instance of the ListGatewayVirtualConnectionsOptions model
 		ListGatewayVirtualConnectionsOptions listGatewayVirtualConnectionsOptionsModel = new ListGatewayVirtualConnectionsOptions.Builder()
-				.gatewayId(gatewayId).build();
+				.gatewayId(connectGatewayId).build();
 
 		// Invoke operation with valid options model (positive test)
 		Response<GatewayVirtualConnectionCollection> resp = testService
@@ -674,7 +808,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// ********** GET both of the virtual connections attached to the gateway
 		// Construct an instance of the GetGatewayVirtualConnectionOptions model
 		GetGatewayVirtualConnectionOptions getGatewayVirtualConnectionOptionsModel = new GetGatewayVirtualConnectionOptions.Builder()
-				.gatewayId(gatewayId).id(vpcVcId).build();
+				.gatewayId(connectGatewayId).id(vpcVcId).build();
 
 		// Invoke operation with valid options model (positive test)
 		Response<GatewayVirtualConnection> VCResponse = testService
@@ -687,7 +821,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// ********** GET each of the virtual connections attached to the gateway
 		// Construct an instance of the GetGatewayVirtualConnectionOptions model
 		getGatewayVirtualConnectionOptionsModel = new GetGatewayVirtualConnectionOptions.Builder()
-			.gatewayId(gatewayId).id(classicVcId).build();
+			.gatewayId(connectGatewayId).id(classicVcId).build();
 
 		// Invoke operation with valid options model (positive test)
 		VCResponse = testService.getGatewayVirtualConnection(getGatewayVirtualConnectionOptionsModel).execute();
@@ -699,7 +833,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// ********* Update VPC virtual connection using an attribute that can be changed ************
 		// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 		UpdateGatewayVirtualConnectionOptions updateGatewayVirtualConnectionOptionsModel = new UpdateGatewayVirtualConnectionOptions.Builder()
-			.gatewayId(gatewayId).id(vpcVcId).name("JAVA-INT-SDK-VPC-VC-PATCH").build();
+			.gatewayId(connectGatewayId).id(vpcVcId).name("JAVA-INT-SDK-VPC-VC-PATCH").build();
 
 		// Invoke operation with valid options model (positive test)
 		Response<GatewayVirtualConnection> updateResponse = testService
@@ -712,7 +846,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// ********* Update VPC virtual connection using a valid attribute that can not be changed because the VC does not span accounts requiring a status approval ************
 		// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 		updateGatewayVirtualConnectionOptionsModel = new UpdateGatewayVirtualConnectionOptions.Builder()
-				.gatewayId(gatewayId).id(vpcVcId).status("rejected").build();
+				.gatewayId(connectGatewayId).id(vpcVcId).status("rejected").build();
 
 		// Invoke operation with valid options model (positive test) 
 		try { 
@@ -725,15 +859,15 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		}
 
 		//************************** Delete virtual connections *********************
-		deleteVirtualConnection(gatewayId, classicVcId); 
-		deleteVirtualConnection(gatewayId, vpcVcId); 
+		deleteVirtualConnection(connectGatewayId, classicVcId); 
+		deleteVirtualConnection(connectGatewayId, vpcVcId); 
 
 		classicVcId = null;
 		vpcVcId = null;
 
 		// delete the gateway
 		// Construct an instance of the DeleteGatewayOptions model
-		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId).build();
+		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(connectGatewayId).build();
 
 		// Invoke operation with valid options model (positive test)
 		Response<Void> Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
@@ -741,7 +875,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		Void delResponseObj = Delresponse.getResult();
 		// Response does not have a return type. Check that the result is null.
 		assertNull(delResponseObj);
-		gatewayId = null;
+		connectGatewayId = null;
 	}
 
 	@Test (dependsOnMethods = "testVirtualConnection")

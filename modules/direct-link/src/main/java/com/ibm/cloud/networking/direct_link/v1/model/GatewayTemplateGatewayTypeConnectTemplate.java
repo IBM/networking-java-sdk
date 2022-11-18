@@ -64,6 +64,11 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
     private String type;
     private GatewayPortIdentity port;
 
+    /**
+     * Instantiates a new Builder from an existing GatewayTemplateGatewayTypeConnectTemplate instance.
+     *
+     * @param gatewayTemplateGatewayTypeConnectTemplate the instance to initialize the Builder with
+     */
     public Builder(GatewayTemplate gatewayTemplateGatewayTypeConnectTemplate) {
       this.asPrepends = gatewayTemplateGatewayTypeConnectTemplate.asPrepends;
       this.authenticationKey = gatewayTemplateGatewayTypeConnectTemplate.authenticationKey;
@@ -312,6 +317,8 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
       return this;
     }
   }
+
+  protected GatewayTemplateGatewayTypeConnectTemplate() { }
 
   protected GatewayTemplateGatewayTypeConnectTemplate(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.bgpAsn,

@@ -19,9 +19,9 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Gateway AS Prepend object.
+ * AS Prepends API object.
  */
-public class AsPrepend extends GenericModel {
+public class AsPrependEntry extends GenericModel {
 
   /**
    * Route type this AS Prepend applies to.
@@ -38,13 +38,12 @@ public class AsPrepend extends GenericModel {
   protected String id;
   protected Long length;
   protected String policy;
-  protected String prefix;
   @SerializedName("specific_prefixes")
   protected List<String> specificPrefixes;
   @SerializedName("updated_at")
   protected Date updatedAt;
 
-  protected AsPrepend() { }
+  protected AsPrependEntry() { }
 
   /**
    * Gets the createdAt.
@@ -88,17 +87,6 @@ public class AsPrepend extends GenericModel {
    */
   public String getPolicy() {
     return policy;
-  }
-
-  /**
-   * Gets the prefix.
-   *
-   * Comma separated list of prefixes this AS Prepend applies to.  If empty, this applies to all prefixes.
-   *
-   * @return the prefix
-   */
-  public String getPrefix() {
-    return prefix;
   }
 
   /**

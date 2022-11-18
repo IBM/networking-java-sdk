@@ -14,14 +14,7 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
-import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayAsPrependsOptions;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -30,16 +23,23 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the GatewayTemplate model.
+ * Unit test class for the ListGatewayAsPrependsOptions model.
  */
-public class GatewayTemplateTest {
+public class ListGatewayAsPrependsOptionsTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
-  // TODO: Add tests for models that are abstract
   @Test
-  public void testGatewayTemplate() throws Throwable {
-    GatewayTemplate gatewayTemplateModel = new GatewayTemplate();
-    assertNotNull(gatewayTemplateModel);
+  public void testListGatewayAsPrependsOptions() throws Throwable {
+    ListGatewayAsPrependsOptions listGatewayAsPrependsOptionsModel = new ListGatewayAsPrependsOptions.Builder()
+      .gatewayId("testString")
+      .build();
+    assertEquals(listGatewayAsPrependsOptionsModel.gatewayId(), "testString");
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListGatewayAsPrependsOptionsError() throws Throwable {
+    new ListGatewayAsPrependsOptions.Builder().build();
+  }
+
 }

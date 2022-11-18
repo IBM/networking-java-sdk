@@ -21,7 +21,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 /**
  * Create AS Prepend Configuration template.
  */
-public class AsPrependTemplate extends GenericModel {
+public class AsPrependPrefixArrayTemplate extends GenericModel {
 
   /**
    * Route type this AS Prepend applies to.
@@ -35,7 +35,6 @@ public class AsPrependTemplate extends GenericModel {
 
   protected Long length;
   protected String policy;
-  protected String prefix;
   @SerializedName("specific_prefixes")
   protected List<String> specificPrefixes;
 
@@ -45,19 +44,17 @@ public class AsPrependTemplate extends GenericModel {
   public static class Builder {
     private Long length;
     private String policy;
-    private String prefix;
     private List<String> specificPrefixes;
 
     /**
-     * Instantiates a new Builder from an existing AsPrependTemplate instance.
+     * Instantiates a new Builder from an existing AsPrependPrefixArrayTemplate instance.
      *
-     * @param asPrependTemplate the instance to initialize the Builder with
+     * @param asPrependPrefixArrayTemplate the instance to initialize the Builder with
      */
-    private Builder(AsPrependTemplate asPrependTemplate) {
-      this.length = asPrependTemplate.length;
-      this.policy = asPrependTemplate.policy;
-      this.prefix = asPrependTemplate.prefix;
-      this.specificPrefixes = asPrependTemplate.specificPrefixes;
+    private Builder(AsPrependPrefixArrayTemplate asPrependPrefixArrayTemplate) {
+      this.length = asPrependPrefixArrayTemplate.length;
+      this.policy = asPrependPrefixArrayTemplate.policy;
+      this.specificPrefixes = asPrependPrefixArrayTemplate.specificPrefixes;
     }
 
     /**
@@ -78,19 +75,19 @@ public class AsPrependTemplate extends GenericModel {
     }
 
     /**
-     * Builds a AsPrependTemplate.
+     * Builds a AsPrependPrefixArrayTemplate.
      *
-     * @return the new AsPrependTemplate instance
+     * @return the new AsPrependPrefixArrayTemplate instance
      */
-    public AsPrependTemplate build() {
-      return new AsPrependTemplate(this);
+    public AsPrependPrefixArrayTemplate build() {
+      return new AsPrependPrefixArrayTemplate(this);
     }
 
     /**
      * Adds an specificPrefixes to specificPrefixes.
      *
      * @param specificPrefixes the new specificPrefixes
-     * @return the AsPrependTemplate builder
+     * @return the AsPrependPrefixArrayTemplate builder
      */
     public Builder addSpecificPrefixes(String specificPrefixes) {
       com.ibm.cloud.sdk.core.util.Validator.notNull(specificPrefixes,
@@ -106,7 +103,7 @@ public class AsPrependTemplate extends GenericModel {
      * Set the length.
      *
      * @param length the length
-     * @return the AsPrependTemplate builder
+     * @return the AsPrependPrefixArrayTemplate builder
      */
     public Builder length(long length) {
       this.length = length;
@@ -117,21 +114,10 @@ public class AsPrependTemplate extends GenericModel {
      * Set the policy.
      *
      * @param policy the policy
-     * @return the AsPrependTemplate builder
+     * @return the AsPrependPrefixArrayTemplate builder
      */
     public Builder policy(String policy) {
       this.policy = policy;
-      return this;
-    }
-
-    /**
-     * Set the prefix.
-     *
-     * @param prefix the prefix
-     * @return the AsPrependTemplate builder
-     */
-    public Builder prefix(String prefix) {
-      this.prefix = prefix;
       return this;
     }
 
@@ -140,7 +126,7 @@ public class AsPrependTemplate extends GenericModel {
      * Existing specificPrefixes will be replaced.
      *
      * @param specificPrefixes the specificPrefixes
-     * @return the AsPrependTemplate builder
+     * @return the AsPrependPrefixArrayTemplate builder
      */
     public Builder specificPrefixes(List<String> specificPrefixes) {
       this.specificPrefixes = specificPrefixes;
@@ -148,23 +134,22 @@ public class AsPrependTemplate extends GenericModel {
     }
   }
 
-  protected AsPrependTemplate() { }
+  protected AsPrependPrefixArrayTemplate() { }
 
-  protected AsPrependTemplate(Builder builder) {
+  protected AsPrependPrefixArrayTemplate(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.length,
       "length cannot be null");
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.policy,
       "policy cannot be null");
     length = builder.length;
     policy = builder.policy;
-    prefix = builder.prefix;
     specificPrefixes = builder.specificPrefixes;
   }
 
   /**
    * New builder.
    *
-   * @return a AsPrependTemplate builder
+   * @return a AsPrependPrefixArrayTemplate builder
    */
   public Builder newBuilder() {
     return new Builder(this);
@@ -193,21 +178,10 @@ public class AsPrependTemplate extends GenericModel {
   }
 
   /**
-   * Gets the prefix.
-   *
-   * Comma separated list of prefixes this AS Prepend applies to.  Maximum of 10 prefixes.  If not specified, this AS
-   * Prepend applies to all prefixes.
-   *
-   * @return the prefix
-   */
-  public String prefix() {
-    return prefix;
-  }
-
-  /**
    * Gets the specificPrefixes.
    *
    * Array of prefixes this AS Prepend applies to. If this property is absent, the AS Prepend applies to all prefixes.
+   * Note that ordering is not significant and may differ from request order.
    *
    * @return the specificPrefixes
    */

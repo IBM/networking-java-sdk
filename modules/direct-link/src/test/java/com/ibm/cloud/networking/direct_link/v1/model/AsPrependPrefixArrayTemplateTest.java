@@ -14,7 +14,7 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrependPrefixArrayTemplate;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -23,37 +23,34 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the AsPrependTemplate model.
+ * Unit test class for the AsPrependPrefixArrayTemplate model.
  */
-public class AsPrependTemplateTest {
+public class AsPrependPrefixArrayTemplateTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testAsPrependTemplate() throws Throwable {
-    AsPrependTemplate asPrependTemplateModel = new AsPrependTemplate.Builder()
+  public void testAsPrependPrefixArrayTemplate() throws Throwable {
+    AsPrependPrefixArrayTemplate asPrependPrefixArrayTemplateModel = new AsPrependPrefixArrayTemplate.Builder()
       .length(Long.valueOf("4"))
       .policy("import")
-      .prefix("172.17.0.0/16")
       .specificPrefixes(java.util.Arrays.asList("192.168.3.0/24"))
       .build();
-    assertEquals(asPrependTemplateModel.length(), Long.valueOf("4"));
-    assertEquals(asPrependTemplateModel.policy(), "import");
-    assertEquals(asPrependTemplateModel.prefix(), "172.17.0.0/16");
-    assertEquals(asPrependTemplateModel.specificPrefixes(), java.util.Arrays.asList("192.168.3.0/24"));
+    assertEquals(asPrependPrefixArrayTemplateModel.length(), Long.valueOf("4"));
+    assertEquals(asPrependPrefixArrayTemplateModel.policy(), "import");
+    assertEquals(asPrependPrefixArrayTemplateModel.specificPrefixes(), java.util.Arrays.asList("192.168.3.0/24"));
 
-    String json = TestUtilities.serialize(asPrependTemplateModel);
+    String json = TestUtilities.serialize(asPrependPrefixArrayTemplateModel);
 
-    AsPrependTemplate asPrependTemplateModelNew = TestUtilities.deserialize(json, AsPrependTemplate.class);
-    assertTrue(asPrependTemplateModelNew instanceof AsPrependTemplate);
-    assertEquals(asPrependTemplateModelNew.length(), Long.valueOf("4"));
-    assertEquals(asPrependTemplateModelNew.policy(), "import");
-    assertEquals(asPrependTemplateModelNew.prefix(), "172.17.0.0/16");
+    AsPrependPrefixArrayTemplate asPrependPrefixArrayTemplateModelNew = TestUtilities.deserialize(json, AsPrependPrefixArrayTemplate.class);
+    assertTrue(asPrependPrefixArrayTemplateModelNew instanceof AsPrependPrefixArrayTemplate);
+    assertEquals(asPrependPrefixArrayTemplateModelNew.length(), Long.valueOf("4"));
+    assertEquals(asPrependPrefixArrayTemplateModelNew.policy(), "import");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testAsPrependTemplateError() throws Throwable {
-    new AsPrependTemplate.Builder().build();
+  public void testAsPrependPrefixArrayTemplateError() throws Throwable {
+    new AsPrependPrefixArrayTemplate.Builder().build();
   }
 
 }
