@@ -34,8 +34,12 @@ public class TransitConnection extends GenericModel {
     String DIRECTLINK = "directlink";
     /** gre_tunnel. */
     String GRE_TUNNEL = "gre_tunnel";
+    /** unbound_gre_tunnel. */
+    String UNBOUND_GRE_TUNNEL = "unbound_gre_tunnel";
     /** vpc. */
     String VPC = "vpc";
+    /** power_virtual_server. */
+    String POWER_VIRTUAL_SERVER = "power_virtual_server";
   }
 
   /**
@@ -83,6 +87,10 @@ public class TransitConnection extends GenericModel {
     String DETACHING = "detaching";
     /** detached. */
     String DETACHED = "detached";
+    /** suspending. */
+    String SUSPENDING = "suspending";
+    /** suspended. */
+    String SUSPENDED = "suspended";
   }
 
   @SerializedName("base_connection_id")
@@ -229,9 +237,9 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the networkId.
    *
-   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc' and
-   * 'directlink'. For network types 'vpc' and 'directlink' it should be the CRN of the target vpc / gateway
-   * respectively.
+   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
+   * 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink' this is
+   * the CRN of the VPC / PowerVS / Direct Link gateway respectively.
    *
    * @return the networkId
    */

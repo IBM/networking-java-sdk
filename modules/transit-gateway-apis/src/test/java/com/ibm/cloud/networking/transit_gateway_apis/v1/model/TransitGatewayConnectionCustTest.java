@@ -35,6 +35,7 @@ public class TransitGatewayConnectionCustTest {
   @Test
   public void testTransitGatewayConnectionCust() throws Throwable {
     TransitGatewayConnectionCust transitGatewayConnectionCustModel = new TransitGatewayConnectionCust();
+    assertNull(transitGatewayConnectionCustModel.getBaseNetworkType());
     assertNull(transitGatewayConnectionCustModel.getName());
     assertNull(transitGatewayConnectionCustModel.getNetworkId());
     assertNull(transitGatewayConnectionCustModel.getNetworkType());

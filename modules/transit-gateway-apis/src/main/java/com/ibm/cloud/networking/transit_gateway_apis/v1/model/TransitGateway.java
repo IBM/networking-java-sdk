@@ -35,6 +35,10 @@ public class TransitGateway extends GenericModel {
     String PENDING = "pending";
     /** deleting. */
     String DELETING = "deleting";
+    /** suspending. */
+    String SUSPENDING = "suspending";
+    /** suspended. */
+    String SUSPENDED = "suspended";
   }
 
   protected String id;

@@ -15,7 +15,7 @@ package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
+ * Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
  */
 public class TransitGatewayConnectionCustZone extends GenericModel {
 
