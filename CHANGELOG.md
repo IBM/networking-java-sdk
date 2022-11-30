@@ -1,3 +1,10 @@
+# [0.31.0](https://github.com/IBM/networking-java-sdk/compare/0.30.0...0.31.0) (2022-11-30)
+
+
+### Features
+
+* adding unbound GRE related changes ([#60](https://github.com/IBM/networking-java-sdk/issues/60)) ([f4f82fb](https://github.com/IBM/networking-java-sdk/commit/f4f82fbc1ed34dd798a2a515d1dad6b5f317c7b8))
+
 # [0.30.0](https://github.com/IBM/networking-java-sdk/compare/0.29.0...0.30.0) (2022-11-18)
 
 
