@@ -39,7 +39,7 @@ before_install:
 jobs:
   include:
     - stage: Build-Test
-      jdk: openjdk8
+      jdk: openjdk11
       install: true
       script:
         - build/setMavenVersion.sh
@@ -60,7 +60,7 @@ jobs:
         - npx semantic-release
 
     - stage: Publish-Release
-      jdk: openjdk8
+      jdk: openjdk11
       name: Publish-Javadoc
       install: true
       script:
@@ -70,7 +70,7 @@ jobs:
       after_success:
         - echo "Javadocs successfully published to gh-pages!"
 
-    - jdk: openjdk8
+    - jdk: openjdk11
       name: Publish-To-Maven-Central
       install: true
       script:
