@@ -29,7 +29,7 @@
         <sdk-core-version>9.13.3</sdk-core-version>
         <git-repository-name>networking-java-sdk</git-repository-name>
 
-        <testng-version>7.5.0</testng-version>
+        <testng-version>7.4.0</testng-version>
         <okhttp3-version>4.9.0</okhttp3-version>
         <surefire-version>3.0.0-M3</surefire-version>
         <jacoco-plugin-version>0.8.5</jacoco-plugin-version>
