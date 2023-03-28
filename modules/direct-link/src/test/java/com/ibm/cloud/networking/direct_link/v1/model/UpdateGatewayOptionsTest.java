@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,6 +13,7 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdPatchTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplateFallbackCak;
@@ -20,7 +21,6 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTem
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPatchTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -70,13 +70,15 @@ public class UpdateGatewayOptionsTest {
     assertEquals(gatewayMacsecConfigPatchTemplateModel.windowSize(), Long.valueOf("512"));
 
     UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
-      .id("testString")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
       .authenticationKey(gatewayPatchTemplateAuthenticationKeyModel)
       .bfdConfig(gatewayBfdPatchTemplateModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpCerCidr("169.254.0.10/30")
       .bgpIbmCidr("169.254.0.9/30")
       .connectionMode("transit")
+      .defaultExportRouteFilter("permit")
+      .defaultImportRouteFilter("permit")
       .global(true)
       .loaRejectReason("The port mentioned was incorrect")
       .macsecConfig(gatewayMacsecConfigPatchTemplateModel)
@@ -86,13 +88,15 @@ public class UpdateGatewayOptionsTest {
       .patchPanelCompletionNotice("patch panel configuration details")
       .speedMbps(Long.valueOf("1000"))
       .build();
-    assertEquals(updateGatewayOptionsModel.id(), "testString");
+    assertEquals(updateGatewayOptionsModel.id(), "0a06fb9b-820f-4c44-8a31-77f1f0806d28");
     assertEquals(updateGatewayOptionsModel.authenticationKey(), gatewayPatchTemplateAuthenticationKeyModel);
     assertEquals(updateGatewayOptionsModel.bfdConfig(), gatewayBfdPatchTemplateModel);
     assertEquals(updateGatewayOptionsModel.bgpAsn(), Long.valueOf("64999"));
     assertEquals(updateGatewayOptionsModel.bgpCerCidr(), "169.254.0.10/30");
     assertEquals(updateGatewayOptionsModel.bgpIbmCidr(), "169.254.0.9/30");
     assertEquals(updateGatewayOptionsModel.connectionMode(), "transit");
+    assertEquals(updateGatewayOptionsModel.defaultExportRouteFilter(), "permit");
+    assertEquals(updateGatewayOptionsModel.defaultImportRouteFilter(), "permit");
     assertEquals(updateGatewayOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(updateGatewayOptionsModel.loaRejectReason(), "The port mentioned was incorrect");
     assertEquals(updateGatewayOptionsModel.macsecConfig(), gatewayMacsecConfigPatchTemplateModel);
