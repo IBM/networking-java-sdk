@@ -1,3 +1,15 @@
+# [0.32.0](https://github.com/IBM/networking-java-sdk/compare/0.31.1...0.32.0) (2023-03-28)
+
+
+### Features
+
+* added BGP Route Filtering ([431a780](https://github.com/IBM/networking-java-sdk/commit/431a7809d94c48039f6f404558b37e861c4be961))
+* added BGP Route Filtering ([3f407e3](https://github.com/IBM/networking-java-sdk/commit/3f407e3be9a79b8a35ad223548e1c064da43d2af))
+* added BGP Route Filtering ([c033c90](https://github.com/IBM/networking-java-sdk/commit/c033c903a70b66e1deba5f7e0b04ac8665787f3e))
+* added BGP Route Filtering ([fed5965](https://github.com/IBM/networking-java-sdk/commit/fed5965113ffe0dab5b9ed367ad0589af4e6ba3e))
+* added BGP Route Filtering ([0bd8c79](https://github.com/IBM/networking-java-sdk/commit/0bd8c7957e10a2ea3e7f29b476fa0fc2da1c0af0))
+* added BGP Route Filtering ([f458aa8](https://github.com/IBM/networking-java-sdk/commit/f458aa88296d82ed387d8971d4dfd692d1a95f0c))
+
 ## [0.31.1](https://github.com/IBM/networking-java-sdk/compare/0.31.0...0.31.1) (2022-12-13)
 
 
