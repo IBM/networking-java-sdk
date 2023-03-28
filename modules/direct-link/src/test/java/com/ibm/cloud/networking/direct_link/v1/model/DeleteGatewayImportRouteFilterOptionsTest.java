@@ -14,7 +14,7 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRoute;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -23,16 +23,25 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the RouteReportOverlappingRoute model.
+ * Unit test class for the DeleteGatewayImportRouteFilterOptions model.
  */
-public class RouteReportOverlappingRouteTest {
+public class DeleteGatewayImportRouteFilterOptionsTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
-  // TODO: Add tests for models that are abstract
   @Test
-  public void testRouteReportOverlappingRoute() throws Throwable {
-    RouteReportOverlappingRoute routeReportOverlappingRouteModel = new RouteReportOverlappingRoute();
-    assertNotNull(routeReportOverlappingRouteModel);
+  public void testDeleteGatewayImportRouteFilterOptions() throws Throwable {
+    DeleteGatewayImportRouteFilterOptions deleteGatewayImportRouteFilterOptionsModel = new DeleteGatewayImportRouteFilterOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+    assertEquals(deleteGatewayImportRouteFilterOptionsModel.gatewayId(), "0a06fb9b-820f-4c44-8a31-77f1f0806d28");
+    assertEquals(deleteGatewayImportRouteFilterOptionsModel.id(), "0a06fb9b-820f-4c44-8a31-77f1f0806d28");
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteGatewayImportRouteFilterOptionsError() throws Throwable {
+    new DeleteGatewayImportRouteFilterOptions.Builder().build();
+  }
+
 }

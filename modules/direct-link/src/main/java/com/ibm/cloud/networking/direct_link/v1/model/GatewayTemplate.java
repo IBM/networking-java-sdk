@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -39,6 +39,26 @@ public class GatewayTemplate extends GenericModel {
   }
 
   /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultExportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
+  /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultImportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
+  /**
    * Offering type.
    */
   public interface Type {
@@ -64,7 +84,15 @@ public class GatewayTemplate extends GenericModel {
   protected String bgpIbmCidr;
   @SerializedName("connection_mode")
   protected String connectionMode;
+  @SerializedName("default_export_route_filter")
+  protected String defaultExportRouteFilter;
+  @SerializedName("default_import_route_filter")
+  protected String defaultImportRouteFilter;
+  @SerializedName("export_route_filters")
+  protected List<GatewayTemplateRouteFilter> exportRouteFilters;
   protected Boolean global;
+  @SerializedName("import_route_filters")
+  protected List<GatewayTemplateRouteFilter> importRouteFilters;
   protected Boolean metered;
   protected String name;
   @SerializedName("patch_panel_completion_notice")
@@ -201,6 +229,40 @@ public class GatewayTemplate extends GenericModel {
   }
 
   /**
+   * Gets the defaultExportRouteFilter.
+   *
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   *
+   * @return the defaultExportRouteFilter
+   */
+  public String defaultExportRouteFilter() {
+    return defaultExportRouteFilter;
+  }
+
+  /**
+   * Gets the defaultImportRouteFilter.
+   *
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   *
+   * @return the defaultImportRouteFilter
+   */
+  public String defaultImportRouteFilter() {
+    return defaultImportRouteFilter;
+  }
+
+  /**
+   * Gets the exportRouteFilters.
+   *
+   * Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+   * filters, the order of the items in the array will set the ordering of the list of route filters.
+   *
+   * @return the exportRouteFilters
+   */
+  public List<GatewayTemplateRouteFilter> exportRouteFilters() {
+    return exportRouteFilters;
+  }
+
+  /**
    * Gets the global.
    *
    * Gateways with global routing (`true`) can connect to networks outside their associated region.
@@ -209,6 +271,18 @@ public class GatewayTemplate extends GenericModel {
    */
   public Boolean global() {
     return global;
+  }
+
+  /**
+   * Gets the importRouteFilters.
+   *
+   * Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+   * filters, the order of the items in the array will set the ordering of the list of route filters.
+   *
+   * @return the importRouteFilters
+   */
+  public List<GatewayTemplateRouteFilter> importRouteFilters() {
+    return importRouteFilters;
   }
 
   /**

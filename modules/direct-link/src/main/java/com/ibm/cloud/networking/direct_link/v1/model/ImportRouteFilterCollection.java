@@ -12,17 +12,30 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import java.util.List;
+
+import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * The listGateways options.
+ * Collection of import route filters.
  */
-public class ListGatewaysOptions extends GenericModel {
+public class ImportRouteFilterCollection extends GenericModel {
+
+  @SerializedName("import_route_filters")
+  protected List<RouteFilter> importRouteFilters;
+
+  protected ImportRouteFilterCollection() { }
 
   /**
-   * Construct a new instance of ListGatewaysOptions.
+   * Gets the importRouteFilters.
+   *
+   * Array of import route filters.
+   *
+   * @return the importRouteFilters
    */
-  public ListGatewaysOptions() {
+  public List<RouteFilter> getImportRouteFilters() {
+    return importRouteFilters;
   }
 }
 

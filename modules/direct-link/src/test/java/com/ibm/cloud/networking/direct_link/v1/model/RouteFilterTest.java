@@ -14,7 +14,7 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRoute;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -23,16 +23,22 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the RouteReportOverlappingRoute model.
+ * Unit test class for the RouteFilter model.
  */
-public class RouteReportOverlappingRouteTest {
+public class RouteFilterTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
-  // TODO: Add tests for models that are abstract
   @Test
-  public void testRouteReportOverlappingRoute() throws Throwable {
-    RouteReportOverlappingRoute routeReportOverlappingRouteModel = new RouteReportOverlappingRoute();
-    assertNotNull(routeReportOverlappingRouteModel);
+  public void testRouteFilter() throws Throwable {
+    RouteFilter routeFilterModel = new RouteFilter();
+    assertNull(routeFilterModel.getAction());
+    assertNull(routeFilterModel.getBefore());
+    assertNull(routeFilterModel.getCreatedAt());
+    assertNull(routeFilterModel.getGe());
+    assertNull(routeFilterModel.getId());
+    assertNull(routeFilterModel.getLe());
+    assertNull(routeFilterModel.getPrefix());
+    assertNull(routeFilterModel.getUpdatedAt());
   }
 }

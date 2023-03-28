@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,6 +22,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import java.io.InputStream;
@@ -62,6 +63,17 @@ public class CreateGatewayOptionsTest {
     assertEquals(gatewayBfdConfigTemplateModel.interval(), Long.valueOf("2000"));
     assertEquals(gatewayBfdConfigTemplateModel.multiplier(), Long.valueOf("10"));
 
+    GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+      .action("permit")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .prefix("192.168.100.0/24")
+      .build();
+    assertEquals(gatewayTemplateRouteFilterModel.action(), "permit");
+    assertEquals(gatewayTemplateRouteFilterModel.ge(), Long.valueOf("25"));
+    assertEquals(gatewayTemplateRouteFilterModel.le(), Long.valueOf("30"));
+    assertEquals(gatewayTemplateRouteFilterModel.prefix(), "192.168.100.0/24");
+
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
       .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
@@ -97,7 +109,11 @@ public class CreateGatewayOptionsTest {
       .bgpCerCidr("169.254.0.10/30")
       .bgpIbmCidr("169.254.0.9/30")
       .connectionMode("transit")
+      .defaultExportRouteFilter("permit")
+      .defaultImportRouteFilter("permit")
+      .exportRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
       .global(true)
+      .importRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
       .metered(false)
       .name("myGateway")
       .patchPanelCompletionNotice("patch panel configuration details")
@@ -118,7 +134,11 @@ public class CreateGatewayOptionsTest {
     assertEquals(gatewayTemplateModel.bgpCerCidr(), "169.254.0.10/30");
     assertEquals(gatewayTemplateModel.bgpIbmCidr(), "169.254.0.9/30");
     assertEquals(gatewayTemplateModel.connectionMode(), "transit");
+    assertEquals(gatewayTemplateModel.defaultExportRouteFilter(), "permit");
+    assertEquals(gatewayTemplateModel.defaultImportRouteFilter(), "permit");
+    assertEquals(gatewayTemplateModel.exportRouteFilters(), java.util.Arrays.asList(gatewayTemplateRouteFilterModel));
     assertEquals(gatewayTemplateModel.global(), Boolean.valueOf(true));
+    assertEquals(gatewayTemplateModel.importRouteFilters(), java.util.Arrays.asList(gatewayTemplateRouteFilterModel));
     assertEquals(gatewayTemplateModel.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateModel.name(), "myGateway");
     assertEquals(gatewayTemplateModel.patchPanelCompletionNotice(), "patch panel configuration details");

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -26,13 +26,18 @@ import com.ibm.cloud.networking.direct_link.v1.model.AsPrependPrefixArrayTemplat
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayCompletionNoticeOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CrossConnectRouter;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnectionOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ExportRouteFilterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItem;
@@ -84,16 +89,22 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeConnectTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatusOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ImportRouteFilterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayAsPrependsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayExportRouteFiltersOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayImportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayLetterOfAuthorizationOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayRouteReportsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayVirtualConnectionsOptions;
@@ -109,11 +120,15 @@ import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeed;
 import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeedCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.Port;
 import com.ibm.cloud.networking.direct_link.v1.model.PortCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.PortsPager;
 import com.ibm.cloud.networking.direct_link.v1.model.PortsPaginatedCollectionFirst;
 import com.ibm.cloud.networking.direct_link.v1.model.PortsPaginatedCollectionNext;
 import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayAsPrependsOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayExportRouteFiltersOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayImportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupReference;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportConnection;
@@ -123,8 +138,11 @@ import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRoute
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRouteForOthers;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRouteGroup;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportRoute;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateRouteFilterTemplate;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import java.io.IOException;
 import java.io.InputStream;
@@ -157,34 +175,12 @@ public class DirectLinkTest extends PowerMockTestCase {
   protected MockWebServer server;
   protected DirectLink directLinkService;
 
-  // Creates a mock set of environment variables that are returned by EnvironmentUtils.getenv().
-  private Map<String, String> getTestProcessEnvironment() {
-    Map<String, String> env = new HashMap<>();
-    env.put("TESTSERVICE_AUTH_TYPE", "noAuth");
-    return env;
-  }
-
-  public void constructClientService() throws Throwable {
-    PowerMockito.spy(EnvironmentUtils.class);
-    PowerMockito.when(EnvironmentUtils.getenv()).thenReturn(getTestProcessEnvironment());
-    final String serviceName = "testService";
-    // set mock values for global params
-    String version = "testString";
-
-    directLinkService = DirectLink.newInstance(version, serviceName);
-    String url = server.url("/").toString();
-    directLinkService.setServiceUrl(url);
-  }
-
-  /**
-  * Negative Test - construct the service with a null authenticator.
-  */
+  // Construct the service with a null authenticator (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testConstructorWithNullAuthenticator() throws Throwable {
     final String serviceName = "testService";
-    // set mock values for global params
+    // Set mock values for global params
     String version = "testString";
-
     new DirectLink(version, serviceName, null);
   }
 
@@ -192,423 +188,62 @@ public class DirectLinkTest extends PowerMockTestCase {
   // Test the getter for the version global parameter
   @Test
   public void testGetVersion() throws Throwable {
-    constructClientService();
     assertEquals(directLinkService.getVersion(), "testString");
   }
 
-  // Test the listGatewayAsPrepends operation with a valid options model parameter
-  public void testListGatewayAsPrependsWOptions() throws Throwable {
+  // Test the listGateways operation with a valid options model parameter
+  @Test
+  public void testListGatewaysWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
-    String listGatewayAsPrependsPath = "/gateways/testString/as_prepends";
+    String mockResponseBody = "{\"gateways\": [{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"up\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"default_export_route_filter\": \"permit\", \"default_import_route_filter\": \"permit\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}]}";
+    String listGatewaysPath = "/gateways";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
       .setResponseCode(200)
       .setBody(mockResponseBody));
 
-    // Construct an instance of the ListGatewayAsPrependsOptions model
-    ListGatewayAsPrependsOptions listGatewayAsPrependsOptionsModel = new ListGatewayAsPrependsOptions.Builder()
-      .gatewayId("testString")
-      .build();
-
-    // Invoke listGatewayAsPrepends() with a valid options model and verify the result
-    Response<AsPrependCollection> response = directLinkService.listGatewayAsPrepends(listGatewayAsPrependsOptionsModel).execute();
-    assertNotNull(response);
-    AsPrependCollection responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request sent to the mock server
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-    // Verify request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, listGatewayAsPrependsPath);
-    // Verify query params
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    assertEquals(query.get("version"), "testString");
-  }
-
-  // Test the listGatewayAsPrepends operation with and without retries enabled
-  public void testListGatewayAsPrependsWRetries() throws Throwable {
-    directLinkService.enableRetries(4, 30);
-    testListGatewayAsPrependsWOptions();
-
-    directLinkService.disableRetries();
-    testListGatewayAsPrependsWOptions();
-  }
-
-  // Test the listGatewayAsPrepends operation with a null options model (negative test)
-  public void testListGatewayAsPrependsNoOptions() throws Throwable {
-    server.enqueue(new MockResponse());
-    directLinkService.listGatewayAsPrepends(null).execute();
-  }
-
-  // Test the replaceGatewayAsPrepends operation with a valid options model parameter
-  public void testReplaceGatewayAsPrependsWOptions() throws Throwable {
-    // Register a mock response
-    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
-    String replaceGatewayAsPrependsPath = "/gateways/testString/as_prepends";
-    server.enqueue(new MockResponse()
-      .setHeader("Content-type", "application/json")
-      .setResponseCode(201)
-      .setBody(mockResponseBody));
-
-    // Construct an instance of the AsPrependPrefixArrayTemplate model
-    AsPrependPrefixArrayTemplate asPrependPrefixArrayTemplateModel = new AsPrependPrefixArrayTemplate.Builder()
-      .length(Long.valueOf("4"))
-      .policy("import")
-      .specificPrefixes(java.util.Arrays.asList("192.168.3.0/24"))
-      .build();
-
-    // Construct an instance of the ReplaceGatewayAsPrependsOptions model
-    ReplaceGatewayAsPrependsOptions replaceGatewayAsPrependsOptionsModel = new ReplaceGatewayAsPrependsOptions.Builder()
-      .gatewayId("testString")
-      .ifMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
-      .asPrepends(java.util.Arrays.asList(asPrependPrefixArrayTemplateModel))
-      .build();
-
-    // Invoke replaceGatewayAsPrepends() with a valid options model and verify the result
-    Response<AsPrependCollection> response = directLinkService.replaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel).execute();
-    assertNotNull(response);
-    AsPrependCollection responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request sent to the mock server
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "PUT");
-    // Verify request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, replaceGatewayAsPrependsPath);
-    // Verify header parameters
-    assertEquals(request.getHeader("If-Match"), "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"");
-    // Verify query params
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    assertEquals(query.get("version"), "testString");
-  }
-
-  // Test the replaceGatewayAsPrepends operation with and without retries enabled
-  public void testReplaceGatewayAsPrependsWRetries() throws Throwable {
-    directLinkService.enableRetries(4, 30);
-    testReplaceGatewayAsPrependsWOptions();
-
-    directLinkService.disableRetries();
-    testReplaceGatewayAsPrependsWOptions();
-  }
-
-  // Test the replaceGatewayAsPrepends operation with a null options model (negative test)
-  public void testReplaceGatewayAsPrependsNoOptions() throws Throwable {
-    server.enqueue(new MockResponse());
-    directLinkService.replaceGatewayAsPrepends(null).execute();
-  }
-
-  // Test the listGatewayRouteReports operation with a valid options model parameter
-  public void testListGatewayRouteReportsWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"route_reports\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"onprem_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"prefix\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connections\": [{\"id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"name\": \"vpc1\", \"routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"type\": \"vpc\"}]}]}";
-    String listGatewayRouteReportsPath = "/gateways/testString/route_reports";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the ListGatewayRouteReportsOptions model
-    ListGatewayRouteReportsOptions listGatewayRouteReportsOptionsModel = new ListGatewayRouteReportsOptions.Builder()
-    .gatewayId("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<RouteReportCollection> response = directLinkService.listGatewayRouteReports(listGatewayRouteReportsOptionsModel).execute();
-    assertNotNull(response);
-    RouteReportCollection responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, listGatewayRouteReportsPath);
-  }
-  
-  public void testListGatewayRouteReportsWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListGatewayRouteReportsWOptions.
-    directLinkService.enableRetries(4, 30);
-    testListGatewayRouteReportsWOptions();
-
-    // Disable retries and run testListGatewayRouteReportsWOptions.
-    directLinkService.disableRetries();
-    testListGatewayRouteReportsWOptions();
-  }  
-
-  // Test the listGatewayRouteReports operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testListGatewayRouteReportsNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    directLinkService.listGatewayRouteReports(null).execute();
-  }
-
-  // Test the createGatewayRouteReport operation with a valid options model parameter
-  @Test
-  public void testCreateGatewayRouteReportWOptions() throws Throwable {
-    // Register a mock response
-    String mockResponseBody = "{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}";
-    String createGatewayRouteReportPath = "/gateways/testString/route_reports";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(202)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the CreateGatewayRouteReportOptions model
-    CreateGatewayRouteReportOptions createGatewayRouteReportOptionsModel = new CreateGatewayRouteReportOptions.Builder()
-    .gatewayId("testString")
-    .build();
-
-    // Invoke createGatewayRouteReport() with a valid options model and verify the result
-    Response<RouteReport> response = directLinkService.createGatewayRouteReport(createGatewayRouteReportOptionsModel).execute();
-    assertNotNull(response);
-    RouteReport responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request sent to the mock server
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "POST");
-    // Verify request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, createGatewayRouteReportPath);
-    // Verify query params
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    assertEquals(query.get("version"), "testString");
-  }
-  
-  public void testCreateGatewayRouteReportWOptionsWRetries() throws Throwable {
-    // Enable retries and run testCreateGatewayRouteReportWOptions.
-    directLinkService.enableRetries(4, 30);
-    testCreateGatewayRouteReportWOptions();
-
-    // Disable retries and run testCreateGatewayRouteReportWOptions.
-    directLinkService.disableRetries();
-    testCreateGatewayRouteReportWOptions();
-  }  
-
-  // Test the createGatewayRouteReport operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testCreateGatewayRouteReportNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    directLinkService.createGatewayRouteReport(null).execute();
-  }
-
-  @Test
-  public void testDeleteGatewayRouteReportWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "";
-    String deleteGatewayRouteReportPath = "/gateways/testString/route_reports/testString";
-
-    server.enqueue(new MockResponse()
-    .setResponseCode(204)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the DeleteGatewayRouteReportOptions model
-    DeleteGatewayRouteReportOptions deleteGatewayRouteReportOptionsModel = new DeleteGatewayRouteReportOptions.Builder()
-    .gatewayId("testString")
-    .id("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<Void> response = directLinkService.deleteGatewayRouteReport(deleteGatewayRouteReportOptionsModel).execute();
-    assertNotNull(response);
-    Void responseObj = response.getResult();
-    // Response does not have a return type. Check that the result is null.
-    assertNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "DELETE");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, deleteGatewayRouteReportPath);
-  }
-  
-  public void testDeleteGatewayRouteReportWOptionsWRetries() throws Throwable {
-    // Enable retries and run testDeleteGatewayRouteReportWOptions.
-    directLinkService.enableRetries(4, 30);
-    testDeleteGatewayRouteReportWOptions();
-
-    // Disable retries and run testDeleteGatewayRouteReportWOptions.
-    directLinkService.disableRetries();
-    testDeleteGatewayRouteReportWOptions();
-  }  
-
-  // Test the deleteGatewayRouteReport operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testDeleteGatewayRouteReportNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    directLinkService.deleteGatewayRouteReport(null).execute();
-  }
-
-  @Test
-  public void testGetGatewayRouteReportWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}";
-    String getGatewayRouteReportPath = "/gateways/testString/route_reports/testString";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the GetGatewayRouteReportOptions model
-    GetGatewayRouteReportOptions getGatewayRouteReportOptionsModel = new GetGatewayRouteReportOptions.Builder()
-    .gatewayId("testString")
-    .id("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<RouteReport> response = directLinkService.getGatewayRouteReport(getGatewayRouteReportOptionsModel).execute();
-    assertNotNull(response);
-    RouteReport responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, getGatewayRouteReportPath);
-  }
-  
-  public void testGetGatewayRouteReportWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetGatewayRouteReportWOptions.
-    directLinkService.enableRetries(4, 30);
-    testGetGatewayRouteReportWOptions();
-
-    // Disable retries and run testGetGatewayRouteReportWOptions.
-    directLinkService.disableRetries();
-    testGetGatewayRouteReportWOptions();
-  }  
-
-  // Test the getGatewayRouteReport operation with null options model parameter
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testGetGatewayRouteReportNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
-    server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    directLinkService.getGatewayRouteReport(null).execute();
-  }
-
-  @Test
-  public void testListGatewaysWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"gateways\": [{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}]}";
-    String listGatewaysPath = "/gateways";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
     // Construct an instance of the ListGatewaysOptions model
     ListGatewaysOptions listGatewaysOptionsModel = new ListGatewaysOptions();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke listGateways() with a valid options model and verify the result
     Response<GatewayCollection> response = directLinkService.listGateways(listGatewaysOptionsModel).execute();
     assertNotNull(response);
     GatewayCollection responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewaysPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testListGatewaysWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListGatewaysWOptions.
+
+  // Test the listGateways operation with and without retries enabled
+  @Test
+  public void testListGatewaysWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testListGatewaysWOptions();
 
-    // Disable retries and run testListGatewaysWOptions.
     directLinkService.disableRetries();
     testListGatewaysWOptions();
-  }  
+  }
 
+  // Test the createGateway operation with a valid options model parameter
   @Test
   public void testCreateGatewayWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    // Register a mock response
+    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"up\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"default_export_route_filter\": \"permit\", \"default_import_route_filter\": \"permit\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
     String createGatewayPath = "/gateways";
-
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(201)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(201)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the AsPrependTemplate model
     AsPrependTemplate asPrependTemplateModel = new AsPrependTemplate.Builder()
@@ -627,6 +262,14 @@ public class DirectLinkTest extends PowerMockTestCase {
     GatewayBfdConfigTemplate gatewayBfdConfigTemplateModel = new GatewayBfdConfigTemplate.Builder()
       .interval(Long.valueOf("2000"))
       .multiplier(Long.valueOf("10"))
+      .build();
+
+    // Construct an instance of the GatewayTemplateRouteFilter model
+    GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+      .action("permit")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .prefix("192.168.100.0/24")
       .build();
 
     // Construct an instance of the ResourceGroupIdentity model
@@ -662,7 +305,11 @@ public class DirectLinkTest extends PowerMockTestCase {
       .bgpCerCidr("169.254.0.10/30")
       .bgpIbmCidr("169.254.0.9/30")
       .connectionMode("transit")
+      .defaultExportRouteFilter("permit")
+      .defaultImportRouteFilter("permit")
+      .exportRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
       .global(true)
+      .importRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
       .metered(false)
       .name("myGateway")
       .patchPanelCompletionNotice("patch panel configuration details")
@@ -699,105 +346,89 @@ public class DirectLinkTest extends PowerMockTestCase {
     assertNotNull(query);
     assertEquals(query.get("version"), "testString");
   }
-  
-  public void testCreateGatewayWOptionsWRetries() throws Throwable {
-    // Enable retries and run testCreateGatewayWOptions.
+
+  // Test the createGateway operation with and without retries enabled
+  @Test
+  public void testCreateGatewayWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testCreateGatewayWOptions();
 
-    // Disable retries and run testCreateGatewayWOptions.
     directLinkService.disableRetries();
     testCreateGatewayWOptions();
-  }  
+  }
 
-  // Test the createGateway operation with null options model parameter
+  // Test the createGateway operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testCreateGatewayNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.createGateway(null).execute();
   }
 
+  // Test the deleteGateway operation with a valid options model parameter
   @Test
   public void testDeleteGatewayWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "";
-    String deleteGatewayPath = "/gateways/testString";
-
+    String deleteGatewayPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
     server.enqueue(new MockResponse()
-    .setResponseCode(204)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setResponseCode(204)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the DeleteGatewayOptions model
     DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder()
-    .id("testString")
-    .build();
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke deleteGateway() with a valid options model and verify the result
     Response<Void> response = directLinkService.deleteGateway(deleteGatewayOptionsModel).execute();
     assertNotNull(response);
     Void responseObj = response.getResult();
-    // Response does not have a return type. Check that the result is null.
     assertNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "DELETE");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, deleteGatewayPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testDeleteGatewayWOptionsWRetries() throws Throwable {
-    // Enable retries and run testDeleteGatewayWOptions.
+
+  // Test the deleteGateway operation with and without retries enabled
+  @Test
+  public void testDeleteGatewayWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testDeleteGatewayWOptions();
 
-    // Disable retries and run testDeleteGatewayWOptions.
     directLinkService.disableRetries();
     testDeleteGatewayWOptions();
-  }  
+  }
 
-  // Test the deleteGateway operation with null options model parameter
+  // Test the deleteGateway operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testDeleteGatewayNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.deleteGateway(null).execute();
   }
 
+  // Test the getGateway operation with a valid options model parameter
   @Test
   public void testGetGatewayWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
-    String getGatewayPath = "/gateways/testString";
+    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"up\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"default_export_route_filter\": \"permit\", \"default_import_route_filter\": \"permit\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String getGatewayPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
       .setResponseCode(200)
       .setBody(mockResponseBody));
 
-    constructClientService();
-
     // Construct an instance of the GetGatewayOptions model
     GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder()
-      .id("testString")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
       .build();
 
     // Invoke getGateway() with a valid options model and verify the result
@@ -818,26 +449,21 @@ public class DirectLinkTest extends PowerMockTestCase {
     assertNotNull(query);
     assertEquals(query.get("version"), "testString");
   }
-  
-  public void testGetGatewayWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetGatewayWOptions.
+
+  // Test the getGateway operation with and without retries enabled
+  @Test
+  public void testGetGatewayWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testGetGatewayWOptions();
 
-    // Disable retries and run testGetGatewayWOptions.
     directLinkService.disableRetries();
     testGetGatewayWOptions();
-  }  
+  }
 
-  // Test the getGateway operation with null options model parameter
+  // Test the getGateway operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testGetGatewayNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.getGateway(null).execute();
   }
 
@@ -845,14 +471,12 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testUpdateGatewayWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
-    String updateGatewayPath = "/gateways/testString";
+    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"up\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"default_export_route_filter\": \"permit\", \"default_import_route_filter\": \"permit\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String updateGatewayPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the GatewayPatchTemplateAuthenticationKey model
     GatewayPatchTemplateAuthenticationKey gatewayPatchTemplateAuthenticationKeyModel = new GatewayPatchTemplateAuthenticationKey.Builder()
@@ -885,13 +509,15 @@ public class DirectLinkTest extends PowerMockTestCase {
 
     // Construct an instance of the UpdateGatewayOptions model
     UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
-      .id("testString")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
       .authenticationKey(gatewayPatchTemplateAuthenticationKeyModel)
       .bfdConfig(gatewayBfdPatchTemplateModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpCerCidr("169.254.0.10/30")
       .bgpIbmCidr("169.254.0.9/30")
       .connectionMode("transit")
+      .defaultExportRouteFilter("permit")
+      .defaultImportRouteFilter("permit")
       .global(true)
       .loaRejectReason("The port mentioned was incorrect")
       .macsecConfig(gatewayMacsecConfigPatchTemplateModel)
@@ -920,41 +546,34 @@ public class DirectLinkTest extends PowerMockTestCase {
     assertNotNull(query);
     assertEquals(query.get("version"), "testString");
   }
-  
-  public void testUpdateGatewayWOptionsWRetries() throws Throwable {
-    // Enable retries and run testUpdateGatewayWOptions.
+
+  // Test the updateGateway operation with and without retries enabled
+  @Test
+  public void testUpdateGatewayWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testUpdateGatewayWOptions();
 
-    // Disable retries and run testUpdateGatewayWOptions.
     directLinkService.disableRetries();
     testUpdateGatewayWOptions();
-  }  
+  }
 
-  // Test the updateGateway operation with null options model parameter
+  // Test the updateGateway operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testUpdateGatewayNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.updateGateway(null).execute();
   }
 
+  // Test the createGatewayAction operation with a valid options model parameter
   @Test
   public void testCreateGatewayActionWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"active\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
-    String createGatewayActionPath = "/gateways/testString/actions";
-
+    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"prefix\": \"172.17.0.0/16\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"authentication_key\": {\"crn\": \"crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c\"}, \"bfd_config\": {\"bfd_status\": \"up\", \"bfd_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"interval\": 2000, \"multiplier\": 10}, \"bgp_asn\": 64999, \"bgp_base_cidr\": \"bgpBaseCidr\", \"bgp_cer_cidr\": \"10.254.30.78/30\", \"bgp_ibm_asn\": 13884, \"bgp_ibm_cidr\": \"10.254.30.77/30\", \"bgp_status\": \"active\", \"bgp_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"carrier_name\": \"myCarrierName\", \"change_request\": {\"type\": \"create_gateway\"}, \"completion_notice_reject_reason\": \"The completion notice file was blank\", \"connection_mode\": \"transit\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:directlink:dal03:a/4111d05f36894e3cb9b46a43556d9000::dedicated:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"cross_connect_router\": \"xcr01.dal03\", \"customer_name\": \"newCustomerName\", \"default_export_route_filter\": \"permit\", \"default_import_route_filter\": \"permit\", \"global\": true, \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"link_status\": \"up\", \"link_status_updated_at\": \"2020-08-20T06:58:41.909Z\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"macsec_config\": {\"active\": true, \"active_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"cipher_suite\": \"gcm_aes_xpn_256\", \"confidentiality_offset\": 0, \"cryptographic_algorithm\": \"aes_256_cmac\", \"fallback_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"key_server_priority\": 255, \"primary_cak\": {\"crn\": \"crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222\", \"status\": \"status\"}, \"sak_expiry_time\": 3600, \"security_policy\": \"must_secure\", \"status\": \"secured\", \"window_size\": 64}, \"metered\": false, \"name\": \"myGateway\", \"operational_status\": \"awaiting_completion_notice\", \"patch_panel_completion_notice\": \"patch panel configuration details\", \"port\": {\"id\": \"54321b1a-fee4-41c7-9e11-9cd99e000aaa\"}, \"provider_api_managed\": false, \"resource_group\": {\"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"speed_mbps\": 1000, \"type\": \"dedicated\", \"vlan\": 10}";
+    String createGatewayActionPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/actions";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the AsPrependTemplate model
     AsPrependTemplate asPrependTemplateModel = new AsPrependTemplate.Builder()
@@ -975,6 +594,14 @@ public class DirectLinkTest extends PowerMockTestCase {
       .multiplier(Long.valueOf("10"))
       .build();
 
+    // Construct an instance of the GatewayTemplateRouteFilter model
+    GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+      .action("permit")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .prefix("192.168.100.0/24")
+      .build();
+
     // Construct an instance of the ResourceGroupIdentity model
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
       .id("56969d6043e9465c883cb9f7363e78e8")
@@ -987,13 +614,17 @@ public class DirectLinkTest extends PowerMockTestCase {
 
     // Construct an instance of the CreateGatewayActionOptions model
     CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
-      .id("testString")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
       .action("create_gateway_approve")
       .asPrepends(java.util.Arrays.asList(asPrependTemplateModel))
       .authenticationKey(gatewayActionTemplateAuthenticationKeyModel)
       .bfdConfig(gatewayBfdConfigActionTemplateModel)
       .connectionMode("transit")
+      .defaultExportRouteFilter("permit")
+      .defaultImportRouteFilter("permit")
+      .exportRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
       .global(true)
+      .importRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
       .metered(false)
       .resourceGroup(resourceGroupIdentityModel)
       .updates(java.util.Arrays.asList(gatewayActionTemplateUpdatesItemModel))
@@ -1017,970 +648,1928 @@ public class DirectLinkTest extends PowerMockTestCase {
     assertNotNull(query);
     assertEquals(query.get("version"), "testString");
   }
-  
-  public void testCreateGatewayActionWOptionsWRetries() throws Throwable {
-    // Enable retries and run testCreateGatewayActionWOptions.
+
+  // Test the createGatewayAction operation with and without retries enabled
+  @Test
+  public void testCreateGatewayActionWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testCreateGatewayActionWOptions();
 
-    // Disable retries and run testCreateGatewayActionWOptions.
     directLinkService.disableRetries();
     testCreateGatewayActionWOptions();
-  }  
+  }
 
-  // Test the createGatewayAction operation with null options model parameter
+  // Test the createGatewayAction operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testCreateGatewayActionNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.createGatewayAction(null).execute();
   }
 
+  // Test the listGatewayCompletionNotice operation with a valid options model parameter
   @Test
   public void testListGatewayCompletionNoticeWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "This is a mock binary response.";
-    String listGatewayCompletionNoticePath = "/gateways/testString/completion_notice";
-
+    String listGatewayCompletionNoticePath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/completion_notice";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/pdf")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/pdf")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the ListGatewayCompletionNoticeOptions model
     ListGatewayCompletionNoticeOptions listGatewayCompletionNoticeOptionsModel = new ListGatewayCompletionNoticeOptions.Builder()
-    .id("testString")
-    .build();
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke listGatewayCompletionNotice() with a valid options model and verify the result
     Response<InputStream> response = directLinkService.listGatewayCompletionNotice(listGatewayCompletionNoticeOptionsModel).execute();
     assertNotNull(response);
     InputStream responseObj = response.getResult();
     assertNotNull(responseObj);
     responseObj.close();
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewayCompletionNoticePath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testListGatewayCompletionNoticeWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListGatewayCompletionNoticeWOptions.
+
+  // Test the listGatewayCompletionNotice operation with and without retries enabled
+  @Test
+  public void testListGatewayCompletionNoticeWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testListGatewayCompletionNoticeWOptions();
 
-    // Disable retries and run testListGatewayCompletionNoticeWOptions.
     directLinkService.disableRetries();
     testListGatewayCompletionNoticeWOptions();
-  }  
+  }
 
-  // Test the listGatewayCompletionNotice operation with null options model parameter
+  // Test the listGatewayCompletionNotice operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testListGatewayCompletionNoticeNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.listGatewayCompletionNotice(null).execute();
   }
 
+  // Test the createGatewayCompletionNotice operation with a valid options model parameter
   @Test
   public void testCreateGatewayCompletionNoticeWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "";
-    String createGatewayCompletionNoticePath = "/gateways/testString/completion_notice";
-
+    String createGatewayCompletionNoticePath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/completion_notice";
     server.enqueue(new MockResponse()
-    .setResponseCode(204)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setResponseCode(204)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the CreateGatewayCompletionNoticeOptions model
     CreateGatewayCompletionNoticeOptions createGatewayCompletionNoticeOptionsModel = new CreateGatewayCompletionNoticeOptions.Builder()
-    .id("testString")
-    .upload(TestUtilities.createMockStream("This is a mock file."))
-    .uploadContentType("testString")
-    .build();
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .upload(TestUtilities.createMockStream("This is a mock file."))
+      .uploadContentType("testString")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke createGatewayCompletionNotice() with a valid options model and verify the result
     Response<Void> response = directLinkService.createGatewayCompletionNotice(createGatewayCompletionNoticeOptionsModel).execute();
     assertNotNull(response);
     Void responseObj = response.getResult();
-    // Response does not have a return type. Check that the result is null.
     assertNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "PUT");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createGatewayCompletionNoticePath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testCreateGatewayCompletionNoticeWOptionsWRetries() throws Throwable {
-    // Enable retries and run testCreateGatewayCompletionNoticeWOptions.
+
+  // Test the createGatewayCompletionNotice operation with and without retries enabled
+  @Test
+  public void testCreateGatewayCompletionNoticeWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testCreateGatewayCompletionNoticeWOptions();
 
-    // Disable retries and run testCreateGatewayCompletionNoticeWOptions.
     directLinkService.disableRetries();
     testCreateGatewayCompletionNoticeWOptions();
-  }  
+  }
 
-  // Test the createGatewayCompletionNotice operation with null options model parameter
+  // Test the createGatewayCompletionNotice operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testCreateGatewayCompletionNoticeNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.createGatewayCompletionNotice(null).execute();
   }
 
+  // Test the listGatewayLetterOfAuthorization operation with a valid options model parameter
   @Test
   public void testListGatewayLetterOfAuthorizationWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "This is a mock binary response.";
-    String listGatewayLetterOfAuthorizationPath = "/gateways/testString/letter_of_authorization";
-
+    String listGatewayLetterOfAuthorizationPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/letter_of_authorization";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/pdf")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/pdf")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
     ListGatewayLetterOfAuthorizationOptions listGatewayLetterOfAuthorizationOptionsModel = new ListGatewayLetterOfAuthorizationOptions.Builder()
-    .id("testString")
-    .build();
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke listGatewayLetterOfAuthorization() with a valid options model and verify the result
     Response<InputStream> response = directLinkService.listGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationOptionsModel).execute();
     assertNotNull(response);
     InputStream responseObj = response.getResult();
     assertNotNull(responseObj);
     responseObj.close();
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewayLetterOfAuthorizationPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testListGatewayLetterOfAuthorizationWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListGatewayLetterOfAuthorizationWOptions.
+
+  // Test the listGatewayLetterOfAuthorization operation with and without retries enabled
+  @Test
+  public void testListGatewayLetterOfAuthorizationWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testListGatewayLetterOfAuthorizationWOptions();
 
-    // Disable retries and run testListGatewayLetterOfAuthorizationWOptions.
     directLinkService.disableRetries();
     testListGatewayLetterOfAuthorizationWOptions();
-  }  
+  }
 
-  // Test the listGatewayLetterOfAuthorization operation with null options model parameter
+  // Test the listGatewayLetterOfAuthorization operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testListGatewayLetterOfAuthorizationNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.listGatewayLetterOfAuthorization(null).execute();
   }
 
+  // Test the getGatewayStatistics operation with a valid options model parameter
   @Test
   public void testGetGatewayStatisticsWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "{\"statistics\": [{\"created_at\": \"2020-08-20T06:58:41.909Z\", \"data\": \"MKA statistics text...\", \"type\": \"macsec_policy\"}]}";
-    String getGatewayStatisticsPath = "/gateways/testString/statistics";
-
+    String getGatewayStatisticsPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/statistics";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the GetGatewayStatisticsOptions model
     GetGatewayStatisticsOptions getGatewayStatisticsOptionsModel = new GetGatewayStatisticsOptions.Builder()
-    .id("testString")
-    .type("macsec_mka_session")
-    .build();
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .type("macsec_mka_session")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke getGatewayStatistics() with a valid options model and verify the result
     Response<GatewayStatisticCollection> response = directLinkService.getGatewayStatistics(getGatewayStatisticsOptionsModel).execute();
     assertNotNull(response);
     GatewayStatisticCollection responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("type"), "macsec_mka_session");
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getGatewayStatisticsPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("type"), "macsec_mka_session");
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testGetGatewayStatisticsWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetGatewayStatisticsWOptions.
+
+  // Test the getGatewayStatistics operation with and without retries enabled
+  @Test
+  public void testGetGatewayStatisticsWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testGetGatewayStatisticsWOptions();
 
-    // Disable retries and run testGetGatewayStatisticsWOptions.
     directLinkService.disableRetries();
     testGetGatewayStatisticsWOptions();
-  }  
+  }
 
-  // Test the getGatewayStatistics operation with null options model parameter
+  // Test the getGatewayStatistics operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testGetGatewayStatisticsNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.getGatewayStatistics(null).execute();
   }
 
+  // Test the getGatewayStatus operation with a valid options model parameter
   @Test
   public void testGetGatewayStatusWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "{\"status\": [{\"type\": \"bgp\", \"updated_at\": \"2020-08-20T06:58:41.909Z\", \"value\": \"active\"}]}";
-    String getGatewayStatusPath = "/gateways/testString/status";
-
+    String getGatewayStatusPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/status";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the GetGatewayStatusOptions model
     GetGatewayStatusOptions getGatewayStatusOptionsModel = new GetGatewayStatusOptions.Builder()
-    .id("testString")
-    .type("bgp")
-    .build();
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .type("bgp")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke getGatewayStatus() with a valid options model and verify the result
     Response<GatewayStatusCollection> response = directLinkService.getGatewayStatus(getGatewayStatusOptionsModel).execute();
     assertNotNull(response);
     GatewayStatusCollection responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    assertEquals(query.get("type"), "bgp");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getGatewayStatusPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+    assertEquals(query.get("type"), "bgp");
   }
-  
-  public void testGetGatewayStatusWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetGatewayStatusWOptions.
+
+  // Test the getGatewayStatus operation with and without retries enabled
+  @Test
+  public void testGetGatewayStatusWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testGetGatewayStatusWOptions();
 
-    // Disable retries and run testGetGatewayStatusWOptions.
     directLinkService.disableRetries();
     testGetGatewayStatusWOptions();
-  }  
+  }
 
-  // Test the getGatewayStatus operation with null options model parameter
+  // Test the getGatewayStatus operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testGetGatewayStatusNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.getGatewayStatus(null).execute();
   }
 
+  // Test the listGatewayExportRouteFilters operation with a valid options model parameter
   @Test
-  public void testListOfferingTypeLocationsWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"locations\": [{\"billing_location\": \"us\", \"building_colocation_owner\": \"MyProvider\", \"display_name\": \"Dallas 9\", \"location_type\": \"PoP\", \"macsec_enabled\": false, \"market\": \"Dallas\", \"market_geography\": \"N/S America\", \"mzr\": true, \"name\": \"dal03\", \"offering_type\": \"dedicated\", \"provision_enabled\": true, \"vpc_region\": \"us-south\"}]}";
-    String listOfferingTypeLocationsPath = "/offering_types/dedicated/locations";
-
+  public void testListGatewayExportRouteFiltersWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"export_route_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}]}";
+    String listGatewayExportRouteFiltersPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
-    constructClientService();
+    // Construct an instance of the ListGatewayExportRouteFiltersOptions model
+    ListGatewayExportRouteFiltersOptions listGatewayExportRouteFiltersOptionsModel = new ListGatewayExportRouteFiltersOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
 
-    // Construct an instance of the ListOfferingTypeLocationsOptions model
-    ListOfferingTypeLocationsOptions listOfferingTypeLocationsOptionsModel = new ListOfferingTypeLocationsOptions.Builder()
-    .offeringType("dedicated")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<LocationCollection> response = directLinkService.listOfferingTypeLocations(listOfferingTypeLocationsOptionsModel).execute();
+    // Invoke listGatewayExportRouteFilters() with a valid options model and verify the result
+    Response<ExportRouteFilterCollection> response = directLinkService.listGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel).execute();
     assertNotNull(response);
-    LocationCollection responseObj = response.getResult();
+    ExportRouteFilterCollection responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "GET");
-
-    // Check query
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listGatewayExportRouteFiltersPath);
+    // Verify query params
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
-    // Get query params
     assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, listOfferingTypeLocationsPath);
   }
-  
-  public void testListOfferingTypeLocationsWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListOfferingTypeLocationsWOptions.
+
+  // Test the listGatewayExportRouteFilters operation with and without retries enabled
+  @Test
+  public void testListGatewayExportRouteFiltersWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
-    testListOfferingTypeLocationsWOptions();
+    testListGatewayExportRouteFiltersWOptions();
 
-    // Disable retries and run testListOfferingTypeLocationsWOptions.
     directLinkService.disableRetries();
-    testListOfferingTypeLocationsWOptions();
-  }  
+    testListGatewayExportRouteFiltersWOptions();
+  }
 
-  // Test the listOfferingTypeLocations operation with null options model parameter
+  // Test the listGatewayExportRouteFilters operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testListOfferingTypeLocationsNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
+  public void testListGatewayExportRouteFiltersNoOptions() throws Throwable {
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    directLinkService.listOfferingTypeLocations(null).execute();
+    directLinkService.listGatewayExportRouteFilters(null).execute();
   }
 
+  // Test the createGatewayExportRouteFilter operation with a valid options model parameter
   @Test
-  public void testListOfferingTypeLocationCrossConnectRoutersWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"cross_connect_routers\": [{\"capabilities\": [\"capabilities\"], \"router_name\": \"xcr01.dal03\", \"total_connections\": 1}]}";
-    String listOfferingTypeLocationCrossConnectRoutersPath = "/offering_types/dedicated/locations/testString/cross_connect_routers";
-
+  public void testCreateGatewayExportRouteFilterWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}";
+    String createGatewayExportRouteFilterPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(201)
+      .setBody(mockResponseBody));
 
-    constructClientService();
+    // Construct an instance of the CreateGatewayExportRouteFilterOptions model
+    CreateGatewayExportRouteFilterOptions createGatewayExportRouteFilterOptionsModel = new CreateGatewayExportRouteFilterOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .action("permit")
+      .prefix("192.168.100.0/24")
+      .before("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .build();
 
-    // Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
-    ListOfferingTypeLocationCrossConnectRoutersOptions listOfferingTypeLocationCrossConnectRoutersOptionsModel = new ListOfferingTypeLocationCrossConnectRoutersOptions.Builder()
-    .offeringType("dedicated")
-    .locationName("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<LocationCrossConnectRouterCollection> response = directLinkService.listOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel).execute();
+    // Invoke createGatewayExportRouteFilter() with a valid options model and verify the result
+    Response<RouteFilter> response = directLinkService.createGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel).execute();
     assertNotNull(response);
-    LocationCrossConnectRouterCollection responseObj = response.getResult();
+    RouteFilter responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
+    assertEquals(request.getMethod(), "POST");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createGatewayExportRouteFilterPath);
+    // Verify query params
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
-    // Get query params
     assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, listOfferingTypeLocationCrossConnectRoutersPath);
   }
-  
-  public void testListOfferingTypeLocationCrossConnectRoutersWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListOfferingTypeLocationCrossConnectRoutersWOptions.
+
+  // Test the createGatewayExportRouteFilter operation with and without retries enabled
+  @Test
+  public void testCreateGatewayExportRouteFilterWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
-    testListOfferingTypeLocationCrossConnectRoutersWOptions();
+    testCreateGatewayExportRouteFilterWOptions();
 
-    // Disable retries and run testListOfferingTypeLocationCrossConnectRoutersWOptions.
     directLinkService.disableRetries();
-    testListOfferingTypeLocationCrossConnectRoutersWOptions();
-  }  
+    testCreateGatewayExportRouteFilterWOptions();
+  }
 
-  // Test the listOfferingTypeLocationCrossConnectRouters operation with null options model parameter
+  // Test the createGatewayExportRouteFilter operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testListOfferingTypeLocationCrossConnectRoutersNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
+  public void testCreateGatewayExportRouteFilterNoOptions() throws Throwable {
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    directLinkService.listOfferingTypeLocationCrossConnectRouters(null).execute();
+    directLinkService.createGatewayExportRouteFilter(null).execute();
   }
 
+  // Test the replaceGatewayExportRouteFilters operation with a valid options model parameter
   @Test
-  public void testListOfferingTypeSpeedsWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"speeds\": [{\"capabilities\": [\"capabilities\"], \"link_speed\": 2000, \"macsec_enabled\": false}]}";
-    String listOfferingTypeSpeedsPath = "/offering_types/dedicated/speeds";
-
+  public void testReplaceGatewayExportRouteFiltersWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"export_route_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}]}";
+    String replaceGatewayExportRouteFiltersPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(201)
+      .setBody(mockResponseBody));
 
-    constructClientService();
+    // Construct an instance of the GatewayTemplateRouteFilter model
+    GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+      .action("permit")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .prefix("192.168.100.0/24")
+      .build();
 
-    // Construct an instance of the ListOfferingTypeSpeedsOptions model
-    ListOfferingTypeSpeedsOptions listOfferingTypeSpeedsOptionsModel = new ListOfferingTypeSpeedsOptions.Builder()
-    .offeringType("dedicated")
-    .build();
+    // Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
+    ReplaceGatewayExportRouteFiltersOptions replaceGatewayExportRouteFiltersOptionsModel = new ReplaceGatewayExportRouteFiltersOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .ifMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+      .exportRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
+      .build();
 
-    // Invoke operation with valid options model (positive test)
-    Response<OfferingSpeedCollection> response = directLinkService.listOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel).execute();
+    // Invoke replaceGatewayExportRouteFilters() with a valid options model and verify the result
+    Response<ExportRouteFilterCollection> response = directLinkService.replaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel).execute();
     assertNotNull(response);
-    OfferingSpeedCollection responseObj = response.getResult();
+    ExportRouteFilterCollection responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
+    assertEquals(request.getMethod(), "PUT");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, replaceGatewayExportRouteFiltersPath);
+    // Verify header parameters
+    assertEquals(request.getHeader("If-Match"), "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"");
+    // Verify query params
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
-    // Get query params
     assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, listOfferingTypeSpeedsPath);
   }
-  
-  public void testListOfferingTypeSpeedsWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListOfferingTypeSpeedsWOptions.
+
+  // Test the replaceGatewayExportRouteFilters operation with and without retries enabled
+  @Test
+  public void testReplaceGatewayExportRouteFiltersWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
-    testListOfferingTypeSpeedsWOptions();
+    testReplaceGatewayExportRouteFiltersWOptions();
 
-    // Disable retries and run testListOfferingTypeSpeedsWOptions.
     directLinkService.disableRetries();
-    testListOfferingTypeSpeedsWOptions();
-  }  
+    testReplaceGatewayExportRouteFiltersWOptions();
+  }
 
-  // Test the listOfferingTypeSpeeds operation with null options model parameter
+  // Test the replaceGatewayExportRouteFilters operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testListOfferingTypeSpeedsNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
+  public void testReplaceGatewayExportRouteFiltersNoOptions() throws Throwable {
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    directLinkService.listOfferingTypeSpeeds(null).execute();
+    directLinkService.replaceGatewayExportRouteFilters(null).execute();
   }
 
+  // Test the deleteGatewayExportRouteFilter operation with a valid options model parameter
   @Test
-  public void testListPortsWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"first\": {\"href\": \"https://directlink.cloud.ibm.com/v1/ports?limit=100\"}, \"limit\": 100, \"next\": {\"href\": \"https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100\", \"start\": \"9d5a91a3e2cbd233b5a5b33436855ed1\"}, \"total_count\": 132, \"ports\": [{\"direct_link_count\": 1, \"id\": \"01122b9b-820f-4c44-8a31-77f1f0806765\", \"label\": \"XCR-FRK-CS-SEC-01\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"provider_name\": \"provider_1\", \"supported_link_speeds\": [19]}]}";
-    String listPortsPath = "/ports";
-
+  public void testDeleteGatewayExportRouteFilterWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "";
+    String deleteGatewayExportRouteFilterPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
+      .setResponseCode(204)
+      .setBody(mockResponseBody));
 
-    constructClientService();
+    // Construct an instance of the DeleteGatewayExportRouteFilterOptions model
+    DeleteGatewayExportRouteFilterOptions deleteGatewayExportRouteFilterOptionsModel = new DeleteGatewayExportRouteFilterOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
 
-    // Construct an instance of the ListPortsOptions model
-    ListPortsOptions listPortsOptionsModel = new ListPortsOptions.Builder()
-    .start("testString")
-    .limit(Long.valueOf("1"))
-    .locationName("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<PortCollection> response = directLinkService.listPorts(listPortsOptionsModel).execute();
+    // Invoke deleteGatewayExportRouteFilter() with a valid options model and verify the result
+    Response<Void> response = directLinkService.deleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptionsModel).execute();
     assertNotNull(response);
-    PortCollection responseObj = response.getResult();
-    assertNotNull(responseObj);
+    Void responseObj = response.getResult();
+    assertNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
+    assertEquals(request.getMethod(), "DELETE");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteGatewayExportRouteFilterPath);
+    // Verify query params
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
-    // Get query params
     assertEquals(query.get("version"), "testString");
-    assertEquals(query.get("start"), "testString");
-    assertEquals(Long.valueOf(query.get("limit")), Long.valueOf("1"));
-    assertEquals(query.get("location_name"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, listPortsPath);
   }
-  
-  public void testListPortsWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListPortsWOptions.
-    directLinkService.enableRetries(4, 30);
-    testListPortsWOptions();
 
-    // Disable retries and run testListPortsWOptions.
-    directLinkService.disableRetries();
-    testListPortsWOptions();
-  }  
-
+  // Test the deleteGatewayExportRouteFilter operation with and without retries enabled
   @Test
-  public void testGetPortWOptions() throws Throwable {
-    // Schedule some responses.
-    String mockResponseBody = "{\"direct_link_count\": 1, \"id\": \"01122b9b-820f-4c44-8a31-77f1f0806765\", \"label\": \"XCR-FRK-CS-SEC-01\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"provider_name\": \"provider_1\", \"supported_link_speeds\": [19]}";
-    String getPortPath = "/ports/testString";
-
-    server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
-
-    // Construct an instance of the GetPortOptions model
-    GetPortOptions getPortOptionsModel = new GetPortOptions.Builder()
-    .id("testString")
-    .build();
-
-    // Invoke operation with valid options model (positive test)
-    Response<Port> response = directLinkService.getPort(getPortOptionsModel).execute();
-    assertNotNull(response);
-    Port responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, getPortPath);
-  }
-  
-  public void testGetPortWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetPortWOptions.
+  public void testDeleteGatewayExportRouteFilterWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
-    testGetPortWOptions();
+    testDeleteGatewayExportRouteFilterWOptions();
 
-    // Disable retries and run testGetPortWOptions.
     directLinkService.disableRetries();
-    testGetPortWOptions();
-  }  
+    testDeleteGatewayExportRouteFilterWOptions();
+  }
 
-  // Test the getPort operation with null options model parameter
+  // Test the deleteGatewayExportRouteFilter operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testGetPortNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
+  public void testDeleteGatewayExportRouteFilterNoOptions() throws Throwable {
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
-    directLinkService.getPort(null).execute();
+    directLinkService.deleteGatewayExportRouteFilter(null).execute();
   }
 
+  // Test the getGatewayExportRouteFilter operation with a valid options model parameter
+  @Test
+  public void testGetGatewayExportRouteFilterWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}";
+    String getGatewayExportRouteFilterPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the GetGatewayExportRouteFilterOptions model
+    GetGatewayExportRouteFilterOptions getGatewayExportRouteFilterOptionsModel = new GetGatewayExportRouteFilterOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke getGatewayExportRouteFilter() with a valid options model and verify the result
+    Response<RouteFilter> response = directLinkService.getGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel).execute();
+    assertNotNull(response);
+    RouteFilter responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getGatewayExportRouteFilterPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the getGatewayExportRouteFilter operation with and without retries enabled
+  @Test
+  public void testGetGatewayExportRouteFilterWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testGetGatewayExportRouteFilterWOptions();
+
+    directLinkService.disableRetries();
+    testGetGatewayExportRouteFilterWOptions();
+  }
+
+  // Test the getGatewayExportRouteFilter operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetGatewayExportRouteFilterNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.getGatewayExportRouteFilter(null).execute();
+  }
+
+  // Test the updateGatewayExportRouteFilter operation with a valid options model parameter
+  @Test
+  public void testUpdateGatewayExportRouteFilterWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}";
+    String updateGatewayExportRouteFilterPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/export_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the UpdateRouteFilterTemplate model
+    UpdateRouteFilterTemplate updateRouteFilterTemplateModel = new UpdateRouteFilterTemplate.Builder()
+      .action("permit")
+      .before("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .prefix("192.168.100.0/24")
+      .build();
+    Map<String, Object> updateRouteFilterTemplateModelAsPatch = updateRouteFilterTemplateModel.asPatch();
+
+    // Construct an instance of the UpdateGatewayExportRouteFilterOptions model
+    UpdateGatewayExportRouteFilterOptions updateGatewayExportRouteFilterOptionsModel = new UpdateGatewayExportRouteFilterOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .updateRouteFilterTemplatePatch(updateRouteFilterTemplateModelAsPatch)
+      .build();
+
+    // Invoke updateGatewayExportRouteFilter() with a valid options model and verify the result
+    Response<RouteFilter> response = directLinkService.updateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel).execute();
+    assertNotNull(response);
+    RouteFilter responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PATCH");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, updateGatewayExportRouteFilterPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the updateGatewayExportRouteFilter operation with and without retries enabled
+  @Test
+  public void testUpdateGatewayExportRouteFilterWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testUpdateGatewayExportRouteFilterWOptions();
+
+    directLinkService.disableRetries();
+    testUpdateGatewayExportRouteFilterWOptions();
+  }
+
+  // Test the updateGatewayExportRouteFilter operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testUpdateGatewayExportRouteFilterNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.updateGatewayExportRouteFilter(null).execute();
+  }
+
+  // Test the listGatewayImportRouteFilters operation with a valid options model parameter
+  @Test
+  public void testListGatewayImportRouteFiltersWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"import_route_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}]}";
+    String listGatewayImportRouteFiltersPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ListGatewayImportRouteFiltersOptions model
+    ListGatewayImportRouteFiltersOptions listGatewayImportRouteFiltersOptionsModel = new ListGatewayImportRouteFiltersOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke listGatewayImportRouteFilters() with a valid options model and verify the result
+    Response<ImportRouteFilterCollection> response = directLinkService.listGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel).execute();
+    assertNotNull(response);
+    ImportRouteFilterCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listGatewayImportRouteFiltersPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the listGatewayImportRouteFilters operation with and without retries enabled
+  @Test
+  public void testListGatewayImportRouteFiltersWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testListGatewayImportRouteFiltersWOptions();
+
+    directLinkService.disableRetries();
+    testListGatewayImportRouteFiltersWOptions();
+  }
+
+  // Test the listGatewayImportRouteFilters operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListGatewayImportRouteFiltersNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.listGatewayImportRouteFilters(null).execute();
+  }
+
+  // Test the createGatewayImportRouteFilter operation with a valid options model parameter
+  @Test
+  public void testCreateGatewayImportRouteFilterWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}";
+    String createGatewayImportRouteFilterPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(201)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the CreateGatewayImportRouteFilterOptions model
+    CreateGatewayImportRouteFilterOptions createGatewayImportRouteFilterOptionsModel = new CreateGatewayImportRouteFilterOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .action("permit")
+      .prefix("192.168.100.0/24")
+      .before("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .build();
+
+    // Invoke createGatewayImportRouteFilter() with a valid options model and verify the result
+    Response<RouteFilter> response = directLinkService.createGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel).execute();
+    assertNotNull(response);
+    RouteFilter responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createGatewayImportRouteFilterPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the createGatewayImportRouteFilter operation with and without retries enabled
+  @Test
+  public void testCreateGatewayImportRouteFilterWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testCreateGatewayImportRouteFilterWOptions();
+
+    directLinkService.disableRetries();
+    testCreateGatewayImportRouteFilterWOptions();
+  }
+
+  // Test the createGatewayImportRouteFilter operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateGatewayImportRouteFilterNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.createGatewayImportRouteFilter(null).execute();
+  }
+
+  // Test the replaceGatewayImportRouteFilters operation with a valid options model parameter
+  @Test
+  public void testReplaceGatewayImportRouteFiltersWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"import_route_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}]}";
+    String replaceGatewayImportRouteFiltersPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(201)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the GatewayTemplateRouteFilter model
+    GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+      .action("permit")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .prefix("192.168.100.0/24")
+      .build();
+
+    // Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
+    ReplaceGatewayImportRouteFiltersOptions replaceGatewayImportRouteFiltersOptionsModel = new ReplaceGatewayImportRouteFiltersOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .ifMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+      .importRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
+      .build();
+
+    // Invoke replaceGatewayImportRouteFilters() with a valid options model and verify the result
+    Response<ImportRouteFilterCollection> response = directLinkService.replaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel).execute();
+    assertNotNull(response);
+    ImportRouteFilterCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PUT");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, replaceGatewayImportRouteFiltersPath);
+    // Verify header parameters
+    assertEquals(request.getHeader("If-Match"), "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"");
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the replaceGatewayImportRouteFilters operation with and without retries enabled
+  @Test
+  public void testReplaceGatewayImportRouteFiltersWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testReplaceGatewayImportRouteFiltersWOptions();
+
+    directLinkService.disableRetries();
+    testReplaceGatewayImportRouteFiltersWOptions();
+  }
+
+  // Test the replaceGatewayImportRouteFilters operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testReplaceGatewayImportRouteFiltersNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.replaceGatewayImportRouteFilters(null).execute();
+  }
+
+  // Test the deleteGatewayImportRouteFilter operation with a valid options model parameter
+  @Test
+  public void testDeleteGatewayImportRouteFilterWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "";
+    String deleteGatewayImportRouteFilterPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
+    server.enqueue(new MockResponse()
+      .setResponseCode(204)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the DeleteGatewayImportRouteFilterOptions model
+    DeleteGatewayImportRouteFilterOptions deleteGatewayImportRouteFilterOptionsModel = new DeleteGatewayImportRouteFilterOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke deleteGatewayImportRouteFilter() with a valid options model and verify the result
+    Response<Void> response = directLinkService.deleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    assertNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteGatewayImportRouteFilterPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the deleteGatewayImportRouteFilter operation with and without retries enabled
+  @Test
+  public void testDeleteGatewayImportRouteFilterWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testDeleteGatewayImportRouteFilterWOptions();
+
+    directLinkService.disableRetries();
+    testDeleteGatewayImportRouteFilterWOptions();
+  }
+
+  // Test the deleteGatewayImportRouteFilter operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteGatewayImportRouteFilterNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.deleteGatewayImportRouteFilter(null).execute();
+  }
+
+  // Test the getGatewayImportRouteFilter operation with a valid options model parameter
+  @Test
+  public void testGetGatewayImportRouteFilterWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}";
+    String getGatewayImportRouteFilterPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the GetGatewayImportRouteFilterOptions model
+    GetGatewayImportRouteFilterOptions getGatewayImportRouteFilterOptionsModel = new GetGatewayImportRouteFilterOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke getGatewayImportRouteFilter() with a valid options model and verify the result
+    Response<RouteFilter> response = directLinkService.getGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel).execute();
+    assertNotNull(response);
+    RouteFilter responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getGatewayImportRouteFilterPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the getGatewayImportRouteFilter operation with and without retries enabled
+  @Test
+  public void testGetGatewayImportRouteFilterWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testGetGatewayImportRouteFilterWOptions();
+
+    directLinkService.disableRetries();
+    testGetGatewayImportRouteFilterWOptions();
+  }
+
+  // Test the getGatewayImportRouteFilter operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetGatewayImportRouteFilterNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.getGatewayImportRouteFilter(null).execute();
+  }
+
+  // Test the updateGatewayImportRouteFilter operation with a valid options model parameter
+  @Test
+  public void testUpdateGatewayImportRouteFilterWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2020-11-02T20:40:29.622Z\", \"ge\": 25, \"id\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"le\": 30, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2020-11-02T20:40:29.622Z\"}";
+    String updateGatewayImportRouteFilterPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/import_route_filters/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the UpdateRouteFilterTemplate model
+    UpdateRouteFilterTemplate updateRouteFilterTemplateModel = new UpdateRouteFilterTemplate.Builder()
+      .action("permit")
+      .before("1a15dcab-7e40-45e1-b7c5-bc690eaa9782")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .prefix("192.168.100.0/24")
+      .build();
+    Map<String, Object> updateRouteFilterTemplateModelAsPatch = updateRouteFilterTemplateModel.asPatch();
+
+    // Construct an instance of the UpdateGatewayImportRouteFilterOptions model
+    UpdateGatewayImportRouteFilterOptions updateGatewayImportRouteFilterOptionsModel = new UpdateGatewayImportRouteFilterOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .updateRouteFilterTemplatePatch(updateRouteFilterTemplateModelAsPatch)
+      .build();
+
+    // Invoke updateGatewayImportRouteFilter() with a valid options model and verify the result
+    Response<RouteFilter> response = directLinkService.updateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel).execute();
+    assertNotNull(response);
+    RouteFilter responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PATCH");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, updateGatewayImportRouteFilterPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the updateGatewayImportRouteFilter operation with and without retries enabled
+  @Test
+  public void testUpdateGatewayImportRouteFilterWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testUpdateGatewayImportRouteFilterWOptions();
+
+    directLinkService.disableRetries();
+    testUpdateGatewayImportRouteFilterWOptions();
+  }
+
+  // Test the updateGatewayImportRouteFilter operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testUpdateGatewayImportRouteFilterNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.updateGatewayImportRouteFilter(null).execute();
+  }
+
+  // Test the listGatewayRouteReports operation with a valid options model parameter
+  @Test
+  public void testListGatewayRouteReportsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"route_reports\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}]}";
+    String listGatewayRouteReportsPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ListGatewayRouteReportsOptions model
+    ListGatewayRouteReportsOptions listGatewayRouteReportsOptionsModel = new ListGatewayRouteReportsOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke listGatewayRouteReports() with a valid options model and verify the result
+    Response<RouteReportCollection> response = directLinkService.listGatewayRouteReports(listGatewayRouteReportsOptionsModel).execute();
+    assertNotNull(response);
+    RouteReportCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listGatewayRouteReportsPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the listGatewayRouteReports operation with and without retries enabled
+  @Test
+  public void testListGatewayRouteReportsWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testListGatewayRouteReportsWOptions();
+
+    directLinkService.disableRetries();
+    testListGatewayRouteReportsWOptions();
+  }
+
+  // Test the listGatewayRouteReports operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListGatewayRouteReportsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.listGatewayRouteReports(null).execute();
+  }
+
+  // Test the createGatewayRouteReport operation with a valid options model parameter
+  @Test
+  public void testCreateGatewayRouteReportWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}";
+    String createGatewayRouteReportPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(202)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the CreateGatewayRouteReportOptions model
+    CreateGatewayRouteReportOptions createGatewayRouteReportOptionsModel = new CreateGatewayRouteReportOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke createGatewayRouteReport() with a valid options model and verify the result
+    Response<RouteReport> response = directLinkService.createGatewayRouteReport(createGatewayRouteReportOptionsModel).execute();
+    assertNotNull(response);
+    RouteReport responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createGatewayRouteReportPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the createGatewayRouteReport operation with and without retries enabled
+  @Test
+  public void testCreateGatewayRouteReportWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testCreateGatewayRouteReportWOptions();
+
+    directLinkService.disableRetries();
+    testCreateGatewayRouteReportWOptions();
+  }
+
+  // Test the createGatewayRouteReport operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateGatewayRouteReportNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.createGatewayRouteReport(null).execute();
+  }
+
+  // Test the deleteGatewayRouteReport operation with a valid options model parameter
+  @Test
+  public void testDeleteGatewayRouteReportWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "";
+    String deleteGatewayRouteReportPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
+    server.enqueue(new MockResponse()
+      .setResponseCode(204)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the DeleteGatewayRouteReportOptions model
+    DeleteGatewayRouteReportOptions deleteGatewayRouteReportOptionsModel = new DeleteGatewayRouteReportOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke deleteGatewayRouteReport() with a valid options model and verify the result
+    Response<Void> response = directLinkService.deleteGatewayRouteReport(deleteGatewayRouteReportOptionsModel).execute();
+    assertNotNull(response);
+    Void responseObj = response.getResult();
+    assertNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteGatewayRouteReportPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the deleteGatewayRouteReport operation with and without retries enabled
+  @Test
+  public void testDeleteGatewayRouteReportWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testDeleteGatewayRouteReportWOptions();
+
+    directLinkService.disableRetries();
+    testDeleteGatewayRouteReportWOptions();
+  }
+
+  // Test the deleteGatewayRouteReport operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteGatewayRouteReportNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.deleteGatewayRouteReport(null).execute();
+  }
+
+  // Test the getGatewayRouteReport operation with a valid options model parameter
+  @Test
+  public void testGetGatewayRouteReportWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}";
+    String getGatewayRouteReportPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the GetGatewayRouteReportOptions model
+    GetGatewayRouteReportOptions getGatewayRouteReportOptionsModel = new GetGatewayRouteReportOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke getGatewayRouteReport() with a valid options model and verify the result
+    Response<RouteReport> response = directLinkService.getGatewayRouteReport(getGatewayRouteReportOptionsModel).execute();
+    assertNotNull(response);
+    RouteReport responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getGatewayRouteReportPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the getGatewayRouteReport operation with and without retries enabled
+  @Test
+  public void testGetGatewayRouteReportWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testGetGatewayRouteReportWOptions();
+
+    directLinkService.disableRetries();
+    testGetGatewayRouteReportWOptions();
+  }
+
+  // Test the getGatewayRouteReport operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetGatewayRouteReportNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.getGatewayRouteReport(null).execute();
+  }
+
+  // Test the listGatewayVirtualConnections operation with a valid options model parameter
   @Test
   public void testListGatewayVirtualConnectionsWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "{\"virtual_connections\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"newVC\", \"network_account\": \"00aa14a2e0fb102c8995ebefff865555\", \"network_id\": \"crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb\", \"status\": \"attached\", \"type\": \"vpc\"}]}";
-    String listGatewayVirtualConnectionsPath = "/gateways/testString/virtual_connections";
-
+    String listGatewayVirtualConnectionsPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the ListGatewayVirtualConnectionsOptions model
     ListGatewayVirtualConnectionsOptions listGatewayVirtualConnectionsOptionsModel = new ListGatewayVirtualConnectionsOptions.Builder()
-    .gatewayId("testString")
-    .build();
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke listGatewayVirtualConnections() with a valid options model and verify the result
     Response<GatewayVirtualConnectionCollection> response = directLinkService.listGatewayVirtualConnections(listGatewayVirtualConnectionsOptionsModel).execute();
     assertNotNull(response);
     GatewayVirtualConnectionCollection responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, listGatewayVirtualConnectionsPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testListGatewayVirtualConnectionsWOptionsWRetries() throws Throwable {
-    // Enable retries and run testListGatewayVirtualConnectionsWOptions.
+
+  // Test the listGatewayVirtualConnections operation with and without retries enabled
+  @Test
+  public void testListGatewayVirtualConnectionsWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testListGatewayVirtualConnectionsWOptions();
 
-    // Disable retries and run testListGatewayVirtualConnectionsWOptions.
     directLinkService.disableRetries();
     testListGatewayVirtualConnectionsWOptions();
-  }  
+  }
 
-  // Test the listGatewayVirtualConnections operation with null options model parameter
+  // Test the listGatewayVirtualConnections operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testListGatewayVirtualConnectionsNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.listGatewayVirtualConnections(null).execute();
   }
 
+  // Test the createGatewayVirtualConnection operation with a valid options model parameter
   @Test
   public void testCreateGatewayVirtualConnectionWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"newVC\", \"network_account\": \"00aa14a2e0fb102c8995ebefff865555\", \"network_id\": \"crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb\", \"status\": \"attached\", \"type\": \"vpc\"}";
-    String createGatewayVirtualConnectionPath = "/gateways/testString/virtual_connections";
-
+    String createGatewayVirtualConnectionPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(201)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(201)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the CreateGatewayVirtualConnectionOptions model
     CreateGatewayVirtualConnectionOptions createGatewayVirtualConnectionOptionsModel = new CreateGatewayVirtualConnectionOptions.Builder()
-    .gatewayId("testString")
-    .name("newVC")
-    .type("vpc")
-    .networkId("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")
-    .build();
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .name("newVC")
+      .type("vpc")
+      .networkId("crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke createGatewayVirtualConnection() with a valid options model and verify the result
     Response<GatewayVirtualConnection> response = directLinkService.createGatewayVirtualConnection(createGatewayVirtualConnectionOptionsModel).execute();
     assertNotNull(response);
     GatewayVirtualConnection responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "POST");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, createGatewayVirtualConnectionPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testCreateGatewayVirtualConnectionWOptionsWRetries() throws Throwable {
-    // Enable retries and run testCreateGatewayVirtualConnectionWOptions.
+
+  // Test the createGatewayVirtualConnection operation with and without retries enabled
+  @Test
+  public void testCreateGatewayVirtualConnectionWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testCreateGatewayVirtualConnectionWOptions();
 
-    // Disable retries and run testCreateGatewayVirtualConnectionWOptions.
     directLinkService.disableRetries();
     testCreateGatewayVirtualConnectionWOptions();
-  }  
+  }
 
-  // Test the createGatewayVirtualConnection operation with null options model parameter
+  // Test the createGatewayVirtualConnection operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testCreateGatewayVirtualConnectionNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.createGatewayVirtualConnection(null).execute();
   }
 
+  // Test the deleteGatewayVirtualConnection operation with a valid options model parameter
   @Test
   public void testDeleteGatewayVirtualConnectionWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "";
-    String deleteGatewayVirtualConnectionPath = "/gateways/testString/virtual_connections/testString";
-
+    String deleteGatewayVirtualConnectionPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
     server.enqueue(new MockResponse()
-    .setResponseCode(204)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setResponseCode(204)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the DeleteGatewayVirtualConnectionOptions model
     DeleteGatewayVirtualConnectionOptions deleteGatewayVirtualConnectionOptionsModel = new DeleteGatewayVirtualConnectionOptions.Builder()
-    .gatewayId("testString")
-    .id("testString")
-    .build();
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke deleteGatewayVirtualConnection() with a valid options model and verify the result
     Response<Void> response = directLinkService.deleteGatewayVirtualConnection(deleteGatewayVirtualConnectionOptionsModel).execute();
     assertNotNull(response);
     Void responseObj = response.getResult();
-    // Response does not have a return type. Check that the result is null.
     assertNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "DELETE");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, deleteGatewayVirtualConnectionPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testDeleteGatewayVirtualConnectionWOptionsWRetries() throws Throwable {
-    // Enable retries and run testDeleteGatewayVirtualConnectionWOptions.
+
+  // Test the deleteGatewayVirtualConnection operation with and without retries enabled
+  @Test
+  public void testDeleteGatewayVirtualConnectionWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testDeleteGatewayVirtualConnectionWOptions();
 
-    // Disable retries and run testDeleteGatewayVirtualConnectionWOptions.
     directLinkService.disableRetries();
     testDeleteGatewayVirtualConnectionWOptions();
-  }  
+  }
 
-  // Test the deleteGatewayVirtualConnection operation with null options model parameter
+  // Test the deleteGatewayVirtualConnection operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testDeleteGatewayVirtualConnectionNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.deleteGatewayVirtualConnection(null).execute();
   }
 
+  // Test the getGatewayVirtualConnection operation with a valid options model parameter
   @Test
   public void testGetGatewayVirtualConnectionWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"newVC\", \"network_account\": \"00aa14a2e0fb102c8995ebefff865555\", \"network_id\": \"crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb\", \"status\": \"attached\", \"type\": \"vpc\"}";
-    String getGatewayVirtualConnectionPath = "/gateways/testString/virtual_connections/testString";
-
+    String getGatewayVirtualConnectionPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the GetGatewayVirtualConnectionOptions model
     GetGatewayVirtualConnectionOptions getGatewayVirtualConnectionOptionsModel = new GetGatewayVirtualConnectionOptions.Builder()
-    .gatewayId("testString")
-    .id("testString")
-    .build();
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke getGatewayVirtualConnection() with a valid options model and verify the result
     Response<GatewayVirtualConnection> response = directLinkService.getGatewayVirtualConnection(getGatewayVirtualConnectionOptionsModel).execute();
     assertNotNull(response);
     GatewayVirtualConnection responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "GET");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, getGatewayVirtualConnectionPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testGetGatewayVirtualConnectionWOptionsWRetries() throws Throwable {
-    // Enable retries and run testGetGatewayVirtualConnectionWOptions.
+
+  // Test the getGatewayVirtualConnection operation with and without retries enabled
+  @Test
+  public void testGetGatewayVirtualConnectionWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testGetGatewayVirtualConnectionWOptions();
 
-    // Disable retries and run testGetGatewayVirtualConnectionWOptions.
     directLinkService.disableRetries();
     testGetGatewayVirtualConnectionWOptions();
-  }  
+  }
 
-  // Test the getGatewayVirtualConnection operation with null options model parameter
+  // Test the getGatewayVirtualConnection operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testGetGatewayVirtualConnectionNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.getGatewayVirtualConnection(null).execute();
   }
 
+  // Test the updateGatewayVirtualConnection operation with a valid options model parameter
   @Test
   public void testUpdateGatewayVirtualConnectionWOptions() throws Throwable {
-    // Schedule some responses.
+    // Register a mock response
     String mockResponseBody = "{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"newVC\", \"network_account\": \"00aa14a2e0fb102c8995ebefff865555\", \"network_id\": \"crn:v1:bluemix:public:is:us-east:a/28e4d90ac7504be69447111122223333::vpc:aaa81ac8-5e96-42a0-a4b7-6c2e2d1bbbbb\", \"status\": \"attached\", \"type\": \"vpc\"}";
-    String updateGatewayVirtualConnectionPath = "/gateways/testString/virtual_connections/testString";
-
+    String updateGatewayVirtualConnectionPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/virtual_connections/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
     server.enqueue(new MockResponse()
-    .setHeader("Content-type", "application/json")
-    .setResponseCode(200)
-    .setBody(mockResponseBody));
-
-    constructClientService();
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
 
     // Construct an instance of the UpdateGatewayVirtualConnectionOptions model
     UpdateGatewayVirtualConnectionOptions updateGatewayVirtualConnectionOptionsModel = new UpdateGatewayVirtualConnectionOptions.Builder()
-    .gatewayId("testString")
-    .id("testString")
-    .name("newConnectionName")
-    .status("attached")
-    .build();
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .name("newConnectionName")
+      .status("attached")
+      .build();
 
-    // Invoke operation with valid options model (positive test)
+    // Invoke updateGatewayVirtualConnection() with a valid options model and verify the result
     Response<GatewayVirtualConnection> response = directLinkService.updateGatewayVirtualConnection(updateGatewayVirtualConnectionOptionsModel).execute();
     assertNotNull(response);
     GatewayVirtualConnection responseObj = response.getResult();
     assertNotNull(responseObj);
 
-    // Verify the contents of the request
+    // Verify the contents of the request sent to the mock server
     RecordedRequest request = server.takeRequest();
     assertNotNull(request);
     assertEquals(request.getMethod(), "PATCH");
-
-    // Check query
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    // Get query params
-    assertEquals(query.get("version"), "testString");
-    // Check request path
+    // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
     assertEquals(parsedPath, updateGatewayVirtualConnectionPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
-  
-  public void testUpdateGatewayVirtualConnectionWOptionsWRetries() throws Throwable {
-    // Enable retries and run testUpdateGatewayVirtualConnectionWOptions.
+
+  // Test the updateGatewayVirtualConnection operation with and without retries enabled
+  @Test
+  public void testUpdateGatewayVirtualConnectionWRetries() throws Throwable {
     directLinkService.enableRetries(4, 30);
     testUpdateGatewayVirtualConnectionWOptions();
 
-    // Disable retries and run testUpdateGatewayVirtualConnectionWOptions.
     directLinkService.disableRetries();
     testUpdateGatewayVirtualConnectionWOptions();
-  }  
+  }
 
-  // Test the updateGatewayVirtualConnection operation with null options model parameter
+  // Test the updateGatewayVirtualConnection operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
   public void testUpdateGatewayVirtualConnectionNoOptions() throws Throwable {
-    // construct the service
-    constructClientService();
-
     server.enqueue(new MockResponse());
-
-    // Invoke operation with null options model (negative test)
     directLinkService.updateGatewayVirtualConnection(null).execute();
   }
 
-  /** Initialize the server */
-  @BeforeMethod
-  public void setUpMockServer() {
-    try {
-        server = new MockWebServer();
-        // register handler
-        server.start();
-        }
-    catch (IOException err) {
-        fail("Failed to instantiate mock web server");
-    }
+  // Test the listOfferingTypeLocations operation with a valid options model parameter
+  @Test
+  public void testListOfferingTypeLocationsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"locations\": [{\"billing_location\": \"us\", \"building_colocation_owner\": \"MyProvider\", \"display_name\": \"Dallas 9\", \"location_type\": \"PoP\", \"macsec_enabled\": false, \"market\": \"Dallas\", \"market_geography\": \"N/S America\", \"mzr\": true, \"name\": \"dal03\", \"offering_type\": \"dedicated\", \"provision_enabled\": true, \"vpc_region\": \"us-south\"}]}";
+    String listOfferingTypeLocationsPath = "/offering_types/dedicated/locations";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ListOfferingTypeLocationsOptions model
+    ListOfferingTypeLocationsOptions listOfferingTypeLocationsOptionsModel = new ListOfferingTypeLocationsOptions.Builder()
+      .offeringType("dedicated")
+      .build();
+
+    // Invoke listOfferingTypeLocations() with a valid options model and verify the result
+    Response<LocationCollection> response = directLinkService.listOfferingTypeLocations(listOfferingTypeLocationsOptionsModel).execute();
+    assertNotNull(response);
+    LocationCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listOfferingTypeLocationsPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
   }
 
+  // Test the listOfferingTypeLocations operation with and without retries enabled
+  @Test
+  public void testListOfferingTypeLocationsWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testListOfferingTypeLocationsWOptions();
+
+    directLinkService.disableRetries();
+    testListOfferingTypeLocationsWOptions();
+  }
+
+  // Test the listOfferingTypeLocations operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListOfferingTypeLocationsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.listOfferingTypeLocations(null).execute();
+  }
+
+  // Test the listOfferingTypeLocationCrossConnectRouters operation with a valid options model parameter
+  @Test
+  public void testListOfferingTypeLocationCrossConnectRoutersWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"cross_connect_routers\": [{\"capabilities\": [\"capabilities\"], \"router_name\": \"xcr01.dal03\", \"total_connections\": 1}]}";
+    String listOfferingTypeLocationCrossConnectRoutersPath = "/offering_types/dedicated/locations/testString/cross_connect_routers";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ListOfferingTypeLocationCrossConnectRoutersOptions model
+    ListOfferingTypeLocationCrossConnectRoutersOptions listOfferingTypeLocationCrossConnectRoutersOptionsModel = new ListOfferingTypeLocationCrossConnectRoutersOptions.Builder()
+      .offeringType("dedicated")
+      .locationName("testString")
+      .build();
+
+    // Invoke listOfferingTypeLocationCrossConnectRouters() with a valid options model and verify the result
+    Response<LocationCrossConnectRouterCollection> response = directLinkService.listOfferingTypeLocationCrossConnectRouters(listOfferingTypeLocationCrossConnectRoutersOptionsModel).execute();
+    assertNotNull(response);
+    LocationCrossConnectRouterCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listOfferingTypeLocationCrossConnectRoutersPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the listOfferingTypeLocationCrossConnectRouters operation with and without retries enabled
+  @Test
+  public void testListOfferingTypeLocationCrossConnectRoutersWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testListOfferingTypeLocationCrossConnectRoutersWOptions();
+
+    directLinkService.disableRetries();
+    testListOfferingTypeLocationCrossConnectRoutersWOptions();
+  }
+
+  // Test the listOfferingTypeLocationCrossConnectRouters operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListOfferingTypeLocationCrossConnectRoutersNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.listOfferingTypeLocationCrossConnectRouters(null).execute();
+  }
+
+  // Test the listOfferingTypeSpeeds operation with a valid options model parameter
+  @Test
+  public void testListOfferingTypeSpeedsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"speeds\": [{\"capabilities\": [\"capabilities\"], \"link_speed\": 2000, \"macsec_enabled\": false}]}";
+    String listOfferingTypeSpeedsPath = "/offering_types/dedicated/speeds";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ListOfferingTypeSpeedsOptions model
+    ListOfferingTypeSpeedsOptions listOfferingTypeSpeedsOptionsModel = new ListOfferingTypeSpeedsOptions.Builder()
+      .offeringType("dedicated")
+      .build();
+
+    // Invoke listOfferingTypeSpeeds() with a valid options model and verify the result
+    Response<OfferingSpeedCollection> response = directLinkService.listOfferingTypeSpeeds(listOfferingTypeSpeedsOptionsModel).execute();
+    assertNotNull(response);
+    OfferingSpeedCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listOfferingTypeSpeedsPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the listOfferingTypeSpeeds operation with and without retries enabled
+  @Test
+  public void testListOfferingTypeSpeedsWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testListOfferingTypeSpeedsWOptions();
+
+    directLinkService.disableRetries();
+    testListOfferingTypeSpeedsWOptions();
+  }
+
+  // Test the listOfferingTypeSpeeds operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListOfferingTypeSpeedsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.listOfferingTypeSpeeds(null).execute();
+  }
+
+  // Test the listPorts operation with a valid options model parameter
+  @Test
+  public void testListPortsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"first\": {\"href\": \"https://directlink.cloud.ibm.com/v1/ports?limit=100\"}, \"limit\": 100, \"next\": {\"href\": \"https://directlink.cloud.ibm.com/v1/ports?start=9d5a91a3e2cbd233b5a5b33436855ed1&limit=100\", \"start\": \"9d5a91a3e2cbd233b5a5b33436855ed1\"}, \"total_count\": 132, \"ports\": [{\"direct_link_count\": 1, \"id\": \"01122b9b-820f-4c44-8a31-77f1f0806765\", \"label\": \"XCR-FRK-CS-SEC-01\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"provider_name\": \"provider_1\", \"supported_link_speeds\": [19]}]}";
+    String listPortsPath = "/ports";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ListPortsOptions model
+    ListPortsOptions listPortsOptionsModel = new ListPortsOptions.Builder()
+      .start("testString")
+      .limit(Long.valueOf("10"))
+      .locationName("testString")
+      .build();
+
+    // Invoke listPorts() with a valid options model and verify the result
+    Response<PortCollection> response = directLinkService.listPorts(listPortsOptionsModel).execute();
+    assertNotNull(response);
+    PortCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listPortsPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+    assertEquals(query.get("start"), "testString");
+    assertEquals(Long.valueOf(query.get("limit")), Long.valueOf("10"));
+    assertEquals(query.get("location_name"), "testString");
+  }
+
+  // Test the listPorts operation with and without retries enabled
+  @Test
+  public void testListPortsWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testListPortsWOptions();
+
+    directLinkService.disableRetries();
+    testListPortsWOptions();
+  }
+
+  // Test the listPorts operation using the PortsPager.getNext() method
+  @Test
+  public void testListPortsWithPagerGetNext() throws Throwable {
+    // Set up the two-page mock response.
+    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"ports\":[{\"direct_link_count\":1,\"id\":\"01122b9b-820f-4c44-8a31-77f1f0806765\",\"label\":\"XCR-FRK-CS-SEC-01\",\"location_display_name\":\"Dallas 03\",\"location_name\":\"dal03\",\"provider_name\":\"provider_1\",\"supported_link_speeds\":[19]}]}";
+    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"ports\":[{\"direct_link_count\":1,\"id\":\"01122b9b-820f-4c44-8a31-77f1f0806765\",\"label\":\"XCR-FRK-CS-SEC-01\",\"location_display_name\":\"Dallas 03\",\"location_name\":\"dal03\",\"provider_name\":\"provider_1\",\"supported_link_speeds\":[19]}]}";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponsePage1));
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponsePage2));
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(400)
+      .setBody("{\"message\": \"No more results available!\"}"));
+
+    ListPortsOptions listPortsOptions = new ListPortsOptions.Builder()
+      .limit(Long.valueOf("10"))
+      .locationName("testString")
+      .build();
+
+    List<Port> allResults = new ArrayList<>();
+    PortsPager pager = new PortsPager(directLinkService, listPortsOptions);
+    while (pager.hasNext()) {
+      List<Port> nextPage = pager.getNext();
+      assertNotNull(nextPage);
+      allResults.addAll(nextPage);
+    }
+    assertEquals(allResults.size(), 2);
+  }
+  
+  // Test the listPorts operation using the PortsPager.getAll() method
+  @Test
+  public void testListPortsWithPagerGetAll() throws Throwable {
+    // Set up the two-page mock response.
+    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"ports\":[{\"direct_link_count\":1,\"id\":\"01122b9b-820f-4c44-8a31-77f1f0806765\",\"label\":\"XCR-FRK-CS-SEC-01\",\"location_display_name\":\"Dallas 03\",\"location_name\":\"dal03\",\"provider_name\":\"provider_1\",\"supported_link_speeds\":[19]}]}";
+    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"ports\":[{\"direct_link_count\":1,\"id\":\"01122b9b-820f-4c44-8a31-77f1f0806765\",\"label\":\"XCR-FRK-CS-SEC-01\",\"location_display_name\":\"Dallas 03\",\"location_name\":\"dal03\",\"provider_name\":\"provider_1\",\"supported_link_speeds\":[19]}]}";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponsePage1));
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponsePage2));
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(400)
+      .setBody("{\"message\": \"No more results available!\"}"));
+
+    ListPortsOptions listPortsOptions = new ListPortsOptions.Builder()
+      .limit(Long.valueOf("10"))
+      .locationName("testString")
+      .build();
+
+    PortsPager pager = new PortsPager(directLinkService, listPortsOptions);
+    List<Port> allResults = pager.getAll();
+    assertNotNull(allResults);
+    assertEquals(allResults.size(), 2);
+  }
+  
+  // Test the getPort operation with a valid options model parameter
+  @Test
+  public void testGetPortWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"direct_link_count\": 1, \"id\": \"01122b9b-820f-4c44-8a31-77f1f0806765\", \"label\": \"XCR-FRK-CS-SEC-01\", \"location_display_name\": \"Dallas 03\", \"location_name\": \"dal03\", \"provider_name\": \"provider_1\", \"supported_link_speeds\": [19]}";
+    String getPortPath = "/ports/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the GetPortOptions model
+    GetPortOptions getPortOptionsModel = new GetPortOptions.Builder()
+      .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke getPort() with a valid options model and verify the result
+    Response<Port> response = directLinkService.getPort(getPortOptionsModel).execute();
+    assertNotNull(response);
+    Port responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getPortPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the getPort operation with and without retries enabled
+  @Test
+  public void testGetPortWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testGetPortWOptions();
+
+    directLinkService.disableRetries();
+    testGetPortWOptions();
+  }
+
+  // Test the getPort operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetPortNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.getPort(null).execute();
+  }
+
+  // Test the listGatewayAsPrepends operation with a valid options model parameter
+  @Test
+  public void testListGatewayAsPrependsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
+    String listGatewayAsPrependsPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ListGatewayAsPrependsOptions model
+    ListGatewayAsPrependsOptions listGatewayAsPrependsOptionsModel = new ListGatewayAsPrependsOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .build();
+
+    // Invoke listGatewayAsPrepends() with a valid options model and verify the result
+    Response<AsPrependCollection> response = directLinkService.listGatewayAsPrepends(listGatewayAsPrependsOptionsModel).execute();
+    assertNotNull(response);
+    AsPrependCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listGatewayAsPrependsPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the listGatewayAsPrepends operation with and without retries enabled
+  @Test
+  public void testListGatewayAsPrependsWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testListGatewayAsPrependsWOptions();
+
+    directLinkService.disableRetries();
+    testListGatewayAsPrependsWOptions();
+  }
+
+  // Test the listGatewayAsPrepends operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListGatewayAsPrependsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.listGatewayAsPrepends(null).execute();
+  }
+
+  // Test the replaceGatewayAsPrepends operation with a valid options model parameter
+  @Test
+  public void testReplaceGatewayAsPrependsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"as_prepends\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"length\": 4, \"policy\": \"import\", \"specific_prefixes\": [\"192.168.3.0/24\"], \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
+    String replaceGatewayAsPrependsPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/as_prepends";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(201)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the AsPrependPrefixArrayTemplate model
+    AsPrependPrefixArrayTemplate asPrependPrefixArrayTemplateModel = new AsPrependPrefixArrayTemplate.Builder()
+      .length(Long.valueOf("4"))
+      .policy("import")
+      .specificPrefixes(java.util.Arrays.asList("192.168.3.0/24"))
+      .build();
+
+    // Construct an instance of the ReplaceGatewayAsPrependsOptions model
+    ReplaceGatewayAsPrependsOptions replaceGatewayAsPrependsOptionsModel = new ReplaceGatewayAsPrependsOptions.Builder()
+      .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+      .ifMatch("W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"")
+      .asPrepends(java.util.Arrays.asList(asPrependPrefixArrayTemplateModel))
+      .build();
+
+    // Invoke replaceGatewayAsPrepends() with a valid options model and verify the result
+    Response<AsPrependCollection> response = directLinkService.replaceGatewayAsPrepends(replaceGatewayAsPrependsOptionsModel).execute();
+    assertNotNull(response);
+    AsPrependCollection responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PUT");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, replaceGatewayAsPrependsPath);
+    // Verify header parameters
+    assertEquals(request.getHeader("If-Match"), "W/\"96d225c4-56bd-43d9-98fc-d7148e5c5028\"");
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("version"), "testString");
+  }
+
+  // Test the replaceGatewayAsPrepends operation with and without retries enabled
+  @Test
+  public void testReplaceGatewayAsPrependsWRetries() throws Throwable {
+    directLinkService.enableRetries(4, 30);
+    testReplaceGatewayAsPrependsWOptions();
+
+    directLinkService.disableRetries();
+    testReplaceGatewayAsPrependsWOptions();
+  }
+
+  // Test the replaceGatewayAsPrepends operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testReplaceGatewayAsPrependsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    directLinkService.replaceGatewayAsPrepends(null).execute();
+  }
+
+  // Perform setup needed before each test method
+  @BeforeMethod
+  public void beforeEachTest() {
+    // Start the mock server.
+    try {
+      server = new MockWebServer();
+      server.start();
+    } catch (IOException err) {
+      fail("Failed to instantiate mock web server");
+    }
+
+    // Construct an instance of the service
+    constructClientService();
+  }
+
+  // Perform tear down after each test method
   @AfterMethod
-  public void tearDownMockServer() throws IOException {
+  public void afterEachTest() throws IOException {
     server.shutdown();
     directLinkService = null;
+  }
+
+  // Creates a mock set of environment variables that are returned by EnvironmentUtils.getenv()
+  private Map<String, String> getTestProcessEnvironment() {
+    Map<String, String> env = new HashMap<>();
+    env.put("TESTSERVICE_AUTH_TYPE", "noAuth");
+    return env;
+  }
+
+  // Constructs an instance of the service to be used by the tests
+  public void constructClientService() {
+    PowerMockito.spy(EnvironmentUtils.class);
+    PowerMockito.when(EnvironmentUtils.getenv()).thenReturn(getTestProcessEnvironment());
+    final String serviceName = "testService";
+    // set mock values for global params
+    String version = "testString";
+
+    directLinkService = DirectLink.newInstance(version, serviceName);
+    String url = server.url("/").toString();
+    directLinkService.setServiceUrl(url);
   }
 }

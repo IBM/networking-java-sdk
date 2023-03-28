@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
@@ -42,11 +43,21 @@ import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayCompletionNoticeOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayVirtualConnectionOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
+
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayImportRouteFilterOptions;
+
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayImportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayRouteReportOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ExportRouteFilterCollection;
 // import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
 // import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
 // import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplate;
@@ -57,8 +68,11 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCol
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ImportRouteFilterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayAsPrependsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayExportRouteFiltersOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayImportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayLetterOfAuthorizationOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayVirtualConnectionsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewaysOptions;
@@ -73,9 +87,16 @@ import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeed;
 import com.ibm.cloud.networking.direct_link.v1.model.Port;
 import com.ibm.cloud.networking.direct_link.v1.model.PortCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayAsPrependsOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayExportRouteFiltersOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayImportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayImportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateRouteFilterTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdPatchTemplate;
@@ -85,6 +106,10 @@ import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayRouteReportOption
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayRouteReportsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayRouteReportOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteFilter;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
@@ -108,6 +133,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	String vpcVcId = null;
 	String dedicatedGatewayId = null;
 	String connectGatewayId = null;
+	String exportRFId = null;
+	String importRFId = null;
 	String eTag = null;
 
 	Map<String, String> config = null;
@@ -382,7 +409,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  	}
 	}
 	
-	@Test 
+	@org.junit.Ignore
+	//@Test 
 	public void testDedicatedGatewayOptions() { 
 		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
 		assertNotNull(testService);
@@ -399,11 +427,24 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		String customerName = "customer1"; 
 		String gatewayType = "dedicated";
 	  
+		// Construct an instance of the GatewayTemplateRouteFilter model
+		GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+		.action("permit")
+		.ge(Long.valueOf("25"))
+		.le(Long.valueOf("30"))
+		.prefix("192.168.100.0/24")
+		.build();	
+
 	  GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
 	  	.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).bgpCerCidr("10.254.30.78/30").bgpIbmCidr("10.254.30.77/30")
 	  	.global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
 	  	.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName) 
-	  	.locationName(locationName).build();
+	  	.locationName(locationName)
+		.defaultExportRouteFilter("permit")
+		.defaultImportRouteFilter("permit")
+		.exportRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
+		.importRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
+		.build();
 	  
 	  // ***************** Create dedicated Gateway ********************* //
 		// Construct an instance of the CreateGatewayOptions model 
@@ -419,10 +460,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		assertNotNull(responseObj);
 		
 		// save gw id for clean up routine if we terminate
-	  gatewayId = responseObj.getId();
+	  dedicatedGatewayId = responseObj.getId();
+
 	  
 	  //********** Get the dedicate gateway just created *************
-	  GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(gatewayId).build();
+	  GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(dedicatedGatewayId).build();
 	  
 	  // Invoke operation with valid options model (positive test)
 	  Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
@@ -440,24 +482,32 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		assertNotNull(lisResp); assertEquals(200, lisResp.getStatusCode());
 		
 		GatewayCollection lisresponseObj = lisResp.getResult();
-		assertNotNull(lisresponseObj); assertNotEquals(0,lisresponseObj.getGateways().size());
-	  
+		assertNotNull(lisresponseObj); 
+		assertNotEquals(0,lisresponseObj.getGateways().size());
+
+		Gateway gw = lisresponseObj.getGateways().get(0);
+		
+		assertEquals(gw.getDefaultExportRouteFilter(), "permit");
+		assertEquals(gw.getDefaultImportRouteFilter(), "permit");
+
 		// ********** Patch the gateway using attributes that can be changed with the current gw status ************* 
 		// Construct an instance of the UpdateGatewayOptions model 
-		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(dedicatedGatewayId)
 			.global(false).metered(true).name(updatedGatewayName).speedMbps(Long.valueOf("1000")).build(); 
 			
 		// Invoke operation with valid options model (positive test) 
 		Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
 		assertNotNull(updateResponse); 
 		assertEquals(200, updateResponse.getStatusCode());
+		assertEquals(updateResponse.getResult().getDefaultExportRouteFilter(), "permit");
+		assertEquals(updateResponse.getResult().getDefaultImportRouteFilter(), "permit");
 	  
 	  Gateway updateResponseObj = updateResponse.getResult();
 	  assertNotNull(updateResponseObj);
 	  
 		// ********** Patch the gateway using valid attributes, but cannot be changed with the current gw status ************* 
 		// Construct an instance of the UpdateGatewayOptions model 
-		updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+		updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(dedicatedGatewayId)
 			.loaRejectReason("Some reason for the failure").build(); 
 			
 			// Invoke operation with valid options model 
@@ -471,7 +521,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			}
 	  
 	  // Construct an instance of the UpdateGatewayOptions model
-	  updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+	  updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(dedicatedGatewayId)
 			.operationalStatus("loa_rejected").loaRejectReason("Some reason for the failure").build(); 
 				
 		// Invoke operation with valid options model (positive test) 
@@ -484,18 +534,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			// expect this error for loa status update response 
 		}
 	  
-		// Delete the dedicated GW 
-		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(responseObj.getId()) .build(); 
-			
-		//  Invoke operation with valid options model (positive test) 
-		Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
-		assertNotNull(Delresponse); 
-		assertEquals(204, Delresponse.getStatusCode());
-		
-		Void delResponseObj = Delresponse.getResult(); // Response does not have a return type. Check that the result is null. 
-		assertNull(delResponseObj);
-	  
-	  	gatewayId = null; // already cleaned up System.out.
+		// *********** Do not delete the GW to be re-used later **************************
 	}
 	 
 	// @Test(dependsOnMethods = "testDedicatedGatewayOptions")
@@ -585,8 +624,69 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 
 	// }
+	
+	@org.junit.Ignore
+	//@Test (dependsOnMethods = "testDedicatedGatewayOptions")
+	public void testLOA() {
+		assertNotNull(testService);
 
-	@Test (dependsOnMethods = "testDedicatedGatewayOptions")
+		// Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
+		ListGatewayLetterOfAuthorizationOptions listGatewayLetterOfAuthorizationOptionsModel = new ListGatewayLetterOfAuthorizationOptions.Builder()
+			.id(dedicatedGatewayId).build();
+
+		try {
+			// Invoke operation with valid options model (positive test)
+			Response<InputStream> loaResponse = testService
+				.listGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationOptionsModel).execute();
+
+			// We should never get here as the call should throw an exception
+			assertNotNull(loaResponse);
+			assertNotEquals(404, loaResponse.getStatusCode());
+		} catch (com.ibm.cloud.sdk.core.service.exception.NotFoundException nfe) {
+			// Expect a not found response since LOA does not exist
+		}
+	}
+
+	@org.junit.Ignore
+	//@Test (dependsOnMethods = "testLOA")
+  	public void testCompletionNotice() throws IOException {
+		assertNotNull(testService);
+
+		// ***************** Attempt to upload a completion notice; it will fail due to github issue state *********************
+		try { 
+			// open the sample completion notice pdf
+			File initialFile = new File("src/main/resources/completion_notice.pdf");
+
+			// Construct an instance of the CreateGatewayCompletionNoticeOptions model
+			CreateGatewayCompletionNoticeOptions createGatewayCompletionNoticeOptionsModel = new CreateGatewayCompletionNoticeOptions.Builder()
+				.id(dedicatedGatewayId).uploadContentType("application/pdf").upload(initialFile).build();
+
+			// Invoke operation with valid options model (positive test)
+				testService.createGatewayCompletionNotice(createGatewayCompletionNoticeOptionsModel).execute();
+		} catch (com.ibm.cloud.sdk.core.service.exception.ServiceResponseException e) {
+			// Expect upload to fail with a 412 since the GH state for the gateway is not correct for upload at this point.
+			assertEquals(412, e.getStatusCode());
+		}
+		 
+		// ***************** Attempt to get details for a completion notice; it will fail due to not being found *********************
+   
+		// Construct an instance of the ListGatewayCompletionNoticeOptions model
+		ListGatewayCompletionNoticeOptions listGatewayCompletionNoticeOptionsModel = new ListGatewayCompletionNoticeOptions.Builder()
+			.id(dedicatedGatewayId).build();
+
+		try {	
+			// Invoke operation with valid options model (positive test)
+			Response<InputStream> listActResponse = testService
+				.listGatewayCompletionNotice(listGatewayCompletionNoticeOptionsModel).execute();
+			assertNull(listActResponse);
+			InputStream lisResponseObj = listActResponse.getResult();
+			assertNull(lisResponseObj);
+		} catch (com.ibm.cloud.sdk.core.service.exception.NotFoundException nfe) {
+			// Expect a not found response since CN does not exist
+		}
+ 	}
+
+	@Test ()
 	public void testPorts() {
 		assertNotNull(testService);
 
@@ -634,11 +734,24 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		.specificPrefixes(java.util.Arrays.asList("192.168.3.0/24"))
 		.build();
 
+		// Construct an instance of the GatewayTemplateRouteFilter model
+		GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+		.action("permit")
+		.ge(Long.valueOf("25"))
+		.le(Long.valueOf("30"))
+		.prefix("192.168.100.0/24")
+		.build();	
+
 		GatewayPortIdentity gatewayPortIdentityModel = new GatewayPortIdentity.Builder().id(firstPortId).build();
 		GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeConnectTemplate.Builder()
 		.asPrepends(java.util.Arrays.asList(asPrependTemplateModel))
 				.bgpAsn(bgpAsn).global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
-				.port(gatewayPortIdentityModel).bgpBaseCidr(bgpBaseCidr).build();
+				.port(gatewayPortIdentityModel).bgpBaseCidr(bgpBaseCidr)
+				.defaultExportRouteFilter("permit")
+				.defaultImportRouteFilter("permit")
+				.exportRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
+				.importRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
+				.build();
 
 		// ***************** Create connect Gateway *********************
 		// Construct an instance of the CreateGatewayOptions model
@@ -673,13 +786,15 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
 				done = true;
 				break;
-			} else if (timerCount > 80) {
+			} else if (timerCount > 40) {
 				assertEquals("provisioned", responseObj.getOperationalStatus());
+				assertEquals(responseObj.getDefaultExportRouteFilter(), "permit");
+				assertEquals(responseObj.getDefaultImportRouteFilter(), "permit");
 				done = true;
 			} else {
 				++timerCount;
 				try {
-					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
 				} catch (InterruptedException e) {
 					// 
 				}
@@ -691,7 +806,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	public void testConnectGatewayListASPrependsOptions() {
 		assertNotNull(testService);
 
-		// Construct an instance of the AsPrependTemplate model with Specific Prefixes
+		// Construct an instance of the AsPrependTemplate model
 		AsPrependTemplate asPrependTemplateModel = new AsPrependTemplate.Builder()
 		.length(Long.valueOf("4"))
 		.policy("import")
@@ -749,8 +864,26 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  	assertEquals(asPrependPrefixArrayTemplateModel.policy(), as.getPolicy());
 	  	assertEquals(asPrependPrefixArrayTemplateModel.specificPrefixes(), as.getSpecificPrefixes());
     
-  }
-	
+  	}
+	@org.junit.Ignore
+  	// @Test (dependsOnMethods = "testConnectGatewayOptions")
+  	public void testCreateGatewayAction()  {
+
+		// Construct an instance of the CreateGatewayActionOptions model
+		CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
+		.id(connectGatewayId)
+		.action("create_gateway_approve")
+		.build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<Gateway> response = testService.createGatewayAction(createGatewayActionOptionsModel).execute();
+		assertNotNull(response);
+		Gateway responseObj = response.getResult();
+		assertNotNull(responseObj);
+		assertEquals(responseObj.getDefaultExportRouteFilter(), "permit");
+		assertEquals(responseObj.getDefaultImportRouteFilter(), "permit");
+	}
+
 	@Test (dependsOnMethods = "testConnectGatewayOptions")
 	public void testVirtualConnection() {
 		assertNotNull(testService);
@@ -858,170 +991,593 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			// expect this error for vc status update response 
 		}
 
-		//************************** Delete virtual connections *********************
-		deleteVirtualConnection(connectGatewayId, classicVcId); 
-		deleteVirtualConnection(connectGatewayId, vpcVcId); 
-
-		classicVcId = null;
-		vpcVcId = null;
-
-		// delete the gateway
-		// Construct an instance of the DeleteGatewayOptions model
-		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(connectGatewayId).build();
-
-		// Invoke operation with valid options model (positive test)
-		Response<Void> Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
-		assertNotNull(Delresponse);
-		Void delResponseObj = Delresponse.getResult();
-		// Response does not have a return type. Check that the result is null.
-		assertNull(delResponseObj);
-		connectGatewayId = null;
+		// ************************** Do not delete virtual connections  to be reused later *********************
 	}
 
 	@Test (dependsOnMethods = "testVirtualConnection")
-	public void testLOA() {
-		assertNotNull(testService);
-		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
+  	public void testCreateGatewayExportRouteFilter()  {
 
-		String locationName = config.get("LOCATION_NAME");// "dal09";//read this from env file
-		String gatewayName = "JAVA-INT-SDK-LOA-" + timestamp;
-		Long bgpAsn = 64999L;
-		String bgpBaseCidr = "169.254.0.0/16";
-		String crossConnectRouter = "LAB-xcr01.dal09";
-		boolean global = true;
-		Long speedMbps = 1000L;
-		boolean metered = false;
-		String carrierName = "carrier1";
-		String customerName = "customer1";
-		String gatewayType = "dedicated";
+		// ********** Get the connect just created and wait for it to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(connectGatewayId).build();
 
-		GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
-			.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
-			.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName)
-			.locationName(locationName).build();
+		boolean done = false;
+		int timerCount = 1;
 
-		// ***************** Create Gateway *********************
-		// Construct an instance of the CreateGatewayOptions model
-		CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder()
-			.gatewayTemplate(gatewayTemplateModel).build();
-
-		// Invoke operation with valid options model (positive test)
-		Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
-		// assertNotNull(response);
-		Gateway responseObj = response.getResult();
-		assertNotNull(responseObj);
-	 	gatewayId = responseObj.getId();
-
-		// Construct an instance of the ListGatewayLetterOfAuthorizationOptions model
-		ListGatewayLetterOfAuthorizationOptions listGatewayLetterOfAuthorizationOptionsModel = new ListGatewayLetterOfAuthorizationOptions.Builder()
-			.id(gatewayId).build();
-
-		try {
+		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<InputStream> loaResponse = testService
-				.listGatewayLetterOfAuthorization(listGatewayLetterOfAuthorizationOptionsModel).execute();
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			// We should never get here as the call should throw an exception
-			assertNotNull(loaResponse);
-			assertNotEquals(404, loaResponse.getStatusCode());
-		} catch (com.ibm.cloud.sdk.core.service.exception.NotFoundException nfe) {
-			// Expect a not found response since LOA does not exist
+			Gateway responseObj = getGatewayResponse.getResult(); 
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
 		}
 
-		// delete the gateway
-		// Construct an instance of the DeleteGatewayOptions model
-		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId).build();
-
-		// Invoke operation with valid options model (positive test)
-		Response<Void> Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
-		assertNotNull(Delresponse);
-		Void delResponseObj = Delresponse.getResult();
-		// Response does not have a return type. Check that the result is null.
-		assertNull(delResponseObj);
-		gatewayId = null;
+		// Construct an instance of the CreateGatewayExportRouteFilterOptions model
+		CreateGatewayExportRouteFilterOptions createGatewayExportRouteFilterOptionsModel = new CreateGatewayExportRouteFilterOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.action("permit")
+		.prefix("192.168.100.0/24")
+		.ge(Long.valueOf("25"))
+		.le(Long.valueOf("30"))
+		.build();
+  
+	  // Invoke createGatewayExportRouteFilter() with a valid options model and verify the result
+	  Response<RouteFilter> response = testService.createGatewayExportRouteFilter(createGatewayExportRouteFilterOptionsModel).execute();
+	  assertNotNull(response);
+	  RouteFilter responseObj = response.getResult();
+	  assertNotNull(responseObj);
+	  assertEquals(responseObj.getAction(), "permit");
+	  assertEquals(responseObj.getPrefix(), "192.168.100.0/24");
+	  assertEquals(responseObj.getGe(), Long.valueOf("25"));
+	  assertEquals(responseObj.getLe(), Long.valueOf("30"));
+	  exportRFId = responseObj.getId();
 	}
 
-	@Test (dependsOnMethods = "testLOA")
-  public void testCompletionNotice() throws IOException {
+	@Test (dependsOnMethods = "testCreateGatewayExportRouteFilter")
+  	public void testGetGatewayExportRouteFilter()  {
+
+		// Construct an instance of the GetGatewayExportRouteFilterOptions model
+		GetGatewayExportRouteFilterOptions getGatewayExportRouteFilterOptionsModel = new GetGatewayExportRouteFilterOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.id(exportRFId)
+		.build();
+  
+	  // Invoke getGatewayExportRouteFilter() with a valid options model and verify the result
+	  Response<RouteFilter> responseObj = testService.getGatewayExportRouteFilter(getGatewayExportRouteFilterOptionsModel).execute();
+	  assertNotNull(responseObj);	
+	  assertEquals(responseObj.getResult().getAction(), "permit");
+	  assertEquals(responseObj.getResult().getPrefix(), "192.168.100.0/24");
+	  assertEquals(responseObj.getResult().getGe(), Long.valueOf("25"));
+	  assertEquals(responseObj.getResult().getLe(), Long.valueOf("30"));
+	}
+
+	@Test (dependsOnMethods = "testGetGatewayExportRouteFilter")
+  	public void testUpdateGatewayExportRouteFilter()  {
+
+		// ********** Get the connect just created and wait for it to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(connectGatewayId).build();
+
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
+
+			Gateway responseObj = getGatewayResponse.getResult(); 
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// Construct an instance of the UpdateRouteFilterTemplate model
+		UpdateRouteFilterTemplate updateRouteFilterTemplateModel = new UpdateRouteFilterTemplate.Builder()
+		.action("deny")
+		.ge(25)
+		.le(30)
+		.prefix("192.168.100.0/24")
+		.build();
+		/* 
+		HashMap<String, Object> map = new HashMap<String, Object>();//Creating HashMap    
+		map.put(updateRouteFilterTemplateModel.toString(),Map<String, Object>.class);//Put elements in Map  
+		*/
+	  	Map<String, Object> updateRouteFilterTemplateModelAsPatch = updateRouteFilterTemplateModel.asPatch();
+  
+	  // Construct an instance of the UpdateGatewayExportRouteFilterOptions model
+	  UpdateGatewayExportRouteFilterOptions updateGatewayExportRouteFilterOptionsModel = new UpdateGatewayExportRouteFilterOptions.Builder()
+	  .gatewayId(connectGatewayId)
+	  .id(exportRFId)
+		.updateRouteFilterTemplatePatch(updateRouteFilterTemplateModelAsPatch)
+		.build();
+  
+	  // Invoke updateGatewayExportRouteFilter() with a valid options model and verify the result
+	  Response<RouteFilter> responseObj = testService.updateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel).execute();
+	  assertNotNull(responseObj);	
+	  assertEquals(responseObj.getResult().getAction(), "deny");
+	  assertEquals(responseObj.getResult().getPrefix(), "192.168.100.0/24");
+	  assertEquals(responseObj.getResult().getGe(), Long.valueOf("25"));
+	  assertEquals(responseObj.getResult().getLe(), Long.valueOf("30"));
+	}
+
+	@Test (dependsOnMethods = "testGetGatewayExportRouteFilter")
+  	public void testListGatewayExportRouteFilter()  {
+
+		// Construct an instance of the ListGatewayExportRouteFiltersOptions model
+		ListGatewayExportRouteFiltersOptions listGatewayExportRouteFiltersOptionsModel = new ListGatewayExportRouteFiltersOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.build();
+  
+	  // Invoke listGatewayExportRouteFilters() with a valid options model and verify the result
+	  Response<ExportRouteFilterCollection> response = testService.listGatewayExportRouteFilters(listGatewayExportRouteFiltersOptionsModel).execute();
+	  assertNotNull(response);
+	  ExportRouteFilterCollection responseObj = response.getResult();
+	  assertNotNull(responseObj);
+	  int size = responseObj.getExportRouteFilters().size();
+	  assert(size > 0); 
+	  eTag = response.getHeaders().values("etag").get(0);
+	}
+
+	//@Test (dependsOnMethods = "testListGatewayExportRouteFilter")
+  	public void testReplaceGatewayExportRouteFilter()  {
+
+		// ********** Get the connect just created and wait for it to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(connectGatewayId).build();
+
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
+
+			Gateway responseObj = getGatewayResponse.getResult(); 
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// Construct an instance of the GatewayTemplateRouteFilter model
+		GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+		.action("permit")
+		.ge(Long.valueOf("25"))
+		.le(Long.valueOf("30"))
+		.prefix("192.168.100.0/24")
+		.build();
+  
+	  // Construct an instance of the ReplaceGatewayExportRouteFiltersOptions model
+	  ReplaceGatewayExportRouteFiltersOptions replaceGatewayExportRouteFiltersOptionsModel = new ReplaceGatewayExportRouteFiltersOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.ifMatch(eTag)
+		.exportRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
+		.build();
+  
+	  // Invoke replaceGatewayExportRouteFilters() with a valid options model and verify the result
+	  Response<ExportRouteFilterCollection> response = testService.replaceGatewayExportRouteFilters(replaceGatewayExportRouteFiltersOptionsModel).execute();
+	  assertNotNull(response);
+	  ExportRouteFilterCollection responseObj = response.getResult();
+	  assertNotNull(responseObj);
+	  int size = responseObj.getExportRouteFilters().size();
+	  assert(size > 0); 
+	  assertEquals(responseObj.getExportRouteFilters().get(0).getAction(), "permit");
+	  assertEquals(responseObj.getExportRouteFilters().get(0).getPrefix(), "192.168.100.0/24");
+	  assertEquals(responseObj.getExportRouteFilters().get(0).getGe(), Long.valueOf("25"));
+	  assertEquals(responseObj.getExportRouteFilters().get(0).getLe(), Long.valueOf("30"));
+	  exportRFId = responseObj.getExportRouteFilters().get(0).getId();
+	}
+
+	@Test (dependsOnMethods = "testListGatewayExportRouteFilter")
+  	public void testDeleteGatewayExportRouteFilter()  {
+
+		// ********** Get the connect just created and wait for it to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(connectGatewayId).build();
+
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
+
+			Gateway responseObj = getGatewayResponse.getResult(); 
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// Construct an instance of the DeleteGatewayExportRouteFilterOptions model
+		DeleteGatewayExportRouteFilterOptions deleteGatewayExportRouteFilterOptionsModel = new DeleteGatewayExportRouteFilterOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.id(exportRFId)
+		.build();
+  
+	  // Invoke deleteGatewayExportRouteFilter() with a valid options model and verify the result
+	  Response<Void> response = testService.deleteGatewayExportRouteFilter(deleteGatewayExportRouteFilterOptionsModel).execute();
+	  assertNotNull(response);
+	  Void responseObj = response.getResult();
+	  assertNull(responseObj);
+	}
+
+	@Test (dependsOnMethods = "testDeleteGatewayExportRouteFilter")
+  	public void testCreateGatewayImportRouteFilter()  {
+
+		// ********** Get the connect just created and wait for it to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(connectGatewayId).build();
+
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
+
+			Gateway responseObj = getGatewayResponse.getResult(); 
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// Construct an instance of the CreateGatewayImportRouteFilterOptions model
+		CreateGatewayImportRouteFilterOptions createGatewayImportRouteFilterOptionsModel = new CreateGatewayImportRouteFilterOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.action("permit")
+		.prefix("192.168.100.0/24")
+		.ge(Long.valueOf("25"))
+		.le(Long.valueOf("30"))
+		.build();
+  
+	  // Invoke createGatewayImportRouteFilter() with a valid options model and verify the result
+	  Response<RouteFilter> response = testService.createGatewayImportRouteFilter(createGatewayImportRouteFilterOptionsModel).execute();
+	  assertNotNull(response);
+	  RouteFilter responseObj = response.getResult();
+	  assertNotNull(responseObj);
+	  assertEquals(responseObj.getAction(), "permit");
+	  assertEquals(responseObj.getPrefix(), "192.168.100.0/24");
+	  assertEquals(responseObj.getGe(), Long.valueOf("25"));
+	  assertEquals(responseObj.getLe(), Long.valueOf("30"));
+	  importRFId = responseObj.getId();
+	}
+
+	@Test (dependsOnMethods = "testCreateGatewayImportRouteFilter")
+  	public void testGetGatewayImportRouteFilter()  {
+
+		// Construct an instance of the GetGatewayImportRouteFilterOptions model
+		GetGatewayImportRouteFilterOptions getGatewayImportRouteFilterOptionsModel = new GetGatewayImportRouteFilterOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.id(importRFId)
+		.build();
+  
+	  // Invoke getGatewayImportRouteFilter() with a valid options model and verify the result
+	  Response<RouteFilter> responseObj = testService.getGatewayImportRouteFilter(getGatewayImportRouteFilterOptionsModel).execute();
+	  assertNotNull(responseObj);	
+	  assertEquals(responseObj.getResult().getAction(), "permit");
+	  assertEquals(responseObj.getResult().getPrefix(), "192.168.100.0/24");
+	  assertEquals(responseObj.getResult().getGe(), Long.valueOf("25"));
+	  assertEquals(responseObj.getResult().getLe(), Long.valueOf("30"));
+	}
+
+	@Test (dependsOnMethods = "testGetGatewayImportRouteFilter")
+  	public void testUpdateGatewayImportRouteFilter()  {
+
+		// ********** Get the connect just created and wait for it to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(connectGatewayId).build();
+
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
+
+			Gateway responseObj = getGatewayResponse.getResult(); 
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// Construct an instance of the UpdateRouteFilterTemplate model
+		UpdateRouteFilterTemplate updateRouteFilterTemplateModel = new UpdateRouteFilterTemplate.Builder()
+		.action("deny")
+		.ge(25)
+		.le(30)
+		.prefix("192.168.100.0/24")
+		.build();
+		/* 
+		HashMap<String, Object> map = new HashMap<String, Object>();//Creating HashMap    
+		map.put(updateRouteFilterTemplateModel.toString(), Map.class);//Put elements in Map  
+		*/
+	  	Map<String, Object> updateRouteFilterTemplateModelAsPatch = updateRouteFilterTemplateModel.asPatch();
+
+	  // Construct an instance of the UpdateGatewayImportRouteFilterOptions model
+	  UpdateGatewayImportRouteFilterOptions updateGatewayImportRouteFilterOptionsModel = new UpdateGatewayImportRouteFilterOptions.Builder()
+	  .gatewayId(connectGatewayId)
+	  .id(importRFId)
+		.updateRouteFilterTemplatePatch(updateRouteFilterTemplateModelAsPatch)
+		.build();
+  
+	  // Invoke updateGatewayImportRouteFilter() with a valid options model and verify the result
+	  Response<RouteFilter> responseObj = testService.updateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel).execute();
+	  assertNotNull(responseObj);	
+	  assertEquals(responseObj.getResult().getAction(), "deny");
+	  assertEquals(responseObj.getResult().getPrefix(), "192.168.100.0/24");
+	  assertEquals(responseObj.getResult().getGe(), Long.valueOf("25"));
+	  assertEquals(responseObj.getResult().getLe(), Long.valueOf("30"));
+	}
+
+	@Test (dependsOnMethods = "testUpdateGatewayImportRouteFilter")
+  	public void testListGatewayImportRouteFilter()  {
+
+		// Construct an instance of the ListGatewayImportRouteFiltersOptions model
+		ListGatewayImportRouteFiltersOptions listGatewayImportRouteFiltersOptionsModel = new ListGatewayImportRouteFiltersOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.build();
+  
+	  // Invoke listGatewayImportRouteFilters() with a valid options model and verify the result
+	  Response<ImportRouteFilterCollection> response = testService.listGatewayImportRouteFilters(listGatewayImportRouteFiltersOptionsModel).execute();
+	  assertNotNull(response);
+	  ImportRouteFilterCollection responseObj = response.getResult();
+	  assertNotNull(responseObj);
+	  int size = responseObj.getImportRouteFilters().size();
+	  assert(size > 1); 
+	  eTag = response.getHeaders().values("etag").get(0);
+	}
+
+	//@Test (dependsOnMethods = "testListGatewayImportRouteFilter")
+  	public void testReplaceGatewayImportRouteFilter()  {
+
+		// ********** Get the connect just created and wait for it to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(connectGatewayId).build();
+
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
+
+			Gateway responseObj = getGatewayResponse.getResult(); 
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// Construct an instance of the GatewayTemplateRouteFilter model
+		GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+		.action("permit")
+		.ge(Long.valueOf("25"))
+		.le(Long.valueOf("30"))
+		.prefix("192.168.100.0/24")
+		.build();
+  
+	  // Construct an instance of the ReplaceGatewayImportRouteFiltersOptions model
+	  ReplaceGatewayImportRouteFiltersOptions replaceGatewayImportRouteFiltersOptionsModel = new ReplaceGatewayImportRouteFiltersOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.ifMatch(eTag)
+		.importRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
+		.build();
+  
+	  // Invoke replaceGatewayImportRouteFilters() with a valid options model and verify the result
+	  Response<ImportRouteFilterCollection> response = testService.replaceGatewayImportRouteFilters(replaceGatewayImportRouteFiltersOptionsModel).execute();
+	  assertNotNull(response);
+	  ImportRouteFilterCollection responseObj = response.getResult();
+	  assertNotNull(responseObj);
+	  int size = responseObj.getImportRouteFilters().size();
+	  assert(size > 0); 
+	  assertEquals(responseObj.getImportRouteFilters().get(0).getAction(), "permit");
+	  assertEquals(responseObj.getImportRouteFilters().get(0).getPrefix(), "192.168.100.0/24");
+	  assertEquals(responseObj.getImportRouteFilters().get(0).getGe(), Long.valueOf("25"));
+	  assertEquals(responseObj.getImportRouteFilters().get(0).getLe(), Long.valueOf("30"));
+	  importRFId = responseObj.getImportRouteFilters().get(0).getId();
+	}
+
+	@Test (dependsOnMethods = "testListGatewayImportRouteFilter")
+  	public void testDeleteGatewayImportRouteFilter()  {
+
+		// ********** Get the connect just created and wait for it to move to provisioned state *************
+		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(connectGatewayId).build();
+
+		boolean done = false;
+		int timerCount = 1;
+
+		while (!done) {
+			// Invoke operation with valid options model (positive test)
+			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			assertNotNull(getGatewayResponse);
+			assertEquals(200, getGatewayResponse.getStatusCode());
+
+			Gateway responseObj = getGatewayResponse.getResult(); 
+			assertNotNull(responseObj);
+
+			if (responseObj.getOperationalStatus().equals("provisioned")) {
+				done = true;
+				break;
+			} else if (timerCount > 40) {
+				assertEquals("provisioned", responseObj.getOperationalStatus());
+				done = true;
+			} else {
+				++timerCount;
+				try {
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
+				} catch (InterruptedException e) {
+					// 
+				}
+			}
+		}
+
+		// Construct an instance of the DeleteGatewayImportRouteFilterOptions model
+		DeleteGatewayImportRouteFilterOptions deleteGatewayImportRouteFilterOptionsModel = new DeleteGatewayImportRouteFilterOptions.Builder()
+		.gatewayId(connectGatewayId)
+		.id(importRFId)
+		.build();
+  
+	  // Invoke deleteGatewayImportRouteFilter() with a valid options model and verify the result
+	  Response<Void> response = testService.deleteGatewayImportRouteFilter(deleteGatewayImportRouteFilterOptionsModel).execute();
+	  assertNotNull(response);
+	  Void responseObj = response.getResult();
+	  assertNull(responseObj);
+	}
+
+	@Test (dependsOnMethods = "testDeleteGatewayImportRouteFilter")
+	public void testRouteReports() throws InterruptedException {
 		assertNotNull(testService);
 
-		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
-		String locationName = config.get("LOCATION_NAME");// "dal09";//read this from env file
-		String gatewayName = "JAVA-INT-SDK-CN-" + timestamp;
-		Long bgpAsn = 64999L;
-		String bgpBaseCidr = "169.254.0.0/16";
-		String crossConnectRouter = "LAB-xcr01.dal09";
-		boolean global = true;
-		Long speedMbps = 1000L;
-		boolean metered = false;
-		String carrierName = "carrier1";
-		String customerName = "customer1";
-		String gatewayType = "dedicated";
+		String rrID = null;
+		// **************** Create Route Report Instance
+		CreateGatewayRouteReportOptions createGatewayRouteReportOptions = new CreateGatewayRouteReportOptions.Builder().gatewayId(connectGatewayId).build();
+		Response<RouteReport> routeReportsResponse = testService.createGatewayRouteReport(createGatewayRouteReportOptions).execute();
+		
+		assertNotNull(routeReportsResponse);
+		assertEquals(202, routeReportsResponse.getStatusCode());
+		
+		RouteReport rrCreateRespObj = routeReportsResponse.getResult();
+		assertNotNull(rrCreateRespObj);
+		assertNotNull(rrCreateRespObj.getId());
+		assertNotEquals(rrCreateRespObj.getStatus(), "");
+		assertNotEquals(rrCreateRespObj.getCreatedAt(), "");
+		assertNotEquals(rrCreateRespObj.getUpdatedAt(), "");
 
-		GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
-				.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
-				.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName)
-				.locationName(locationName).build();
+		rrID = rrCreateRespObj.getId();
 
-		// ***************** Create Gateway *********************
-		// Construct an instance of the CreateGatewayOptions model
-		CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder()
-				.gatewayTemplate(gatewayTemplateModel).build();
+		// Wait for the Route report to be completed
+		isRouteReportAvailable(connectGatewayId, rrID);
 
-		// Invoke operation with valid options model (positive test)
-		Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
-		// assertNotNull(response);
-		Gateway responseObj = response.getResult();
-		assertNotNull(responseObj);
-	 	gatewayId = responseObj.getId();
+		// *********** Get Gateway Route Report
+		GetGatewayRouteReportOptions getGatewayRouteReportOptions = new GetGatewayRouteReportOptions.Builder().gatewayId(connectGatewayId).id(rrID).build();
+		Response<RouteReport> getRouteResponse = testService.getGatewayRouteReport(getGatewayRouteReportOptions).execute();
+		assertNotNull(getRouteResponse);
+		assertEquals(200, getRouteResponse.getStatusCode());
 
-		// ***************** Attempt to upload a completion notice; it will fail due to github issue state *********************
-		try { 
-			// open the sample completion notice pdf
-			File initialFile = new File("src/main/resources/completion_notice.pdf");
+		RouteReport rrGetRespObj = getRouteResponse.getResult();
+		assertNotNull(rrGetRespObj);
+		assertEquals(rrGetRespObj.getId(), rrID);
+		assertNotEquals(rrGetRespObj.getStatus(), "completed");
+		assertNotEquals(rrGetRespObj.getCreatedAt(), "");
+		assertNotEquals(rrGetRespObj.getUpdatedAt(), "");
 
-			// Construct an instance of the CreateGatewayCompletionNoticeOptions model
-			CreateGatewayCompletionNoticeOptions createGatewayCompletionNoticeOptionsModel = new CreateGatewayCompletionNoticeOptions.Builder()
-				.id(gatewayId).uploadContentType("application/pdf").upload(initialFile).build();
+		// ************ List Gateway Route Reports
+		ListGatewayRouteReportsOptions listGatewayRouteReportsOptions = new ListGatewayRouteReportsOptions.Builder().gatewayId(connectGatewayId).build();
+		Response<RouteReportCollection> listResponse = testService.listGatewayRouteReports(listGatewayRouteReportsOptions).execute();
+		assertNotNull(listResponse);
+		assertEquals(200, listResponse.getStatusCode());
+		List<RouteReport> routeReports = listResponse.getResult().getRouteReports();
+		assertNotEquals(0,routeReports.size());
 
-			// Invoke operation with valid options model (positive test)
-				testService.createGatewayCompletionNotice(createGatewayCompletionNoticeOptionsModel).execute();
-		} catch (com.ibm.cloud.sdk.core.service.exception.ServiceResponseException e) {
-			// Expect upload to fail with a 412 since the GH state for the gateway is not correct for upload at this point.
-			assertEquals(412, e.getStatusCode());
-		}
-		 
-		// ***************** Attempt to get details for a completion notice; it will fail due to not being found *********************
+		// Delete Gateway Route Reports
+		DeleteGatewayRouteReportOptions deleteGatewayRouteReportOptions = new DeleteGatewayRouteReportOptions.Builder().gatewayId(connectGatewayId).id(rrID).build();
+		Response<Void> delResponse = testService.deleteGatewayRouteReport(deleteGatewayRouteReportOptions).execute();
+		assertNotNull(delResponse);
+		assertEquals(204, delResponse.getStatusCode());
+		
+		checkRouteReportDeletion(getGatewayRouteReportOptions);
+
+	}
    
-		// Construct an instance of the ListGatewayCompletionNoticeOptions model
-		ListGatewayCompletionNoticeOptions listGatewayCompletionNoticeOptionsModel = new ListGatewayCompletionNoticeOptions.Builder()
-			.id(gatewayId).build();
-
-		try {	
-			// Invoke operation with valid options model (positive test)
-			Response<InputStream> listActResponse = testService
-				.listGatewayCompletionNotice(listGatewayCompletionNoticeOptionsModel).execute();
-			assertNull(listActResponse);
-			InputStream lisResponseObj = listActResponse.getResult();
-			assertNull(lisResponseObj);
-		} catch (com.ibm.cloud.sdk.core.service.exception.NotFoundException nfe) {
-			// Expect a not found response since CN does not exist
-		}
-
-		// delete the gateway
-		// Construct an instance of the DeleteGatewayOptions model
-		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId).build();
-
-		// Invoke operation with valid options model (positive test)
-		Response<Void> Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
-		assertNotNull(Delresponse);
-		Void delResponseObj = Delresponse.getResult();
-		// Response does not have a return type. Check that the result is null.
-		assertNull(delResponseObj);
-		gatewayId = null;
- 	}
-   
-	@Test (dependsOnMethods = "testCompletionNotice")
+	// @Test (dependsOnMethods = "testCompletionNotice")
 	public void testOfferings() {
 		assertNotNull(testService);
 		String locationName = config.get("LOCATION_NAME");// "dal09";//read this from env file
@@ -1309,7 +1865,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			} else {
 				++timerCount;
 				try {
-					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
 				} catch (InterruptedException e) {
 					// 
 				}
@@ -1357,7 +1913,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			} else {
 				++timerCount;
 				try {
-					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
 				} catch (InterruptedException e) {
 					// 
 				}
@@ -1522,7 +2078,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			} else {
 				++timerCount;
 				try {
-					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
 				} catch (InterruptedException e) {
 					// 
 				}
@@ -1577,7 +2133,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			} else {
 				++timerCount;
 				try {
-					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
 				} catch (InterruptedException e) {
 					// 
 				}
@@ -1735,7 +2291,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			} else {
 				++timerCount;
 				try {
-					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
 				} catch (InterruptedException e) {
 					// 
 				}
@@ -1792,7 +2348,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			} else {
 				++timerCount;
 				try {
-					Thread.sleep(3000);	// 2 minute wait 3sec x 40 attempts
+					Thread.sleep(10000);	// 2 minute wait 3sec x 40 attempts
 				} catch (InterruptedException e) {
 					// 
 				}

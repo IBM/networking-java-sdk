@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -33,6 +33,26 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
   }
 
   /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultExportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
+  /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultImportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
+  /**
    * Offering type.
    */
   public interface Type {
@@ -55,7 +75,11 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
     private String bgpCerCidr;
     private String bgpIbmCidr;
     private String connectionMode;
+    private String defaultExportRouteFilter;
+    private String defaultImportRouteFilter;
+    private List<GatewayTemplateRouteFilter> exportRouteFilters;
     private Boolean global;
+    private List<GatewayTemplateRouteFilter> importRouteFilters;
     private Boolean metered;
     private String name;
     private String patchPanelCompletionNotice;
@@ -78,7 +102,11 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
       this.bgpCerCidr = gatewayTemplateGatewayTypeConnectTemplate.bgpCerCidr;
       this.bgpIbmCidr = gatewayTemplateGatewayTypeConnectTemplate.bgpIbmCidr;
       this.connectionMode = gatewayTemplateGatewayTypeConnectTemplate.connectionMode;
+      this.defaultExportRouteFilter = gatewayTemplateGatewayTypeConnectTemplate.defaultExportRouteFilter;
+      this.defaultImportRouteFilter = gatewayTemplateGatewayTypeConnectTemplate.defaultImportRouteFilter;
+      this.exportRouteFilters = gatewayTemplateGatewayTypeConnectTemplate.exportRouteFilters;
       this.global = gatewayTemplateGatewayTypeConnectTemplate.global;
+      this.importRouteFilters = gatewayTemplateGatewayTypeConnectTemplate.importRouteFilters;
       this.metered = gatewayTemplateGatewayTypeConnectTemplate.metered;
       this.name = gatewayTemplateGatewayTypeConnectTemplate.name;
       this.patchPanelCompletionNotice = gatewayTemplateGatewayTypeConnectTemplate.patchPanelCompletionNotice;
@@ -137,6 +165,38 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
         this.asPrepends = new ArrayList<AsPrependTemplate>();
       }
       this.asPrepends.add(asPrepends);
+      return this;
+    }
+
+    /**
+     * Adds an exportRouteFilters to exportRouteFilters.
+     *
+     * @param exportRouteFilters the new exportRouteFilters
+     * @return the GatewayTemplateGatewayTypeConnectTemplate builder
+     */
+    public Builder addExportRouteFilters(GatewayTemplateRouteFilter exportRouteFilters) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(exportRouteFilters,
+        "exportRouteFilters cannot be null");
+      if (this.exportRouteFilters == null) {
+        this.exportRouteFilters = new ArrayList<GatewayTemplateRouteFilter>();
+      }
+      this.exportRouteFilters.add(exportRouteFilters);
+      return this;
+    }
+
+    /**
+     * Adds an importRouteFilters to importRouteFilters.
+     *
+     * @param importRouteFilters the new importRouteFilters
+     * @return the GatewayTemplateGatewayTypeConnectTemplate builder
+     */
+    public Builder addImportRouteFilters(GatewayTemplateRouteFilter importRouteFilters) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(importRouteFilters,
+        "importRouteFilters cannot be null");
+      if (this.importRouteFilters == null) {
+        this.importRouteFilters = new ArrayList<GatewayTemplateRouteFilter>();
+      }
+      this.importRouteFilters.add(importRouteFilters);
       return this;
     }
 
@@ -230,6 +290,40 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
     }
 
     /**
+     * Set the defaultExportRouteFilter.
+     *
+     * @param defaultExportRouteFilter the defaultExportRouteFilter
+     * @return the GatewayTemplateGatewayTypeConnectTemplate builder
+     */
+    public Builder defaultExportRouteFilter(String defaultExportRouteFilter) {
+      this.defaultExportRouteFilter = defaultExportRouteFilter;
+      return this;
+    }
+
+    /**
+     * Set the defaultImportRouteFilter.
+     *
+     * @param defaultImportRouteFilter the defaultImportRouteFilter
+     * @return the GatewayTemplateGatewayTypeConnectTemplate builder
+     */
+    public Builder defaultImportRouteFilter(String defaultImportRouteFilter) {
+      this.defaultImportRouteFilter = defaultImportRouteFilter;
+      return this;
+    }
+
+    /**
+     * Set the exportRouteFilters.
+     * Existing exportRouteFilters will be replaced.
+     *
+     * @param exportRouteFilters the exportRouteFilters
+     * @return the GatewayTemplateGatewayTypeConnectTemplate builder
+     */
+    public Builder exportRouteFilters(List<GatewayTemplateRouteFilter> exportRouteFilters) {
+      this.exportRouteFilters = exportRouteFilters;
+      return this;
+    }
+
+    /**
      * Set the global.
      *
      * @param global the global
@@ -237,6 +331,18 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
      */
     public Builder global(Boolean global) {
       this.global = global;
+      return this;
+    }
+
+    /**
+     * Set the importRouteFilters.
+     * Existing importRouteFilters will be replaced.
+     *
+     * @param importRouteFilters the importRouteFilters
+     * @return the GatewayTemplateGatewayTypeConnectTemplate builder
+     */
+    public Builder importRouteFilters(List<GatewayTemplateRouteFilter> importRouteFilters) {
+      this.importRouteFilters = importRouteFilters;
       return this;
     }
 
@@ -343,7 +449,11 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
     bgpCerCidr = builder.bgpCerCidr;
     bgpIbmCidr = builder.bgpIbmCidr;
     connectionMode = builder.connectionMode;
+    defaultExportRouteFilter = builder.defaultExportRouteFilter;
+    defaultImportRouteFilter = builder.defaultImportRouteFilter;
+    exportRouteFilters = builder.exportRouteFilters;
     global = builder.global;
+    importRouteFilters = builder.importRouteFilters;
     metered = builder.metered;
     name = builder.name;
     patchPanelCompletionNotice = builder.patchPanelCompletionNotice;
