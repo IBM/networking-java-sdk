@@ -30,26 +30,36 @@ import com.ibm.cloud.networking.common.SdkCommon;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayCompletionNoticeOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayVirtualConnectionOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnectionOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ExportRouteFilterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatisticCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatusOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ImportRouteFilterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayAsPrependsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayExportRouteFiltersOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayImportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayLetterOfAuthorizationOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayRouteReportsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayVirtualConnectionsOptions;
@@ -64,8 +74,13 @@ import com.ibm.cloud.networking.direct_link.v1.model.OfferingSpeedCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.Port;
 import com.ibm.cloud.networking.direct_link.v1.model.PortCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayAsPrependsOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayExportRouteFiltersOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayImportRouteFiltersOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayExportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
 import java.io.InputStream;
@@ -827,6 +842,409 @@ public class DirectLink extends BaseService {
     builder.query("version", String.valueOf(this.version));
     ResponseConverter<Port> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Port>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List export route filters.
+   *
+   * List all export route filters that influence the export routes advertised to the on premises network and learned
+   * from attached virtual connections of the Direct Link gateway.
+   *
+   * The first export route filter an export route matches will determine whether the route is permitted or denied to be
+   * advertised by the Direct Link gateway. Route filter order is determined by the filter's `before` field.
+   *
+   * If an export route does not match any of the export route filters, the route is subject to the
+   * `default_export_route_filter` of the direct link.
+   *
+   * @param listGatewayExportRouteFiltersOptions the {@link ListGatewayExportRouteFiltersOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ExportRouteFilterCollection}
+   */
+  public ServiceCall<ExportRouteFilterCollection> listGatewayExportRouteFilters(ListGatewayExportRouteFiltersOptions listGatewayExportRouteFiltersOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayExportRouteFiltersOptions,
+      "listGatewayExportRouteFiltersOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", listGatewayExportRouteFiltersOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/export_route_filters", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayExportRouteFilters");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<ExportRouteFilterCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ExportRouteFilterCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Create an export route filter.
+   *
+   * Create a new export route filter to be configured on the Direct Link gateway.
+   *
+   * This call can result in an implicit update to another route filter's `before` field.
+   *
+   * If the request's route filter template does not contain a `before` field, the created filter will be added to the
+   * end of of the list. The filter previously at the end of the list will have it's `before` field set to the created
+   * route filter.
+   *
+   * If the request's route filter template contains a `before` field, the created filter will be added directly before
+   * that specified route filter. If the specified route filter has a preceding route filter, that filter's `before`
+   * field is updated to the created route filter.
+   *
+   * @param createGatewayExportRouteFilterOptions the {@link CreateGatewayExportRouteFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteFilter}
+   */
+  public ServiceCall<RouteFilter> createGatewayExportRouteFilter(CreateGatewayExportRouteFilterOptions createGatewayExportRouteFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createGatewayExportRouteFilterOptions,
+      "createGatewayExportRouteFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", createGatewayExportRouteFilterOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/export_route_filters", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "createGatewayExportRouteFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("action", createGatewayExportRouteFilterOptions.action());
+    contentJson.addProperty("prefix", createGatewayExportRouteFilterOptions.prefix());
+    if (createGatewayExportRouteFilterOptions.before() != null) {
+      contentJson.addProperty("before", createGatewayExportRouteFilterOptions.before());
+    }
+    if (createGatewayExportRouteFilterOptions.ge() != null) {
+      contentJson.addProperty("ge", createGatewayExportRouteFilterOptions.ge());
+    }
+    if (createGatewayExportRouteFilterOptions.le() != null) {
+      contentJson.addProperty("le", createGatewayExportRouteFilterOptions.le());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<RouteFilter> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteFilter>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Replace existing export route filters.
+   *
+   * Replace all existing export route filters configured on the Direct Link gateway.
+   *
+   * @param replaceGatewayExportRouteFiltersOptions the {@link ReplaceGatewayExportRouteFiltersOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ExportRouteFilterCollection}
+   */
+  public ServiceCall<ExportRouteFilterCollection> replaceGatewayExportRouteFilters(ReplaceGatewayExportRouteFiltersOptions replaceGatewayExportRouteFiltersOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(replaceGatewayExportRouteFiltersOptions,
+      "replaceGatewayExportRouteFiltersOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", replaceGatewayExportRouteFiltersOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/export_route_filters", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "replaceGatewayExportRouteFilters");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.header("If-Match", replaceGatewayExportRouteFiltersOptions.ifMatch());
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    if (replaceGatewayExportRouteFiltersOptions.exportRouteFilters() != null) {
+      contentJson.add("export_route_filters", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(replaceGatewayExportRouteFiltersOptions.exportRouteFilters()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<ExportRouteFilterCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ExportRouteFilterCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Remove export route filter from Direct Link gateway.
+   *
+   * Delete an export route filter.
+   *
+   * Deleting an export route filter will implicitly update the preceding filter's `before` field to the filter that
+   * follows the deleted filter. The preceding filter will result with an empty `before` field if there is no filter
+   * following the deleted route filter.
+   *
+   * @param deleteGatewayExportRouteFilterOptions the {@link DeleteGatewayExportRouteFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteGatewayExportRouteFilter(DeleteGatewayExportRouteFilterOptions deleteGatewayExportRouteFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteGatewayExportRouteFilterOptions,
+      "deleteGatewayExportRouteFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", deleteGatewayExportRouteFilterOptions.gatewayId());
+    pathParamsMap.put("id", deleteGatewayExportRouteFilterOptions.id());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/export_route_filters/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "deleteGatewayExportRouteFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Retrieves the specified Direct Link gateway export route filter.
+   *
+   * Retrieve an export route filter from the Direct Link gateway.
+   *
+   * @param getGatewayExportRouteFilterOptions the {@link GetGatewayExportRouteFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteFilter}
+   */
+  public ServiceCall<RouteFilter> getGatewayExportRouteFilter(GetGatewayExportRouteFilterOptions getGatewayExportRouteFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayExportRouteFilterOptions,
+      "getGatewayExportRouteFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", getGatewayExportRouteFilterOptions.gatewayId());
+    pathParamsMap.put("id", getGatewayExportRouteFilterOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/export_route_filters/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getGatewayExportRouteFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RouteFilter> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteFilter>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Updates the specified Direct Link gateway export route filter.
+   *
+   * Update an export route filter from the Direct Link gateway.
+   *
+   * Updating a route filter's `before` field will result in implicit updates to other route filters' `before` fields.
+   *
+   * Considering the updated filter prior to the update, the preceding route filter's `before` field will be set to the
+   * filter following the updating route filter, if present. Otherwise it is set to empty.
+   *
+   * Considering the updated filter after the update, if the new filter following the updated filter has an existing
+   * filter preceding it, that preceding filter's `before` field will be set to the updated filter.
+   *
+   * @param updateGatewayExportRouteFilterOptions the {@link UpdateGatewayExportRouteFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteFilter}
+   */
+  public ServiceCall<RouteFilter> updateGatewayExportRouteFilter(UpdateGatewayExportRouteFilterOptions updateGatewayExportRouteFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateGatewayExportRouteFilterOptions,
+      "updateGatewayExportRouteFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", updateGatewayExportRouteFilterOptions.gatewayId());
+    pathParamsMap.put("id", updateGatewayExportRouteFilterOptions.id());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/export_route_filters/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "updateGatewayExportRouteFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    String replaceString = com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayExportRouteFilterOptions.updateRouteFilterTemplatePatch());
+    replaceString = replaceString.replace(".0,", ",");
+    builder.bodyContent(replaceString, "application/merge-patch+json");
+    ResponseConverter<RouteFilter> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteFilter>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List import route filters.
+   *
+   * List all import route filters that influence the import routes learned from the on premises network.
+   *
+   * The first import route filter an import route matches will determine whether the route is permitted or denied to be
+   * learned by the Direct Link gateway. Route filter order is determined by the filter's `before` field.
+   *
+   * If an import route does not match any of the import route filters, the route is subject to the
+   * `default_import_route_filter` of the direct link.
+   *
+   * @param listGatewayImportRouteFiltersOptions the {@link ListGatewayImportRouteFiltersOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ImportRouteFilterCollection}
+   */
+  public ServiceCall<ImportRouteFilterCollection> listGatewayImportRouteFilters(ListGatewayImportRouteFiltersOptions listGatewayImportRouteFiltersOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayImportRouteFiltersOptions,
+      "listGatewayImportRouteFiltersOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", listGatewayImportRouteFiltersOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/import_route_filters", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayImportRouteFilters");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<ImportRouteFilterCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ImportRouteFilterCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Create an import route filter.
+   *
+   * Create a new import route filter to be configured on the Direct Link gateway.
+   *
+   * This call can result in an implicit update to another route filter's `before` field.
+   *
+   * If the request's route filter template does not contain a `before` field, the created filter will be added to the
+   * end of of the list. The filter previously at the end of the list will have it's `before` field set to the created
+   * route filter.
+   *
+   * If the request's route filter template contains a `before` field, the created filter will be added directly before
+   * that specified route filter. If the specified route filter has a preceding route filter, that filter's `before`
+   * field is updated to the created route filter.
+   *
+   * @param createGatewayImportRouteFilterOptions the {@link CreateGatewayImportRouteFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteFilter}
+   */
+  public ServiceCall<RouteFilter> createGatewayImportRouteFilter(CreateGatewayImportRouteFilterOptions createGatewayImportRouteFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createGatewayImportRouteFilterOptions,
+      "createGatewayImportRouteFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", createGatewayImportRouteFilterOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/import_route_filters", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "createGatewayImportRouteFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("action", createGatewayImportRouteFilterOptions.action());
+    contentJson.addProperty("prefix", createGatewayImportRouteFilterOptions.prefix());
+    if (createGatewayImportRouteFilterOptions.before() != null) {
+      contentJson.addProperty("before", createGatewayImportRouteFilterOptions.before());
+    }
+    if (createGatewayImportRouteFilterOptions.ge() != null) {
+      contentJson.addProperty("ge", createGatewayImportRouteFilterOptions.ge());
+    }
+    if (createGatewayImportRouteFilterOptions.le() != null) {
+      contentJson.addProperty("le", createGatewayImportRouteFilterOptions.le());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<RouteFilter> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteFilter>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Replace existing import route filters.
+   *
+   * Replace all existing import route filters configured on the Direct Link gateway.
+   *
+   * @param replaceGatewayImportRouteFiltersOptions the {@link ReplaceGatewayImportRouteFiltersOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ImportRouteFilterCollection}
+   */
+  public ServiceCall<ImportRouteFilterCollection> replaceGatewayImportRouteFilters(ReplaceGatewayImportRouteFiltersOptions replaceGatewayImportRouteFiltersOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(replaceGatewayImportRouteFiltersOptions,
+      "replaceGatewayImportRouteFiltersOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", replaceGatewayImportRouteFiltersOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/import_route_filters", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "replaceGatewayImportRouteFilters");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.header("If-Match", replaceGatewayImportRouteFiltersOptions.ifMatch());
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    if (replaceGatewayImportRouteFiltersOptions.importRouteFilters() != null) {
+      contentJson.add("import_route_filters", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(replaceGatewayImportRouteFiltersOptions.importRouteFilters()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<ImportRouteFilterCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ImportRouteFilterCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Remove import route filter from Direct Link gateway.
+   *
+   * Delete an import route filter.
+   *
+   * Deleting an import route filter will implicitly update the preceding filter's `before` field to the filter that
+   * follows the deleted filter. The preceding filter will result with an empty `before` field if there is no filter
+   * following the deleted route filter.
+   *
+   * @param deleteGatewayImportRouteFilterOptions the {@link DeleteGatewayImportRouteFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteGatewayImportRouteFilter(DeleteGatewayImportRouteFilterOptions deleteGatewayImportRouteFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteGatewayImportRouteFilterOptions,
+      "deleteGatewayImportRouteFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", deleteGatewayImportRouteFilterOptions.gatewayId());
+    pathParamsMap.put("id", deleteGatewayImportRouteFilterOptions.id());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/import_route_filters/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "deleteGatewayImportRouteFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Retrieves the specified Direct Link gateway import route filter.
+   *
+   * Retrieve an import route filter from the Direct Link gateway.
+   *
+   * @param getGatewayImportRouteFilterOptions the {@link GetGatewayImportRouteFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteFilter}
+   */
+  public ServiceCall<RouteFilter> getGatewayImportRouteFilter(GetGatewayImportRouteFilterOptions getGatewayImportRouteFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayImportRouteFilterOptions,
+      "getGatewayImportRouteFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", getGatewayImportRouteFilterOptions.gatewayId());
+    pathParamsMap.put("id", getGatewayImportRouteFilterOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/import_route_filters/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getGatewayImportRouteFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RouteFilter> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteFilter>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Updates the specified Direct Link gateway import route filter.
+   *
+   * Update an import route filter from the Direct Link gateway.
+   *
+   * Updating a route filter's `before` field will result in implicit updates to other route filters' `before` fields.
+   *
+   * Considering the updated filter prior to the update, the preceding route filter's `before` field will be set to the
+   * filter following the updating route filter, if present. Otherwise it is set to empty.
+   *
+   * Considering the updated filter after the update, if the new filter following the updated filter has an existing
+   * filter preceding it, that preceding filter's `before` field will be set to the updated filter.
+   *
+   * @param updateGatewayImportRouteFilterOptions the {@link UpdateGatewayImportRouteFilterOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteFilter}
+   */
+  public ServiceCall<RouteFilter> updateGatewayImportRouteFilter(UpdateGatewayImportRouteFilterOptions updateGatewayImportRouteFilterOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateGatewayImportRouteFilterOptions,
+      "updateGatewayImportRouteFilterOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", updateGatewayImportRouteFilterOptions.gatewayId());
+    pathParamsMap.put("id", updateGatewayImportRouteFilterOptions.id());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/import_route_filters/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "updateGatewayImportRouteFilter");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    String replaceString = com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayImportRouteFilterOptions.updateRouteFilterTemplatePatch());
+    replaceString = replaceString.replace(".0,", ",");
+    builder.bodyContent(replaceString, "application/merge-patch+json");
+    ResponseConverter<RouteFilter> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteFilter>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

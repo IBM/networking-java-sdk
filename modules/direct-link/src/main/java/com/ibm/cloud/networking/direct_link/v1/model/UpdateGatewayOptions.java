@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -32,6 +32,26 @@ public class UpdateGatewayOptions extends GenericModel {
   }
 
   /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultExportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
+  /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultImportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
+  /**
    * Gateway operational status.
    *
    * For gateways pending LOA approval, patch operational_status to the appropriate value to approve or reject its LOA.
@@ -53,6 +73,8 @@ public class UpdateGatewayOptions extends GenericModel {
   protected String bgpCerCidr;
   protected String bgpIbmCidr;
   protected String connectionMode;
+  protected String defaultExportRouteFilter;
+  protected String defaultImportRouteFilter;
   protected Boolean global;
   protected String loaRejectReason;
   protected GatewayMacsecConfigPatchTemplate macsecConfig;
@@ -73,6 +95,8 @@ public class UpdateGatewayOptions extends GenericModel {
     private String bgpCerCidr;
     private String bgpIbmCidr;
     private String connectionMode;
+    private String defaultExportRouteFilter;
+    private String defaultImportRouteFilter;
     private Boolean global;
     private String loaRejectReason;
     private GatewayMacsecConfigPatchTemplate macsecConfig;
@@ -82,6 +106,11 @@ public class UpdateGatewayOptions extends GenericModel {
     private String patchPanelCompletionNotice;
     private Long speedMbps;
 
+    /**
+     * Instantiates a new Builder from an existing UpdateGatewayOptions instance.
+     *
+     * @param updateGatewayOptions the instance to initialize the Builder with
+     */
     private Builder(UpdateGatewayOptions updateGatewayOptions) {
       this.id = updateGatewayOptions.id;
       this.authenticationKey = updateGatewayOptions.authenticationKey;
@@ -90,6 +119,8 @@ public class UpdateGatewayOptions extends GenericModel {
       this.bgpCerCidr = updateGatewayOptions.bgpCerCidr;
       this.bgpIbmCidr = updateGatewayOptions.bgpIbmCidr;
       this.connectionMode = updateGatewayOptions.connectionMode;
+      this.defaultExportRouteFilter = updateGatewayOptions.defaultExportRouteFilter;
+      this.defaultImportRouteFilter = updateGatewayOptions.defaultImportRouteFilter;
       this.global = updateGatewayOptions.global;
       this.loaRejectReason = updateGatewayOptions.loaRejectReason;
       this.macsecConfig = updateGatewayOptions.macsecConfig;
@@ -202,6 +233,28 @@ public class UpdateGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the defaultExportRouteFilter.
+     *
+     * @param defaultExportRouteFilter the defaultExportRouteFilter
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder defaultExportRouteFilter(String defaultExportRouteFilter) {
+      this.defaultExportRouteFilter = defaultExportRouteFilter;
+      return this;
+    }
+
+    /**
+     * Set the defaultImportRouteFilter.
+     *
+     * @param defaultImportRouteFilter the defaultImportRouteFilter
+     * @return the UpdateGatewayOptions builder
+     */
+    public Builder defaultImportRouteFilter(String defaultImportRouteFilter) {
+      this.defaultImportRouteFilter = defaultImportRouteFilter;
+      return this;
+    }
+
+    /**
      * Set the global.
      *
      * @param global the global
@@ -290,6 +343,8 @@ public class UpdateGatewayOptions extends GenericModel {
     }
   }
 
+  protected UpdateGatewayOptions() { }
+
   protected UpdateGatewayOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
@@ -300,6 +355,8 @@ public class UpdateGatewayOptions extends GenericModel {
     bgpCerCidr = builder.bgpCerCidr;
     bgpIbmCidr = builder.bgpIbmCidr;
     connectionMode = builder.connectionMode;
+    defaultExportRouteFilter = builder.defaultExportRouteFilter;
+    defaultImportRouteFilter = builder.defaultImportRouteFilter;
     global = builder.global;
     loaRejectReason = builder.loaRejectReason;
     macsecConfig = builder.macsecConfig;
@@ -412,6 +469,28 @@ public class UpdateGatewayOptions extends GenericModel {
    */
   public String connectionMode() {
     return connectionMode;
+  }
+
+  /**
+   * Gets the defaultExportRouteFilter.
+   *
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   *
+   * @return the defaultExportRouteFilter
+   */
+  public String defaultExportRouteFilter() {
+    return defaultExportRouteFilter;
+  }
+
+  /**
+   * Gets the defaultImportRouteFilter.
+   *
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   *
+   * @return the defaultImportRouteFilter
+   */
+  public String defaultImportRouteFilter() {
+    return defaultImportRouteFilter;
   }
 
   /**

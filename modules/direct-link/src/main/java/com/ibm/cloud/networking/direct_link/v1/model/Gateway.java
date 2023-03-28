@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -48,6 +48,26 @@ public class Gateway extends GenericModel {
     String DIRECT = "direct";
     /** transit. */
     String TRANSIT = "transit";
+  }
+
+  /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultExportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
+  /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultImportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
   }
 
   /**
@@ -140,6 +160,10 @@ public class Gateway extends GenericModel {
   protected String crossConnectRouter;
   @SerializedName("customer_name")
   protected String customerName;
+  @SerializedName("default_export_route_filter")
+  protected String defaultExportRouteFilter;
+  @SerializedName("default_import_route_filter")
+  protected String defaultImportRouteFilter;
   protected Boolean global;
   protected String id;
   @SerializedName("link_status")
@@ -377,6 +401,28 @@ public class Gateway extends GenericModel {
    */
   public String getCustomerName() {
     return customerName;
+  }
+
+  /**
+   * Gets the defaultExportRouteFilter.
+   *
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   *
+   * @return the defaultExportRouteFilter
+   */
+  public String getDefaultExportRouteFilter() {
+    return defaultExportRouteFilter;
+  }
+
+  /**
+   * Gets the defaultImportRouteFilter.
+   *
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   *
+   * @return the defaultImportRouteFilter
+   */
+  public String getDefaultImportRouteFilter() {
+    return defaultImportRouteFilter;
   }
 
   /**

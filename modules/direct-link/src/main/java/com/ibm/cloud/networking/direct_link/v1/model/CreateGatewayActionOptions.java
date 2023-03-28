@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -54,13 +54,37 @@ public class CreateGatewayActionOptions extends GenericModel {
     String TRANSIT = "transit";
   }
 
+  /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultExportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
+  /**
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   */
+  public interface DefaultImportRouteFilter {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
+  }
+
   protected String id;
   protected String action;
   protected List<AsPrependTemplate> asPrepends;
   protected GatewayActionTemplateAuthenticationKey authenticationKey;
   protected GatewayBfdConfigActionTemplate bfdConfig;
   protected String connectionMode;
+  protected String defaultExportRouteFilter;
+  protected String defaultImportRouteFilter;
+  protected List<GatewayTemplateRouteFilter> exportRouteFilters;
   protected Boolean global;
+  protected List<GatewayTemplateRouteFilter> importRouteFilters;
   protected Boolean metered;
   protected ResourceGroupIdentity resourceGroup;
   protected List<GatewayActionTemplateUpdatesItem> updates;
@@ -75,7 +99,11 @@ public class CreateGatewayActionOptions extends GenericModel {
     private GatewayActionTemplateAuthenticationKey authenticationKey;
     private GatewayBfdConfigActionTemplate bfdConfig;
     private String connectionMode;
+    private String defaultExportRouteFilter;
+    private String defaultImportRouteFilter;
+    private List<GatewayTemplateRouteFilter> exportRouteFilters;
     private Boolean global;
+    private List<GatewayTemplateRouteFilter> importRouteFilters;
     private Boolean metered;
     private ResourceGroupIdentity resourceGroup;
     private List<GatewayActionTemplateUpdatesItem> updates;
@@ -92,7 +120,11 @@ public class CreateGatewayActionOptions extends GenericModel {
       this.authenticationKey = createGatewayActionOptions.authenticationKey;
       this.bfdConfig = createGatewayActionOptions.bfdConfig;
       this.connectionMode = createGatewayActionOptions.connectionMode;
+      this.defaultExportRouteFilter = createGatewayActionOptions.defaultExportRouteFilter;
+      this.defaultImportRouteFilter = createGatewayActionOptions.defaultImportRouteFilter;
+      this.exportRouteFilters = createGatewayActionOptions.exportRouteFilters;
       this.global = createGatewayActionOptions.global;
+      this.importRouteFilters = createGatewayActionOptions.importRouteFilters;
       this.metered = createGatewayActionOptions.metered;
       this.resourceGroup = createGatewayActionOptions.resourceGroup;
       this.updates = createGatewayActionOptions.updates;
@@ -108,11 +140,9 @@ public class CreateGatewayActionOptions extends GenericModel {
      * Instantiates a new builder with required properties.
      *
      * @param id the id
-     * @param action the action
      */
-    public Builder(String id, String action) {
+    public Builder(String id) {
       this.id = id;
-      this.action = action;
     }
 
     /**
@@ -137,6 +167,38 @@ public class CreateGatewayActionOptions extends GenericModel {
         this.asPrepends = new ArrayList<AsPrependTemplate>();
       }
       this.asPrepends.add(asPrepends);
+      return this;
+    }
+
+    /**
+     * Adds an exportRouteFilters to exportRouteFilters.
+     *
+     * @param exportRouteFilters the new exportRouteFilters
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder addExportRouteFilters(GatewayTemplateRouteFilter exportRouteFilters) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(exportRouteFilters,
+        "exportRouteFilters cannot be null");
+      if (this.exportRouteFilters == null) {
+        this.exportRouteFilters = new ArrayList<GatewayTemplateRouteFilter>();
+      }
+      this.exportRouteFilters.add(exportRouteFilters);
+      return this;
+    }
+
+    /**
+     * Adds an importRouteFilters to importRouteFilters.
+     *
+     * @param importRouteFilters the new importRouteFilters
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder addImportRouteFilters(GatewayTemplateRouteFilter importRouteFilters) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(importRouteFilters,
+        "importRouteFilters cannot be null");
+      if (this.importRouteFilters == null) {
+        this.importRouteFilters = new ArrayList<GatewayTemplateRouteFilter>();
+      }
+      this.importRouteFilters.add(importRouteFilters);
       return this;
     }
 
@@ -224,6 +286,40 @@ public class CreateGatewayActionOptions extends GenericModel {
     }
 
     /**
+     * Set the defaultExportRouteFilter.
+     *
+     * @param defaultExportRouteFilter the defaultExportRouteFilter
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder defaultExportRouteFilter(String defaultExportRouteFilter) {
+      this.defaultExportRouteFilter = defaultExportRouteFilter;
+      return this;
+    }
+
+    /**
+     * Set the defaultImportRouteFilter.
+     *
+     * @param defaultImportRouteFilter the defaultImportRouteFilter
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder defaultImportRouteFilter(String defaultImportRouteFilter) {
+      this.defaultImportRouteFilter = defaultImportRouteFilter;
+      return this;
+    }
+
+    /**
+     * Set the exportRouteFilters.
+     * Existing exportRouteFilters will be replaced.
+     *
+     * @param exportRouteFilters the exportRouteFilters
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder exportRouteFilters(List<GatewayTemplateRouteFilter> exportRouteFilters) {
+      this.exportRouteFilters = exportRouteFilters;
+      return this;
+    }
+
+    /**
      * Set the global.
      *
      * @param global the global
@@ -231,6 +327,18 @@ public class CreateGatewayActionOptions extends GenericModel {
      */
     public Builder global(Boolean global) {
       this.global = global;
+      return this;
+    }
+
+    /**
+     * Set the importRouteFilters.
+     * Existing importRouteFilters will be replaced.
+     *
+     * @param importRouteFilters the importRouteFilters
+     * @return the CreateGatewayActionOptions builder
+     */
+    public Builder importRouteFilters(List<GatewayTemplateRouteFilter> importRouteFilters) {
+      this.importRouteFilters = importRouteFilters;
       return this;
     }
 
@@ -274,15 +382,17 @@ public class CreateGatewayActionOptions extends GenericModel {
   protected CreateGatewayActionOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.action,
-      "action cannot be null");
     id = builder.id;
     action = builder.action;
     asPrepends = builder.asPrepends;
     authenticationKey = builder.authenticationKey;
     bfdConfig = builder.bfdConfig;
     connectionMode = builder.connectionMode;
+    defaultExportRouteFilter = builder.defaultExportRouteFilter;
+    defaultImportRouteFilter = builder.defaultImportRouteFilter;
+    exportRouteFilters = builder.exportRouteFilters;
     global = builder.global;
+    importRouteFilters = builder.importRouteFilters;
     metered = builder.metered;
     resourceGroup = builder.resourceGroup;
     updates = builder.updates;
@@ -372,6 +482,40 @@ public class CreateGatewayActionOptions extends GenericModel {
   }
 
   /**
+   * Gets the defaultExportRouteFilter.
+   *
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   *
+   * @return the defaultExportRouteFilter
+   */
+  public String defaultExportRouteFilter() {
+    return defaultExportRouteFilter;
+  }
+
+  /**
+   * Gets the defaultImportRouteFilter.
+   *
+   * The default directional route filter action that applies to routes that do not match any directional route filters.
+   *
+   * @return the defaultImportRouteFilter
+   */
+  public String defaultImportRouteFilter() {
+    return defaultImportRouteFilter;
+  }
+
+  /**
+   * Gets the exportRouteFilters.
+   *
+   * Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+   * filters, the order of the items in the array will set the ordering of the list of route filters.
+   *
+   * @return the exportRouteFilters
+   */
+  public List<GatewayTemplateRouteFilter> exportRouteFilters() {
+    return exportRouteFilters;
+  }
+
+  /**
    * Gets the global.
    *
    * Applicable for create_gateway_approve requests to select the gateway's routing option. Gateways with global routing
@@ -381,6 +525,18 @@ public class CreateGatewayActionOptions extends GenericModel {
    */
   public Boolean global() {
     return global;
+  }
+
+  /**
+   * Gets the importRouteFilters.
+   *
+   * Array of directional route filters for a Direct Link gateway. When creating a gateway or replacing existing route
+   * filters, the order of the items in the array will set the ordering of the list of route filters.
+   *
+   * @return the importRouteFilters
+   */
+  public List<GatewayTemplateRouteFilter> importRouteFilters() {
+    return importRouteFilters;
   }
 
   /**
