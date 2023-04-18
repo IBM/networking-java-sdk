@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -152,7 +152,7 @@ public class ListDnszonesOptions extends GenericModel {
   /**
    * Gets the offset.
    *
-   * Specify how many resource records to skip over, the default value is 0.
+   * Specify how many resources to skip over, the default value is 0.
    *
    * @return the offset
    */
@@ -163,7 +163,7 @@ public class ListDnszonesOptions extends GenericModel {
   /**
    * Gets the limit.
    *
-   * Specify how many resource records are returned, the default value is 200.
+   * Specify maximum resources might be returned.
    *
    * @return the limit
    */

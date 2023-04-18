@@ -35,7 +35,6 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.DeletePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteResourceRecordOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Dnszone;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ExportResourceRecordsOptions;
-import com.ibm.cloud.networking.dns_svcs.v1.model.FirstHref;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
@@ -68,7 +67,6 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.LoadBalancerAzPoolsItem;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Location;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LocationInput;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Monitor;
-import com.ibm.cloud.networking.dns_svcs.v1.model.NextHref;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Origin;
 import com.ibm.cloud.networking.dns_svcs.v1.model.OriginInput;
 import com.ibm.cloud.networking.dns_svcs.v1.model.PermittedNetwork;
@@ -471,8 +469,8 @@ public class DnsSvcsIT extends SdkIntegrationTestBase {
       .instanceId(instance_id)
       .dnszoneId(zone_id)
       .xCorrelationId("testString")
-      .offset(Long.valueOf("26"))
-      .limit(Long.valueOf("200"))
+      //.offset(Long.valueOf("26"))
+      //.limit(Long.valueOf("200"))
       .build();
 
       // Invoke operation

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.12.1-318e07c8-20200909-152230
+ * IBM OpenAPI SDK Code Generator Version: 3.46.0-a4e29da0-20220224-210428
  */
 
 package com.ibm.cloud.networking.dns_svcs.v1;
@@ -24,47 +24,63 @@ import com.ibm.cloud.sdk.core.http.ServiceCall;
 import com.ibm.cloud.sdk.core.security.Authenticator;
 import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
 import com.ibm.cloud.sdk.core.service.BaseService;
+import com.ibm.cloud.sdk.core.util.RequestUtils;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import com.ibm.cloud.networking.common.SdkCommon;
-
+import com.ibm.cloud.networking.dns_svcs.v1.model.AccessRequest;
+import com.ibm.cloud.networking.dns_svcs.v1.model.AccessRequestsList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateDnszoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateLinkedZoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreatePermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreatePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateResourceRecordOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.CreateXfrRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolver;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CustomResolverList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverLocationOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteDnszoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteLinkedZoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeletePermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeletePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteResourceRecordOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.DeleteXfrRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Dnszone;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ExportResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneAccessRequestOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetLinkedPermittedNetworkOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetLinkedZoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetPermittedNetworkOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetPoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetResourceRecordOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetXfrRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsResp;
+import com.ibm.cloud.networking.dns_svcs.v1.model.LinkPermittedNetworkOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedZone;
+import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedZonesList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszoneAccessRequestsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszones;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszonesOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListForwardingRulesOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListLinkedPermittedNetworksOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListLinkedZonesOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListLoadBalancers;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListLoadBalancersOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListMonitors;
@@ -75,34 +91,38 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.ListPools;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListPoolsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListResourceRecords;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListResourceRecordsOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListXfrRulesOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LoadBalancer;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Location;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Monitor;
 import com.ibm.cloud.networking.dns_svcs.v1.model.PermittedNetwork;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Pool;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecord;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UnlinkPermittedNetworkOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCrLocationsOrderOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverLocationOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateCustomResolverOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateDnszoneAccessRequestOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateDnszoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateForwardingRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateLinkedZoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateLoadBalancerOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdatePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateResourceRecordOptions;
-
+import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateXfrRuleOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.XfrRule;
+import com.ibm.cloud.networking.dns_svcs.v1.model.XfrRuleList;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.HashMap;
-import com.ibm.cloud.sdk.core.util.RequestUtils;
-import java.io.InputStream;
 import okhttp3.MultipartBody;
-
-
 
 /**
  * DNS Services API.
  *
- * @version v1
+ * API Version: 1.0.0
  */
 public class DnsSvcs extends BaseService {
 
@@ -157,9 +177,9 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<ListDnszones> listDnszones(ListDnszonesOptions listDnszonesOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(listDnszonesOptions,
       "listDnszonesOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones" };
-    String[] pathParameters = { listDnszonesOptions.instanceId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listDnszonesOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listDnszones");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -180,7 +200,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Create a DNS zone.
+   * Create DNS zone.
    *
    * Create a DNS zone for a given service instance.
    *
@@ -190,9 +210,9 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Dnszone> createDnszone(CreateDnszoneOptions createDnszoneOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(createDnszoneOptions,
       "createDnszoneOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones" };
-    String[] pathParameters = { createDnszoneOptions.instanceId() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createDnszoneOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createDnszone");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -218,7 +238,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Delete a DNS zone.
+   * Delete DNS zone.
    *
    * Delete a DNS zone.
    *
@@ -228,9 +248,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Void> deleteDnszone(DeleteDnszoneOptions deleteDnszoneOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteDnszoneOptions,
       "deleteDnszoneOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones" };
-    String[] pathParameters = { deleteDnszoneOptions.instanceId(), deleteDnszoneOptions.dnszoneId() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deleteDnszoneOptions.instanceId());
+    pathParamsMap.put("dnszone_id", deleteDnszoneOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deleteDnszone");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -243,7 +264,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Get a DNS zone.
+   * Get DNS zone.
    *
    * Get details of a DNS zone.
    *
@@ -253,9 +274,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Dnszone> getDnszone(GetDnszoneOptions getDnszoneOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDnszoneOptions,
       "getDnszoneOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones" };
-    String[] pathParameters = { getDnszoneOptions.instanceId(), getDnszoneOptions.dnszoneId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getDnszoneOptions.instanceId());
+    pathParamsMap.put("dnszone_id", getDnszoneOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getDnszone");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -270,7 +292,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Update the properties of a DNS zone.
+   * Update DNS zone.
    *
    * Update the properties of a DNS zone.
    *
@@ -280,9 +302,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Dnszone> updateDnszone(UpdateDnszoneOptions updateDnszoneOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(updateDnszoneOptions,
       "updateDnszoneOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones" };
-    String[] pathParameters = { updateDnszoneOptions.instanceId(), updateDnszoneOptions.dnszoneId() };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateDnszoneOptions.instanceId());
+    pathParamsMap.put("dnszone_id", updateDnszoneOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateDnszone");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -305,7 +328,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * List Resource Records.
+   * List resource records.
    *
    * List the Resource Records for a given DNS zone.
    *
@@ -315,9 +338,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<ListResourceRecords> listResourceRecords(ListResourceRecordsOptions listResourceRecordsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(listResourceRecordsOptions,
       "listResourceRecordsOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "resource_records" };
-    String[] pathParameters = { listResourceRecordsOptions.instanceId(), listResourceRecordsOptions.dnszoneId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listResourceRecordsOptions.instanceId());
+    pathParamsMap.put("dnszone_id", listResourceRecordsOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/resource_records", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listResourceRecords");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -338,7 +362,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Create a resource record.
+   * Create resource record.
    *
    * Create a resource record for a given DNS zone.
    *
@@ -348,9 +372,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<ResourceRecord> createResourceRecord(CreateResourceRecordOptions createResourceRecordOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(createResourceRecordOptions,
       "createResourceRecordOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "resource_records" };
-    String[] pathParameters = { createResourceRecordOptions.instanceId(), createResourceRecordOptions.dnszoneId() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createResourceRecordOptions.instanceId());
+    pathParamsMap.put("dnszone_id", createResourceRecordOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/resource_records", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createResourceRecord");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -385,7 +410,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Delete a resource record.
+   * Delete resource record.
    *
    * Delete a resource record.
    *
@@ -395,9 +420,11 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Void> deleteResourceRecord(DeleteResourceRecordOptions deleteResourceRecordOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteResourceRecordOptions,
       "deleteResourceRecordOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "resource_records" };
-    String[] pathParameters = { deleteResourceRecordOptions.instanceId(), deleteResourceRecordOptions.dnszoneId(), deleteResourceRecordOptions.recordId() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deleteResourceRecordOptions.instanceId());
+    pathParamsMap.put("dnszone_id", deleteResourceRecordOptions.dnszoneId());
+    pathParamsMap.put("record_id", deleteResourceRecordOptions.recordId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deleteResourceRecord");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -410,7 +437,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Get a resource record.
+   * Get resource record.
    *
    * Get details of a resource record.
    *
@@ -420,9 +447,11 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<ResourceRecord> getResourceRecord(GetResourceRecordOptions getResourceRecordOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getResourceRecordOptions,
       "getResourceRecordOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "resource_records" };
-    String[] pathParameters = { getResourceRecordOptions.instanceId(), getResourceRecordOptions.dnszoneId(), getResourceRecordOptions.recordId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getResourceRecordOptions.instanceId());
+    pathParamsMap.put("dnszone_id", getResourceRecordOptions.dnszoneId());
+    pathParamsMap.put("record_id", getResourceRecordOptions.recordId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getResourceRecord");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -437,7 +466,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Update the properties of a resource record.
+   * Update resource record.
    *
    * Update the properties of a resource record.
    *
@@ -447,9 +476,11 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<ResourceRecord> updateResourceRecord(UpdateResourceRecordOptions updateResourceRecordOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(updateResourceRecordOptions,
       "updateResourceRecordOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "resource_records" };
-    String[] pathParameters = { updateResourceRecordOptions.instanceId(), updateResourceRecordOptions.dnszoneId(), updateResourceRecordOptions.recordId() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateResourceRecordOptions.instanceId());
+    pathParamsMap.put("dnszone_id", updateResourceRecordOptions.dnszoneId());
+    pathParamsMap.put("record_id", updateResourceRecordOptions.recordId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/resource_records/{record_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateResourceRecord");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -508,7 +539,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Import resource records from a zone file.
+   * Import resource records from a zone file. The maximum size of a zone file is 8MB.
    *
    * Import resource records from a zone file.
    *
@@ -554,9 +585,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<ListPermittedNetworks> listPermittedNetworks(ListPermittedNetworksOptions listPermittedNetworksOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(listPermittedNetworksOptions,
       "listPermittedNetworksOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "permitted_networks" };
-    String[] pathParameters = { listPermittedNetworksOptions.instanceId(), listPermittedNetworksOptions.dnszoneId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listPermittedNetworksOptions.instanceId());
+    pathParamsMap.put("dnszone_id", listPermittedNetworksOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listPermittedNetworks");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -565,19 +597,13 @@ public class DnsSvcs extends BaseService {
     if (listPermittedNetworksOptions.xCorrelationId() != null) {
       builder.header("X-Correlation-ID", listPermittedNetworksOptions.xCorrelationId());
     }
-    if (listPermittedNetworksOptions.offset() != null) {
-      builder.query("offset", String.valueOf(listPermittedNetworksOptions.offset()));
-    }
-    if (listPermittedNetworksOptions.limit() != null) {
-      builder.query("limit", String.valueOf(listPermittedNetworksOptions.limit()));
-    }
     ResponseConverter<ListPermittedNetworks> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ListPermittedNetworks>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
   /**
-   * Create a permitted network.
+   * Create permitted network.
    *
    * Create a permitted network for a given DNS zone.
    *
@@ -587,9 +613,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<PermittedNetwork> createPermittedNetwork(CreatePermittedNetworkOptions createPermittedNetworkOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(createPermittedNetworkOptions,
       "createPermittedNetworkOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "permitted_networks" };
-    String[] pathParameters = { createPermittedNetworkOptions.instanceId(), createPermittedNetworkOptions.dnszoneId() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createPermittedNetworkOptions.instanceId());
+    pathParamsMap.put("dnszone_id", createPermittedNetworkOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createPermittedNetwork");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -612,7 +639,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Remove a permitted network.
+   * Remove permitted network.
    *
    * Remove a permitted network.
    *
@@ -622,9 +649,11 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<PermittedNetwork> deletePermittedNetwork(DeletePermittedNetworkOptions deletePermittedNetworkOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deletePermittedNetworkOptions,
       "deletePermittedNetworkOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "permitted_networks" };
-    String[] pathParameters = { deletePermittedNetworkOptions.instanceId(), deletePermittedNetworkOptions.dnszoneId(), deletePermittedNetworkOptions.permittedNetworkId() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deletePermittedNetworkOptions.instanceId());
+    pathParamsMap.put("dnszone_id", deletePermittedNetworkOptions.dnszoneId());
+    pathParamsMap.put("permitted_network_id", deletePermittedNetworkOptions.permittedNetworkId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deletePermittedNetwork");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -639,7 +668,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Get a permitted network.
+   * Get permitted network.
    *
    * Get details of a permitted network.
    *
@@ -649,9 +678,11 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<PermittedNetwork> getPermittedNetwork(GetPermittedNetworkOptions getPermittedNetworkOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getPermittedNetworkOptions,
       "getPermittedNetworkOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "permitted_networks" };
-    String[] pathParameters = { getPermittedNetworkOptions.instanceId(), getPermittedNetworkOptions.dnszoneId(), getPermittedNetworkOptions.permittedNetworkId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getPermittedNetworkOptions.instanceId());
+    pathParamsMap.put("dnszone_id", getPermittedNetworkOptions.dnszoneId());
+    pathParamsMap.put("permitted_network_id", getPermittedNetworkOptions.permittedNetworkId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/permitted_networks/{permitted_network_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getPermittedNetwork");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -676,9 +707,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<ListLoadBalancers> listLoadBalancers(ListLoadBalancersOptions listLoadBalancersOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(listLoadBalancersOptions,
       "listLoadBalancersOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "load_balancers" };
-    String[] pathParameters = { listLoadBalancersOptions.instanceId(), listLoadBalancersOptions.dnszoneId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listLoadBalancersOptions.instanceId());
+    pathParamsMap.put("dnszone_id", listLoadBalancersOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listLoadBalancers");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -687,13 +719,19 @@ public class DnsSvcs extends BaseService {
     if (listLoadBalancersOptions.xCorrelationId() != null) {
       builder.header("X-Correlation-ID", listLoadBalancersOptions.xCorrelationId());
     }
+    if (listLoadBalancersOptions.offset() != null) {
+      builder.query("offset", String.valueOf(listLoadBalancersOptions.offset()));
+    }
+    if (listLoadBalancersOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listLoadBalancersOptions.limit()));
+    }
     ResponseConverter<ListLoadBalancers> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ListLoadBalancers>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
   /**
-   * Create a load balancer.
+   * Create load balancer.
    *
    * Create a load balancer for a given DNS zone.
    *
@@ -703,9 +741,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<LoadBalancer> createLoadBalancer(CreateLoadBalancerOptions createLoadBalancerOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(createLoadBalancerOptions,
       "createLoadBalancerOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "load_balancers" };
-    String[] pathParameters = { createLoadBalancerOptions.instanceId(), createLoadBalancerOptions.dnszoneId() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createLoadBalancerOptions.instanceId());
+    pathParamsMap.put("dnszone_id", createLoadBalancerOptions.dnszoneId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createLoadBalancer");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -743,7 +782,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Delete a load balancer.
+   * Delete load balancer.
    *
    * Delete a load balancer.
    *
@@ -753,9 +792,11 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Void> deleteLoadBalancer(DeleteLoadBalancerOptions deleteLoadBalancerOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteLoadBalancerOptions,
       "deleteLoadBalancerOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "load_balancers" };
-    String[] pathParameters = { deleteLoadBalancerOptions.instanceId(), deleteLoadBalancerOptions.dnszoneId(), deleteLoadBalancerOptions.lbId() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deleteLoadBalancerOptions.instanceId());
+    pathParamsMap.put("dnszone_id", deleteLoadBalancerOptions.dnszoneId());
+    pathParamsMap.put("lb_id", deleteLoadBalancerOptions.lbId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deleteLoadBalancer");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -768,7 +809,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Get a load balancer.
+   * Get load balancer.
    *
    * Get details of a load balancer.
    *
@@ -778,9 +819,11 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<LoadBalancer> getLoadBalancer(GetLoadBalancerOptions getLoadBalancerOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getLoadBalancerOptions,
       "getLoadBalancerOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "load_balancers" };
-    String[] pathParameters = { getLoadBalancerOptions.instanceId(), getLoadBalancerOptions.dnszoneId(), getLoadBalancerOptions.lbId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getLoadBalancerOptions.instanceId());
+    pathParamsMap.put("dnszone_id", getLoadBalancerOptions.dnszoneId());
+    pathParamsMap.put("lb_id", getLoadBalancerOptions.lbId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getLoadBalancer");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -795,7 +838,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Update the properties of a load balancer.
+   * Update load balancer.
    *
    * Update the properties of a load balancer.
    *
@@ -805,9 +848,11 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<LoadBalancer> updateLoadBalancer(UpdateLoadBalancerOptions updateLoadBalancerOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(updateLoadBalancerOptions,
       "updateLoadBalancerOptions cannot be null");
-    String[] pathSegments = { "instances", "dnszones", "load_balancers" };
-    String[] pathParameters = { updateLoadBalancerOptions.instanceId(), updateLoadBalancerOptions.dnszoneId(), updateLoadBalancerOptions.lbId() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateLoadBalancerOptions.instanceId());
+    pathParamsMap.put("dnszone_id", updateLoadBalancerOptions.dnszoneId());
+    pathParamsMap.put("lb_id", updateLoadBalancerOptions.lbId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/dnszones/{dnszone_id}/load_balancers/{lb_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateLoadBalancer");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -855,9 +900,9 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<ListPools> listPools(ListPoolsOptions listPoolsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(listPoolsOptions,
       "listPoolsOptions cannot be null");
-    String[] pathSegments = { "instances", "pools" };
-    String[] pathParameters = { listPoolsOptions.instanceId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listPoolsOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/pools", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listPools");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -866,13 +911,19 @@ public class DnsSvcs extends BaseService {
     if (listPoolsOptions.xCorrelationId() != null) {
       builder.header("X-Correlation-ID", listPoolsOptions.xCorrelationId());
     }
+    if (listPoolsOptions.offset() != null) {
+      builder.query("offset", String.valueOf(listPoolsOptions.offset()));
+    }
+    if (listPoolsOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listPoolsOptions.limit()));
+    }
     ResponseConverter<ListPools> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ListPools>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
   /**
-   * Create a load balancer pool.
+   * Create load balancer pool.
    *
    * Create a load balancer pool.
    *
@@ -882,9 +933,9 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Pool> createPool(CreatePoolOptions createPoolOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(createPoolOptions,
       "createPoolOptions cannot be null");
-    String[] pathSegments = { "instances", "pools" };
-    String[] pathParameters = { createPoolOptions.instanceId() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createPoolOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/pools", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createPool");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -928,7 +979,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Delete a load balancer pool.
+   * Delete load balancer pool.
    *
    * Delete a load balancer pool.
    *
@@ -938,9 +989,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Void> deletePool(DeletePoolOptions deletePoolOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deletePoolOptions,
       "deletePoolOptions cannot be null");
-    String[] pathSegments = { "instances", "pools" };
-    String[] pathParameters = { deletePoolOptions.instanceId(), deletePoolOptions.poolId() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deletePoolOptions.instanceId());
+    pathParamsMap.put("pool_id", deletePoolOptions.poolId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/pools/{pool_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deletePool");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -953,7 +1005,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Get a load balancer pool.
+   * Get load balancer pool.
    *
    * Get details of a load balancer pool.
    *
@@ -963,9 +1015,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Pool> getPool(GetPoolOptions getPoolOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getPoolOptions,
       "getPoolOptions cannot be null");
-    String[] pathSegments = { "instances", "pools" };
-    String[] pathParameters = { getPoolOptions.instanceId(), getPoolOptions.poolId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getPoolOptions.instanceId());
+    pathParamsMap.put("pool_id", getPoolOptions.poolId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/pools/{pool_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getPool");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -980,7 +1033,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Update the properties of a load balancer pool.
+   * Update load balancer pool.
    *
    * Update the properties of a load balancer pool.
    *
@@ -990,9 +1043,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Pool> updatePool(UpdatePoolOptions updatePoolOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(updatePoolOptions,
       "updatePoolOptions cannot be null");
-    String[] pathSegments = { "instances", "pools" };
-    String[] pathParameters = { updatePoolOptions.instanceId(), updatePoolOptions.poolId() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updatePoolOptions.instanceId());
+    pathParamsMap.put("pool_id", updatePoolOptions.poolId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/pools/{pool_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updatePool");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1046,9 +1100,9 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<ListMonitors> listMonitors(ListMonitorsOptions listMonitorsOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(listMonitorsOptions,
       "listMonitorsOptions cannot be null");
-    String[] pathSegments = { "instances", "monitors" };
-    String[] pathParameters = { listMonitorsOptions.instanceId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listMonitorsOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/monitors", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listMonitors");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1057,13 +1111,19 @@ public class DnsSvcs extends BaseService {
     if (listMonitorsOptions.xCorrelationId() != null) {
       builder.header("X-Correlation-ID", listMonitorsOptions.xCorrelationId());
     }
+    if (listMonitorsOptions.offset() != null) {
+      builder.query("offset", String.valueOf(listMonitorsOptions.offset()));
+    }
+    if (listMonitorsOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listMonitorsOptions.limit()));
+    }
     ResponseConverter<ListMonitors> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ListMonitors>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
   /**
-   * Create a load balancer monitor.
+   * Create load balancer monitor.
    *
    * Create a load balancer monitor.
    *
@@ -1073,9 +1133,9 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Monitor> createMonitor(CreateMonitorOptions createMonitorOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(createMonitorOptions,
       "createMonitorOptions cannot be null");
-    String[] pathSegments = { "instances", "monitors" };
-    String[] pathParameters = { createMonitorOptions.instanceId() };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createMonitorOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/monitors", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createMonitor");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1131,7 +1191,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Delete a load balancer monitor.
+   * Delete load balancer monitor.
    *
    * Delete a load balancer monitor.
    *
@@ -1141,9 +1201,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Void> deleteMonitor(DeleteMonitorOptions deleteMonitorOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteMonitorOptions,
       "deleteMonitorOptions cannot be null");
-    String[] pathSegments = { "instances", "monitors" };
-    String[] pathParameters = { deleteMonitorOptions.instanceId(), deleteMonitorOptions.monitorId() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deleteMonitorOptions.instanceId());
+    pathParamsMap.put("monitor_id", deleteMonitorOptions.monitorId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/monitors/{monitor_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deleteMonitor");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1156,7 +1217,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Get a load balancer monitor.
+   * Get load balancer monitor.
    *
    * Get details of a load balancer monitor.
    *
@@ -1166,9 +1227,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Monitor> getMonitor(GetMonitorOptions getMonitorOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getMonitorOptions,
       "getMonitorOptions cannot be null");
-    String[] pathSegments = { "instances", "monitors" };
-    String[] pathParameters = { getMonitorOptions.instanceId(), getMonitorOptions.monitorId() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getMonitorOptions.instanceId());
+    pathParamsMap.put("monitor_id", getMonitorOptions.monitorId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/monitors/{monitor_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getMonitor");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1183,7 +1245,7 @@ public class DnsSvcs extends BaseService {
   }
 
   /**
-   * Update the properties of a load balancer monitor.
+   * Update load balancer monitor.
    *
    * Update the properties of a load balancer monitor.
    *
@@ -1193,9 +1255,10 @@ public class DnsSvcs extends BaseService {
   public ServiceCall<Monitor> updateMonitor(UpdateMonitorOptions updateMonitorOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(updateMonitorOptions,
       "updateMonitorOptions cannot be null");
-    String[] pathSegments = { "instances", "monitors" };
-    String[] pathParameters = { updateMonitorOptions.instanceId(), updateMonitorOptions.monitorId() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateMonitorOptions.instanceId());
+    pathParamsMap.put("monitor_id", updateMonitorOptions.monitorId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/monitors/{monitor_id}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateMonitor");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1401,6 +1464,39 @@ public class DnsSvcs extends BaseService {
     }
     if (updateCustomResolverOptions.enabled() != null) {
       contentJson.addProperty("enabled", updateCustomResolverOptions.enabled());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<CustomResolver> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<CustomResolver>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update the locations order of a custom resolver.
+   *
+   * Update the locations order of a custom resolver.
+   *
+   * @param updateCrLocationsOrderOptions the {@link UpdateCrLocationsOrderOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link CustomResolver}
+   */
+  public ServiceCall<CustomResolver> updateCrLocationsOrder(UpdateCrLocationsOrderOptions updateCrLocationsOrderOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateCrLocationsOrderOptions,
+      "updateCrLocationsOrderOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateCrLocationsOrderOptions.instanceId());
+    pathParamsMap.put("resolver_id", updateCrLocationsOrderOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/locations_order", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateCrLocationsOrder");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (updateCrLocationsOrderOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", updateCrLocationsOrderOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (updateCrLocationsOrderOptions.locations() != null) {
+      contentJson.add("locations", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateCrLocationsOrderOptions.locations()));
     }
     builder.bodyJson(contentJson);
     ResponseConverter<CustomResolver> responseConverter =
@@ -1671,6 +1767,558 @@ public class DnsSvcs extends BaseService {
     builder.bodyJson(contentJson);
     ResponseConverter<ForwardingRule> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ForwardingRule>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Create an XFR rule.
+   *
+   * Create an XFR rule for a given custom resolver.
+   *
+   * @param createXfrRuleOptions the {@link CreateXfrRuleOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link XfrRule}
+   */
+  public ServiceCall<XfrRule> createXfrRule(CreateXfrRuleOptions createXfrRuleOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createXfrRuleOptions,
+      "createXfrRuleOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createXfrRuleOptions.instanceId());
+    pathParamsMap.put("resolver_id", createXfrRuleOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/xfr_rules", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createXfrRule");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (createXfrRuleOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", createXfrRuleOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (createXfrRuleOptions.description() != null) {
+      contentJson.addProperty("description", createXfrRuleOptions.description());
+    }
+    if (createXfrRuleOptions.zone() != null) {
+      contentJson.addProperty("zone", createXfrRuleOptions.zone());
+    }
+    if (createXfrRuleOptions.enabled() != null) {
+      contentJson.addProperty("enabled", createXfrRuleOptions.enabled());
+    }
+    if (createXfrRuleOptions.transferFrom() != null) {
+      contentJson.add("transfer_from", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createXfrRuleOptions.transferFrom()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<XfrRule> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<XfrRule>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List XFR rules.
+   *
+   * List XFR rules on a given custom resolver.
+   *
+   * @param listXfrRulesOptions the {@link ListXfrRulesOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link XfrRuleList}
+   */
+  public ServiceCall<XfrRuleList> listXfrRules(ListXfrRulesOptions listXfrRulesOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listXfrRulesOptions,
+      "listXfrRulesOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listXfrRulesOptions.instanceId());
+    pathParamsMap.put("resolver_id", listXfrRulesOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/xfr_rules", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listXfrRules");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (listXfrRulesOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", listXfrRulesOptions.xCorrelationId());
+    }
+    if (listXfrRulesOptions.offset() != null) {
+      builder.query("offset", String.valueOf(listXfrRulesOptions.offset()));
+    }
+    if (listXfrRulesOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listXfrRulesOptions.limit()));
+    }
+    ResponseConverter<XfrRuleList> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<XfrRuleList>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get an XFR rule.
+   *
+   * Get details of an XFR rule on the given custom resolver.
+   *
+   * @param getXfrRuleOptions the {@link GetXfrRuleOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link XfrRule}
+   */
+  public ServiceCall<XfrRule> getXfrRule(GetXfrRuleOptions getXfrRuleOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getXfrRuleOptions,
+      "getXfrRuleOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getXfrRuleOptions.instanceId());
+    pathParamsMap.put("resolver_id", getXfrRuleOptions.resolverId());
+    pathParamsMap.put("rule_id", getXfrRuleOptions.ruleId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/xfr_rules/{rule_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getXfrRule");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (getXfrRuleOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", getXfrRuleOptions.xCorrelationId());
+    }
+    ResponseConverter<XfrRule> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<XfrRule>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update an XFR rule.
+   *
+   * Update the properties of an XFR rule on the given custom resolver.
+   *
+   * @param updateXfrRuleOptions the {@link UpdateXfrRuleOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link XfrRule}
+   */
+  public ServiceCall<XfrRule> updateXfrRule(UpdateXfrRuleOptions updateXfrRuleOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateXfrRuleOptions,
+      "updateXfrRuleOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateXfrRuleOptions.instanceId());
+    pathParamsMap.put("resolver_id", updateXfrRuleOptions.resolverId());
+    pathParamsMap.put("rule_id", updateXfrRuleOptions.ruleId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/xfr_rules/{rule_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateXfrRule");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (updateXfrRuleOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", updateXfrRuleOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (updateXfrRuleOptions.description() != null) {
+      contentJson.addProperty("description", updateXfrRuleOptions.description());
+    }
+    if (updateXfrRuleOptions.enabled() != null) {
+      contentJson.addProperty("enabled", updateXfrRuleOptions.enabled());
+    }
+    if (updateXfrRuleOptions.transferFrom() != null) {
+      contentJson.add("transfer_from", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateXfrRuleOptions.transferFrom()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<XfrRule> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<XfrRule>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Delete an XFR rule.
+   *
+   * Delete an XFR rule on the given custom resolver.
+   *
+   * @param deleteXfrRuleOptions the {@link DeleteXfrRuleOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteXfrRule(DeleteXfrRuleOptions deleteXfrRuleOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteXfrRuleOptions,
+      "deleteXfrRuleOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deleteXfrRuleOptions.instanceId());
+    pathParamsMap.put("resolver_id", deleteXfrRuleOptions.resolverId());
+    pathParamsMap.put("rule_id", deleteXfrRuleOptions.ruleId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/xfr_rules/{rule_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deleteXfrRule");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    if (deleteXfrRuleOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", deleteXfrRuleOptions.xCorrelationId());
+    }
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List linked zones.
+   *
+   * List linked zones in requestor's instance.
+   *
+   * @param listLinkedZonesOptions the {@link ListLinkedZonesOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link LinkedZonesList}
+   */
+  public ServiceCall<LinkedZonesList> listLinkedZones(ListLinkedZonesOptions listLinkedZonesOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listLinkedZonesOptions,
+      "listLinkedZonesOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listLinkedZonesOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/linked_dnszones", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listLinkedZones");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (listLinkedZonesOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", listLinkedZonesOptions.xCorrelationId());
+    }
+    if (listLinkedZonesOptions.offset() != null) {
+      builder.query("offset", String.valueOf(listLinkedZonesOptions.offset()));
+    }
+    if (listLinkedZonesOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listLinkedZonesOptions.limit()));
+    }
+    ResponseConverter<LinkedZonesList> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LinkedZonesList>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Create a linked zone.
+   *
+   * Create a linked zone.
+   *
+   * @param createLinkedZoneOptions the {@link CreateLinkedZoneOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link LinkedZone}
+   */
+  public ServiceCall<LinkedZone> createLinkedZone(CreateLinkedZoneOptions createLinkedZoneOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createLinkedZoneOptions,
+      "createLinkedZoneOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", createLinkedZoneOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/linked_dnszones", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "createLinkedZone");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (createLinkedZoneOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", createLinkedZoneOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (createLinkedZoneOptions.ownerInstanceId() != null) {
+      contentJson.addProperty("owner_instance_id", createLinkedZoneOptions.ownerInstanceId());
+    }
+    if (createLinkedZoneOptions.ownerZoneId() != null) {
+      contentJson.addProperty("owner_zone_id", createLinkedZoneOptions.ownerZoneId());
+    }
+    if (createLinkedZoneOptions.description() != null) {
+      contentJson.addProperty("description", createLinkedZoneOptions.description());
+    }
+    if (createLinkedZoneOptions.label() != null) {
+      contentJson.addProperty("label", createLinkedZoneOptions.label());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<LinkedZone> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LinkedZone>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get a linked zone.
+   *
+   * Get details of a linked zone.
+   *
+   * @param getLinkedZoneOptions the {@link GetLinkedZoneOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link LinkedZone}
+   */
+  public ServiceCall<LinkedZone> getLinkedZone(GetLinkedZoneOptions getLinkedZoneOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getLinkedZoneOptions,
+      "getLinkedZoneOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getLinkedZoneOptions.instanceId());
+    pathParamsMap.put("lz_id", getLinkedZoneOptions.lzId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/linked_dnszones/{lz_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getLinkedZone");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (getLinkedZoneOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", getLinkedZoneOptions.xCorrelationId());
+    }
+    ResponseConverter<LinkedZone> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LinkedZone>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update the properties of a linked zone.
+   *
+   * Update the properties of a linked zone.
+   *
+   * @param updateLinkedZoneOptions the {@link UpdateLinkedZoneOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link LinkedZone}
+   */
+  public ServiceCall<LinkedZone> updateLinkedZone(UpdateLinkedZoneOptions updateLinkedZoneOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateLinkedZoneOptions,
+      "updateLinkedZoneOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateLinkedZoneOptions.instanceId());
+    pathParamsMap.put("lz_id", updateLinkedZoneOptions.lzId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/linked_dnszones/{lz_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateLinkedZone");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (updateLinkedZoneOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", updateLinkedZoneOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (updateLinkedZoneOptions.description() != null) {
+      contentJson.addProperty("description", updateLinkedZoneOptions.description());
+    }
+    if (updateLinkedZoneOptions.label() != null) {
+      contentJson.addProperty("label", updateLinkedZoneOptions.label());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<LinkedZone> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LinkedZone>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Delete a linked zone.
+   *
+   * Delete a linked zone.
+   *
+   * @param deleteLinkedZoneOptions the {@link DeleteLinkedZoneOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteLinkedZone(DeleteLinkedZoneOptions deleteLinkedZoneOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteLinkedZoneOptions,
+      "deleteLinkedZoneOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", deleteLinkedZoneOptions.instanceId());
+    pathParamsMap.put("lz_id", deleteLinkedZoneOptions.lzId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/linked_dnszones/{lz_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "deleteLinkedZone");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    if (deleteLinkedZoneOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", deleteLinkedZoneOptions.xCorrelationId());
+    }
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List Access Requests.
+   *
+   * List access requests in owner's instance.
+   *
+   * @param listDnszoneAccessRequestsOptions the {@link ListDnszoneAccessRequestsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link AccessRequestsList}
+   */
+  public ServiceCall<AccessRequestsList> listDnszoneAccessRequests(ListDnszoneAccessRequestsOptions listDnszoneAccessRequestsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listDnszoneAccessRequestsOptions,
+      "listDnszoneAccessRequestsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listDnszoneAccessRequestsOptions.instanceId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/access_requests", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listDnszoneAccessRequests");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (listDnszoneAccessRequestsOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", listDnszoneAccessRequestsOptions.xCorrelationId());
+    }
+    if (listDnszoneAccessRequestsOptions.offset() != null) {
+      builder.query("offset", String.valueOf(listDnszoneAccessRequestsOptions.offset()));
+    }
+    if (listDnszoneAccessRequestsOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listDnszoneAccessRequestsOptions.limit()));
+    }
+    ResponseConverter<AccessRequestsList> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AccessRequestsList>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get an access request.
+   *
+   * Get details of an access request.
+   *
+   * @param getDnszoneAccessRequestOptions the {@link GetDnszoneAccessRequestOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link AccessRequest}
+   */
+  public ServiceCall<AccessRequest> getDnszoneAccessRequest(GetDnszoneAccessRequestOptions getDnszoneAccessRequestOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getDnszoneAccessRequestOptions,
+      "getDnszoneAccessRequestOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getDnszoneAccessRequestOptions.instanceId());
+    pathParamsMap.put("request_id", getDnszoneAccessRequestOptions.requestId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/access_requests/{request_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getDnszoneAccessRequest");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (getDnszoneAccessRequestOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", getDnszoneAccessRequestOptions.xCorrelationId());
+    }
+    ResponseConverter<AccessRequest> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AccessRequest>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update an access request.
+   *
+   * Update the state of an access request.
+   *
+   * @param updateDnszoneAccessRequestOptions the {@link UpdateDnszoneAccessRequestOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link AccessRequest}
+   */
+  public ServiceCall<AccessRequest> updateDnszoneAccessRequest(UpdateDnszoneAccessRequestOptions updateDnszoneAccessRequestOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateDnszoneAccessRequestOptions,
+      "updateDnszoneAccessRequestOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", updateDnszoneAccessRequestOptions.instanceId());
+    pathParamsMap.put("request_id", updateDnszoneAccessRequestOptions.requestId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/access_requests/{request_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "updateDnszoneAccessRequest");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (updateDnszoneAccessRequestOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", updateDnszoneAccessRequestOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (updateDnszoneAccessRequestOptions.action() != null) {
+      contentJson.addProperty("action", updateDnszoneAccessRequestOptions.action());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<AccessRequest> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AccessRequest>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List permitted networks.
+   *
+   * List the permitted networks for a linked zone.
+   *
+   * @param listLinkedPermittedNetworksOptions the {@link ListLinkedPermittedNetworksOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ListPermittedNetworks}
+   */
+  public ServiceCall<ListPermittedNetworks> listLinkedPermittedNetworks(ListLinkedPermittedNetworksOptions listLinkedPermittedNetworksOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listLinkedPermittedNetworksOptions,
+      "listLinkedPermittedNetworksOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listLinkedPermittedNetworksOptions.instanceId());
+    pathParamsMap.put("lz_id", listLinkedPermittedNetworksOptions.lzId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listLinkedPermittedNetworks");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (listLinkedPermittedNetworksOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", listLinkedPermittedNetworksOptions.xCorrelationId());
+    }
+    ResponseConverter<ListPermittedNetworks> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ListPermittedNetworks>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Create a permitted network.
+   *
+   * Create a permitted network for a linked zone.
+   *
+   * @param linkPermittedNetworkOptions the {@link LinkPermittedNetworkOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link PermittedNetwork}
+   */
+  public ServiceCall<PermittedNetwork> linkPermittedNetwork(LinkPermittedNetworkOptions linkPermittedNetworkOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(linkPermittedNetworkOptions,
+      "linkPermittedNetworkOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", linkPermittedNetworkOptions.instanceId());
+    pathParamsMap.put("lz_id", linkPermittedNetworkOptions.lzId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "linkPermittedNetwork");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (linkPermittedNetworkOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", linkPermittedNetworkOptions.xCorrelationId());
+    }
+    final JsonObject contentJson = new JsonObject();
+    if (linkPermittedNetworkOptions.type() != null) {
+      contentJson.addProperty("type", linkPermittedNetworkOptions.type());
+    }
+    if (linkPermittedNetworkOptions.permittedNetwork() != null) {
+      contentJson.add("permitted_network", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(linkPermittedNetworkOptions.permittedNetwork()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<PermittedNetwork> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<PermittedNetwork>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Remove a permitted network.
+   *
+   * Remove a permitted network from a linked zone.
+   *
+   * @param unlinkPermittedNetworkOptions the {@link UnlinkPermittedNetworkOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link PermittedNetwork}
+   */
+  public ServiceCall<PermittedNetwork> unlinkPermittedNetwork(UnlinkPermittedNetworkOptions unlinkPermittedNetworkOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(unlinkPermittedNetworkOptions,
+      "unlinkPermittedNetworkOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", unlinkPermittedNetworkOptions.instanceId());
+    pathParamsMap.put("lz_id", unlinkPermittedNetworkOptions.lzId());
+    pathParamsMap.put("permitted_network_id", unlinkPermittedNetworkOptions.permittedNetworkId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "unlinkPermittedNetwork");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (unlinkPermittedNetworkOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", unlinkPermittedNetworkOptions.xCorrelationId());
+    }
+    ResponseConverter<PermittedNetwork> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<PermittedNetwork>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get a permitted network.
+   *
+   * Get a permitted network of a linked zone.
+   *
+   * @param getLinkedPermittedNetworkOptions the {@link GetLinkedPermittedNetworkOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link PermittedNetwork}
+   */
+  public ServiceCall<PermittedNetwork> getLinkedPermittedNetwork(GetLinkedPermittedNetworkOptions getLinkedPermittedNetworkOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getLinkedPermittedNetworkOptions,
+      "getLinkedPermittedNetworkOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getLinkedPermittedNetworkOptions.instanceId());
+    pathParamsMap.put("lz_id", getLinkedPermittedNetworkOptions.lzId());
+    pathParamsMap.put("permitted_network_id", getLinkedPermittedNetworkOptions.permittedNetworkId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/linked_dnszones/{lz_id}/permitted_networks/{permitted_network_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getLinkedPermittedNetwork");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (getLinkedPermittedNetworkOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", getLinkedPermittedNetworkOptions.xCorrelationId());
+    }
+    ResponseConverter<PermittedNetwork> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<PermittedNetwork>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

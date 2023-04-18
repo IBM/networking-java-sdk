@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2022.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,9 +13,9 @@
 
 package com.ibm.cloud.networking.dns_svcs.v1.model;
 
-import com.ibm.cloud.networking.dns_svcs.v1.model.NextHref;
-import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.networking.dns_svcs.v1.model.XfrRuleInputTransferFromItem;
+import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -23,15 +23,23 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the NextHref model.
+ * Unit test class for the XfrRuleInputTransferFromItem model.
  */
-public class NextHrefTest {
+public class XfrRuleInputTransferFromItemTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testNextHref() throws Throwable {
-    NextHref nextHrefModel = new NextHref();
-    assertNull(nextHrefModel.getHref());
+  public void testXfrRuleInputTransferFromItem() throws Throwable {
+    XfrRuleInputTransferFromItem xfrRuleInputTransferFromItemModel = new XfrRuleInputTransferFromItem.Builder()
+      .address("10.0.0.7")
+      .build();
+    assertEquals(xfrRuleInputTransferFromItemModel.address(), "10.0.0.7");
+
+    String json = TestUtilities.serialize(xfrRuleInputTransferFromItemModel);
+
+    XfrRuleInputTransferFromItem xfrRuleInputTransferFromItemModelNew = TestUtilities.deserialize(json, XfrRuleInputTransferFromItem.class);
+    assertTrue(xfrRuleInputTransferFromItemModelNew instanceof XfrRuleInputTransferFromItem);
+    assertEquals(xfrRuleInputTransferFromItemModelNew.address(), "10.0.0.7");
   }
 }
