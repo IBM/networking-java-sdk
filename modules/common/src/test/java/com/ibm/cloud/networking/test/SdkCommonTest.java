@@ -14,9 +14,7 @@
 // >>> Replace "my_services" with the correct value for your project (e.g. "platform_services")
 package com.ibm.cloud.networking.test;
 
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 import java.util.Map;
 
