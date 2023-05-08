@@ -150,15 +150,6 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <!-- >>> Replace this with the common module's artifactId -->
-                <artifactId>networking-common</artifactId>
-                <groupId>${project.groupId}</groupId>
-                <version>${project.version}</version>
-                <type>test-jar</type>
-                <classifier>tests</classifier>
-                <scope>test</scope>
-            </dependency>
-             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
                 <version>${slf4j-version}</version>
@@ -168,6 +159,14 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j-version}</version>
+            </dependency>
+            <dependency>
+                <!-- >>> Replace this with the common module's artifactId -->
+                <artifactId>networking-common</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+                <classifier>tests</classifier>
                 <scope>test</scope>
             </dependency>
             <!-- TestNG is used to run unit/integration tests -->
