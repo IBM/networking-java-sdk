@@ -26,12 +26,12 @@
             of the SDK generator used to generate your SDK code.
             See this link for details: https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/Compatibility-Chart
         -->
-        <sdk-core-version>9.13.3</sdk-core-version>
+        <sdk-core-version>9.16.0</sdk-core-version>
         <git-repository-name>networking-java-sdk</git-repository-name>
 
-        <testng-version>7.4.0</testng-version>
+        <testng-version>7.5.1</testng-version>
         <okhttp3-version>4.9.0</okhttp3-version>
-        <surefire-version>3.0.0-M3</surefire-version>
+        <surefire-version>3.0.0-M7</surefire-version>
         <jacoco-plugin-version>0.8.5</jacoco-plugin-version>
         <maven-deploy-plugin-version>3.0.0-M1</maven-deploy-plugin-version>
         <nexus-staging-plugin-version>1.6.8</nexus-staging-plugin-version>
@@ -48,7 +48,7 @@
         <maven-buildnumber-plugin-version>1.4</maven-buildnumber-plugin-version>
         <powermock-version>2.0.5</powermock-version>
         <mockito-version>3.2.4</mockito-version>
-        <slf4j-version>1.7.28</slf4j-version>
+        <slf4j-version>2.0.6</slf4j-version>
     </properties>
 
     <modules>
@@ -150,6 +150,17 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j-version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-version}</version>
+            </dependency>
+            <dependency>
                 <!-- >>> Replace this with the common module's artifactId -->
                 <artifactId>networking-common</artifactId>
                 <groupId>${project.groupId}</groupId>
@@ -158,7 +169,6 @@
                 <classifier>tests</classifier>
                 <scope>test</scope>
             </dependency>
-
             <!-- TestNG is used to run unit/integration tests -->
             <dependency>
                 <groupId>org.testng</groupId>
@@ -228,6 +238,7 @@
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>${maven-javadoc-plugin-version}</version>
                     <configuration>
+                        <additionalparam>-Xdoclint:none</additionalparam>
                         <quiet>true</quiet>
                     </configuration>
                     <executions>
@@ -244,8 +255,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin-version}</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>2.0.2</source>
+                        <target>2.0.2</target>
                     </configuration>
                 </plugin>
                 <plugin>
