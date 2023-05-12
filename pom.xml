@@ -31,7 +31,7 @@
 
         <testng-version>7.5.1</testng-version>
         <okhttp3-version>4.9.0</okhttp3-version>
-        <surefire-version>3.0.0-M3</surefire-version>
+        <surefire-version>3.0.0-M5</surefire-version>
         <jacoco-plugin-version>0.8.5</jacoco-plugin-version>
         <maven-deploy-plugin-version>3.0.0-M1</maven-deploy-plugin-version>
         <nexus-staging-plugin-version>1.6.8</nexus-staging-plugin-version>
