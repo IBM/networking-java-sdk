@@ -12,12 +12,6 @@
  */
 package com.ibm.cloud.networking.direct_link.v1;
 
-import com.ibm.cloud.sdk.core.http.Response;
-import com.ibm.cloud.sdk.core.security.Authenticator;
-import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.DateUtils;
-import com.ibm.cloud.sdk.core.util.EnvironmentUtils;
 import com.ibm.cloud.networking.direct_link.v1.DirectLink;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependCollection;
@@ -130,6 +124,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportAdvertisedRoute;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOnPremRoute;
@@ -138,12 +133,19 @@ import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRoute
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRouteForOthers;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOverlappingRouteGroup;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportRoute;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportVirtualConnectionRoute;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateRouteFilterTemplate;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.http.Response;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
+import com.ibm.cloud.sdk.core.util.EnvironmentUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -1621,7 +1623,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testListGatewayRouteReportsWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"route_reports\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}]}";
+    String mockResponseBody = "{\"route_reports\": [{\"advertised_routes\": [{\"as_path\": \"64999 64999 64998 I\", \"prefix\": \"172.17.0.0/16\"}], \"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"as_path\": \"64999 64999 64998 I\", \"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"active\": true, \"local_preference\": \"200\", \"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}]}";
     String listGatewayRouteReportsPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -1673,7 +1675,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testCreateGatewayRouteReportWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}";
+    String mockResponseBody = "{\"advertised_routes\": [{\"as_path\": \"64999 64999 64998 I\", \"prefix\": \"172.17.0.0/16\"}], \"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"as_path\": \"64999 64999 64998 I\", \"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"active\": true, \"local_preference\": \"200\", \"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}";
     String createGatewayRouteReportPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -1777,7 +1779,7 @@ public class DirectLinkTest extends PowerMockTestCase {
   @Test
   public void testGetGatewayRouteReportWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}";
+    String mockResponseBody = "{\"advertised_routes\": [{\"as_path\": \"64999 64999 64998 I\", \"prefix\": \"172.17.0.0/16\"}], \"created_at\": \"2019-01-01T12:00:00.000Z\", \"gateway_routes\": [{\"prefix\": \"172.17.0.0/16\"}], \"id\": \"1a15dcab-7e26-45e1-b7c5-bc690eaa9724\", \"on_prem_routes\": [{\"as_path\": \"64999 64999 64998 I\", \"next_hop\": \"172.17.0.0\", \"prefix\": \"172.17.0.0/16\"}], \"overlapping_routes\": [{\"routes\": [{\"prefix\": \"172.17.0.0/16\", \"type\": \"virtual_connection\", \"virtual_connection_id\": \"d2d985d8-1d8e-4e8b-96cd-cee2290ecaff\"}]}], \"status\": \"complete\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"virtual_connection_routes\": [{\"routes\": [{\"active\": true, \"local_preference\": \"200\", \"prefix\": \"172.17.0.0/16\"}], \"virtual_connection_id\": \"3c265a62-91da-4261-a950-950b6af0eb58\", \"virtual_connection_name\": \"vpc1\", \"virtual_connection_type\": \"vpc\"}]}";
     String getGatewayRouteReportPath = "/gateways/0a06fb9b-820f-4c44-8a31-77f1f0806d28/route_reports/0a06fb9b-820f-4c44-8a31-77f1f0806d28";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")

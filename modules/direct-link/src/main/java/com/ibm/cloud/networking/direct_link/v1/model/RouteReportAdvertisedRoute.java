@@ -16,17 +16,15 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * on-prem route.
+ * Route advertised to the on-prem network.
  */
-public class RouteReportOnPremRoute extends GenericModel {
+public class RouteReportAdvertisedRoute extends GenericModel {
 
   @SerializedName("as_path")
   protected String asPath;
-  @SerializedName("next_hop")
-  protected String nextHop;
   protected String prefix;
 
-  protected RouteReportOnPremRoute() { }
+  protected RouteReportAdvertisedRoute() { }
 
   /**
    * Gets the asPath.
@@ -37,17 +35,6 @@ public class RouteReportOnPremRoute extends GenericModel {
    */
   public String getAsPath() {
     return asPath;
-  }
-
-  /**
-   * Gets the nextHop.
-   *
-   * Next hop address.
-   *
-   * @return the nextHop
-   */
-  public String getNextHop() {
-    return nextHop;
   }
 
   /**

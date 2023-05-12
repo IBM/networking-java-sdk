@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,13 +22,15 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class RouteReportConnection extends GenericModel {
 
-  protected List<RouteReportRoute> routes;
+  protected List<RouteReportVirtualConnectionRoute> routes;
   @SerializedName("virtual_connection_id")
   protected String virtualConnectionId;
   @SerializedName("virtual_connection_name")
   protected String virtualConnectionName;
   @SerializedName("virtual_connection_type")
   protected String virtualConnectionType;
+
+  protected RouteReportConnection() { }
 
   /**
    * Gets the routes.
@@ -37,7 +39,7 @@ public class RouteReportConnection extends GenericModel {
    *
    * @return the routes
    */
-  public List<RouteReportRoute> getRoutes() {
+  public List<RouteReportVirtualConnectionRoute> getRoutes() {
     return routes;
   }
 
