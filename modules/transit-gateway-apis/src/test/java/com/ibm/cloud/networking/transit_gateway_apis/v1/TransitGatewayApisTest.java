@@ -96,7 +96,6 @@ import static org.testng.Assert.*;
 /**
  * Unit test class for the TransitGatewayApis service.
  */
-@PowerMockIgnore({"javax.net.ssl.*", "org.mockito.*"})
 public class TransitGatewayApisTest {
 
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
