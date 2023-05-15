@@ -46,9 +46,9 @@
         <maven-reports-plugin-version>3.4.1</maven-reports-plugin-version>
         <maven-failsafe-plugin-version>3.0.0-M7</maven-failsafe-plugin-version>
         <maven-buildnumber-plugin-version>3.0.0</maven-buildnumber-plugin-version>
-        <powermock-version>2.0.5</powermock-version>
-        <mockito-version>4.11.0</mockito-version>
-        <slf4j-version>2.0.6</slf4j-version>
+        <powermock-version>2.0.9</powermock-version>
+        <mockito-version>5.1.1</mockito-version>
+        <slf4j-version>2.0.7</slf4j-version>
     </properties>
 
     <modules>
@@ -177,7 +177,12 @@
                 <version>${okhttp3-version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
+            <dependency> 
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>${slf4j-version}</version>
+            </dependency>
+            <!-- <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j-version}</version>
@@ -196,7 +201,7 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
                 <version>${slf4j-version}</version>
-            </dependency>
+            </dependency> -->
             <dependency>
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-api-mockito2</artifactId>
