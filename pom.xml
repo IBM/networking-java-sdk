@@ -26,7 +26,7 @@
             of the SDK generator used to generate your SDK code.
             See this link for details: https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/Compatibility-Chart
         -->
-        <sdk-core-version>9.17.5</sdk-core-version>
+        <sdk-core-version>9.17.4</sdk-core-version>
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.7.1</testng-version>
@@ -48,7 +48,7 @@
         <maven-buildnumber-plugin-version>3.0.0</maven-buildnumber-plugin-version>
         <powermock-version>2.0.9</powermock-version>
         <mockito-version>5.1.1</mockito-version>
-        <slf4j-version>2.0.7</slf4j-version>
+        <slf4j-version>2.0.6</slf4j-version>
     </properties>
 
     <modules>
