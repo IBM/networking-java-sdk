@@ -130,7 +130,7 @@ import static org.testng.Assert.*;
 /**
  * Unit test class for the DnsSvcs service.
  */
-public class DnsSvcsTest
+public class DnsSvcsTest {
 
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
