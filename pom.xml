@@ -48,7 +48,6 @@
         <maven-buildnumber-plugin-version>3.0.0</maven-buildnumber-plugin-version>
         <powermock-version>2.0.5</powermock-version>
         <mockito-version>4.11.0</mockito-version>
-        <slf4j-version>1.7.28</slf4j-version>
     </properties>
 
     <modules>
@@ -177,17 +176,6 @@
                 <version>${okhttp3-version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j-version}</version>
-            </dependency>
-            
             <dependency>
                 <groupId>org.powermock</groupId>
                 <artifactId>powermock-api-mockito2</artifactId>
