@@ -41,7 +41,7 @@ import static org.testng.Assert.*;
 /**
  * Unit test class for the DnsRecordBulk service.
  */
-public class DnsRecordBulkTest 
+public class DnsRecordBulkTest {
 
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();

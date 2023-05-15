@@ -51,7 +51,7 @@ import static org.testng.Assert.*;
 /**
  * Unit test class for the Zones service.
  */
-public class ZonesTest
+public class ZonesTest {
 
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();

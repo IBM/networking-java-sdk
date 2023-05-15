@@ -41,7 +41,7 @@ import static org.testng.Assert.*;
 /**
  * Unit test class for the FirewallApi service.
  */
-public class FirewallApiTest
+public class FirewallApiTest {
 
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
