@@ -161,7 +161,7 @@ import static org.testng.Assert.*;
 /**
  * Unit test class for the DirectLink service.
  */
-public class DirectLinkTest extends PowerMockTestCase {
+public class DirectLinkTest {
 
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
