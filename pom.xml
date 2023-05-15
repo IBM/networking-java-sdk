@@ -30,7 +30,7 @@
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.7.1</testng-version>
-        <okhttp3-version>4.9.0</okhttp3-version>
+        <okhttp3-version>4.10.0</okhttp3-version>
         <surefire-version>3.0.0-M7</surefire-version>
         <jacoco-plugin-version>0.8.8</jacoco-plugin-version>
         <maven-deploy-plugin-version>3.0.0</maven-deploy-plugin-version>
@@ -180,6 +180,11 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-sample</artifactId>
                 <version>${slf4j-version}</version>
             </dependency>
            <dependency>
