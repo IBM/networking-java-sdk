@@ -96,7 +96,6 @@ import static org.testng.Assert.*;
 /**
  * Unit test class for the TransitGatewayApis service.
  */
-@PrepareForTest({ EnvironmentUtils.class })
 @PowerMockIgnore({"javax.net.ssl.*", "org.mockito.*"})
 public class TransitGatewayApisTest {
 
@@ -105,13 +104,6 @@ public class TransitGatewayApisTest {
 
   protected MockWebServer server;
   protected TransitGatewayApis transitGatewayApisService;
-
-  // Creates a mock set of environment variables that are returned by EnvironmentUtils.getenv().
-  private Map<String, String> getTestProcessEnvironment() {
-    Map<String, String> env = new HashMap<>();
-    env.put("TESTSERVICE_AUTH_TYPE", "noAuth");
-    return env;
-  }
 
   public void constructClientService() throws Throwable {
     System.setProperty("TESTSERVICE_AUTH_TYPE", "noAuth");
