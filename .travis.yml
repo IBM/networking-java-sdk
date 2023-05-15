@@ -49,7 +49,7 @@ jobs:
 
     - stage: Semantic-Release
       install:
-        - nvm install 18
+        - nvm install 14
         - npm install -g npm@8.x
         - pip install --user bump2version
         - npm install @semantic-release/changelog
