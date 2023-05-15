@@ -48,13 +48,6 @@ public class CisIpApiTest {
   protected MockWebServer server;
   protected CisIpApi cisIpApiService;
 
-  // Creates a mock set of environment variables that are returned by EnvironmentUtils.getenv().
-  private Map<String, String> getTestProcessEnvironment() {
-    Map<String, String> env = new HashMap<>();
-    env.put("TESTSERVICE_AUTH_TYPE", "noAuth");
-    return env;
-  }
-
   public void constructClientService() throws Throwable {
     System.setProperty("TESTSERVICE_AUTH_TYPE", "noAuth");
     final String serviceName = "testService";
