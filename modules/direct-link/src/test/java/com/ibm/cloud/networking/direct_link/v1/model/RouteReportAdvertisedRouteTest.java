@@ -13,7 +13,7 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.networking.direct_link.v1.model.RouteReportOnPremRoute;
+import com.ibm.cloud.networking.direct_link.v1.model.RouteReportAdvertisedRoute;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -23,17 +23,16 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the RouteReportOnPremRoute model.
+ * Unit test class for the RouteReportAdvertisedRoute model.
  */
-public class RouteReportOnPremRouteTest {
+public class RouteReportAdvertisedRouteTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testRouteReportOnPremRoute() throws Throwable {
-    RouteReportOnPremRoute routeReportOnPremRouteModel = new RouteReportOnPremRoute();
-    assertNull(routeReportOnPremRouteModel.getAsPath());
-    assertNull(routeReportOnPremRouteModel.getNextHop());
-    assertNull(routeReportOnPremRouteModel.getPrefix());
+  public void testRouteReportAdvertisedRoute() throws Throwable {
+    RouteReportAdvertisedRoute routeReportAdvertisedRouteModel = new RouteReportAdvertisedRoute();
+    assertNull(routeReportAdvertisedRouteModel.getAsPath());
+    assertNull(routeReportAdvertisedRouteModel.getPrefix());
   }
 }

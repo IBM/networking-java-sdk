@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,20 +12,12 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.58.0-ac124633-20221004-152309
+ * IBM OpenAPI SDK Code Generator Version: 3.60.2-95dc7721-20221102-203229
  */
 
 package com.ibm.cloud.networking.direct_link.v1;
 
 import com.google.gson.JsonObject;
-import com.ibm.cloud.sdk.core.http.RequestBuilder;
-import com.ibm.cloud.sdk.core.http.ResponseConverter;
-import com.ibm.cloud.sdk.core.http.ServiceCall;
-import com.ibm.cloud.sdk.core.security.Authenticator;
-import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
-import com.ibm.cloud.sdk.core.service.BaseService;
-import com.ibm.cloud.sdk.core.util.RequestUtils;
-import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import com.ibm.cloud.networking.common.SdkCommon;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
@@ -83,6 +75,14 @@ import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayExportRouteFil
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
+import com.ibm.cloud.sdk.core.http.RequestBuilder;
+import com.ibm.cloud.sdk.core.http.ResponseConverter;
+import com.ibm.cloud.sdk.core.http.ServiceCall;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
+import com.ibm.cloud.sdk.core.service.BaseService;
+import com.ibm.cloud.sdk.core.util.RequestUtils;
+import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -171,167 +171,6 @@ public class DirectLink extends BaseService {
   public void setVersion(final String version) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(version, "version cannot be empty.");
     this.version = version;
-  }
-
-  /**
-   * List AS Prepends.
-   *
-   * Retrieve all AS Prepends for the specified Direct Link gateway.
-   *
-   * @param listGatewayAsPrependsOptions the {@link ListGatewayAsPrependsOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
-   */
-  public ServiceCall<AsPrependCollection> listGatewayAsPrepends(ListGatewayAsPrependsOptions listGatewayAsPrependsOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayAsPrependsOptions,
-      "listGatewayAsPrependsOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("gateway_id", listGatewayAsPrependsOptions.gatewayId());
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayAsPrepends");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<AsPrependCollection> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Replace existing AS Prepends.
-   *
-   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
-   * individual AS Prepend item is unchanged.
-   *
-   * @param replaceGatewayAsPrependsOptions the {@link ReplaceGatewayAsPrependsOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
-   */
-  public ServiceCall<AsPrependCollection> replaceGatewayAsPrepends(ReplaceGatewayAsPrependsOptions replaceGatewayAsPrependsOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(replaceGatewayAsPrependsOptions,
-      "replaceGatewayAsPrependsOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("gateway_id", replaceGatewayAsPrependsOptions.gatewayId());
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "replaceGatewayAsPrepends");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.header("If-Match", replaceGatewayAsPrependsOptions.ifMatch());
-    builder.query("version", String.valueOf(this.version));
-    final JsonObject contentJson = new JsonObject();
-    if (replaceGatewayAsPrependsOptions.asPrepends() != null) {
-      contentJson.add("as_prepends", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(replaceGatewayAsPrependsOptions.asPrepends()));
-    }
-    builder.bodyJson(contentJson);
-    ResponseConverter<AsPrependCollection> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * List route reports.
-   *
-   * Retrieve all route reports for the specified Direct Link gateway.
-   *
-   * @param listGatewayRouteReportsOptions the {@link ListGatewayRouteReportsOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link RouteReportCollection}
-   */
-  public ServiceCall<RouteReportCollection> listGatewayRouteReports(ListGatewayRouteReportsOptions listGatewayRouteReportsOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayRouteReportsOptions,
-      "listGatewayRouteReportsOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("gateway_id", listGatewayRouteReportsOptions.gatewayId());
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayRouteReports");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<RouteReportCollection> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReportCollection>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Request a route report.
-   *
-   * Request route report generation.  While report generation is in progress, additional requests to generate a report
-   * are ignored and return the current pending report. While `status` is `pending`, `gateway_routes`, `on_prem_routes`,
-   * `virtual_connection_routes`, and `overlapping_routes` will be empty arrays. These fields will be filled when the
-   * `status` enters the `completed` status.  Call `get_gateway_route_report` with the pending route report's `id` to
-   * check on the current status of the report.
-   *
-   * @param createGatewayRouteReportOptions the {@link CreateGatewayRouteReportOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link RouteReport}
-   */
-  public ServiceCall<RouteReport> createGatewayRouteReport(CreateGatewayRouteReportOptions createGatewayRouteReportOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(createGatewayRouteReportOptions,
-      "createGatewayRouteReportOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("gateway_id", createGatewayRouteReportOptions.gatewayId());
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "createGatewayRouteReport");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<RouteReport> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReport>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Delete route report.
-   *
-   * Delete a route report.
-   *
-   * @param deleteGatewayRouteReportOptions the {@link DeleteGatewayRouteReportOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a void result
-   */
-  public ServiceCall<Void> deleteGatewayRouteReport(DeleteGatewayRouteReportOptions deleteGatewayRouteReportOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteGatewayRouteReportOptions,
-      "deleteGatewayRouteReportOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("gateway_id", deleteGatewayRouteReportOptions.gatewayId());
-    pathParamsMap.put("id", deleteGatewayRouteReportOptions.id());
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports/{id}", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "deleteGatewayRouteReport");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Retrieve route report.
-   *
-   * Retrieve a route report.
-   *
-   * @param getGatewayRouteReportOptions the {@link GetGatewayRouteReportOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link RouteReport}
-   */
-  public ServiceCall<RouteReport> getGatewayRouteReport(GetGatewayRouteReportOptions getGatewayRouteReportOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayRouteReportOptions,
-      "getGatewayRouteReportOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("gateway_id", getGatewayRouteReportOptions.gatewayId());
-    pathParamsMap.put("id", getGatewayRouteReportOptions.id());
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports/{id}", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getGatewayRouteReport");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<RouteReport> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReport>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
   }
 
   /**
@@ -479,6 +318,12 @@ public class DirectLink extends BaseService {
     if (updateGatewayOptions.connectionMode() != null) {
       contentJson.addProperty("connection_mode", updateGatewayOptions.connectionMode());
     }
+    if (updateGatewayOptions.defaultExportRouteFilter() != null) {
+      contentJson.addProperty("default_export_route_filter", updateGatewayOptions.defaultExportRouteFilter());
+    }
+    if (updateGatewayOptions.defaultImportRouteFilter() != null) {
+      contentJson.addProperty("default_import_route_filter", updateGatewayOptions.defaultImportRouteFilter());
+    }
     if (updateGatewayOptions.global() != null) {
       contentJson.addProperty("global", updateGatewayOptions.global());
     }
@@ -533,7 +378,9 @@ public class DirectLink extends BaseService {
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
     final JsonObject contentJson = new JsonObject();
-    contentJson.addProperty("action", createGatewayActionOptions.action());
+    if (createGatewayActionOptions.action() != null) {
+      contentJson.addProperty("action", createGatewayActionOptions.action());
+    }
     if (createGatewayActionOptions.asPrepends() != null) {
       contentJson.add("as_prepends", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayActionOptions.asPrepends()));
     }
@@ -546,8 +393,20 @@ public class DirectLink extends BaseService {
     if (createGatewayActionOptions.connectionMode() != null) {
       contentJson.addProperty("connection_mode", createGatewayActionOptions.connectionMode());
     }
+    if (createGatewayActionOptions.defaultExportRouteFilter() != null) {
+      contentJson.addProperty("default_export_route_filter", createGatewayActionOptions.defaultExportRouteFilter());
+    }
+    if (createGatewayActionOptions.defaultImportRouteFilter() != null) {
+      contentJson.addProperty("default_import_route_filter", createGatewayActionOptions.defaultImportRouteFilter());
+    }
+    if (createGatewayActionOptions.exportRouteFilters() != null) {
+      contentJson.add("export_route_filters", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayActionOptions.exportRouteFilters()));
+    }
     if (createGatewayActionOptions.global() != null) {
       contentJson.addProperty("global", createGatewayActionOptions.global());
+    }
+    if (createGatewayActionOptions.importRouteFilters() != null) {
+      contentJson.add("import_route_filters", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayActionOptions.importRouteFilters()));
     }
     if (createGatewayActionOptions.metered() != null) {
       contentJson.addProperty("metered", createGatewayActionOptions.metered());
@@ -599,7 +458,8 @@ public class DirectLink extends BaseService {
   public ServiceCall<Void> createGatewayCompletionNotice(CreateGatewayCompletionNoticeOptions createGatewayCompletionNoticeOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(createGatewayCompletionNoticeOptions,
       "createGatewayCompletionNoticeOptions cannot be null");
-    com.ibm.cloud.sdk.core.util.Validator.isTrue((createGatewayCompletionNoticeOptions.upload() != null), "At least one of  or upload must be supplied.");
+    com.ibm.cloud.sdk.core.util.Validator.isTrue((createGatewayCompletionNoticeOptions.upload() != null),
+      "At least one of  or upload must be supplied.");
     Map<String, String> pathParamsMap = new HashMap<String, String>();
     pathParamsMap.put("id", createGatewayCompletionNoticeOptions.id());
     RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/completion_notice", pathParamsMap));
@@ -695,153 +555,6 @@ public class DirectLink extends BaseService {
     }
     ResponseConverter<GatewayStatusCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayStatusCollection>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * List available locations.
-   *
-   * Retrieve the list of valid locations for the specified Direct Link offering.
-   *
-   * @param listOfferingTypeLocationsOptions the {@link ListOfferingTypeLocationsOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link LocationCollection}
-   */
-  public ServiceCall<LocationCollection> listOfferingTypeLocations(ListOfferingTypeLocationsOptions listOfferingTypeLocationsOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(listOfferingTypeLocationsOptions,
-      "listOfferingTypeLocationsOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("offering_type", listOfferingTypeLocationsOptions.offeringType());
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/offering_types/{offering_type}/locations", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listOfferingTypeLocations");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<LocationCollection> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LocationCollection>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * List routers.
-   *
-   * Retrieve location specific cross connect router information.  Only valid for offering_type=dedicated locations.
-   *
-   * @param listOfferingTypeLocationCrossConnectRoutersOptions the {@link ListOfferingTypeLocationCrossConnectRoutersOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link LocationCrossConnectRouterCollection}
-   */
-  public ServiceCall<LocationCrossConnectRouterCollection> listOfferingTypeLocationCrossConnectRouters(ListOfferingTypeLocationCrossConnectRoutersOptions listOfferingTypeLocationCrossConnectRoutersOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(listOfferingTypeLocationCrossConnectRoutersOptions,
-      "listOfferingTypeLocationCrossConnectRoutersOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("offering_type", listOfferingTypeLocationCrossConnectRoutersOptions.offeringType());
-    pathParamsMap.put("location_name", listOfferingTypeLocationCrossConnectRoutersOptions.locationName());
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listOfferingTypeLocationCrossConnectRouters");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<LocationCrossConnectRouterCollection> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LocationCrossConnectRouterCollection>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * List speed options.
-   *
-   * List the available Direct Link speeds.
-   *
-   * @param listOfferingTypeSpeedsOptions the {@link ListOfferingTypeSpeedsOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link OfferingSpeedCollection}
-   */
-  public ServiceCall<OfferingSpeedCollection> listOfferingTypeSpeeds(ListOfferingTypeSpeedsOptions listOfferingTypeSpeedsOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(listOfferingTypeSpeedsOptions,
-      "listOfferingTypeSpeedsOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("offering_type", listOfferingTypeSpeedsOptions.offeringType());
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/offering_types/{offering_type}/speeds", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listOfferingTypeSpeeds");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<OfferingSpeedCollection> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<OfferingSpeedCollection>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * List ports.
-   *
-   * Retrieve list of available Direct Link connect ports.  These ports can be used to create Direct Link connect
-   * gateways.
-   *
-   * @param listPortsOptions the {@link ListPortsOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link PortCollection}
-   */
-  public ServiceCall<PortCollection> listPorts(ListPortsOptions listPortsOptions) {
-    if (listPortsOptions == null) {
-      listPortsOptions = new ListPortsOptions.Builder().build();
-    }
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/ports"));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listPorts");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    if (listPortsOptions.start() != null) {
-      builder.query("start", String.valueOf(listPortsOptions.start()));
-    }
-    if (listPortsOptions.limit() != null) {
-      builder.query("limit", String.valueOf(listPortsOptions.limit()));
-    }
-    if (listPortsOptions.locationName() != null) {
-      builder.query("location_name", String.valueOf(listPortsOptions.locationName()));
-    }
-    ResponseConverter<PortCollection> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<PortCollection>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * List ports.
-   *
-   * Retrieve list of available Direct Link connect ports.  These ports can be used to create Direct Link connect
-   * gateways.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link PortCollection}
-   */
-  public ServiceCall<PortCollection> listPorts() {
-    return listPorts(null);
-  }
-
-  /**
-   * Get port.
-   *
-   * Retrieve Direct Link Connect provider port.
-   *
-   * @param getPortOptions the {@link GetPortOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link Port}
-   */
-  public ServiceCall<Port> getPort(GetPortOptions getPortOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(getPortOptions,
-      "getPortOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("id", getPortOptions.id());
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/ports/{id}", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getPort");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<Port> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Port>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
@@ -1249,6 +962,110 @@ public class DirectLink extends BaseService {
   }
 
   /**
+   * List route reports.
+   *
+   * Retrieve all route reports for the specified Direct Link gateway.
+   *
+   * @param listGatewayRouteReportsOptions the {@link ListGatewayRouteReportsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteReportCollection}
+   */
+  public ServiceCall<RouteReportCollection> listGatewayRouteReports(ListGatewayRouteReportsOptions listGatewayRouteReportsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayRouteReportsOptions,
+      "listGatewayRouteReportsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", listGatewayRouteReportsOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayRouteReports");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RouteReportCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReportCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Request a route report.
+   *
+   * Request route report generation.  While report generation is in progress, additional requests to generate a report
+   * are ignored and return the current pending report. While `status` is `pending`, `gateway_routes`, `on_prem_routes`,
+   * `virtual_connection_routes`, and `overlapping_routes` will be empty arrays. These fields will be filled when the
+   * `status` enters the `complete` status.  Call `get_gateway_route_report` with the pending route report's `id` to
+   * check on the current status of the report.
+   *
+   * @param createGatewayRouteReportOptions the {@link CreateGatewayRouteReportOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteReport}
+   */
+  public ServiceCall<RouteReport> createGatewayRouteReport(CreateGatewayRouteReportOptions createGatewayRouteReportOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createGatewayRouteReportOptions,
+      "createGatewayRouteReportOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", createGatewayRouteReportOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "createGatewayRouteReport");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RouteReport> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReport>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Delete route report.
+   *
+   * Delete a route report.
+   *
+   * @param deleteGatewayRouteReportOptions the {@link DeleteGatewayRouteReportOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteGatewayRouteReport(DeleteGatewayRouteReportOptions deleteGatewayRouteReportOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteGatewayRouteReportOptions,
+      "deleteGatewayRouteReportOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", deleteGatewayRouteReportOptions.gatewayId());
+    pathParamsMap.put("id", deleteGatewayRouteReportOptions.id());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "deleteGatewayRouteReport");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Retrieve route report.
+   *
+   * Retrieve a route report.
+   *
+   * @param getGatewayRouteReportOptions the {@link GetGatewayRouteReportOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RouteReport}
+   */
+  public ServiceCall<RouteReport> getGatewayRouteReport(GetGatewayRouteReportOptions getGatewayRouteReportOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayRouteReportOptions,
+      "getGatewayRouteReportOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", getGatewayRouteReportOptions.gatewayId());
+    pathParamsMap.put("id", getGatewayRouteReportOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/route_reports/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getGatewayRouteReport");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RouteReport> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReport>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
    * List virtual connections.
    *
    * List a gateway's virtual connections.   For gateway in other account with virtual connections that connect to
@@ -1387,6 +1204,210 @@ public class DirectLink extends BaseService {
     builder.bodyJson(contentJson);
     ResponseConverter<GatewayVirtualConnection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayVirtualConnection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List available locations.
+   *
+   * Retrieve the list of valid locations for the specified Direct Link offering.
+   *
+   * @param listOfferingTypeLocationsOptions the {@link ListOfferingTypeLocationsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link LocationCollection}
+   */
+  public ServiceCall<LocationCollection> listOfferingTypeLocations(ListOfferingTypeLocationsOptions listOfferingTypeLocationsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listOfferingTypeLocationsOptions,
+      "listOfferingTypeLocationsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("offering_type", listOfferingTypeLocationsOptions.offeringType());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/offering_types/{offering_type}/locations", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listOfferingTypeLocations");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<LocationCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LocationCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List routers.
+   *
+   * Retrieve location specific cross connect router information.  Only valid for offering_type=dedicated locations.
+   *
+   * @param listOfferingTypeLocationCrossConnectRoutersOptions the {@link ListOfferingTypeLocationCrossConnectRoutersOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link LocationCrossConnectRouterCollection}
+   */
+  public ServiceCall<LocationCrossConnectRouterCollection> listOfferingTypeLocationCrossConnectRouters(ListOfferingTypeLocationCrossConnectRoutersOptions listOfferingTypeLocationCrossConnectRoutersOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listOfferingTypeLocationCrossConnectRoutersOptions,
+      "listOfferingTypeLocationCrossConnectRoutersOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("offering_type", listOfferingTypeLocationCrossConnectRoutersOptions.offeringType());
+    pathParamsMap.put("location_name", listOfferingTypeLocationCrossConnectRoutersOptions.locationName());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/offering_types/{offering_type}/locations/{location_name}/cross_connect_routers", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listOfferingTypeLocationCrossConnectRouters");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<LocationCrossConnectRouterCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LocationCrossConnectRouterCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List speed options.
+   *
+   * List the available Direct Link speeds.
+   *
+   * @param listOfferingTypeSpeedsOptions the {@link ListOfferingTypeSpeedsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link OfferingSpeedCollection}
+   */
+  public ServiceCall<OfferingSpeedCollection> listOfferingTypeSpeeds(ListOfferingTypeSpeedsOptions listOfferingTypeSpeedsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listOfferingTypeSpeedsOptions,
+      "listOfferingTypeSpeedsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("offering_type", listOfferingTypeSpeedsOptions.offeringType());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/offering_types/{offering_type}/speeds", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listOfferingTypeSpeeds");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<OfferingSpeedCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<OfferingSpeedCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List ports.
+   *
+   * Retrieve list of available Direct Link connect ports.  These ports can be used to create Direct Link connect
+   * gateways.
+   *
+   * @param listPortsOptions the {@link ListPortsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link PortCollection}
+   */
+  public ServiceCall<PortCollection> listPorts(ListPortsOptions listPortsOptions) {
+    if (listPortsOptions == null) {
+      listPortsOptions = new ListPortsOptions.Builder().build();
+    }
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/ports"));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listPorts");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    if (listPortsOptions.start() != null) {
+      builder.query("start", String.valueOf(listPortsOptions.start()));
+    }
+    if (listPortsOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listPortsOptions.limit()));
+    }
+    if (listPortsOptions.locationName() != null) {
+      builder.query("location_name", String.valueOf(listPortsOptions.locationName()));
+    }
+    ResponseConverter<PortCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<PortCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List ports.
+   *
+   * Retrieve list of available Direct Link connect ports.  These ports can be used to create Direct Link connect
+   * gateways.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link PortCollection}
+   */
+  public ServiceCall<PortCollection> listPorts() {
+    return listPorts(null);
+  }
+
+  /**
+   * Get port.
+   *
+   * Retrieve Direct Link Connect provider port.
+   *
+   * @param getPortOptions the {@link GetPortOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link Port}
+   */
+  public ServiceCall<Port> getPort(GetPortOptions getPortOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getPortOptions,
+      "getPortOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", getPortOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/ports/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getPort");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<Port> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Port>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List AS Prepends.
+   *
+   * Retrieve all AS Prepends for the specified Direct Link gateway.
+   *
+   * @param listGatewayAsPrependsOptions the {@link ListGatewayAsPrependsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
+   */
+  public ServiceCall<AsPrependCollection> listGatewayAsPrepends(ListGatewayAsPrependsOptions listGatewayAsPrependsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayAsPrependsOptions,
+      "listGatewayAsPrependsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", listGatewayAsPrependsOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayAsPrepends");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<AsPrependCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Replace existing AS Prepends.
+   *
+   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
+   * individual AS Prepend item is unchanged.
+   *
+   * @param replaceGatewayAsPrependsOptions the {@link ReplaceGatewayAsPrependsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
+   */
+  public ServiceCall<AsPrependCollection> replaceGatewayAsPrepends(ReplaceGatewayAsPrependsOptions replaceGatewayAsPrependsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(replaceGatewayAsPrependsOptions,
+      "replaceGatewayAsPrependsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", replaceGatewayAsPrependsOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "replaceGatewayAsPrepends");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.header("If-Match", replaceGatewayAsPrependsOptions.ifMatch());
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    if (replaceGatewayAsPrependsOptions.asPrepends() != null) {
+      contentJson.add("as_prepends", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(replaceGatewayAsPrependsOptions.asPrepends()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<AsPrependCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

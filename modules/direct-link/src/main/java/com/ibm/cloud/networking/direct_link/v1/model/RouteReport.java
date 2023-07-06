@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -34,6 +34,8 @@ public class RouteReport extends GenericModel {
     String PENDING = "pending";
   }
 
+  @SerializedName("advertised_routes")
+  protected List<RouteReportAdvertisedRoute> advertisedRoutes;
   @SerializedName("created_at")
   protected Date createdAt;
   @SerializedName("gateway_routes")
@@ -48,6 +50,20 @@ public class RouteReport extends GenericModel {
   protected Date updatedAt;
   @SerializedName("virtual_connection_routes")
   protected List<RouteReportConnection> virtualConnectionRoutes;
+
+  protected RouteReport() { }
+
+  /**
+   * Gets the advertisedRoutes.
+   *
+   * Array of connection prefixes advertised to the on-prem network. This parameter is not returned when the route
+   * report was generated prior to inclusion of this parameter.
+   *
+   * @return the advertisedRoutes
+   */
+  public List<RouteReportAdvertisedRoute> getAdvertisedRoutes() {
+    return advertisedRoutes;
+  }
 
   /**
    * Gets the createdAt.

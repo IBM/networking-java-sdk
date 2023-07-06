@@ -16,38 +16,37 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * on-prem route.
+ * A route originating from an attached virtual connection.
  */
-public class RouteReportOnPremRoute extends GenericModel {
+public class RouteReportVirtualConnectionRoute extends GenericModel {
 
-  @SerializedName("as_path")
-  protected String asPath;
-  @SerializedName("next_hop")
-  protected String nextHop;
+  protected Boolean active;
+  @SerializedName("local_preference")
+  protected String localPreference;
   protected String prefix;
 
-  protected RouteReportOnPremRoute() { }
+  protected RouteReportVirtualConnectionRoute() { }
 
   /**
-   * Gets the asPath.
+   * Gets the active.
    *
-   * The BGP AS path of the route.
+   * Indicates whether the route is the preferred path of the prefix.
    *
-   * @return the asPath
+   * @return the active
    */
-  public String getAsPath() {
-    return asPath;
+  public Boolean isActive() {
+    return active;
   }
 
   /**
-   * Gets the nextHop.
+   * Gets the localPreference.
    *
-   * Next hop address.
+   * The local preference of the route. This attribute can manipulate the chosen path on routes.
    *
-   * @return the nextHop
+   * @return the localPreference
    */
-  public String getNextHop() {
-    return nextHop;
+  public String getLocalPreference() {
+    return localPreference;
   }
 
   /**

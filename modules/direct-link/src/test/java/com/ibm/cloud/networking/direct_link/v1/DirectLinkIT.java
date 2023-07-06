@@ -34,7 +34,6 @@ import java.sql.Timestamp;
 
 import java.text.SimpleDateFormat;
 
-
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependEntry;
@@ -124,6 +123,7 @@ import com.ibm.cloud.sdk.core.service.exception.NotFoundException;
  * How to run the tests:
  *    mvn -Dtest=DirectLinkIT -DfailIfNoTests=false test
  */
+@Ignore("Ignoring it due to provisioning time and travis time-out")
 public class DirectLinkIT extends SdkIntegrationTestBase {
 	// Directlink service v1 integration
 	public DirectLink testService = null;
@@ -277,13 +277,12 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 				}
 
 				// Delete the DL GW 
-				DeleteGatewayOptions deleteGatewayOptionsModel1 = new DeleteGatewayOptions.Builder().id(gateway.getId()).build();
-				Response<Void>  Delresponse1 = testService.deleteGateway(deleteGatewayOptionsModel1).execute();
-				assertNotNull(Delresponse1); 
-				assertEquals(204, Delresponse1.getStatusCode());
-				
-				Void delResponseObj1 = Delresponse1.getResult();
-				assertNull(delResponseObj1);
+				deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gateway.getId()).build();
+				Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
+				assertNotNull(Delresponse); 
+				assertEquals(204, Delresponse.getStatusCode());
+				delResponseObj = Delresponse.getResult();
+				assertNull(delResponseObj);
 			}
 		
 		}
@@ -332,7 +331,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 					// 
 					}
 				}
-			} catch (com.ibm.cloud.sdk.core.service.exception.NotFoundException nfe) {
+			} catch (NotFoundException nfe) {
 				// When the virtual connection no longer exists, this exception is thrown.
 				done = true;
 			}
@@ -865,8 +864,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  	assertEquals(asPrependPrefixArrayTemplateModel.specificPrefixes(), as.getSpecificPrefixes());
     
   	}
-	@org.junit.Ignore
-  	// @Test (dependsOnMethods = "testConnectGatewayOptions")
+	
+	@Test (dependsOnMethods = "testConnectGatewayOptions")
   	public void testCreateGatewayAction()  {
 
 		// Construct an instance of the CreateGatewayActionOptions model
@@ -1118,8 +1117,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  UpdateGatewayExportRouteFilterOptions updateGatewayExportRouteFilterOptionsModel = new UpdateGatewayExportRouteFilterOptions.Builder()
 	  .gatewayId(connectGatewayId)
 	  .id(exportRFId)
-		.updateRouteFilterTemplatePatch(updateRouteFilterTemplateModelAsPatch)
-		.build();
+	  .updateRouteFilterTemplatePatch(updateRouteFilterTemplateModelAsPatch)
+	  .build();
   
 	  // Invoke updateGatewayExportRouteFilter() with a valid options model and verify the result
 	  Response<RouteFilter> responseObj = testService.updateGatewayExportRouteFilter(updateGatewayExportRouteFilterOptionsModel).execute();
@@ -1382,8 +1381,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  UpdateGatewayImportRouteFilterOptions updateGatewayImportRouteFilterOptionsModel = new UpdateGatewayImportRouteFilterOptions.Builder()
 	  .gatewayId(connectGatewayId)
 	  .id(importRFId)
-		.updateRouteFilterTemplatePatch(updateRouteFilterTemplateModelAsPatch)
-		.build();
+	  .updateRouteFilterTemplatePatch(updateRouteFilterTemplateModelAsPatch)
+	  .build();
   
 	  // Invoke updateGatewayImportRouteFilter() with a valid options model and verify the result
 	  Response<RouteFilter> responseObj = testService.updateGatewayImportRouteFilter(updateGatewayImportRouteFilterOptionsModel).execute();
@@ -1523,7 +1522,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	}
 
 	@Test (dependsOnMethods = "testDeleteGatewayImportRouteFilter")
-	public void testRouteReports() throws InterruptedException {
+	public void testRouteReports() throws InterruptedException  {
 		assertNotNull(testService);
 
 		String rrID = null;
@@ -1537,6 +1536,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		RouteReport rrCreateRespObj = routeReportsResponse.getResult();
 		assertNotNull(rrCreateRespObj);
 		assertNotNull(rrCreateRespObj.getId());
+		assertNotNull(rrCreateRespObj.getGatewayRoutes());
+		assertNotNull(rrCreateRespObj.getVirtualConnectionRoutes());
 		assertNotEquals(rrCreateRespObj.getStatus(), "");
 		assertNotEquals(rrCreateRespObj.getCreatedAt(), "");
 		assertNotEquals(rrCreateRespObj.getUpdatedAt(), "");
@@ -1555,6 +1556,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		RouteReport rrGetRespObj = getRouteResponse.getResult();
 		assertNotNull(rrGetRespObj);
 		assertEquals(rrGetRespObj.getId(), rrID);
+		assertNotNull(rrGetRespObj.getGatewayRoutes());
+		assertNotNull(rrGetRespObj.getVirtualConnectionRoutes());
 		assertNotEquals(rrGetRespObj.getStatus(), "completed");
 		assertNotEquals(rrGetRespObj.getCreatedAt(), "");
 		assertNotEquals(rrGetRespObj.getUpdatedAt(), "");
@@ -1572,9 +1575,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		Response<Void> delResponse = testService.deleteGatewayRouteReport(deleteGatewayRouteReportOptions).execute();
 		assertNotNull(delResponse);
 		assertEquals(204, delResponse.getStatusCode());
-		
-		checkRouteReportDeletion(getGatewayRouteReportOptions);
 
+		checkRouteReportDeletion(getGatewayRouteReportOptions);
 	}
    
 	// @Test (dependsOnMethods = "testCompletionNotice")
