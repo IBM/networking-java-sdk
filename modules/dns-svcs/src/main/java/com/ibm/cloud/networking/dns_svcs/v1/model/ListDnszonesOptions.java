@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -23,6 +23,7 @@ public class ListDnszonesOptions extends GenericModel {
   protected String xCorrelationId;
   protected Long offset;
   protected Long limit;
+  protected String vpcId;
 
   /**
    * Builder.
@@ -32,12 +33,19 @@ public class ListDnszonesOptions extends GenericModel {
     private String xCorrelationId;
     private Long offset;
     private Long limit;
+    private String vpcId;
 
+    /**
+     * Instantiates a new Builder from an existing ListDnszonesOptions instance.
+     *
+     * @param listDnszonesOptions the instance to initialize the Builder with
+     */
     private Builder(ListDnszonesOptions listDnszonesOptions) {
       this.instanceId = listDnszonesOptions.instanceId;
       this.xCorrelationId = listDnszonesOptions.xCorrelationId;
       this.offset = listDnszonesOptions.offset;
       this.limit = listDnszonesOptions.limit;
+      this.vpcId = listDnszonesOptions.vpcId;
     }
 
     /**
@@ -107,7 +115,20 @@ public class ListDnszonesOptions extends GenericModel {
       this.limit = limit;
       return this;
     }
+
+    /**
+     * Set the vpcId.
+     *
+     * @param vpcId the vpcId
+     * @return the ListDnszonesOptions builder
+     */
+    public Builder vpcId(String vpcId) {
+      this.vpcId = vpcId;
+      return this;
+    }
   }
+
+  protected ListDnszonesOptions() { }
 
   protected ListDnszonesOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
@@ -116,6 +137,7 @@ public class ListDnszonesOptions extends GenericModel {
     xCorrelationId = builder.xCorrelationId;
     offset = builder.offset;
     limit = builder.limit;
+    vpcId = builder.vpcId;
   }
 
   /**
@@ -152,7 +174,7 @@ public class ListDnszonesOptions extends GenericModel {
   /**
    * Gets the offset.
    *
-   * Specify how many resource records to skip over, the default value is 0.
+   * Specify how many resources to skip over, the default value is 0.
    *
    * @return the offset
    */
@@ -163,12 +185,23 @@ public class ListDnszonesOptions extends GenericModel {
   /**
    * Gets the limit.
    *
-   * Specify how many resource records are returned, the default value is 200.
+   * Specify maximum resources might be returned.
    *
    * @return the limit
    */
   public Long limit() {
     return limit;
+  }
+
+  /**
+   * Gets the vpcId.
+   *
+   * Specify the VPC ID.
+   *
+   * @return the vpcId
+   */
+  public String vpcId() {
+    return vpcId;
   }
 }
 

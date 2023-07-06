@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -25,6 +25,11 @@ public class ResourceRecordInputRdataRdataMxRecord extends ResourceRecordInputRd
     private String exchange;
     private Long preference;
 
+    /**
+     * Instantiates a new Builder from an existing ResourceRecordInputRdataRdataMxRecord instance.
+     *
+     * @param resourceRecordInputRdataRdataMxRecord the instance to initialize the Builder with
+     */
     public Builder(ResourceRecordInputRdata resourceRecordInputRdataRdataMxRecord) {
       this.exchange = resourceRecordInputRdataRdataMxRecord.exchange;
       this.preference = resourceRecordInputRdataRdataMxRecord.preference;
@@ -78,6 +83,8 @@ public class ResourceRecordInputRdataRdataMxRecord extends ResourceRecordInputRd
       return this;
     }
   }
+
+  protected ResourceRecordInputRdataRdataMxRecord() { }
 
   protected ResourceRecordInputRdataRdataMxRecord(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.exchange,

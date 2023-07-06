@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -21,6 +21,8 @@ public class ListMonitorsOptions extends GenericModel {
 
   protected String instanceId;
   protected String xCorrelationId;
+  protected Long offset;
+  protected Long limit;
 
   /**
    * Builder.
@@ -28,10 +30,19 @@ public class ListMonitorsOptions extends GenericModel {
   public static class Builder {
     private String instanceId;
     private String xCorrelationId;
+    private Long offset;
+    private Long limit;
 
+    /**
+     * Instantiates a new Builder from an existing ListMonitorsOptions instance.
+     *
+     * @param listMonitorsOptions the instance to initialize the Builder with
+     */
     private Builder(ListMonitorsOptions listMonitorsOptions) {
       this.instanceId = listMonitorsOptions.instanceId;
       this.xCorrelationId = listMonitorsOptions.xCorrelationId;
+      this.offset = listMonitorsOptions.offset;
+      this.limit = listMonitorsOptions.limit;
     }
 
     /**
@@ -79,13 +90,39 @@ public class ListMonitorsOptions extends GenericModel {
       this.xCorrelationId = xCorrelationId;
       return this;
     }
+
+    /**
+     * Set the offset.
+     *
+     * @param offset the offset
+     * @return the ListMonitorsOptions builder
+     */
+    public Builder offset(long offset) {
+      this.offset = offset;
+      return this;
+    }
+
+    /**
+     * Set the limit.
+     *
+     * @param limit the limit
+     * @return the ListMonitorsOptions builder
+     */
+    public Builder limit(long limit) {
+      this.limit = limit;
+      return this;
+    }
   }
+
+  protected ListMonitorsOptions() { }
 
   protected ListMonitorsOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
       "instanceId cannot be empty");
     instanceId = builder.instanceId;
     xCorrelationId = builder.xCorrelationId;
+    offset = builder.offset;
+    limit = builder.limit;
   }
 
   /**
@@ -117,6 +154,28 @@ public class ListMonitorsOptions extends GenericModel {
    */
   public String xCorrelationId() {
     return xCorrelationId;
+  }
+
+  /**
+   * Gets the offset.
+   *
+   * Specify how many resources to skip over, the default value is 0.
+   *
+   * @return the offset
+   */
+  public Long offset() {
+    return offset;
+  }
+
+  /**
+   * Gets the limit.
+   *
+   * Specify maximum resources might be returned.
+   *
+   * @return the limit
+   */
+  public Long limit() {
+    return limit;
   }
 }
 

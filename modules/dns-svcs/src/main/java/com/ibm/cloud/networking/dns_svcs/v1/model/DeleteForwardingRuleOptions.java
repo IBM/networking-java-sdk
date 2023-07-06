@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -33,6 +33,11 @@ public class DeleteForwardingRuleOptions extends GenericModel {
     private String ruleId;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing DeleteForwardingRuleOptions instance.
+     *
+     * @param deleteForwardingRuleOptions the instance to initialize the Builder with
+     */
     private Builder(DeleteForwardingRuleOptions deleteForwardingRuleOptions) {
       this.instanceId = deleteForwardingRuleOptions.instanceId;
       this.resolverId = deleteForwardingRuleOptions.resolverId;
@@ -113,6 +118,8 @@ public class DeleteForwardingRuleOptions extends GenericModel {
     }
   }
 
+  protected DeleteForwardingRuleOptions() { }
+
   protected DeleteForwardingRuleOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
       "instanceId cannot be empty");
@@ -160,7 +167,7 @@ public class DeleteForwardingRuleOptions extends GenericModel {
   /**
    * Gets the ruleId.
    *
-   * The unique identifier of a forwarding rule.
+   * The unique identifier of a rule.
    *
    * @return the ruleId
    */

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,6 +24,8 @@ public class RecordsImportErrorModel extends GenericModel {
   protected String resourceRecord;
   protected RecordsImportErrorModelError error;
 
+  protected RecordsImportErrorModel() { }
+
   /**
    * Gets the resourceRecord.
    *
@@ -37,6 +39,8 @@ public class RecordsImportErrorModel extends GenericModel {
 
   /**
    * Gets the error.
+   *
+   * Error container.
    *
    * @return the error
    */

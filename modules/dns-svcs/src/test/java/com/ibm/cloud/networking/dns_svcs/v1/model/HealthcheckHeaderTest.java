@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -17,8 +17,6 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.HealthcheckHeader;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
@@ -35,10 +33,10 @@ public class HealthcheckHeaderTest {
   public void testHealthcheckHeader() throws Throwable {
     HealthcheckHeader healthcheckHeaderModel = new HealthcheckHeader.Builder()
       .name("Host")
-      .value(new java.util.ArrayList<String>(java.util.Arrays.asList("origin.example.com")))
+      .value(java.util.Arrays.asList("origin.example.com"))
       .build();
     assertEquals(healthcheckHeaderModel.name(), "Host");
-    assertEquals(healthcheckHeaderModel.value(), new java.util.ArrayList<String>(java.util.Arrays.asList("origin.example.com")));
+    assertEquals(healthcheckHeaderModel.value(), java.util.Arrays.asList("origin.example.com"));
 
     String json = TestUtilities.serialize(healthcheckHeaderModel);
 

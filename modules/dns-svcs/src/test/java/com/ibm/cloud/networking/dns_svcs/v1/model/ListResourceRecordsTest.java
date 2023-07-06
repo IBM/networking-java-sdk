@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,12 +13,12 @@
 
 package com.ibm.cloud.networking.dns_svcs.v1.model;
 
-import com.ibm.cloud.networking.dns_svcs.v1.model.FirstHref;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListResourceRecords;
-import com.ibm.cloud.networking.dns_svcs.v1.model.NextHref;
+import com.ibm.cloud.networking.dns_svcs.v1.model.PaginationRef;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ResourceRecord;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +38,11 @@ public class ListResourceRecordsTest {
     assertNull(listResourceRecordsModel.getResourceRecords());
     assertNull(listResourceRecordsModel.getOffset());
     assertNull(listResourceRecordsModel.getLimit());
+    assertNull(listResourceRecordsModel.getCount());
     assertNull(listResourceRecordsModel.getTotalCount());
     assertNull(listResourceRecordsModel.getFirst());
+    assertNull(listResourceRecordsModel.getLast());
+    assertNull(listResourceRecordsModel.getPrevious());
     assertNull(listResourceRecordsModel.getNext());
   }
 }

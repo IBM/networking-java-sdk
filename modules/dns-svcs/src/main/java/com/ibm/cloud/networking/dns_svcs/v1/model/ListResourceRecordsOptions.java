@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,6 +24,8 @@ public class ListResourceRecordsOptions extends GenericModel {
   protected String xCorrelationId;
   protected Long offset;
   protected Long limit;
+  protected String type;
+  protected String name;
 
   /**
    * Builder.
@@ -34,13 +36,22 @@ public class ListResourceRecordsOptions extends GenericModel {
     private String xCorrelationId;
     private Long offset;
     private Long limit;
+    private String type;
+    private String name;
 
+    /**
+     * Instantiates a new Builder from an existing ListResourceRecordsOptions instance.
+     *
+     * @param listResourceRecordsOptions the instance to initialize the Builder with
+     */
     private Builder(ListResourceRecordsOptions listResourceRecordsOptions) {
       this.instanceId = listResourceRecordsOptions.instanceId;
       this.dnszoneId = listResourceRecordsOptions.dnszoneId;
       this.xCorrelationId = listResourceRecordsOptions.xCorrelationId;
       this.offset = listResourceRecordsOptions.offset;
       this.limit = listResourceRecordsOptions.limit;
+      this.type = listResourceRecordsOptions.type;
+      this.name = listResourceRecordsOptions.name;
     }
 
     /**
@@ -123,7 +134,31 @@ public class ListResourceRecordsOptions extends GenericModel {
       this.limit = limit;
       return this;
     }
+
+    /**
+     * Set the type.
+     *
+     * @param type the type
+     * @return the ListResourceRecordsOptions builder
+     */
+    public Builder type(String type) {
+      this.type = type;
+      return this;
+    }
+
+    /**
+     * Set the name.
+     *
+     * @param name the name
+     * @return the ListResourceRecordsOptions builder
+     */
+    public Builder name(String name) {
+      this.name = name;
+      return this;
+    }
   }
+
+  protected ListResourceRecordsOptions() { }
 
   protected ListResourceRecordsOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
@@ -135,6 +170,8 @@ public class ListResourceRecordsOptions extends GenericModel {
     xCorrelationId = builder.xCorrelationId;
     offset = builder.offset;
     limit = builder.limit;
+    type = builder.type;
+    name = builder.name;
   }
 
   /**
@@ -182,7 +219,7 @@ public class ListResourceRecordsOptions extends GenericModel {
   /**
    * Gets the offset.
    *
-   * Specify how many resource records to skip over, the default value is 0.
+   * Specify how many resources to skip over, the default value is 0.
    *
    * @return the offset
    */
@@ -193,12 +230,34 @@ public class ListResourceRecordsOptions extends GenericModel {
   /**
    * Gets the limit.
    *
-   * Specify how many resource records are returned, the default value is 200.
+   * Specify maximum resources might be returned.
    *
    * @return the limit
    */
   public Long limit() {
     return limit;
+  }
+
+  /**
+   * Gets the type.
+   *
+   * Specify the type of resource record to query.
+   *
+   * @return the type
+   */
+  public String type() {
+    return type;
+  }
+
+  /**
+   * Gets the name.
+   *
+   * Specify the name of resource record to query.
+   *
+   * @return the name
+   */
+  public String name() {
+    return name;
   }
 }
 

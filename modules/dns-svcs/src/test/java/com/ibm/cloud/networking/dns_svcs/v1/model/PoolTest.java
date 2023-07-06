@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,6 +15,7 @@ package com.ibm.cloud.networking.dns_svcs.v1.model;
 
 import com.ibm.cloud.networking.dns_svcs.v1.model.Origin;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Pool;
+import com.ibm.cloud.networking.dns_svcs.v1.model.PoolHealthcheckVsisItem;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -44,6 +45,7 @@ public class PoolTest {
     assertNull(poolModel.getHealth());
     assertNull(poolModel.getHealthcheckRegion());
     assertNull(poolModel.getHealthcheckSubnets());
+    assertNull(poolModel.getHealthcheckVsis());
     assertNull(poolModel.getCreatedOn());
     assertNull(poolModel.getModifiedOn());
   }

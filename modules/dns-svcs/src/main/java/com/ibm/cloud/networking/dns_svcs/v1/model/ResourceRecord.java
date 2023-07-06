@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,6 +12,7 @@
  */
 package com.ibm.cloud.networking.dns_svcs.v1.model;
 
+import java.util.Date;
 import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
@@ -44,15 +45,17 @@ public class ResourceRecord extends GenericModel {
 
   protected String id;
   @SerializedName("created_on")
-  protected String createdOn;
+  protected Date createdOn;
   @SerializedName("modified_on")
-  protected String modifiedOn;
+  protected Date modifiedOn;
   protected String name;
   protected String type;
   protected Long ttl;
   protected Map<String, Object> rdata;
   protected String service;
   protected String protocol;
+
+  protected ResourceRecord() { }
 
   /**
    * Gets the id.
@@ -68,22 +71,22 @@ public class ResourceRecord extends GenericModel {
   /**
    * Gets the createdOn.
    *
-   * the time when a resource record is created.
+   * The time when a resource record is created.
    *
    * @return the createdOn
    */
-  public String getCreatedOn() {
+  public Date getCreatedOn() {
     return createdOn;
   }
 
   /**
    * Gets the modifiedOn.
    *
-   * the recent time when a resource record is modified.
+   * The recent time when a resource record is modified.
    *
    * @return the modifiedOn
    */
-  public String getModifiedOn() {
+  public Date getModifiedOn() {
     return modifiedOn;
   }
 

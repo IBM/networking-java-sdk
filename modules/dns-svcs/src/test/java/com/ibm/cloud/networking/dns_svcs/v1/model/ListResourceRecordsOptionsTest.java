@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -37,12 +37,16 @@ public class ListResourceRecordsOptionsTest {
       .xCorrelationId("testString")
       .offset(Long.valueOf("26"))
       .limit(Long.valueOf("200"))
+      .type("A")
+      .name("www.example.com")
       .build();
     assertEquals(listResourceRecordsOptionsModel.instanceId(), "testString");
     assertEquals(listResourceRecordsOptionsModel.dnszoneId(), "testString");
     assertEquals(listResourceRecordsOptionsModel.xCorrelationId(), "testString");
     assertEquals(listResourceRecordsOptionsModel.offset(), Long.valueOf("26"));
     assertEquals(listResourceRecordsOptionsModel.limit(), Long.valueOf("200"));
+    assertEquals(listResourceRecordsOptionsModel.type(), "A");
+    assertEquals(listResourceRecordsOptionsModel.name(), "www.example.com");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

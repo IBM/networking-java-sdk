@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -31,6 +31,7 @@ public class CreatePermittedNetworkOptions extends GenericModel {
   protected String dnszoneId;
   protected String type;
   protected PermittedNetworkVpc permittedNetwork;
+  protected String accounts;
   protected String xCorrelationId;
 
   /**
@@ -41,13 +42,20 @@ public class CreatePermittedNetworkOptions extends GenericModel {
     private String dnszoneId;
     private String type;
     private PermittedNetworkVpc permittedNetwork;
+    private String accounts;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing CreatePermittedNetworkOptions instance.
+     *
+     * @param createPermittedNetworkOptions the instance to initialize the Builder with
+     */
     private Builder(CreatePermittedNetworkOptions createPermittedNetworkOptions) {
       this.instanceId = createPermittedNetworkOptions.instanceId;
       this.dnszoneId = createPermittedNetworkOptions.dnszoneId;
       this.type = createPermittedNetworkOptions.type;
       this.permittedNetwork = createPermittedNetworkOptions.permittedNetwork;
+      this.accounts = createPermittedNetworkOptions.accounts;
       this.xCorrelationId = createPermittedNetworkOptions.xCorrelationId;
     }
 
@@ -122,6 +130,17 @@ public class CreatePermittedNetworkOptions extends GenericModel {
     }
 
     /**
+     * Set the accounts.
+     *
+     * @param accounts the accounts
+     * @return the CreatePermittedNetworkOptions builder
+     */
+    public Builder accounts(String accounts) {
+      this.accounts = accounts;
+      return this;
+    }
+
+    /**
      * Set the xCorrelationId.
      *
      * @param xCorrelationId the xCorrelationId
@@ -133,6 +152,8 @@ public class CreatePermittedNetworkOptions extends GenericModel {
     }
   }
 
+  protected CreatePermittedNetworkOptions() { }
+
   protected CreatePermittedNetworkOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
       "instanceId cannot be empty");
@@ -142,6 +163,7 @@ public class CreatePermittedNetworkOptions extends GenericModel {
     dnszoneId = builder.dnszoneId;
     type = builder.type;
     permittedNetwork = builder.permittedNetwork;
+    accounts = builder.accounts;
     xCorrelationId = builder.xCorrelationId;
   }
 
@@ -196,6 +218,18 @@ public class CreatePermittedNetworkOptions extends GenericModel {
    */
   public PermittedNetworkVpc permittedNetwork() {
     return permittedNetwork;
+  }
+
+  /**
+   * Gets the accounts.
+   *
+   * The account identifiers of the owner zone and linked zones in the format of "?account=account1,account2,account3".
+   * Maximum 5 accounts are allowed.
+   *
+   * @return the accounts
+   */
+  public String accounts() {
+    return accounts;
   }
 
   /**

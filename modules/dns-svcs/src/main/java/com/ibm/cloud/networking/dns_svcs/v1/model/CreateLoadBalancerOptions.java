@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -30,7 +30,7 @@ public class CreateLoadBalancerOptions extends GenericModel {
   protected Long ttl;
   protected String fallbackPool;
   protected List<String> defaultPools;
-  protected List<LoadBalancerAzPoolsItem> azPools;
+  protected List<AzPoolsItem> azPools;
   protected String xCorrelationId;
 
   /**
@@ -45,9 +45,14 @@ public class CreateLoadBalancerOptions extends GenericModel {
     private Long ttl;
     private String fallbackPool;
     private List<String> defaultPools;
-    private List<LoadBalancerAzPoolsItem> azPools;
+    private List<AzPoolsItem> azPools;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing CreateLoadBalancerOptions instance.
+     *
+     * @param createLoadBalancerOptions the instance to initialize the Builder with
+     */
     private Builder(CreateLoadBalancerOptions createLoadBalancerOptions) {
       this.instanceId = createLoadBalancerOptions.instanceId;
       this.dnszoneId = createLoadBalancerOptions.dnszoneId;
@@ -109,11 +114,11 @@ public class CreateLoadBalancerOptions extends GenericModel {
      * @param azPools the new azPools
      * @return the CreateLoadBalancerOptions builder
      */
-    public Builder addAzPools(LoadBalancerAzPoolsItem azPools) {
+    public Builder addAzPools(AzPoolsItem azPools) {
       com.ibm.cloud.sdk.core.util.Validator.notNull(azPools,
         "azPools cannot be null");
       if (this.azPools == null) {
-        this.azPools = new ArrayList<LoadBalancerAzPoolsItem>();
+        this.azPools = new ArrayList<AzPoolsItem>();
       }
       this.azPools.add(azPools);
       return this;
@@ -215,7 +220,7 @@ public class CreateLoadBalancerOptions extends GenericModel {
      * @param azPools the azPools
      * @return the CreateLoadBalancerOptions builder
      */
-    public Builder azPools(List<LoadBalancerAzPoolsItem> azPools) {
+    public Builder azPools(List<AzPoolsItem> azPools) {
       this.azPools = azPools;
       return this;
     }
@@ -231,6 +236,8 @@ public class CreateLoadBalancerOptions extends GenericModel {
       return this;
     }
   }
+
+  protected CreateLoadBalancerOptions() { }
 
   protected CreateLoadBalancerOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
@@ -354,7 +361,7 @@ public class CreateLoadBalancerOptions extends GenericModel {
    *
    * @return the azPools
    */
-  public List<LoadBalancerAzPoolsItem> azPools() {
+  public List<AzPoolsItem> azPools() {
     return azPools;
   }
 

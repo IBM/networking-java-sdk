@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,9 +13,9 @@
 
 package com.ibm.cloud.networking.dns_svcs.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListForwardingRulesOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -35,10 +35,14 @@ public class ListForwardingRulesOptionsTest {
       .instanceId("testString")
       .resolverId("testString")
       .xCorrelationId("testString")
+      .offset(Long.valueOf("26"))
+      .limit(Long.valueOf("200"))
       .build();
     assertEquals(listForwardingRulesOptionsModel.instanceId(), "testString");
     assertEquals(listForwardingRulesOptionsModel.resolverId(), "testString");
     assertEquals(listForwardingRulesOptionsModel.xCorrelationId(), "testString");
+    assertEquals(listForwardingRulesOptionsModel.offset(), Long.valueOf("26"));
+    assertEquals(listForwardingRulesOptionsModel.limit(), Long.valueOf("200"));
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

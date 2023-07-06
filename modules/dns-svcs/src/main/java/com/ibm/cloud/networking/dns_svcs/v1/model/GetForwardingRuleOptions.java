@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -33,6 +33,11 @@ public class GetForwardingRuleOptions extends GenericModel {
     private String ruleId;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing GetForwardingRuleOptions instance.
+     *
+     * @param getForwardingRuleOptions the instance to initialize the Builder with
+     */
     private Builder(GetForwardingRuleOptions getForwardingRuleOptions) {
       this.instanceId = getForwardingRuleOptions.instanceId;
       this.resolverId = getForwardingRuleOptions.resolverId;
@@ -113,6 +118,8 @@ public class GetForwardingRuleOptions extends GenericModel {
     }
   }
 
+  protected GetForwardingRuleOptions() { }
+
   protected GetForwardingRuleOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
       "instanceId cannot be empty");
@@ -160,7 +167,7 @@ public class GetForwardingRuleOptions extends GenericModel {
   /**
    * Gets the ruleId.
    *
-   * The unique identifier of a forwarding rule.
+   * The unique identifier of a rule.
    *
    * @return the ruleId
    */

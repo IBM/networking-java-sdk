@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,6 +22,8 @@ public class ListForwardingRulesOptions extends GenericModel {
   protected String instanceId;
   protected String resolverId;
   protected String xCorrelationId;
+  protected Long offset;
+  protected Long limit;
 
   /**
    * Builder.
@@ -30,11 +32,20 @@ public class ListForwardingRulesOptions extends GenericModel {
     private String instanceId;
     private String resolverId;
     private String xCorrelationId;
+    private Long offset;
+    private Long limit;
 
+    /**
+     * Instantiates a new Builder from an existing ListForwardingRulesOptions instance.
+     *
+     * @param listForwardingRulesOptions the instance to initialize the Builder with
+     */
     private Builder(ListForwardingRulesOptions listForwardingRulesOptions) {
       this.instanceId = listForwardingRulesOptions.instanceId;
       this.resolverId = listForwardingRulesOptions.resolverId;
       this.xCorrelationId = listForwardingRulesOptions.xCorrelationId;
+      this.offset = listForwardingRulesOptions.offset;
+      this.limit = listForwardingRulesOptions.limit;
     }
 
     /**
@@ -95,7 +106,31 @@ public class ListForwardingRulesOptions extends GenericModel {
       this.xCorrelationId = xCorrelationId;
       return this;
     }
+
+    /**
+     * Set the offset.
+     *
+     * @param offset the offset
+     * @return the ListForwardingRulesOptions builder
+     */
+    public Builder offset(long offset) {
+      this.offset = offset;
+      return this;
+    }
+
+    /**
+     * Set the limit.
+     *
+     * @param limit the limit
+     * @return the ListForwardingRulesOptions builder
+     */
+    public Builder limit(long limit) {
+      this.limit = limit;
+      return this;
+    }
   }
+
+  protected ListForwardingRulesOptions() { }
 
   protected ListForwardingRulesOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
@@ -105,6 +140,8 @@ public class ListForwardingRulesOptions extends GenericModel {
     instanceId = builder.instanceId;
     resolverId = builder.resolverId;
     xCorrelationId = builder.xCorrelationId;
+    offset = builder.offset;
+    limit = builder.limit;
   }
 
   /**
@@ -147,6 +184,28 @@ public class ListForwardingRulesOptions extends GenericModel {
    */
   public String xCorrelationId() {
     return xCorrelationId;
+  }
+
+  /**
+   * Gets the offset.
+   *
+   * Specify how many resources to skip over, the default value is 0.
+   *
+   * @return the offset
+   */
+  public Long offset() {
+    return offset;
+  }
+
+  /**
+   * Gets the limit.
+   *
+   * Specify maximum resources might be returned.
+   *
+   * @return the limit
+   */
+  public Long limit() {
+    return limit;
   }
 }
 

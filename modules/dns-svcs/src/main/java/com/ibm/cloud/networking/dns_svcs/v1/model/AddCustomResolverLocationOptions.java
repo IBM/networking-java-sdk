@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -35,6 +35,11 @@ public class AddCustomResolverLocationOptions extends GenericModel {
     private Boolean enabled;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing AddCustomResolverLocationOptions instance.
+     *
+     * @param addCustomResolverLocationOptions the instance to initialize the Builder with
+     */
     private Builder(AddCustomResolverLocationOptions addCustomResolverLocationOptions) {
       this.instanceId = addCustomResolverLocationOptions.instanceId;
       this.resolverId = addCustomResolverLocationOptions.resolverId;
@@ -124,6 +129,8 @@ public class AddCustomResolverLocationOptions extends GenericModel {
       return this;
     }
   }
+
+  protected AddCustomResolverLocationOptions() { }
 
   protected AddCustomResolverLocationOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
