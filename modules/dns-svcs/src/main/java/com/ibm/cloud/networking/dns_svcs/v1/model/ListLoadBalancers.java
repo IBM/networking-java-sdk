@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -29,8 +29,12 @@ public class ListLoadBalancers extends GenericModel {
   protected Long count;
   @SerializedName("total_count")
   protected Long totalCount;
-  protected FirstHref first;
-  protected NextHref next;
+  protected PaginationRef first;
+  protected PaginationRef last;
+  protected PaginationRef previous;
+  protected PaginationRef next;
+
+  protected ListLoadBalancers() { }
 
   /**
    * Gets the loadBalancers.
@@ -46,7 +50,7 @@ public class ListLoadBalancers extends GenericModel {
   /**
    * Gets the offset.
    *
-   * Page number.
+   * The number of resources to skip over.
    *
    * @return the offset
    */
@@ -57,7 +61,7 @@ public class ListLoadBalancers extends GenericModel {
   /**
    * Gets the limit.
    *
-   * Number of Global Load Balancers per page.
+   * The maximum number of resources might be returned.
    *
    * @return the limit
    */
@@ -68,7 +72,7 @@ public class ListLoadBalancers extends GenericModel {
   /**
    * Gets the count.
    *
-   * Number of Global Load Balancers.
+   * The number of resources are returned.
    *
    * @return the count
    */
@@ -79,7 +83,7 @@ public class ListLoadBalancers extends GenericModel {
   /**
    * Gets the totalCount.
    *
-   * Total number of Global Load Balancers.
+   * Total number of resources.
    *
    * @return the totalCount
    */
@@ -94,8 +98,30 @@ public class ListLoadBalancers extends GenericModel {
    *
    * @return the first
    */
-  public FirstHref getFirst() {
+  public PaginationRef getFirst() {
     return first;
+  }
+
+  /**
+   * Gets the last.
+   *
+   * href.
+   *
+   * @return the last
+   */
+  public PaginationRef getLast() {
+    return last;
+  }
+
+  /**
+   * Gets the previous.
+   *
+   * href.
+   *
+   * @return the previous
+   */
+  public PaginationRef getPrevious() {
+    return previous;
   }
 
   /**
@@ -105,7 +131,7 @@ public class ListLoadBalancers extends GenericModel {
    *
    * @return the next
    */
-  public NextHref getNext() {
+  public PaginationRef getNext() {
     return next;
   }
 }

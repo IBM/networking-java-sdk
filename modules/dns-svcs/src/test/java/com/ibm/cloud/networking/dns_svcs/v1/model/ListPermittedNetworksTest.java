@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,13 +13,12 @@
 
 package com.ibm.cloud.networking.dns_svcs.v1.model;
 
-import com.ibm.cloud.networking.dns_svcs.v1.model.FirstHref;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListPermittedNetworks;
-import com.ibm.cloud.networking.dns_svcs.v1.model.NextHref;
 import com.ibm.cloud.networking.dns_svcs.v1.model.PermittedNetwork;
 import com.ibm.cloud.networking.dns_svcs.v1.model.PermittedNetworkVpc;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -37,10 +36,5 @@ public class ListPermittedNetworksTest {
   public void testListPermittedNetworks() throws Throwable {
     ListPermittedNetworks listPermittedNetworksModel = new ListPermittedNetworks();
     assertNull(listPermittedNetworksModel.getPermittedNetworks());
-    assertNull(listPermittedNetworksModel.getOffset());
-    assertNull(listPermittedNetworksModel.getLimit());
-    assertNull(listPermittedNetworksModel.getTotalCount());
-    assertNull(listPermittedNetworksModel.getFirst());
-    assertNull(listPermittedNetworksModel.getNext());
   }
 }

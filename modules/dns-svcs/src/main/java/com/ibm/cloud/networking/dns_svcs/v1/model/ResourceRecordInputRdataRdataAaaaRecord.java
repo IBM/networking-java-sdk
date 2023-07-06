@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,6 +24,11 @@ public class ResourceRecordInputRdataRdataAaaaRecord extends ResourceRecordInput
   public static class Builder {
     private String ip;
 
+    /**
+     * Instantiates a new Builder from an existing ResourceRecordInputRdataRdataAaaaRecord instance.
+     *
+     * @param resourceRecordInputRdataRdataAaaaRecord the instance to initialize the Builder with
+     */
     public Builder(ResourceRecordInputRdata resourceRecordInputRdataRdataAaaaRecord) {
       this.ip = resourceRecordInputRdataRdataAaaaRecord.ip;
     }
@@ -63,6 +68,8 @@ public class ResourceRecordInputRdataRdataAaaaRecord extends ResourceRecordInput
       return this;
     }
   }
+
+  protected ResourceRecordInputRdataRdataAaaaRecord() { }
 
   protected ResourceRecordInputRdataRdataAaaaRecord(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.ip,

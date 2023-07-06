@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -50,6 +50,11 @@ public class CreateForwardingRuleOptions extends GenericModel {
     private List<String> forwardTo;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing CreateForwardingRuleOptions instance.
+     *
+     * @param createForwardingRuleOptions the instance to initialize the Builder with
+     */
     private Builder(CreateForwardingRuleOptions createForwardingRuleOptions) {
       this.instanceId = createForwardingRuleOptions.instanceId;
       this.resolverId = createForwardingRuleOptions.resolverId;
@@ -180,6 +185,8 @@ public class CreateForwardingRuleOptions extends GenericModel {
       return this;
     }
   }
+
+  protected CreateForwardingRuleOptions() { }
 
   protected CreateForwardingRuleOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,

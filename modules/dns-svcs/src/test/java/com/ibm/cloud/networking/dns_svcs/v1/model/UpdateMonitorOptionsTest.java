@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -18,8 +18,6 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.UpdateMonitorOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
@@ -36,10 +34,10 @@ public class UpdateMonitorOptionsTest {
   public void testUpdateMonitorOptions() throws Throwable {
     HealthcheckHeader healthcheckHeaderModel = new HealthcheckHeader.Builder()
       .name("Host")
-      .value(new java.util.ArrayList<String>(java.util.Arrays.asList("origin.example.com")))
+      .value(java.util.Arrays.asList("origin.example.com"))
       .build();
     assertEquals(healthcheckHeaderModel.name(), "Host");
-    assertEquals(healthcheckHeaderModel.value(), new java.util.ArrayList<String>(java.util.Arrays.asList("origin.example.com")));
+    assertEquals(healthcheckHeaderModel.value(), java.util.Arrays.asList("origin.example.com"));
 
     UpdateMonitorOptions updateMonitorOptionsModel = new UpdateMonitorOptions.Builder()
       .instanceId("testString")
@@ -53,7 +51,7 @@ public class UpdateMonitorOptionsTest {
       .timeout(Long.valueOf("5"))
       .method("GET")
       .path("/health")
-      .headers(new java.util.ArrayList<HealthcheckHeader>(java.util.Arrays.asList(healthcheckHeaderModel)))
+      .headers(java.util.Arrays.asList(healthcheckHeaderModel))
       .allowInsecure(false)
       .expectedCodes("200")
       .expectedBody("alive")
@@ -70,7 +68,7 @@ public class UpdateMonitorOptionsTest {
     assertEquals(updateMonitorOptionsModel.timeout(), Long.valueOf("5"));
     assertEquals(updateMonitorOptionsModel.method(), "GET");
     assertEquals(updateMonitorOptionsModel.path(), "/health");
-    assertEquals(updateMonitorOptionsModel.headers(), new java.util.ArrayList<HealthcheckHeader>(java.util.Arrays.asList(healthcheckHeaderModel)));
+    assertEquals(updateMonitorOptionsModel.headers(), java.util.Arrays.asList(healthcheckHeaderModel));
     assertEquals(updateMonitorOptionsModel.allowInsecure(), Boolean.valueOf(false));
     assertEquals(updateMonitorOptionsModel.expectedCodes(), "200");
     assertEquals(updateMonitorOptionsModel.expectedBody(), "alive");

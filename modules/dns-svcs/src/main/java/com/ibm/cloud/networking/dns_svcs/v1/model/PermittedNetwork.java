@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -11,6 +11,8 @@
  * specific language governing permissions and limitations under the License.
  */
 package com.ibm.cloud.networking.dns_svcs.v1.model;
+
+import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -40,13 +42,17 @@ public class PermittedNetwork extends GenericModel {
 
   protected String id;
   @SerializedName("created_on")
-  protected String createdOn;
+  protected Date createdOn;
   @SerializedName("modified_on")
-  protected String modifiedOn;
+  protected Date modifiedOn;
   @SerializedName("permitted_network")
   protected PermittedNetworkVpc permittedNetwork;
   protected String type;
   protected String state;
+  @SerializedName("linked_zone_id")
+  protected String linkedZoneId;
+
+  protected PermittedNetwork() { }
 
   /**
    * Gets the id.
@@ -66,7 +72,7 @@ public class PermittedNetwork extends GenericModel {
    *
    * @return the createdOn
    */
-  public String getCreatedOn() {
+  public Date getCreatedOn() {
     return createdOn;
   }
 
@@ -77,7 +83,7 @@ public class PermittedNetwork extends GenericModel {
    *
    * @return the modifiedOn
    */
-  public String getModifiedOn() {
+  public Date getModifiedOn() {
     return modifiedOn;
   }
 
@@ -112,6 +118,17 @@ public class PermittedNetwork extends GenericModel {
    */
   public String getState() {
     return state;
+  }
+
+  /**
+   * Gets the linkedZoneId.
+   *
+   * Unique identifier of a linked zone through which the permitted network was added.
+   *
+   * @return the linkedZoneId
+   */
+  public String getLinkedZoneId() {
+    return linkedZoneId;
   }
 }
 

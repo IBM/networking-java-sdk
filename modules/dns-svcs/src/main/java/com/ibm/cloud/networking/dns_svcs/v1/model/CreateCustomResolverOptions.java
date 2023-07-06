@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -38,6 +38,11 @@ public class CreateCustomResolverOptions extends GenericModel {
     private List<LocationInput> locations;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing CreateCustomResolverOptions instance.
+     *
+     * @param createCustomResolverOptions the instance to initialize the Builder with
+     */
     private Builder(CreateCustomResolverOptions createCustomResolverOptions) {
       this.instanceId = createCustomResolverOptions.instanceId;
       this.name = createCustomResolverOptions.name;
@@ -142,6 +147,8 @@ public class CreateCustomResolverOptions extends GenericModel {
       return this;
     }
   }
+
+  protected CreateCustomResolverOptions() { }
 
   protected CreateCustomResolverOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,

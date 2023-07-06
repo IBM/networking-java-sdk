@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,12 +13,10 @@
 
 package com.ibm.cloud.networking.dns_svcs.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
@@ -39,7 +37,7 @@ public class CreateForwardingRuleOptionsTest {
       .description("forwarding rule")
       .type("zone")
       .match("example.com")
-      .forwardTo(new java.util.ArrayList<String>(java.util.Arrays.asList("161.26.0.7")))
+      .forwardTo(java.util.Arrays.asList("161.26.0.7"))
       .xCorrelationId("testString")
       .build();
     assertEquals(createForwardingRuleOptionsModel.instanceId(), "testString");
@@ -47,7 +45,7 @@ public class CreateForwardingRuleOptionsTest {
     assertEquals(createForwardingRuleOptionsModel.description(), "forwarding rule");
     assertEquals(createForwardingRuleOptionsModel.type(), "zone");
     assertEquals(createForwardingRuleOptionsModel.match(), "example.com");
-    assertEquals(createForwardingRuleOptionsModel.forwardTo(), new java.util.ArrayList<String>(java.util.Arrays.asList("161.26.0.7")));
+    assertEquals(createForwardingRuleOptionsModel.forwardTo(), java.util.Arrays.asList("161.26.0.7"));
     assertEquals(createForwardingRuleOptionsModel.xCorrelationId(), "testString");
   }
 

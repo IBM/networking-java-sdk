@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -11,6 +11,8 @@
  * specific language governing permissions and limitations under the License.
  */
 package com.ibm.cloud.networking.dns_svcs.v1.model;
+
+import java.util.Date;
 
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -38,15 +40,17 @@ public class Dnszone extends GenericModel {
 
   protected String id;
   @SerializedName("created_on")
-  protected String createdOn;
+  protected Date createdOn;
   @SerializedName("modified_on")
-  protected String modifiedOn;
+  protected Date modifiedOn;
   @SerializedName("instance_id")
   protected String instanceId;
   protected String name;
   protected String description;
   protected String state;
   protected String label;
+
+  protected Dnszone() { }
 
   /**
    * Gets the id.
@@ -62,22 +66,22 @@ public class Dnszone extends GenericModel {
   /**
    * Gets the createdOn.
    *
-   * the time when a DNS zone is created.
+   * The time when a DNS zone is created.
    *
    * @return the createdOn
    */
-  public String getCreatedOn() {
+  public Date getCreatedOn() {
     return createdOn;
   }
 
   /**
    * Gets the modifiedOn.
    *
-   * the recent time when a DNS zone is modified.
+   * The recent time when a DNS zone is modified.
    *
    * @return the modifiedOn
    */
-  public String getModifiedOn() {
+  public Date getModifiedOn() {
     return modifiedOn;
   }
 
@@ -95,7 +99,7 @@ public class Dnszone extends GenericModel {
   /**
    * Gets the name.
    *
-   * Name of DNS zone.
+   * Name of the DNS zone. Must be a fully qualified domain name.
    *
    * @return the name
    */

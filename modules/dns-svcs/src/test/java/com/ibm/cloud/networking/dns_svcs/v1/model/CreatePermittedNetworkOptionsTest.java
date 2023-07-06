@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -42,12 +42,14 @@ public class CreatePermittedNetworkOptionsTest {
       .dnszoneId("testString")
       .type("vpc")
       .permittedNetwork(permittedNetworkVpcModel)
+      .accounts("testString")
       .xCorrelationId("testString")
       .build();
     assertEquals(createPermittedNetworkOptionsModel.instanceId(), "testString");
     assertEquals(createPermittedNetworkOptionsModel.dnszoneId(), "testString");
     assertEquals(createPermittedNetworkOptionsModel.type(), "vpc");
     assertEquals(createPermittedNetworkOptionsModel.permittedNetwork(), permittedNetworkVpcModel);
+    assertEquals(createPermittedNetworkOptionsModel.accounts(), "testString");
     assertEquals(createPermittedNetworkOptionsModel.xCorrelationId(), "testString");
   }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -36,11 +36,13 @@ public class ListDnszonesOptionsTest {
       .xCorrelationId("testString")
       .offset(Long.valueOf("26"))
       .limit(Long.valueOf("200"))
+      .vpcId("testString")
       .build();
     assertEquals(listDnszonesOptionsModel.instanceId(), "testString");
     assertEquals(listDnszonesOptionsModel.xCorrelationId(), "testString");
     assertEquals(listDnszonesOptionsModel.offset(), Long.valueOf("26"));
     assertEquals(listDnszonesOptionsModel.limit(), Long.valueOf("200"));
+    assertEquals(listDnszonesOptionsModel.vpcId(), "testString");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

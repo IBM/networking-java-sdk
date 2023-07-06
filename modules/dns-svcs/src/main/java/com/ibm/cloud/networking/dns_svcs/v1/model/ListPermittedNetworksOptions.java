@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -21,9 +21,8 @@ public class ListPermittedNetworksOptions extends GenericModel {
 
   protected String instanceId;
   protected String dnszoneId;
+  protected String accounts;
   protected String xCorrelationId;
-  protected Long offset;
-  protected Long limit;
 
   /**
    * Builder.
@@ -31,16 +30,19 @@ public class ListPermittedNetworksOptions extends GenericModel {
   public static class Builder {
     private String instanceId;
     private String dnszoneId;
+    private String accounts;
     private String xCorrelationId;
-    private Long offset;
-    private Long limit;
 
+    /**
+     * Instantiates a new Builder from an existing ListPermittedNetworksOptions instance.
+     *
+     * @param listPermittedNetworksOptions the instance to initialize the Builder with
+     */
     private Builder(ListPermittedNetworksOptions listPermittedNetworksOptions) {
       this.instanceId = listPermittedNetworksOptions.instanceId;
       this.dnszoneId = listPermittedNetworksOptions.dnszoneId;
+      this.accounts = listPermittedNetworksOptions.accounts;
       this.xCorrelationId = listPermittedNetworksOptions.xCorrelationId;
-      this.offset = listPermittedNetworksOptions.offset;
-      this.limit = listPermittedNetworksOptions.limit;
     }
 
     /**
@@ -92,6 +94,17 @@ public class ListPermittedNetworksOptions extends GenericModel {
     }
 
     /**
+     * Set the accounts.
+     *
+     * @param accounts the accounts
+     * @return the ListPermittedNetworksOptions builder
+     */
+    public Builder accounts(String accounts) {
+      this.accounts = accounts;
+      return this;
+    }
+
+    /**
      * Set the xCorrelationId.
      *
      * @param xCorrelationId the xCorrelationId
@@ -101,29 +114,9 @@ public class ListPermittedNetworksOptions extends GenericModel {
       this.xCorrelationId = xCorrelationId;
       return this;
     }
-
-    /**
-     * Set the offset.
-     *
-     * @param offset the offset
-     * @return the ListPermittedNetworksOptions builder
-     */
-    public Builder offset(long offset) {
-      this.offset = offset;
-      return this;
-    }
-
-    /**
-     * Set the limit.
-     *
-     * @param limit the limit
-     * @return the ListPermittedNetworksOptions builder
-     */
-    public Builder limit(long limit) {
-      this.limit = limit;
-      return this;
-    }
   }
+
+  protected ListPermittedNetworksOptions() { }
 
   protected ListPermittedNetworksOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,
@@ -132,9 +125,8 @@ public class ListPermittedNetworksOptions extends GenericModel {
       "dnszoneId cannot be empty");
     instanceId = builder.instanceId;
     dnszoneId = builder.dnszoneId;
+    accounts = builder.accounts;
     xCorrelationId = builder.xCorrelationId;
-    offset = builder.offset;
-    limit = builder.limit;
   }
 
   /**
@@ -169,6 +161,18 @@ public class ListPermittedNetworksOptions extends GenericModel {
   }
 
   /**
+   * Gets the accounts.
+   *
+   * The account identifiers of the owner zone and linked zones in the format of "?account=account1,account2,account3".
+   * Maximum 5 accounts are allowed.
+   *
+   * @return the accounts
+   */
+  public String accounts() {
+    return accounts;
+  }
+
+  /**
    * Gets the xCorrelationId.
    *
    * Uniquely identifying a request.
@@ -177,28 +181,6 @@ public class ListPermittedNetworksOptions extends GenericModel {
    */
   public String xCorrelationId() {
     return xCorrelationId;
-  }
-
-  /**
-   * Gets the offset.
-   *
-   * Specify how many resource records to skip over, the default value is 0.
-   *
-   * @return the offset
-   */
-  public Long offset() {
-    return offset;
-  }
-
-  /**
-   * Gets the limit.
-   *
-   * Specify how many resource records are returned, the default value is 200.
-   *
-   * @return the limit
-   */
-  public Long limit() {
-    return limit;
   }
 }
 

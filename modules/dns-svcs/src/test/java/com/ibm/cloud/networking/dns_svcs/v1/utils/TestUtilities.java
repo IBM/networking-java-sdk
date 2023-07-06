@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.io.InputStream;
 import java.io.ByteArrayInputStream;
-import java.text.SimpleDateFormat;
 
 import okhttp3.mockwebserver.RecordedRequest;
 import okhttp3.HttpUrl;

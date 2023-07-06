@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -34,9 +34,13 @@ public class ListMonitorsOptionsTest {
     ListMonitorsOptions listMonitorsOptionsModel = new ListMonitorsOptions.Builder()
       .instanceId("testString")
       .xCorrelationId("testString")
+      .offset(Long.valueOf("26"))
+      .limit(Long.valueOf("200"))
       .build();
     assertEquals(listMonitorsOptionsModel.instanceId(), "testString");
     assertEquals(listMonitorsOptionsModel.xCorrelationId(), "testString");
+    assertEquals(listMonitorsOptionsModel.offset(), Long.valueOf("26"));
+    assertEquals(listMonitorsOptionsModel.limit(), Long.valueOf("200"));
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

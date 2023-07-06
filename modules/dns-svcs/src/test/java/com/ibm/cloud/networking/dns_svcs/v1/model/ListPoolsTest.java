@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,16 +13,15 @@
 
 package com.ibm.cloud.networking.dns_svcs.v1.model;
 
-import com.ibm.cloud.networking.dns_svcs.v1.model.FirstHref;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListPools;
-import com.ibm.cloud.networking.dns_svcs.v1.model.NextHref;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Origin;
+import com.ibm.cloud.networking.dns_svcs.v1.model.PaginationRef;
 import com.ibm.cloud.networking.dns_svcs.v1.model.Pool;
+import com.ibm.cloud.networking.dns_svcs.v1.model.PoolHealthcheckVsisItem;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
@@ -44,6 +43,8 @@ public class ListPoolsTest {
     assertNull(listPoolsModel.getCount());
     assertNull(listPoolsModel.getTotalCount());
     assertNull(listPoolsModel.getFirst());
+    assertNull(listPoolsModel.getLast());
+    assertNull(listPoolsModel.getPrevious());
     assertNull(listPoolsModel.getNext());
   }
 }

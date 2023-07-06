@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -33,6 +33,11 @@ public class OriginInput extends GenericModel {
     private String address;
     private Boolean enabled;
 
+    /**
+     * Instantiates a new Builder from an existing OriginInput instance.
+     *
+     * @param originInput the instance to initialize the Builder with
+     */
     private Builder(OriginInput originInput) {
       this.name = originInput.name;
       this.description = originInput.description;
@@ -99,6 +104,8 @@ public class OriginInput extends GenericModel {
       return this;
     }
   }
+
+  protected OriginInput() { }
 
   protected OriginInput(Builder builder) {
     name = builder.name;

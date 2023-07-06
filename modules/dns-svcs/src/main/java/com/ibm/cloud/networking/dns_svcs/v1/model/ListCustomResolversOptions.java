@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -29,6 +29,11 @@ public class ListCustomResolversOptions extends GenericModel {
     private String instanceId;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing ListCustomResolversOptions instance.
+     *
+     * @param listCustomResolversOptions the instance to initialize the Builder with
+     */
     private Builder(ListCustomResolversOptions listCustomResolversOptions) {
       this.instanceId = listCustomResolversOptions.instanceId;
       this.xCorrelationId = listCustomResolversOptions.xCorrelationId;
@@ -80,6 +85,8 @@ public class ListCustomResolversOptions extends GenericModel {
       return this;
     }
   }
+
+  protected ListCustomResolversOptions() { }
 
   protected ListCustomResolversOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -43,6 +43,11 @@ public class UpdateResourceRecordOptions extends GenericModel {
     private String protocol;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing UpdateResourceRecordOptions instance.
+     *
+     * @param updateResourceRecordOptions the instance to initialize the Builder with
+     */
     private Builder(UpdateResourceRecordOptions updateResourceRecordOptions) {
       this.instanceId = updateResourceRecordOptions.instanceId;
       this.dnszoneId = updateResourceRecordOptions.dnszoneId;
@@ -182,6 +187,8 @@ public class UpdateResourceRecordOptions extends GenericModel {
       return this;
     }
   }
+
+  protected UpdateResourceRecordOptions() { }
 
   protected UpdateResourceRecordOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,9 +19,9 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * LoadBalancerAzPoolsItem.
+ * AzPoolsItem.
  */
-public class LoadBalancerAzPoolsItem extends GenericModel {
+public class AzPoolsItem extends GenericModel {
 
   @SerializedName("availability_zone")
   protected String availabilityZone;
@@ -34,9 +34,14 @@ public class LoadBalancerAzPoolsItem extends GenericModel {
     private String availabilityZone;
     private List<String> pools;
 
-    private Builder(LoadBalancerAzPoolsItem loadBalancerAzPoolsItem) {
-      this.availabilityZone = loadBalancerAzPoolsItem.availabilityZone;
-      this.pools = loadBalancerAzPoolsItem.pools;
+    /**
+     * Instantiates a new Builder from an existing AzPoolsItem instance.
+     *
+     * @param azPoolsItem the instance to initialize the Builder with
+     */
+    private Builder(AzPoolsItem azPoolsItem) {
+      this.availabilityZone = azPoolsItem.availabilityZone;
+      this.pools = azPoolsItem.pools;
     }
 
     /**
@@ -46,19 +51,19 @@ public class LoadBalancerAzPoolsItem extends GenericModel {
     }
 
     /**
-     * Builds a LoadBalancerAzPoolsItem.
+     * Builds a AzPoolsItem.
      *
-     * @return the new LoadBalancerAzPoolsItem instance
+     * @return the new AzPoolsItem instance
      */
-    public LoadBalancerAzPoolsItem build() {
-      return new LoadBalancerAzPoolsItem(this);
+    public AzPoolsItem build() {
+      return new AzPoolsItem(this);
     }
 
     /**
      * Adds an pools to pools.
      *
      * @param pools the new pools
-     * @return the LoadBalancerAzPoolsItem builder
+     * @return the AzPoolsItem builder
      */
     public Builder addPools(String pools) {
       com.ibm.cloud.sdk.core.util.Validator.notNull(pools,
@@ -74,7 +79,7 @@ public class LoadBalancerAzPoolsItem extends GenericModel {
      * Set the availabilityZone.
      *
      * @param availabilityZone the availabilityZone
-     * @return the LoadBalancerAzPoolsItem builder
+     * @return the AzPoolsItem builder
      */
     public Builder availabilityZone(String availabilityZone) {
       this.availabilityZone = availabilityZone;
@@ -86,7 +91,7 @@ public class LoadBalancerAzPoolsItem extends GenericModel {
      * Existing pools will be replaced.
      *
      * @param pools the pools
-     * @return the LoadBalancerAzPoolsItem builder
+     * @return the AzPoolsItem builder
      */
     public Builder pools(List<String> pools) {
       this.pools = pools;
@@ -94,7 +99,9 @@ public class LoadBalancerAzPoolsItem extends GenericModel {
     }
   }
 
-  protected LoadBalancerAzPoolsItem(Builder builder) {
+  protected AzPoolsItem() { }
+
+  protected AzPoolsItem(Builder builder) {
     availabilityZone = builder.availabilityZone;
     pools = builder.pools;
   }
@@ -102,7 +109,7 @@ public class LoadBalancerAzPoolsItem extends GenericModel {
   /**
    * New builder.
    *
-   * @return a LoadBalancerAzPoolsItem builder
+   * @return a AzPoolsItem builder
    */
   public Builder newBuilder() {
     return new Builder(this);

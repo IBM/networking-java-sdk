@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -32,6 +32,11 @@ public class HealthcheckHeader extends GenericModel {
     private String name;
     private List<String> value;
 
+    /**
+     * Instantiates a new Builder from an existing HealthcheckHeader instance.
+     *
+     * @param healthcheckHeader the instance to initialize the Builder with
+     */
     private Builder(HealthcheckHeader healthcheckHeader) {
       this.name = healthcheckHeader.name;
       this.value = healthcheckHeader.value;
@@ -102,6 +107,8 @@ public class HealthcheckHeader extends GenericModel {
       return this;
     }
   }
+
+  protected HealthcheckHeader() { }
 
   protected HealthcheckHeader(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.name,

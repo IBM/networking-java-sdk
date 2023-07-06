@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -82,6 +82,11 @@ public class UpdateMonitorOptions extends GenericModel {
     private String expectedBody;
     private String xCorrelationId;
 
+    /**
+     * Instantiates a new Builder from an existing UpdateMonitorOptions instance.
+     *
+     * @param updateMonitorOptions the instance to initialize the Builder with
+     */
     private Builder(UpdateMonitorOptions updateMonitorOptions) {
       this.instanceId = updateMonitorOptions.instanceId;
       this.monitorId = updateMonitorOptions.monitorId;
@@ -320,6 +325,8 @@ public class UpdateMonitorOptions extends GenericModel {
       return this;
     }
   }
+
+  protected UpdateMonitorOptions() { }
 
   protected UpdateMonitorOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.instanceId,

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -27,6 +27,11 @@ public class ResourceRecordUpdateInputRdataRdataSrvRecord extends ResourceRecord
     private String target;
     private Long weight;
 
+    /**
+     * Instantiates a new Builder from an existing ResourceRecordUpdateInputRdataRdataSrvRecord instance.
+     *
+     * @param resourceRecordUpdateInputRdataRdataSrvRecord the instance to initialize the Builder with
+     */
     public Builder(ResourceRecordUpdateInputRdata resourceRecordUpdateInputRdataRdataSrvRecord) {
       this.port = resourceRecordUpdateInputRdataRdataSrvRecord.port;
       this.priority = resourceRecordUpdateInputRdataRdataSrvRecord.priority;
@@ -108,6 +113,8 @@ public class ResourceRecordUpdateInputRdataRdataSrvRecord extends ResourceRecord
       return this;
     }
   }
+
+  protected ResourceRecordUpdateInputRdataRdataSrvRecord() { }
 
   protected ResourceRecordUpdateInputRdataRdataSrvRecord(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.port,

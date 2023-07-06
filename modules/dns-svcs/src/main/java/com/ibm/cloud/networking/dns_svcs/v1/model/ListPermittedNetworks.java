@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,12 +24,8 @@ public class ListPermittedNetworks extends GenericModel {
 
   @SerializedName("permitted_networks")
   protected List<PermittedNetwork> permittedNetworks;
-  protected Long offset;
-  protected Long limit;
-  @SerializedName("total_count")
-  protected Long totalCount;
-  protected FirstHref first;
-  protected NextHref next;
+
+  protected ListPermittedNetworks() { }
 
   /**
    * Gets the permittedNetworks.
@@ -40,61 +36,6 @@ public class ListPermittedNetworks extends GenericModel {
    */
   public List<PermittedNetwork> getPermittedNetworks() {
     return permittedNetworks;
-  }
-
-  /**
-   * Gets the offset.
-   *
-   * Specify how many permitted networks to skip over, the default value is 0.
-   *
-   * @return the offset
-   */
-  public Long getOffset() {
-    return offset;
-  }
-
-  /**
-   * Gets the limit.
-   *
-   * Specify how many permitted networks are returned, the default value is 10.
-   *
-   * @return the limit
-   */
-  public Long getLimit() {
-    return limit;
-  }
-
-  /**
-   * Gets the totalCount.
-   *
-   * Total number of permitted networks.
-   *
-   * @return the totalCount
-   */
-  public Long getTotalCount() {
-    return totalCount;
-  }
-
-  /**
-   * Gets the first.
-   *
-   * href.
-   *
-   * @return the first
-   */
-  public FirstHref getFirst() {
-    return first;
-  }
-
-  /**
-   * Gets the next.
-   *
-   * href.
-   *
-   * @return the next
-   */
-  public NextHref getNext() {
-    return next;
   }
 }
 

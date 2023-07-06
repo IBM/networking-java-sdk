@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -18,8 +18,6 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.UpdatePoolOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
@@ -52,11 +50,11 @@ public class UpdatePoolOptionsTest {
       .description("Load balancer pool for dal10 availability zone.")
       .enabled(true)
       .healthyOriginsThreshold(Long.valueOf("1"))
-      .origins(new java.util.ArrayList<OriginInput>(java.util.Arrays.asList(originInputModel)))
+      .origins(java.util.Arrays.asList(originInputModel))
       .monitor("7dd6841c-264e-11ea-88df-062967242a6a")
       .notificationChannel("https://mywebsite.com/dns/webhook")
       .healthcheckRegion("us-south")
-      .healthcheckSubnets(new java.util.ArrayList<String>(java.util.Arrays.asList("crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")))
+      .healthcheckSubnets(java.util.Arrays.asList("crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"))
       .xCorrelationId("testString")
       .build();
     assertEquals(updatePoolOptionsModel.instanceId(), "testString");
@@ -65,11 +63,11 @@ public class UpdatePoolOptionsTest {
     assertEquals(updatePoolOptionsModel.description(), "Load balancer pool for dal10 availability zone.");
     assertEquals(updatePoolOptionsModel.enabled(), Boolean.valueOf(true));
     assertEquals(updatePoolOptionsModel.healthyOriginsThreshold(), Long.valueOf("1"));
-    assertEquals(updatePoolOptionsModel.origins(), new java.util.ArrayList<OriginInput>(java.util.Arrays.asList(originInputModel)));
+    assertEquals(updatePoolOptionsModel.origins(), java.util.Arrays.asList(originInputModel));
     assertEquals(updatePoolOptionsModel.monitor(), "7dd6841c-264e-11ea-88df-062967242a6a");
     assertEquals(updatePoolOptionsModel.notificationChannel(), "https://mywebsite.com/dns/webhook");
     assertEquals(updatePoolOptionsModel.healthcheckRegion(), "us-south");
-    assertEquals(updatePoolOptionsModel.healthcheckSubnets(), new java.util.ArrayList<String>(java.util.Arrays.asList("crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04")));
+    assertEquals(updatePoolOptionsModel.healthcheckSubnets(), java.util.Arrays.asList("crn:v1:staging:public:is:us-south-1:a/01652b251c3ae2787110a995d8db0135::subnet:0716-b49ef064-0f89-4fb1-8212-135b12568f04"));
     assertEquals(updatePoolOptionsModel.xCorrelationId(), "testString");
   }
 
