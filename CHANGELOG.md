@@ -1,3 +1,10 @@
+# [0.33.0](https://github.com/IBM/networking-java-sdk/compare/0.32.1...0.33.0) (2023-07-06)
+
+
+### Features
+
+* direct link route report updates ([#76](https://github.com/IBM/networking-java-sdk/issues/76)) ([4631f20](https://github.com/IBM/networking-java-sdk/commit/4631f20bfe962d6f2a03a8996132de2963b2499f))
+
 ## [0.32.1](https://github.com/IBM/networking-java-sdk/compare/0.32.0...0.32.1) (2023-05-24)
 
 
