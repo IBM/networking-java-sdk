@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,16 +19,34 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class CreateZoneOptions extends GenericModel {
 
+  /**
+   * zone type.
+   */
+  public interface Type {
+    /** full. */
+    String FULL = "full";
+    /** partial. */
+    String PARTIAL = "partial";
+  }
+
   protected String name;
+  protected String type;
 
   /**
    * Builder.
    */
   public static class Builder {
     private String name;
+    private String type;
 
+    /**
+     * Instantiates a new Builder from an existing CreateZoneOptions instance.
+     *
+     * @param createZoneOptions the instance to initialize the Builder with
+     */
     private Builder(CreateZoneOptions createZoneOptions) {
       this.name = createZoneOptions.name;
+      this.type = createZoneOptions.type;
     }
 
     /**
@@ -56,10 +74,24 @@ public class CreateZoneOptions extends GenericModel {
       this.name = name;
       return this;
     }
+
+    /**
+     * Set the type.
+     *
+     * @param type the type
+     * @return the CreateZoneOptions builder
+     */
+    public Builder type(String type) {
+      this.type = type;
+      return this;
+    }
   }
+
+  protected CreateZoneOptions() { }
 
   protected CreateZoneOptions(Builder builder) {
     name = builder.name;
+    type = builder.type;
   }
 
   /**
@@ -80,6 +112,17 @@ public class CreateZoneOptions extends GenericModel {
    */
   public String name() {
     return name;
+  }
+
+  /**
+   * Gets the type.
+   *
+   * zone type.
+   *
+   * @return the type
+   */
+  public String type() {
+    return type;
   }
 }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,12 +12,19 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.12.1-318e07c8-20200909-152230
+ * IBM OpenAPI SDK Code Generator Version: 3.73.0-eeee85a9-20230607-165104
  */
 
 package com.ibm.cloud.networking.zones.v1;
 
 import com.google.gson.JsonObject;
+import com.ibm.cloud.sdk.core.http.RequestBuilder;
+import com.ibm.cloud.sdk.core.http.ResponseConverter;
+import com.ibm.cloud.sdk.core.http.ServiceCall;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
+import com.ibm.cloud.sdk.core.service.BaseService;
+import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import com.ibm.cloud.networking.common.SdkCommon;
 import com.ibm.cloud.networking.zones.v1.model.CreateZoneOptions;
 import com.ibm.cloud.networking.zones.v1.model.DeleteZoneOptions;
@@ -29,25 +36,25 @@ import com.ibm.cloud.networking.zones.v1.model.UpdateZoneOptions;
 import com.ibm.cloud.networking.zones.v1.model.ZoneActivationCheckOptions;
 import com.ibm.cloud.networking.zones.v1.model.ZoneActivationcheckResp;
 import com.ibm.cloud.networking.zones.v1.model.ZoneResp;
-import com.ibm.cloud.sdk.core.http.RequestBuilder;
-import com.ibm.cloud.sdk.core.http.ResponseConverter;
-import com.ibm.cloud.sdk.core.http.ServiceCall;
-import com.ibm.cloud.sdk.core.security.Authenticator;
-import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
-import com.ibm.cloud.sdk.core.service.BaseService;
-import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 /**
  * CIS Zones.
  *
- * @version v1
+ * API Version: 1.0.1
  */
 public class Zones extends BaseService {
 
+  /**
+   * Default service name used when configuring the `Zones` client.
+   */
   public static final String DEFAULT_SERVICE_NAME = "zones";
 
+  /**
+   * Default service endpoint URL.
+   */
   public static final String DEFAULT_SERVICE_URL = "https://api.cis.cloud.ibm.com";
 
   private String crn;
@@ -122,14 +129,23 @@ public class Zones extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ListZonesResp}
    */
   public ServiceCall<ListZonesResp> listZones(ListZonesOptions listZonesOptions) {
-    String[] pathSegments = { "v1", "zones" };
-    String[] pathParameters = { this.crn };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    if (listZonesOptions == null) {
+      listZonesOptions = new ListZonesOptions.Builder().build();
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones", "v1", "listZones");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
+    if (listZonesOptions.page() != null) {
+      builder.query("page", String.valueOf(listZonesOptions.page()));
+    }
+    if (listZonesOptions.perPage() != null) {
+      builder.query("per_page", String.valueOf(listZonesOptions.perPage()));
+    }
     ResponseConverter<ListZonesResp> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ListZonesResp>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -160,9 +176,9 @@ public class Zones extends BaseService {
       createZoneOptions = new CreateZoneOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones" };
-    String[] pathParameters = { this.crn };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones", "v1", "createZone");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -172,6 +188,9 @@ public class Zones extends BaseService {
       final JsonObject contentJson = new JsonObject();
       if (createZoneOptions.name() != null) {
         contentJson.addProperty("name", createZoneOptions.name());
+      }
+      if (createZoneOptions.type() != null) {
+        contentJson.addProperty("type", createZoneOptions.type());
       }
       builder.bodyJson(contentJson);
     }
@@ -202,9 +221,10 @@ public class Zones extends BaseService {
   public ServiceCall<DeleteZoneResp> deleteZone(DeleteZoneOptions deleteZoneOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteZoneOptions,
       "deleteZoneOptions cannot be null");
-    String[] pathSegments = { "v1", "zones" };
-    String[] pathParameters = { this.crn, deleteZoneOptions.zoneIdentifier() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", deleteZoneOptions.zoneIdentifier());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones", "v1", "deleteZone");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -226,9 +246,10 @@ public class Zones extends BaseService {
   public ServiceCall<ZoneResp> getZone(GetZoneOptions getZoneOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getZoneOptions,
       "getZoneOptions cannot be null");
-    String[] pathSegments = { "v1", "zones" };
-    String[] pathParameters = { this.crn, getZoneOptions.zoneIdentifier() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", getZoneOptions.zoneIdentifier());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones", "v1", "getZone");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -250,9 +271,10 @@ public class Zones extends BaseService {
   public ServiceCall<ZoneResp> updateZone(UpdateZoneOptions updateZoneOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(updateZoneOptions,
       "updateZoneOptions cannot be null");
-    String[] pathSegments = { "v1", "zones" };
-    String[] pathParameters = { this.crn, updateZoneOptions.zoneIdentifier() };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", updateZoneOptions.zoneIdentifier());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones", "v1", "updateZone");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -279,9 +301,10 @@ public class Zones extends BaseService {
   public ServiceCall<ZoneActivationcheckResp> zoneActivationCheck(ZoneActivationCheckOptions zoneActivationCheckOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(zoneActivationCheckOptions,
       "zoneActivationCheckOptions cannot be null");
-    String[] pathSegments = { "v1", "zones", "activation_check" };
-    String[] pathParameters = { this.crn, zoneActivationCheckOptions.zoneIdentifier() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", zoneActivationCheckOptions.zoneIdentifier());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/activation_check", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones", "v1", "zoneActivationCheck");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());

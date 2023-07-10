@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -38,6 +38,13 @@ public class ZoneDetails extends GenericModel {
   protected List<String> originalNameServers;
   @SerializedName("name_servers")
   protected List<String> nameServers;
+  protected String type;
+  @SerializedName("verification_key")
+  protected String verificationKey;
+  @SerializedName("cname_suffix")
+  protected String cnameSuffix;
+
+  protected ZoneDetails() { }
 
   /**
    * Gets the id.
@@ -147,6 +154,39 @@ public class ZoneDetails extends GenericModel {
    */
   public List<String> getNameServers() {
     return nameServers;
+  }
+
+  /**
+   * Gets the type.
+   *
+   * zone type.
+   *
+   * @return the type
+   */
+  public String getType() {
+    return type;
+  }
+
+  /**
+   * Gets the verificationKey.
+   *
+   * verification key.
+   *
+   * @return the verificationKey
+   */
+  public String getVerificationKey() {
+    return verificationKey;
+  }
+
+  /**
+   * Gets the cnameSuffix.
+   *
+   * canme suffix.
+   *
+   * @return the cnameSuffix
+   */
+  public String getCnameSuffix() {
+    return cnameSuffix;
   }
 }
 

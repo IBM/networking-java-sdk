@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,6 +13,10 @@
 
 package com.ibm.cloud.networking.zones.v1;
 
+import com.ibm.cloud.sdk.core.http.Response;
+import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.CredentialUtils;
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.networking.zones.v1.model.CreateZoneOptions;
 import com.ibm.cloud.networking.zones.v1.model.DeleteZoneOptions;
@@ -29,13 +33,7 @@ import com.ibm.cloud.networking.zones.v1.model.ZoneActivationcheckRespResult;
 import com.ibm.cloud.networking.zones.v1.model.ZoneDetails;
 import com.ibm.cloud.networking.zones.v1.model.ZoneResp;
 import com.ibm.cloud.networking.zones.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.http.Response;
-import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.CredentialUtils;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,14 +51,13 @@ public class ZonesIT extends SdkIntegrationTestBase {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
-  String crn = null;
-  String identifier = null;
+  String crn = "testString";
   /**
    * This method provides our config filename to the base class.
    */
 
   public String getConfigFilename() {
-    return "../../cloud_internet_services.env";
+    return "../../zones_v1.env";
   }
 
   @BeforeClass
@@ -70,26 +67,28 @@ public class ZonesIT extends SdkIntegrationTestBase {
       return;
     }
 
-    final String serviceName = "cloud_internet_services";
-    // Load up the config properties for this service.
-    config = CredentialUtils.getServiceProperties(serviceName);
-    // Load Config
-    crn = config.get("CRN");
+    service = Zones.newInstance(crn);
+    assertNotNull(service);
+    assertNotNull(service.getServiceUrl());
 
-    // set mock values for global params
-    try {
-      service = Zones.newInstance(crn, serviceName);
-    } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    // Load up our test-specific config properties.
+    config = CredentialUtils.getServiceProperties(Zones.DEFAULT_SERVICE_NAME);
+    assertNotNull(config);
+    assertFalse(config.isEmpty());
+    assertEquals(service.getServiceUrl(), config.get("URL"));
+
+    service.enableRetries(4, 30);
+
     System.out.println("Setup complete.");
   }
 
-  @Test (dependsOnMethods = "testCreateZone")
+  @Test
   public void testListZones() throws Exception {
     try {
-      ListZonesOptions listZonesOptions = new ListZonesOptions();
+      ListZonesOptions listZonesOptions = new ListZonesOptions.Builder()
+        .page(Long.valueOf("1"))
+        .perPage(Long.valueOf("20"))
+        .build();
 
       // Invoke operation
       Response<ListZonesResp> response = service.listZones(listZonesOptions).execute();
@@ -101,17 +100,18 @@ public class ZonesIT extends SdkIntegrationTestBase {
 
       assertNotNull(listZonesRespResult);
     } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
+        fail(String.format("Service returned status code %d: %s%nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
 
-  @Test
+  @Test(dependsOnMethods = { "testListZones" })
   public void testCreateZone() throws Exception {
     try {
       CreateZoneOptions createZoneOptions = new CreateZoneOptions.Builder()
-      .name("test-example.com")
-      .build();
+        .name("test-example.com")
+        .type("full")
+        .build();
 
       // Invoke operation
       Response<ZoneResp> response = service.createZone(createZoneOptions).execute();
@@ -120,21 +120,20 @@ public class ZonesIT extends SdkIntegrationTestBase {
       assertEquals(response.getStatusCode(), 200);
 
       ZoneResp zoneRespResult = response.getResult();
-      identifier = zoneRespResult.getResult().getId();
 
       assertNotNull(zoneRespResult);
     } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
+        fail(String.format("Service returned status code %d: %s%nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
 
-  @Test (dependsOnMethods = "testUpdateZone")
+  @Test(dependsOnMethods = { "testCreateZone" })
   public void testGetZone() throws Exception {
     try {
       GetZoneOptions getZoneOptions = new GetZoneOptions.Builder()
-      .zoneIdentifier(identifier)
-      .build();
+        .zoneIdentifier("testString")
+        .build();
 
       // Invoke operation
       Response<ZoneResp> response = service.getZone(getZoneOptions).execute();
@@ -146,18 +145,18 @@ public class ZonesIT extends SdkIntegrationTestBase {
 
       assertNotNull(zoneRespResult);
     } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
+        fail(String.format("Service returned status code %d: %s%nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
 
-  @Test (dependsOnMethods = "testListZones")
+  @Test(dependsOnMethods = { "testGetZone" })
   public void testUpdateZone() throws Exception {
     try {
       UpdateZoneOptions updateZoneOptions = new UpdateZoneOptions.Builder()
-      .zoneIdentifier(identifier)
-      .paused(true)
-      .build();
+        .zoneIdentifier("testString")
+        .paused(false)
+        .build();
 
       // Invoke operation
       Response<ZoneResp> response = service.updateZone(updateZoneOptions).execute();
@@ -169,17 +168,17 @@ public class ZonesIT extends SdkIntegrationTestBase {
 
       assertNotNull(zoneRespResult);
     } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
+        fail(String.format("Service returned status code %d: %s%nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
 
-  @Test (dependsOnMethods = "testGetZone")
+  @Test(dependsOnMethods = { "testUpdateZone" })
   public void testZoneActivationCheck() throws Exception {
     try {
       ZoneActivationCheckOptions zoneActivationCheckOptions = new ZoneActivationCheckOptions.Builder()
-      .zoneIdentifier(identifier)
-      .build();
+        .zoneIdentifier("testString")
+        .build();
 
       // Invoke operation
       Response<ZoneActivationcheckResp> response = service.zoneActivationCheck(zoneActivationCheckOptions).execute();
@@ -191,17 +190,17 @@ public class ZonesIT extends SdkIntegrationTestBase {
 
       assertNotNull(zoneActivationcheckRespResult);
     } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
+        fail(String.format("Service returned status code %d: %s%nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }
 
-  @Test (dependsOnMethods = "testZoneActivationCheck")
+  @Test(dependsOnMethods = { "testZoneActivationCheck" })
   public void testDeleteZone() throws Exception {
     try {
       DeleteZoneOptions deleteZoneOptions = new DeleteZoneOptions.Builder()
-      .zoneIdentifier(identifier)
-      .build();
+        .zoneIdentifier("testString")
+        .build();
 
       // Invoke operation
       Response<DeleteZoneResp> response = service.deleteZone(deleteZoneOptions).execute();
@@ -213,7 +212,7 @@ public class ZonesIT extends SdkIntegrationTestBase {
 
       assertNotNull(deleteZoneRespResult);
     } catch (ServiceResponseException e) {
-        fail(String.format("Service returned status code %d: %s\nError details: %s",
+        fail(String.format("Service returned status code %d: %s%nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
     }
   }

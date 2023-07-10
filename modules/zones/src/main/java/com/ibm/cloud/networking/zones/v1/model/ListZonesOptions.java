@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,5 +19,100 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class ListZonesOptions extends GenericModel {
 
+  protected Long page;
+  protected Long perPage;
+
+  /**
+   * Builder.
+   */
+  public static class Builder {
+    private Long page;
+    private Long perPage;
+
+    /**
+     * Instantiates a new Builder from an existing ListZonesOptions instance.
+     *
+     * @param listZonesOptions the instance to initialize the Builder with
+     */
+    private Builder(ListZonesOptions listZonesOptions) {
+      this.page = listZonesOptions.page;
+      this.perPage = listZonesOptions.perPage;
+    }
+
+    /**
+     * Instantiates a new builder.
+     */
+    public Builder() {
+    }
+
+    /**
+     * Builds a ListZonesOptions.
+     *
+     * @return the new ListZonesOptions instance
+     */
+    public ListZonesOptions build() {
+      return new ListZonesOptions(this);
+    }
+
+    /**
+     * Set the page.
+     *
+     * @param page the page
+     * @return the ListZonesOptions builder
+     */
+    public Builder page(long page) {
+      this.page = page;
+      return this;
+    }
+
+    /**
+     * Set the perPage.
+     *
+     * @param perPage the perPage
+     * @return the ListZonesOptions builder
+     */
+    public Builder perPage(long perPage) {
+      this.perPage = perPage;
+      return this;
+    }
+  }
+
+  protected ListZonesOptions() { }
+
+  protected ListZonesOptions(Builder builder) {
+    page = builder.page;
+    perPage = builder.perPage;
+  }
+
+  /**
+   * New builder.
+   *
+   * @return a ListZonesOptions builder
+   */
+  public Builder newBuilder() {
+    return new Builder(this);
+  }
+
+  /**
+   * Gets the page.
+   *
+   * Page number of paginated results.
+   *
+   * @return the page
+   */
+  public Long page() {
+    return page;
+  }
+
+  /**
+   * Gets the perPage.
+   *
+   * Maximum number of zones per page.
+   *
+   * @return the perPage
+   */
+  public Long perPage() {
+    return perPage;
+  }
 }
 
