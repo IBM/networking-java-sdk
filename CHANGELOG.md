@@ -1,3 +1,10 @@
+# [0.34.0](https://github.com/IBM/networking-java-sdk/compare/0.33.0...0.34.0) (2023-09-12)
+
+
+### Features
+
+* updating .secrets.baseline to suppress [secure] positives ([#83](https://github.com/IBM/networking-java-sdk/issues/83)) ([9dc9b5e](https://github.com/IBM/networking-java-sdk/commit/9dc9b5e680664a8580d010ebc1613931403c940b))
+
 # [0.33.0](https://github.com/IBM/networking-java-sdk/compare/0.32.1...0.33.0) (2023-07-06)
 
 
