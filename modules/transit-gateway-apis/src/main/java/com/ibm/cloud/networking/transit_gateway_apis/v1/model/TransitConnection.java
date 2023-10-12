@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -81,6 +81,8 @@ public class TransitConnection extends GenericModel {
     String FAILED = "failed";
     /** pending. */
     String PENDING = "pending";
+    /** network_pending. */
+    String NETWORK_PENDING = "network_pending";
     /** deleting. */
     String DELETING = "deleting";
     /** detaching. */
@@ -130,6 +132,8 @@ public class TransitConnection extends GenericModel {
   @SerializedName("updated_at")
   protected Date updatedAt;
   protected ZoneReference zone;
+
+  protected TransitConnection() { }
 
   /**
    * Gets the baseConnectionId.

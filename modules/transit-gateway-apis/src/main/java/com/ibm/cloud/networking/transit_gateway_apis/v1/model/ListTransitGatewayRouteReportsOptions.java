@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -27,6 +27,11 @@ public class ListTransitGatewayRouteReportsOptions extends GenericModel {
   public static class Builder {
     private String transitGatewayId;
 
+    /**
+     * Instantiates a new Builder from an existing ListTransitGatewayRouteReportsOptions instance.
+     *
+     * @param listTransitGatewayRouteReportsOptions the instance to initialize the Builder with
+     */
     private Builder(ListTransitGatewayRouteReportsOptions listTransitGatewayRouteReportsOptions) {
       this.transitGatewayId = listTransitGatewayRouteReportsOptions.transitGatewayId;
     }
@@ -66,6 +71,8 @@ public class ListTransitGatewayRouteReportsOptions extends GenericModel {
       return this;
     }
   }
+
+  protected ListTransitGatewayRouteReportsOptions() { }
 
   protected ListTransitGatewayRouteReportsOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.transitGatewayId,

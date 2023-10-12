@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.43.5-e0ec19e2-20220124-172004
+ * IBM OpenAPI SDK Code Generator Version: 3.73.0-eeee85a9-20230607-165104
  */
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
@@ -72,8 +72,14 @@ import java.util.Map.Entry;
  */
 public class TransitGatewayApis extends BaseService {
 
+  /**
+   * Default service name used when configuring the `TransitGatewayApis` client.
+   */
   public static final String DEFAULT_SERVICE_NAME = "transit_gateway_apis";
 
+  /**
+   * Default service endpoint URL.
+   */
   public static final String DEFAULT_SERVICE_URL = "https://transit.cloud.ibm.com/v1";
 
   private String version;
@@ -363,6 +369,15 @@ public class TransitGatewayApis extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
+    if (listTransitGatewayConnectionsOptions.start() != null) {
+      builder.query("start", String.valueOf(listTransitGatewayConnectionsOptions.start()));
+    }
+    if (listTransitGatewayConnectionsOptions.limit() != null) {
+      builder.query("limit", String.valueOf(listTransitGatewayConnectionsOptions.limit()));
+    }
+    if (listTransitGatewayConnectionsOptions.name() != null) {
+      builder.query("name", String.valueOf(listTransitGatewayConnectionsOptions.name()));
+    }
     ResponseConverter<TransitGatewayConnectionCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayConnectionCollection>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);

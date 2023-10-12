@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,6 +14,7 @@ package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
@@ -22,6 +23,13 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class TransitGatewayConnectionCollection extends GenericModel {
 
   protected List<TransitGatewayConnectionCust> connections;
+  protected PaginationFirstTGWConnection first;
+  protected Long limit;
+  protected PaginationNextTGWConnection next;
+  @SerializedName("total_count")
+  protected Long totalCount;
+
+  protected TransitGatewayConnectionCollection() { }
 
   /**
    * Gets the connections.
@@ -32,6 +40,52 @@ public class TransitGatewayConnectionCollection extends GenericModel {
    */
   public List<TransitGatewayConnectionCust> getConnections() {
     return connections;
+  }
+
+  /**
+   * Gets the first.
+   *
+   * A reference to the first page of resources.
+   * This will be returned when number of connections in response are greater than max page limit.
+   *
+   * @return the first
+   */
+  public PaginationFirstTGWConnection getFirst() {
+    return first;
+  }
+
+  /**
+   * Gets the limit.
+   *
+   * The maximum number of connections returned on one request. This will be returned when number of connections in
+   * response are greater than max page limit.
+   *
+   * @return the limit
+   */
+  public Long getLimit() {
+    return limit;
+  }
+
+  /**
+   * Gets the next.
+   *
+   * A reference to the next page of resources; this reference is included for all pages except the last page.
+   *
+   * @return the next
+   */
+  public PaginationNextTGWConnection getNext() {
+    return next;
+  }
+
+  /**
+   * Gets the totalCount.
+   *
+   * total number of resources across all pages (considering the supplied query parameter filters).
+   *
+   * @return the totalCount
+   */
+  public Long getTotalCount() {
+    return totalCount;
   }
 }
 

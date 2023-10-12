@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,6 +24,11 @@ public class ZoneIdentityByName extends ZoneIdentity {
   public static class Builder {
     private String name;
 
+    /**
+     * Instantiates a new Builder from an existing ZoneIdentityByName instance.
+     *
+     * @param zoneIdentityByName the instance to initialize the Builder with
+     */
     public Builder(ZoneIdentity zoneIdentityByName) {
       this.name = zoneIdentityByName.name;
     }
@@ -54,6 +59,8 @@ public class ZoneIdentityByName extends ZoneIdentity {
       return this;
     }
   }
+
+  protected ZoneIdentityByName() { }
 
   protected ZoneIdentityByName(Builder builder) {
     name = builder.name;

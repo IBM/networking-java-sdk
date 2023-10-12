@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -34,6 +34,11 @@ public class ReplaceTransitGatewayConnectionPrefixFilterOptions extends GenericM
     private String id;
     private List<PrefixFilterPut> prefixFilters;
 
+    /**
+     * Instantiates a new Builder from an existing ReplaceTransitGatewayConnectionPrefixFilterOptions instance.
+     *
+     * @param replaceTransitGatewayConnectionPrefixFilterOptions the instance to initialize the Builder with
+     */
     private Builder(ReplaceTransitGatewayConnectionPrefixFilterOptions replaceTransitGatewayConnectionPrefixFilterOptions) {
       this.transitGatewayId = replaceTransitGatewayConnectionPrefixFilterOptions.transitGatewayId;
       this.id = replaceTransitGatewayConnectionPrefixFilterOptions.id;
@@ -118,6 +123,8 @@ public class ReplaceTransitGatewayConnectionPrefixFilterOptions extends GenericM
       return this;
     }
   }
+
+  protected ReplaceTransitGatewayConnectionPrefixFilterOptions() { }
 
   protected ReplaceTransitGatewayConnectionPrefixFilterOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.transitGatewayId,

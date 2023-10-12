@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,10 +13,10 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationFirstConnection;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationNextConnection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitConnection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitConnectionCollection;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitConnectionCollectionFirst;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitConnectionCollectionNext;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionPrefixFilterReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneReference;
@@ -24,8 +24,6 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;

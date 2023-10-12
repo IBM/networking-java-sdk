@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -33,8 +33,14 @@ public class ListTransitGatewayConnectionsOptionsTest {
   public void testListTransitGatewayConnectionsOptions() throws Throwable {
     ListTransitGatewayConnectionsOptions listTransitGatewayConnectionsOptionsModel = new ListTransitGatewayConnectionsOptions.Builder()
       .transitGatewayId("testString")
+      .start("testString")
+      .limit(Long.valueOf("50"))
+      .name("testString")
       .build();
     assertEquals(listTransitGatewayConnectionsOptionsModel.transitGatewayId(), "testString");
+    assertEquals(listTransitGatewayConnectionsOptionsModel.start(), "testString");
+    assertEquals(listTransitGatewayConnectionsOptionsModel.limit(), Long.valueOf("50"));
+    assertEquals(listTransitGatewayConnectionsOptionsModel.name(), "testString");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,11 +13,11 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationFirstTG;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationNextTG;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGateway;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayCollection;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayCollectionFirst;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayCollectionNext;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.DateUtils;

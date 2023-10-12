@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,7 +20,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class CreateTransitGatewayConnectionPrefixFilterOptions extends GenericModel {
 
   /**
-   * Whether to permit or deny prefix filter.
+   * Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
    */
   public interface Action {
     /** permit. */
@@ -49,6 +49,11 @@ public class CreateTransitGatewayConnectionPrefixFilterOptions extends GenericMo
     private Long ge;
     private Long le;
 
+    /**
+     * Instantiates a new Builder from an existing CreateTransitGatewayConnectionPrefixFilterOptions instance.
+     *
+     * @param createTransitGatewayConnectionPrefixFilterOptions the instance to initialize the Builder with
+     */
     private Builder(CreateTransitGatewayConnectionPrefixFilterOptions createTransitGatewayConnectionPrefixFilterOptions) {
       this.transitGatewayId = createTransitGatewayConnectionPrefixFilterOptions.transitGatewayId;
       this.id = createTransitGatewayConnectionPrefixFilterOptions.id;
@@ -167,6 +172,8 @@ public class CreateTransitGatewayConnectionPrefixFilterOptions extends GenericMo
     }
   }
 
+  protected CreateTransitGatewayConnectionPrefixFilterOptions() { }
+
   protected CreateTransitGatewayConnectionPrefixFilterOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.transitGatewayId,
       "transitGatewayId cannot be empty");
@@ -219,7 +226,7 @@ public class CreateTransitGatewayConnectionPrefixFilterOptions extends GenericMo
   /**
    * Gets the action.
    *
-   * Whether to permit or deny prefix filter.
+   * Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
    *
    * @return the action
    */
@@ -230,7 +237,10 @@ public class CreateTransitGatewayConnectionPrefixFilterOptions extends GenericMo
   /**
    * Gets the prefix.
    *
-   * IP Prefix.
+   * The IPv4 Prefix to be matched by this filter. If both the 'le' and 'ge' are zero, then this filter will only apply
+   * to routes that exactly match this prefix, while a non-zero value for either 'le' or 'ge', this filter can apply to
+   * multiple routes with different prefix lengths, but will still only apply to prefixes contained in the address space
+   * defined by 'prefix'.
    *
    * @return the prefix
    */
@@ -241,22 +251,12 @@ public class CreateTransitGatewayConnectionPrefixFilterOptions extends GenericMo
   /**
    * Gets the before.
    *
-   * Identifier of prefix filter to handle the ordering and follow semantics:
-   * - When a filter reference another filter in it's before field, then the filter making the reference is applied
-   * before
-   *   the referenced filter. For example: if filter A references filter B in its before field, A is applied before B.
-   * - When a new filter is added that has the same before as an existing filter, then the older filter will have its
-   * before
-   *   field updated to point to the new filter. Starting with the above example: if filter C is added and it references
-   * B in its
-   *   before field, then A's before field should be modified to point to C, so the order of application would be A, C
-   * and finally B.
-   * - A filter that has an empty before reference will be applied last (though the date order mentioned above will
-   * still apply).
-   *   So continuing the above examples, if filter B has an empty before field, then it will be applied last, but if
-   * filter D
-   *   is created with an empty before field, then B's before field will be modified to point to D, so B will be applied
-   * before D.
+   * A reference to the prefix filter that will be the next filter applied to the Transit Gateway connection.
+   *
+   * If this field is blank, this prefix filter will be the last rule applied before the connection's default rule.
+   *
+   * When a prefix filter is created with the same before field as an existing prefix filter, the existing filter will
+   * be applied before the new filter, and the existing filter's before field will be updated accordingly.
    *
    * @return the before
    */
@@ -267,7 +267,13 @@ public class CreateTransitGatewayConnectionPrefixFilterOptions extends GenericMo
   /**
    * Gets the ge.
    *
-   * IP Prefix GE.
+   * Defines the minimum matched prefix precision. If this field is non-zero then the filter will match all routes
+   * within the 'prefix' that have a prefix length greater than or equal to this value.
+   *
+   * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'ge' route matching
+   * behavior. If the 'le' value is non-zero the the 'ge' value must between the prefix length and the
+   * 'le' value, inclusive.
    *
    * @return the ge
    */
@@ -278,7 +284,12 @@ public class CreateTransitGatewayConnectionPrefixFilterOptions extends GenericMo
   /**
    * Gets the le.
    *
-   * IP Prefix LE.
+   * Defines the maximum matched prefix precision. If this field is non-zero then the filter will match all routes
+   * within the 'prefix' that have a prefix length less than or equal to this value.
+   *
+   * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'le' route matching
+   * behavior. If the 'ge' value is non-zero the the 'le' value must between the 'ge' value and 32, inclusive.
    *
    * @return the le
    */
