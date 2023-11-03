@@ -1,3 +1,10 @@
+# [0.35.0](https://github.com/IBM/networking-java-sdk/compare/0.34.0...0.35.0) (2023-11-03)
+
+
+### Features
+
+* Updating the list of reserved ASN numbers ([#84](https://github.com/IBM/networking-java-sdk/issues/84)) ([3fa1ae5](https://github.com/IBM/networking-java-sdk/commit/3fa1ae511a76992fe3b4f56671e4bd0ae8647096))
+
 # [0.34.0](https://github.com/IBM/networking-java-sdk/compare/0.33.0...0.34.0) (2023-09-12)
 
 
