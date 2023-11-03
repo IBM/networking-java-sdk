@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -29,6 +29,11 @@ public class ListTransitGatewaysOptions extends GenericModel {
     private Long limit;
     private String start;
 
+    /**
+     * Instantiates a new Builder from an existing ListTransitGatewaysOptions instance.
+     *
+     * @param listTransitGatewaysOptions the instance to initialize the Builder with
+     */
     private Builder(ListTransitGatewaysOptions listTransitGatewaysOptions) {
       this.limit = listTransitGatewaysOptions.limit;
       this.start = listTransitGatewaysOptions.start;
@@ -71,6 +76,8 @@ public class ListTransitGatewaysOptions extends GenericModel {
       return this;
     }
   }
+
+  protected ListTransitGatewaysOptions() { }
 
   protected ListTransitGatewaysOptions(Builder builder) {
     limit = builder.limit;

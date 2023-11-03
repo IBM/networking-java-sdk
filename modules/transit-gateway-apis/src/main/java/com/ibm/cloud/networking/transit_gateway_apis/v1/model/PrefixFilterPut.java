@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,12 +15,12 @@ package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * A prefix filter create template.
+ * A prefix filter update template.
  */
 public class PrefixFilterPut extends GenericModel {
 
   /**
-   * Whether to permit or deny prefix filter.
+   * Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
    */
   public interface Action {
     /** permit. */
@@ -43,6 +43,11 @@ public class PrefixFilterPut extends GenericModel {
     private Long le;
     private String prefix;
 
+    /**
+     * Instantiates a new Builder from an existing PrefixFilterPut instance.
+     *
+     * @param prefixFilterPut the instance to initialize the Builder with
+     */
     private Builder(PrefixFilterPut prefixFilterPut) {
       this.action = prefixFilterPut.action;
       this.ge = prefixFilterPut.ge;
@@ -121,6 +126,8 @@ public class PrefixFilterPut extends GenericModel {
     }
   }
 
+  protected PrefixFilterPut() { }
+
   protected PrefixFilterPut(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.action,
       "action cannot be null");
@@ -144,7 +151,7 @@ public class PrefixFilterPut extends GenericModel {
   /**
    * Gets the action.
    *
-   * Whether to permit or deny prefix filter.
+   * Whether or not this prefix filter should allow or deny prefixes matching this filter's prefix definition.
    *
    * @return the action
    */
@@ -155,7 +162,13 @@ public class PrefixFilterPut extends GenericModel {
   /**
    * Gets the ge.
    *
-   * IP Prefix GE.
+   * Defines the minimum matched prefix precision. If this field is non-zero then the filter will match all routes
+   * within the 'prefix' that have a prefix length greater or equal to this value.
+   *
+   * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'ge' route matching
+   * behavior. If the 'le' value is non-zero the the 'ge' value must between the prefix length and the
+   * 'le' value, inclusive.
    *
    * @return the ge
    */
@@ -166,7 +179,12 @@ public class PrefixFilterPut extends GenericModel {
   /**
    * Gets the le.
    *
-   * IP Prefix LE.
+   * Defines the maximum matched prefix precision. If this field is non-zero then the filter will match all routes
+   * within the 'prefix' that have a prefix length less than or equal to this value.
+   *
+   * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'le' route matching
+   * behavior. If the 'ge' value is non-zero the the 'le' value must between the 'ge' value and 32, inclusive.
    *
    * @return the le
    */
@@ -177,7 +195,10 @@ public class PrefixFilterPut extends GenericModel {
   /**
    * Gets the prefix.
    *
-   * IP Prefix.
+   * The IPv4 Prefix to be matched by this filter. If both the 'le' and 'ge' are zero, then this filter will only apply
+   * to routes that exactly match this prefix, while a non-zero value for either 'le' or 'ge', this filter can apply to
+   * multiple routes with different prefix lengths, but will still only apply to prefixes contained in the address space
+   * defined by 'prefix'.
    *
    * @return the prefix
    */

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,11 +22,13 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class TransitGatewayCollection extends GenericModel {
 
-  protected TransitGatewayCollectionFirst first;
+  protected PaginationFirstTG first;
   protected Long limit;
-  protected TransitGatewayCollectionNext next;
+  protected PaginationNextTG next;
   @SerializedName("transit_gateways")
   protected List<TransitGateway> transitGateways;
+
+  protected TransitGatewayCollection() { }
 
   /**
    * Gets the first.
@@ -35,7 +37,7 @@ public class TransitGatewayCollection extends GenericModel {
    *
    * @return the first
    */
-  public TransitGatewayCollectionFirst getFirst() {
+  public PaginationFirstTG getFirst() {
     return first;
   }
 
@@ -57,7 +59,7 @@ public class TransitGatewayCollection extends GenericModel {
    *
    * @return the next
    */
-  public TransitGatewayCollectionNext getNext() {
+  public PaginationNextTG getNext() {
     return next;
   }
 

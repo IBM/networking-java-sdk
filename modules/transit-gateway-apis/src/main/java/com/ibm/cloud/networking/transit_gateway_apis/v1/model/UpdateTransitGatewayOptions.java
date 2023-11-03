@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -31,6 +31,11 @@ public class UpdateTransitGatewayOptions extends GenericModel {
     private Boolean global;
     private String name;
 
+    /**
+     * Instantiates a new Builder from an existing UpdateTransitGatewayOptions instance.
+     *
+     * @param updateTransitGatewayOptions the instance to initialize the Builder with
+     */
     private Builder(UpdateTransitGatewayOptions updateTransitGatewayOptions) {
       this.id = updateTransitGatewayOptions.id;
       this.global = updateTransitGatewayOptions.global;
@@ -94,6 +99,8 @@ public class UpdateTransitGatewayOptions extends GenericModel {
       return this;
     }
   }
+
+  protected UpdateTransitGatewayOptions() { }
 
   protected UpdateTransitGatewayOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,

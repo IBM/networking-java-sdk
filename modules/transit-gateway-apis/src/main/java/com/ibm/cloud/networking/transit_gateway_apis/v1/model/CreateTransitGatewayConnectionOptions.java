@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -99,6 +99,11 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     private String remoteTunnelIp;
     private ZoneIdentity zone;
 
+    /**
+     * Instantiates a new Builder from an existing CreateTransitGatewayConnectionOptions instance.
+     *
+     * @param createTransitGatewayConnectionOptions the instance to initialize the Builder with
+     */
     private Builder(CreateTransitGatewayConnectionOptions createTransitGatewayConnectionOptions) {
       this.transitGatewayId = createTransitGatewayConnectionOptions.transitGatewayId;
       this.networkType = createTransitGatewayConnectionOptions.networkType;
@@ -186,7 +191,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
      *
      * @param baseConnectionId the baseConnectionId
      * @return the CreateTransitGatewayConnectionOptions builder
+     * @deprecated this method is deprecated and may be removed in a future release
      */
+    @Deprecated
     public Builder baseConnectionId(String baseConnectionId) {
       this.baseConnectionId = baseConnectionId;
       return this;
@@ -326,6 +333,8 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     }
   }
 
+  protected CreateTransitGatewayConnectionOptions() { }
+
   protected CreateTransitGatewayConnectionOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.transitGatewayId,
       "transitGatewayId cannot be empty");
@@ -393,7 +402,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * and 'unbound_gre_tunnel' connections.
    *
    * @return the baseConnectionId
+   * @deprecated this method is deprecated and may be removed in a future release
    */
+  @Deprecated
   public String baseConnectionId() {
     return baseConnectionId;
   }
@@ -516,9 +527,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the remoteBgpAsn.
    *
-   * Remote network BGP ASN. The following ASN values are reserved and unavailable 64512-64513, 65100, 65201-65234,
-   * 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel or unbound_gre_tunnel
-   * connection create requests IBM will assign an ASN.
+   * Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
+   * 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel or
+   * unbound_gre_tunnel connection create requests IBM will assign an ASN.
    *
    * This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
    *
