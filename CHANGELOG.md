@@ -1,3 +1,10 @@
+## [0.35.1](https://github.com/IBM/networking-java-sdk/compare/0.35.0...0.35.1) (2024-03-08)
+
+
+### Bug Fixes
+
+* updating dependency versions ([#85](https://github.com/IBM/networking-java-sdk/issues/85)) ([71ef2fe](https://github.com/IBM/networking-java-sdk/commit/71ef2fec3ffdee9f8f04b4a863ccf32dc2e2df06))
+
 # [0.35.0](https://github.com/IBM/networking-java-sdk/compare/0.34.0...0.35.0) (2023-11-03)
 
 
