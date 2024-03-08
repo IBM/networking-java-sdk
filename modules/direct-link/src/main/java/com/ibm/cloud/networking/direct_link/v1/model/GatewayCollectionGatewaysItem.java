@@ -19,9 +19,13 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * gateway.
+ * GatewayCollectionGatewaysItem.
+ *
+ * Classes which extend this class:
+ * - GatewayCollectionGatewaysItemGateway
+ * - GatewayCollectionGatewaysItemCrossAccountGateway
  */
-public class Gateway extends GenericModel {
+public class GatewayCollectionGatewaysItem extends GenericModel {
 
   /**
    * Gateway BGP status. The list of enumerated values for this property may expand in the future. Code and processes
@@ -194,7 +198,7 @@ public class Gateway extends GenericModel {
   protected String type;
   protected Long vlan;
 
-  protected Gateway() { }
+  protected GatewayCollectionGatewaysItem() { }
 
   /**
    * Gets the asPrepends.

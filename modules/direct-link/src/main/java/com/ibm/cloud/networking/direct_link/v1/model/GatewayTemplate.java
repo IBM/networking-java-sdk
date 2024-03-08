@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -112,6 +112,7 @@ public class GatewayTemplate extends GenericModel {
   protected String locationName;
   @SerializedName("macsec_config")
   protected GatewayMacsecConfigTemplate macsecConfig;
+  protected Long vlan;
   protected GatewayPortIdentity port;
 
   protected GatewayTemplate() { }
@@ -406,6 +407,17 @@ public class GatewayTemplate extends GenericModel {
    */
   public GatewayMacsecConfigTemplate macsecConfig() {
     return macsecConfig;
+  }
+
+  /**
+   * Gets the vlan.
+   *
+   * The VLAN to configure for this gateway.
+   *
+   * @return the vlan
+   */
+  public Long vlan() {
+    return vlan;
   }
 
   /**

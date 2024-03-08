@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,7 +13,6 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
@@ -25,6 +24,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeD
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -125,6 +125,7 @@ public class CreateGatewayOptionsTest {
       .customerName("newCustomerName")
       .locationName("dal03")
       .macsecConfig(gatewayMacsecConfigTemplateModel)
+      .vlan(Long.valueOf("10"))
       .build();
     assertEquals(gatewayTemplateModel.asPrepends(), java.util.Arrays.asList(asPrependTemplateModel));
     assertEquals(gatewayTemplateModel.authenticationKey(), gatewayTemplateAuthenticationKeyModel);
@@ -150,6 +151,7 @@ public class CreateGatewayOptionsTest {
     assertEquals(gatewayTemplateModel.customerName(), "newCustomerName");
     assertEquals(gatewayTemplateModel.locationName(), "dal03");
     assertEquals(gatewayTemplateModel.macsecConfig(), gatewayMacsecConfigTemplateModel);
+    assertEquals(gatewayTemplateModel.vlan(), Long.valueOf("10"));
 
     CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder()
       .gatewayTemplate(gatewayTemplateModel)

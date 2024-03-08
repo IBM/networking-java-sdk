@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -91,6 +91,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     private String customerName;
     private String locationName;
     private GatewayMacsecConfigTemplate macsecConfig;
+    private Long vlan;
 
     /**
      * Instantiates a new Builder from an existing GatewayTemplateGatewayTypeDedicatedTemplate instance.
@@ -122,6 +123,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       this.customerName = gatewayTemplateGatewayTypeDedicatedTemplate.customerName;
       this.locationName = gatewayTemplateGatewayTypeDedicatedTemplate.locationName;
       this.macsecConfig = gatewayTemplateGatewayTypeDedicatedTemplate.macsecConfig;
+      this.vlan = gatewayTemplateGatewayTypeDedicatedTemplate.vlan;
     }
 
     /**
@@ -480,6 +482,17 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       this.macsecConfig = macsecConfig;
       return this;
     }
+
+    /**
+     * Set the vlan.
+     *
+     * @param vlan the vlan
+     * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
+     */
+    public Builder vlan(long vlan) {
+      this.vlan = vlan;
+      return this;
+    }
   }
 
   protected GatewayTemplateGatewayTypeDedicatedTemplate() { }
@@ -529,6 +542,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     customerName = builder.customerName;
     locationName = builder.locationName;
     macsecConfig = builder.macsecConfig;
+    vlan = builder.vlan;
   }
 
   /**
