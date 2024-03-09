@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,8 +13,6 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
@@ -27,6 +25,8 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPrimaryC
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPort;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +59,7 @@ public class GatewayTest {
     assertNull(gatewayModel.getConnectionMode());
     assertNull(gatewayModel.getCreatedAt());
     assertNull(gatewayModel.getCrn());
+    assertNull(gatewayModel.isCrossAccount());
     assertNull(gatewayModel.getCrossConnectRouter());
     assertNull(gatewayModel.getCustomerName());
     assertNull(gatewayModel.getDefaultExportRouteFilter());
@@ -73,11 +74,11 @@ public class GatewayTest {
     assertNull(gatewayModel.isMetered());
     assertNull(gatewayModel.getName());
     assertNull(gatewayModel.getOperationalStatus());
-    assertNull(gatewayModel.getPatchPanelCompletionNotice());
     assertNull(gatewayModel.getPort());
     assertNull(gatewayModel.isProviderApiManaged());
     assertNull(gatewayModel.getResourceGroup());
     assertNull(gatewayModel.getSpeedMbps());
+    assertNull(gatewayModel.getPatchPanelCompletionNotice());
     assertNull(gatewayModel.getType());
     assertNull(gatewayModel.getVlan());
   }

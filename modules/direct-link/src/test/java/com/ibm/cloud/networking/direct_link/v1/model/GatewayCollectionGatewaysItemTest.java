@@ -17,8 +17,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfig;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayCreate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollectionGatewaysItemGateway;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollectionGatewaysItem;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigActiveCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigFallbackCak;
@@ -35,15 +34,16 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the GatewayCollection model.
+ * Unit test class for the GatewayCollectionGatewaysItem model.
  */
-public class GatewayCollectionTest {
+public class GatewayCollectionGatewaysItemTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
+  // TODO: Add tests for models that are abstract
   @Test
-  public void testGatewayCollection() throws Throwable {
-    GatewayCollection gatewayCollectionModel = new GatewayCollection();
-    assertNull(gatewayCollectionModel.getGateways());
+  public void testGatewayCollectionGatewaysItem() throws Throwable {
+    GatewayCollectionGatewaysItem gatewayCollectionGatewaysItemModel = new GatewayCollectionGatewaysItem();
+    assertNotNull(gatewayCollectionGatewaysItemModel);
   }
 }
