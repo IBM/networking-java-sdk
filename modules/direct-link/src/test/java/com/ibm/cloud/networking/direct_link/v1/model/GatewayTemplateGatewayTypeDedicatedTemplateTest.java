@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,7 +13,6 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
@@ -21,8 +20,10 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +62,17 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
     assertEquals(gatewayBfdConfigTemplateModel.interval(), Long.valueOf("2000"));
     assertEquals(gatewayBfdConfigTemplateModel.multiplier(), Long.valueOf("10"));
 
+    GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
+      .action("permit")
+      .ge(Long.valueOf("25"))
+      .le(Long.valueOf("30"))
+      .prefix("192.168.100.0/24")
+      .build();
+    assertEquals(gatewayTemplateRouteFilterModel.action(), "permit");
+    assertEquals(gatewayTemplateRouteFilterModel.ge(), Long.valueOf("25"));
+    assertEquals(gatewayTemplateRouteFilterModel.le(), Long.valueOf("30"));
+    assertEquals(gatewayTemplateRouteFilterModel.prefix(), "192.168.100.0/24");
+
     ResourceGroupIdentity resourceGroupIdentityModel = new ResourceGroupIdentity.Builder()
       .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
@@ -96,7 +108,11 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
       .bgpCerCidr("169.254.0.10/30")
       .bgpIbmCidr("169.254.0.9/30")
       .connectionMode("transit")
+      .defaultExportRouteFilter("permit")
+      .defaultImportRouteFilter("permit")
+      .exportRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
       .global(true)
+      .importRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
       .metered(false)
       .name("myGateway")
       .patchPanelCompletionNotice("patch panel configuration details")
@@ -108,6 +124,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
       .customerName("newCustomerName")
       .locationName("dal03")
       .macsecConfig(gatewayMacsecConfigTemplateModel)
+      .vlan(Long.valueOf("10"))
       .build();
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.asPrepends(), java.util.Arrays.asList(asPrependTemplateModel));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.authenticationKey(), gatewayTemplateAuthenticationKeyModel);
@@ -117,7 +134,11 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.bgpCerCidr(), "169.254.0.10/30");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.bgpIbmCidr(), "169.254.0.9/30");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.connectionMode(), "transit");
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.defaultExportRouteFilter(), "permit");
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.defaultImportRouteFilter(), "permit");
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.exportRouteFilters(), java.util.Arrays.asList(gatewayTemplateRouteFilterModel));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.global(), Boolean.valueOf(true));
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.importRouteFilters(), java.util.Arrays.asList(gatewayTemplateRouteFilterModel));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.name(), "myGateway");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.patchPanelCompletionNotice(), "patch panel configuration details");
@@ -129,6 +150,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.customerName(), "newCustomerName");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.locationName(), "dal03");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.macsecConfig(), gatewayMacsecConfigTemplateModel);
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModel.vlan(), Long.valueOf("10"));
 
     String json = TestUtilities.serialize(gatewayTemplateGatewayTypeDedicatedTemplateModel);
 
@@ -141,6 +163,8 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.bgpCerCidr(), "169.254.0.10/30");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.bgpIbmCidr(), "169.254.0.9/30");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.connectionMode(), "transit");
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.defaultExportRouteFilter(), "permit");
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.defaultImportRouteFilter(), "permit");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.global(), Boolean.valueOf(true));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.metered(), Boolean.valueOf(false));
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.name(), "myGateway");
@@ -153,6 +177,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplateTest {
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.customerName(), "newCustomerName");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.locationName(), "dal03");
     assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.macsecConfig().toString(), gatewayMacsecConfigTemplateModel.toString());
+    assertEquals(gatewayTemplateGatewayTypeDedicatedTemplateModelNew.vlan(), Long.valueOf("10"));
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

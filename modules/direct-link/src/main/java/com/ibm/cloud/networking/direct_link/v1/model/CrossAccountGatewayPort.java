@@ -12,28 +12,26 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import java.util.List;
-
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * List of gateways.
+ * gateway port for type=connect gateways.
  */
-public class GatewayCollection extends GenericModel {
+public class CrossAccountGatewayPort extends GenericModel {
 
-  protected List<GatewayCollectionGatewaysItem> gateways;
+  protected String id;
 
-  protected GatewayCollection() { }
+  protected CrossAccountGatewayPort() { }
 
   /**
-   * Gets the gateways.
+   * Gets the id.
    *
-   * Collection of Direct Link gateways.
+   * Port Identifier.
    *
-   * @return the gateways
+   * @return the id
    */
-  public List<GatewayCollectionGatewaysItem> getGateways() {
-    return gateways;
+  public String getId() {
+    return id;
   }
 }
 

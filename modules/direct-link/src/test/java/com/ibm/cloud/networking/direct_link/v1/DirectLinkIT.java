@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -47,6 +47,8 @@ import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollectionGatewaysItem;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayPatchTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
 
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayExportRouteFilterOptions;
@@ -65,6 +67,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeC
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayResponse;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ImportRouteFilterCollection;
@@ -240,8 +243,8 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		assertNotNull(lisresponseObj); 
 		assertNotEquals(0,lisresponseObj.getGateways().size());
 
-		List<Gateway> gateways = lisresponseObj.getGateways();
-		for(Gateway gateway: gateways){
+		List<GatewayCollectionGatewaysItem> gateways = lisresponseObj.getGateways();
+		for(GatewayCollectionGatewaysItem gateway: gateways){
 			boolean isBreak = false;
 			boolean isProviderApiManaged = false;
 			if(null != gateway.isProviderApiManaged()){
@@ -428,11 +431,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  
 		// Construct an instance of the GatewayTemplateRouteFilter model
 		GatewayTemplateRouteFilter gatewayTemplateRouteFilterModel = new GatewayTemplateRouteFilter.Builder()
-		.action("permit")
-		.ge(Long.valueOf("25"))
-		.le(Long.valueOf("30"))
-		.prefix("192.168.100.0/24")
-		.build();	
+			.action("permit")
+			.ge(Long.valueOf("25"))
+			.le(Long.valueOf("30"))
+			.prefix("192.168.100.0/24")
+			.build();	
 
 	  GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
 	  	.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).bgpCerCidr("10.254.30.78/30").bgpIbmCidr("10.254.30.77/30")
@@ -443,14 +446,15 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		.defaultImportRouteFilter("permit")
 		.exportRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
 		.importRouteFilters(java.util.Arrays.asList(gatewayTemplateRouteFilterModel))
+		.vlan(Long.valueOf("10"))
 		.build();
 	  
-	  // ***************** Create dedicated Gateway ********************* //
+	  	// ***************** Create dedicated Gateway ********************* //
 		// Construct an instance of the CreateGatewayOptions model 
 		CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder().gatewayTemplate(gatewayTemplateModel).build();
 	  
-	  // Invoke operation with valid options model (positive test)
-	  Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
+		// Invoke operation with valid options model (positive test)
+		Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
 		assertNotNull(response); 
 		assertEquals(201, 
 		response.getStatusCode());
@@ -459,19 +463,19 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		assertNotNull(responseObj);
 		
 		// save gw id for clean up routine if we terminate
-	  dedicatedGatewayId = responseObj.getId();
+	  	dedicatedGatewayId = responseObj.getId();
 
 	  
-	  //********** Get the dedicate gateway just created *************
-	  GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(dedicatedGatewayId).build();
+	 	//********** Get the dedicate gateway just created *************
+	  	GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(dedicatedGatewayId).build();
 	  
-	  // Invoke operation with valid options model (positive test)
-	  Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+		// Invoke operation with valid options model (positive test)
+		Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 		assertNotNull(getGatewayResponse); 
 		assertEquals(200, getGatewayResponse.getStatusCode());
 	  
-		responseObj = getGatewayResponse.getResult(); 
-		assertNotNull(responseObj);
+		GetGatewayResponse getGatewayResponseObj = getGatewayResponse.getResult(); 
+		assertNotNull(getGatewayResponseObj);
 	  
 		// ********** List all gateways ************* 
 		ListGatewaysOptions listGatewaysOptionsModel = new ListGatewaysOptions();
@@ -484,15 +488,24 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		assertNotNull(lisresponseObj); 
 		assertNotEquals(0,lisresponseObj.getGateways().size());
 
-		Gateway gw = lisresponseObj.getGateways().get(0);
+		GatewayCollectionGatewaysItem gw = lisresponseObj.getGateways().get(0);
 		
 		assertEquals(gw.getDefaultExportRouteFilter(), "permit");
 		assertEquals(gw.getDefaultImportRouteFilter(), "permit");
 
+		// check for vlan on created dedicated gw
+		assertEquals(Long.valueOf(10), gw.getVlan());
+
 		// ********** Patch the gateway using attributes that can be changed with the current gw status ************* 
+		// Construct an instance of the GatewayPatchTemplate model
+		GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
+			.global(false).metered(true).name(updatedGatewayName).speedMbps(Long.valueOf("1000"))
+			.vlan(Long.valueOf("99")).build();
+		// convert to map asPatch
+		Map<String, Object> gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
 		// Construct an instance of the UpdateGatewayOptions model 
-		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(dedicatedGatewayId)
-			.global(false).metered(true).name(updatedGatewayName).speedMbps(Long.valueOf("1000")).build(); 
+		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
+			.id(dedicatedGatewayId).gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build(); 
 			
 		// Invoke operation with valid options model (positive test) 
 		Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
@@ -500,28 +513,56 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		assertEquals(200, updateResponse.getStatusCode());
 		assertEquals(updateResponse.getResult().getDefaultExportRouteFilter(), "permit");
 		assertEquals(updateResponse.getResult().getDefaultImportRouteFilter(), "permit");
+
+		// check for vlan on updated dedicated gw
+		assertEquals(Long.valueOf(99), updateResponse.getResult().getVlan());
+
+		// Construct an instance of the GatewayPatchTemplate model with null vlan
+		GatewayPatchTemplate gatewayPatchTemplateWNullVLANModel = new GatewayPatchTemplate.Builder()
+			.global(false).metered(true).name(updatedGatewayName).speedMbps(Long.valueOf("1000")).vlan(null).build();
+		// convert to map asPatch
+		Map<String, Object> gatewayPatchTemplateWNUllVLANModelAsPatch = gatewayPatchTemplateWNullVLANModel.asPatch();
+		// Construct an instance of the UpdateGatewayOptions model
+		UpdateGatewayOptions updateGatewayOptionsWNullVLANModel = new UpdateGatewayOptions.Builder().id(dedicatedGatewayId)
+			.gatewayPatchTemplatePatch(gatewayPatchTemplateWNUllVLANModelAsPatch).build(); 
+			
+		// Invoke operation with null vlan options model
+		Response<Gateway> updateWNVLANResponse = testService.updateGateway(updateGatewayOptionsWNullVLANModel).execute();
+		assertNotNull(updateWNVLANResponse); 
+		assertEquals(200, updateWNVLANResponse.getStatusCode());
+		assertNull(updateWNVLANResponse.getResult().getVlan());
 	  
-	  Gateway updateResponseObj = updateResponse.getResult();
-	  assertNotNull(updateResponseObj);
+	  	Gateway updateResponseObj = updateResponse.getResult();
+	  	assertNotNull(updateResponseObj);
 	  
 		// ********** Patch the gateway using valid attributes, but cannot be changed with the current gw status ************* 
+		// Update instance of the GatewayPatchTemplate model
+		gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
+			.loaRejectReason("Some reason for the failure").build();
+		// convert to map asPatch
+		gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
 		// Construct an instance of the UpdateGatewayOptions model 
-		updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(dedicatedGatewayId)
-			.loaRejectReason("Some reason for the failure").build(); 
+		updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
+			.id(dedicatedGatewayId).gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build(); 
 			
-			// Invoke operation with valid options model 
-			try { 
-				// should not end up here 
-				Response<Gateway>	updateResponseLoa = testService.updateGateway(updateGatewayOptionsModel).execute();
-				assertNotNull(updateResponseLoa); 
-				assertEquals(400, updateResponseLoa.getStatusCode()); 
-			} catch (com.ibm.cloud.sdk.core.service.exception.BadRequestException errResponse) {
-				// expect this error for loa status update response 
-			}
-	  
-	  // Construct an instance of the UpdateGatewayOptions model
-	  updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(dedicatedGatewayId)
-			.operationalStatus("loa_rejected").loaRejectReason("Some reason for the failure").build(); 
+		// Invoke operation with valid options model 
+		try { 
+			// should not end up here 
+			Response<Gateway>	updateResponseLoa = testService.updateGateway(updateGatewayOptionsModel).execute();
+			assertNotNull(updateResponseLoa); 
+			assertEquals(400, updateResponseLoa.getStatusCode()); 
+		} catch (com.ibm.cloud.sdk.core.service.exception.BadRequestException errResponse) {
+			// expect this error for loa status update response 
+		}
+
+		// Update instance of the GatewayPatchTemplate model
+		gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
+			.operationalStatus("loa_rejected").loaRejectReason("Some reason for the failure").build();
+		// convert to map asPatch
+		gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
+	  	// Construct an instance of the UpdateGatewayOptions model
+	  	updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(dedicatedGatewayId)
+			.gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build(); 
 				
 		// Invoke operation with valid options model (positive test) 
 		try { 
@@ -775,20 +816,20 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			responseObj = getGatewayResponse.getResult();
-			assertNotNull(responseObj);
+			GetGatewayResponse getGatewayResponseObj = getGatewayResponse.getResult();
+			assertNotNull(getGatewayResponseObj);
 
-			if (responseObj.getOperationalStatus().equals("provisioned")) {
+			if (getGatewayResponseObj.getOperationalStatus().equals("provisioned")) {
 				done = true;
 				break;
 			} else if (timerCount > 40) {
-				assertEquals("provisioned", responseObj.getOperationalStatus());
-				assertEquals(responseObj.getDefaultExportRouteFilter(), "permit");
-				assertEquals(responseObj.getDefaultImportRouteFilter(), "permit");
+				assertEquals("provisioned", getGatewayResponseObj.getOperationalStatus());
+				assertEquals(getGatewayResponseObj.getDefaultExportRouteFilter(), "permit");
+				assertEquals(getGatewayResponseObj.getDefaultImportRouteFilter(), "permit");
 				done = true;
 			} else {
 				++timerCount;
@@ -1004,11 +1045,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			Gateway responseObj = getGatewayResponse.getResult(); 
+			GetGatewayResponse responseObj = getGatewayResponse.getResult(); 
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -1077,11 +1118,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			Gateway responseObj = getGatewayResponse.getResult(); 
+			GetGatewayResponse responseObj = getGatewayResponse.getResult(); 
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -1158,11 +1199,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			Gateway responseObj = getGatewayResponse.getResult(); 
+			GetGatewayResponse responseObj = getGatewayResponse.getResult(); 
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -1221,11 +1262,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			Gateway responseObj = getGatewayResponse.getResult(); 
+			GetGatewayResponse responseObj = getGatewayResponse.getResult(); 
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -1268,11 +1309,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			Gateway responseObj = getGatewayResponse.getResult(); 
+			GetGatewayResponse responseObj = getGatewayResponse.getResult(); 
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -1341,11 +1382,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			Gateway responseObj = getGatewayResponse.getResult(); 
+			GetGatewayResponse responseObj = getGatewayResponse.getResult(); 
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -1422,11 +1463,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			Gateway responseObj = getGatewayResponse.getResult(); 
+			GetGatewayResponse responseObj = getGatewayResponse.getResult(); 
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -1485,11 +1526,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			Gateway responseObj = getGatewayResponse.getResult(); 
+			GetGatewayResponse responseObj = getGatewayResponse.getResult(); 
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -1778,9 +1819,14 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  	gatewayId = responseObj.getId();
 	  
 		// ********** Update the connection mode using Patch gateway ************* 
+		// Construct an instance of the GatewayPatchTemplate model
+		GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
+			.connectionMode("transit").build();
+		// convert to map asPatch
+		Map<String, Object> gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
 		// Construct an instance of the UpdateGatewayOptions model 
 		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
-			.connectionMode("transit").build();
+			.gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build();
 			
 		// Invoke operation with valid options model (positive test) 
 		Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
@@ -1851,18 +1897,18 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			responseObj = getGatewayResponse.getResult();
-			assertNotNull(responseObj);
+			GetGatewayResponse getGatewayResponseObj = getGatewayResponse.getResult();
+			assertNotNull(getGatewayResponseObj);
 
-			if (responseObj.getOperationalStatus().equals("provisioned")) {
+			if (getGatewayResponseObj.getOperationalStatus().equals("provisioned")) {
 				done = true;
 				break;
 			} else if (timerCount > 40) {
-				assertEquals("provisioned", responseObj.getOperationalStatus());
+				assertEquals("provisioned", getGatewayResponseObj.getOperationalStatus());
 				done = true;
 			} else {
 				++timerCount;
@@ -1875,9 +1921,14 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		}
 	  
 		// ********** Update the connection mode using Patch gateway ************* 
+		// Construct an instance of the GatewayPatchTemplate model
+		GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
+			.connectionMode("transit").build();
+		// convert to map asPatch
+		Map<String, Object> gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
 		// Construct an instance of the UpdateGatewayOptions model 
 		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
-			.connectionMode("transit").build();
+			.gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build();
 			
 		// Invoke operation with valid options model (positive test) 
 		Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
@@ -1899,18 +1950,18 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			responseObj = getGatewayResponse.getResult();
-			assertNotNull(responseObj);
+			GetGatewayResponse getGatewayResponseObj = getGatewayResponse.getResult();
+			assertNotNull(getGatewayResponseObj);
 
-			if (responseObj.getOperationalStatus().equals("provisioned")) {
+			if (getGatewayResponseObj.getOperationalStatus().equals("provisioned")) {
 				done = true;
 				break;
 			} else if (timerCount > 40) {
-				assertEquals("provisioned", responseObj.getOperationalStatus());
+				assertEquals("provisioned", getGatewayResponseObj.getOperationalStatus());
 				done = true;
 			} else {
 				++timerCount;
@@ -1976,8 +2027,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  
 		// ********** Update the BGP ASN mode using Patch gateway *************
 		long updatedBgpAsn = 63999L;
-		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+		GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
 			.bgpAsn(updatedBgpAsn).build();
+		Map<String, Object> gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
+		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+			.gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build();
 			
 		Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
 		assertNotNull(updateResponse); 
@@ -1991,9 +2045,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		
 		// ********** Update the BGP IBM and CER CIDR mode using Patch gateway ************* 
 		try { 
-		
-			updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+			gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
 				.bgpCerCidr("172.17.252.2/29").bgpIbmCidr("172.17.252.1/29").build();
+			gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
+			updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+				.gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build();
 		
 			updateResponse = testService.updateGateway(updateGatewayOptionsModel).execute();
 			assertNotNull(updateResponse); 
@@ -2064,18 +2120,18 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			responseObj = getGatewayResponse.getResult();
-			assertNotNull(responseObj);
+			GetGatewayResponse getGatewayResponseObj = getGatewayResponse.getResult();
+			assertNotNull(getGatewayResponseObj);
 
-			if (responseObj.getOperationalStatus().equals("provisioned")) {
+			if (getGatewayResponseObj.getOperationalStatus().equals("provisioned")) {
 				done = true;
 				break;
 			} else if (timerCount > 40) {
-				assertEquals("provisioned", responseObj.getOperationalStatus());
+				assertEquals("provisioned", getGatewayResponseObj.getOperationalStatus());
 				done = true;
 			} else {
 				++timerCount;
@@ -2091,8 +2147,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// Construct an instance of the UpdateGatewayOptions model 
 		try { 
 			long updatedBgpAsn = 63999L;
-			UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+			GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
 				.bgpAsn(updatedBgpAsn).bgpCerCidr("172.17.252.2/29").bgpIbmCidr("172.17.252.1/29").build();
+			Map<String, Object> gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
+			UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+				.gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build();
 		
 			Response<Gateway> updateResponse = testService.updateGateway(updateGatewayOptionsModel).execute();
 			assertNotNull(updateResponse); 
@@ -2119,18 +2178,18 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			responseObj = getGatewayResponse.getResult();
-			assertNotNull(responseObj);
+			GetGatewayResponse getGatewayResponseObj = getGatewayResponse.getResult();
+			assertNotNull(getGatewayResponseObj);
 
-			if (responseObj.getOperationalStatus().equals("provisioned")) {
+			if (getGatewayResponseObj.getOperationalStatus().equals("provisioned")) {
 				done = true;
 				break;
 			} else if (timerCount > 40) {
-				assertEquals("provisioned", responseObj.getOperationalStatus());
+				assertEquals("provisioned", getGatewayResponseObj.getOperationalStatus());
 				done = true;
 			} else {
 				++timerCount;
@@ -2204,8 +2263,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		Long updatedBfdMultiplier = 200L;
 
 		GatewayBfdPatchTemplate upadtedBfdConfig = new GatewayBfdPatchTemplate.Builder().interval(updatedBfdInterval).multiplier(updatedBfdMultiplier).build();		
-		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+		GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
 			.bfdConfig(upadtedBfdConfig).build();
+		Map<String, Object> gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
+		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+			.gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build();
 			
 		Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
 		assertNotNull(updateResponse); 
@@ -2277,18 +2339,18 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			responseObj = getGatewayResponse.getResult();
-			assertNotNull(responseObj);
+			GetGatewayResponse getGatewayResponseObj = getGatewayResponse.getResult();
+			assertNotNull(getGatewayResponseObj);
 
-			if (responseObj.getOperationalStatus().equals("provisioned")) {
+			if (getGatewayResponseObj.getOperationalStatus().equals("provisioned")) {
 				done = true;
 				break;
 			} else if (timerCount > 40) {
-				assertEquals("provisioned", responseObj.getOperationalStatus());
+				assertEquals("provisioned", getGatewayResponseObj.getOperationalStatus());
 				done = true;
 			} else {
 				++timerCount;
@@ -2307,8 +2369,11 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 			Long updatedBfdMultiplier = 1L;
  
 			GatewayBfdPatchTemplate updatedBfdConfig = new GatewayBfdPatchTemplate.Builder().interval(updatedBfdInterval).multiplier(updatedBfdMultiplier).build();
-			UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+			GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
 				.bfdConfig(updatedBfdConfig).build();
+			Map<String, Object> gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
+			UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
+				.gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build();
 		
 			Response<Gateway> updateResponse = testService.updateGateway(updateGatewayOptionsModel).execute();
 			assertNotNull(updateResponse); 
@@ -2334,18 +2399,18 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(getGatewayResponse);
 			assertEquals(200, getGatewayResponse.getStatusCode());
 
-			responseObj = getGatewayResponse.getResult();
-			assertNotNull(responseObj);
+			GetGatewayResponse getGatewayResponseObj = getGatewayResponse.getResult();
+			assertNotNull(getGatewayResponseObj);
 
-			if (responseObj.getOperationalStatus().equals("provisioned")) {
+			if (getGatewayResponseObj.getOperationalStatus().equals("provisioned")) {
 				done = true;
 				break;
 			} else if (timerCount > 40) {
-				assertEquals("provisioned", responseObj.getOperationalStatus());
+				assertEquals("provisioned", getGatewayResponseObj.getOperationalStatus());
 				done = true;
 			} else {
 				++timerCount;

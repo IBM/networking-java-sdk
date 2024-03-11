@@ -13,17 +13,20 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
-import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfig;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayCreate;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigActiveCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigFallbackCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPrimaryCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayPort;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayResponse;
+import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -31,16 +34,16 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the GatewayTemplate model.
+ * Unit test class for the GetGatewayResponse model.
  */
-public class GatewayTemplateTest {
+public class GetGatewayResponseTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   // TODO: Add tests for models that are abstract
   @Test
-  public void testGatewayTemplate() throws Throwable {
-    GatewayTemplate gatewayTemplateModel = new GatewayTemplate();
-    assertNotNull(gatewayTemplateModel);
+  public void testGetGatewayResponse() throws Throwable {
+    GetGatewayResponse getGatewayResponseModel = new GetGatewayResponse();
+    assertNotNull(getGatewayResponseModel);
   }
 }

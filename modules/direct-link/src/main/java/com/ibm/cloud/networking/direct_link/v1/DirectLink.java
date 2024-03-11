@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.60.2-95dc7721-20221102-203229
+ * IBM OpenAPI SDK Code Generator Version: 3.80.0-29334a73-20230925-151553
  */
 
 package com.ibm.cloud.networking.direct_link.v1;
@@ -42,6 +42,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCol
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayResponse;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatusOptions;
@@ -260,9 +261,9 @@ public class DirectLink extends BaseService {
    * Retrieve a Direct Link gateway.
    *
    * @param getGatewayOptions the {@link GetGatewayOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link Gateway}
+   * @return a {@link ServiceCall} with a result of type {@link GetGatewayResponse}
    */
-  public ServiceCall<Gateway> getGateway(GetGatewayOptions getGatewayOptions) {
+  public ServiceCall<GetGatewayResponse> getGateway(GetGatewayOptions getGatewayOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayOptions,
       "getGatewayOptions cannot be null");
     Map<String, String> pathParamsMap = new HashMap<String, String>();
@@ -274,8 +275,8 @@ public class DirectLink extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    ResponseConverter<Gateway> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Gateway>() { }.getType());
+    ResponseConverter<GetGatewayResponse> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GetGatewayResponse>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
@@ -299,56 +300,11 @@ public class DirectLink extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    final JsonObject contentJson = new JsonObject();
-    if (updateGatewayOptions.authenticationKey() != null) {
-      contentJson.add("authentication_key", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateGatewayOptions.authenticationKey()));
-    }
-    if (updateGatewayOptions.bfdConfig() != null) {
-      contentJson.add("bfd_config", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateGatewayOptions.bfdConfig()));
-    }
-    if (updateGatewayOptions.bgpAsn() != null) {
-      contentJson.addProperty("bgp_asn", updateGatewayOptions.bgpAsn());
-    }
-    if (updateGatewayOptions.bgpCerCidr() != null) {
-      contentJson.addProperty("bgp_cer_cidr", updateGatewayOptions.bgpCerCidr());
-    }
-    if (updateGatewayOptions.bgpIbmCidr() != null) {
-      contentJson.addProperty("bgp_ibm_cidr", updateGatewayOptions.bgpIbmCidr());
-    }
-    if (updateGatewayOptions.connectionMode() != null) {
-      contentJson.addProperty("connection_mode", updateGatewayOptions.connectionMode());
-    }
-    if (updateGatewayOptions.defaultExportRouteFilter() != null) {
-      contentJson.addProperty("default_export_route_filter", updateGatewayOptions.defaultExportRouteFilter());
-    }
-    if (updateGatewayOptions.defaultImportRouteFilter() != null) {
-      contentJson.addProperty("default_import_route_filter", updateGatewayOptions.defaultImportRouteFilter());
-    }
-    if (updateGatewayOptions.global() != null) {
-      contentJson.addProperty("global", updateGatewayOptions.global());
-    }
-    if (updateGatewayOptions.loaRejectReason() != null) {
-      contentJson.addProperty("loa_reject_reason", updateGatewayOptions.loaRejectReason());
-    }
-    if (updateGatewayOptions.macsecConfig() != null) {
-      contentJson.add("macsec_config", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(updateGatewayOptions.macsecConfig()));
-    }
-    if (updateGatewayOptions.metered() != null) {
-      contentJson.addProperty("metered", updateGatewayOptions.metered());
-    }
-    if (updateGatewayOptions.name() != null) {
-      contentJson.addProperty("name", updateGatewayOptions.name());
-    }
-    if (updateGatewayOptions.operationalStatus() != null) {
-      contentJson.addProperty("operational_status", updateGatewayOptions.operationalStatus());
-    }
-    if (updateGatewayOptions.patchPanelCompletionNotice() != null) {
-      contentJson.addProperty("patch_panel_completion_notice", updateGatewayOptions.patchPanelCompletionNotice());
-    }
-    if (updateGatewayOptions.speedMbps() != null) {
-      contentJson.addProperty("speed_mbps", updateGatewayOptions.speedMbps());
-    }
-    builder.bodyJson(contentJson);
+    String patchBodyString = com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayOptions.gatewayPatchTemplatePatch());
+    patchBodyString = patchBodyString.replace(".0,", ",");
+    builder.bodyContent(patchBodyString, "application/merge-patch+json");
+    
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayOptions.gatewayPatchTemplatePatch()), "application/merge-patch+json");
     ResponseConverter<Gateway> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Gateway>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
