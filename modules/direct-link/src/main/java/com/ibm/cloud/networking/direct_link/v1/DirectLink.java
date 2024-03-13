@@ -303,7 +303,6 @@ public class DirectLink extends BaseService {
     String patchBodyString = com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayOptions.gatewayPatchTemplatePatch());
     patchBodyString = patchBodyString.replace(".0,", ",");
     builder.bodyContent(patchBodyString, "application/merge-patch+json");
-    
     builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayOptions.gatewayPatchTemplatePatch()), "application/merge-patch+json");
     ResponseConverter<Gateway> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Gateway>() { }.getType());

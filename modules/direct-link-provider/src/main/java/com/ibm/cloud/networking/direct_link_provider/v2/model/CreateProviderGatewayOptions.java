@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -43,6 +43,11 @@ public class CreateProviderGatewayOptions extends GenericModel {
     private Long vlan;
     private String checkOnly;
 
+    /**
+     * Instantiates a new Builder from an existing CreateProviderGatewayOptions instance.
+     *
+     * @param createProviderGatewayOptions the instance to initialize the Builder with
+     */
     private Builder(CreateProviderGatewayOptions createProviderGatewayOptions) {
       this.bgpAsn = createProviderGatewayOptions.bgpAsn;
       this.customerAccountId = createProviderGatewayOptions.customerAccountId;
@@ -187,6 +192,8 @@ public class CreateProviderGatewayOptions extends GenericModel {
     }
   }
 
+  protected CreateProviderGatewayOptions() { }
+
   protected CreateProviderGatewayOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.bgpAsn,
       "bgpAsn cannot be null");
@@ -318,7 +325,7 @@ public class CreateProviderGatewayOptions extends GenericModel {
    *
    * VLAN requested for this gateway.
    *
-   * VLAN provided should be in the range 1 to 4094.
+   * VLAN provided should be in the range 2 to 3967.
    *
    * @return the vlan
    */

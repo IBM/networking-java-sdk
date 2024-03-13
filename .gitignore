@@ -29,7 +29,7 @@ hs_err_pid*
 .project
 .factorypath
 *-apiref.json
-
+.vscode
 .idea
 .openapi-generator/
 .openapi-generator-ignore

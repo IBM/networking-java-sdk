@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -36,8 +36,7 @@ public class ProviderGatewayUpdateAttributesUpdatesItem extends GenericModel {
   protected Long bgpAsn;
   protected Long vlan;
 
-  protected ProviderGatewayUpdateAttributesUpdatesItem() {
-  }
+  protected ProviderGatewayUpdateAttributesUpdatesItem() { }
 
   /**
    * Gets the speedMbps.
@@ -101,7 +100,7 @@ public class ProviderGatewayUpdateAttributesUpdatesItem extends GenericModel {
    *
    * VLAN to be updated for this gateway.
    *
-   * VLAN provided should be in the range 1 to 4094.
+   * VLAN provided should be in the range 2 to 3967.
    *
    * @return the vlan
    */
