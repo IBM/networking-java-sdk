@@ -1,3 +1,11 @@
+# [0.36.0](https://github.com/IBM/networking-java-sdk/compare/0.35.1...0.36.0) (2024-03-14)
+
+
+### Features
+
+* directlink - dedicated vlan mapping ([226551e](https://github.com/IBM/networking-java-sdk/commit/226551e7ed012aaa872758777b5094d24ecd773b))
+* directlink provider updated to latest specs ([7574f00](https://github.com/IBM/networking-java-sdk/commit/7574f005c8df4bd01c03f826dc2a5c02363ee874))
+
 ## [0.35.1](https://github.com/IBM/networking-java-sdk/compare/0.35.0...0.35.1) (2024-03-08)
 
 
