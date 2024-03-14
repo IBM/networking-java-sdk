@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -25,7 +25,6 @@ import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import java.sql.Timestamp;
 
@@ -53,7 +52,9 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdate
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientVLANUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollectionGatewaysItem;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayResponse;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewaysOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigActionTemplate;
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
@@ -62,7 +63,7 @@ import com.ibm.cloud.sdk.core.util.CredentialUtils;
 
 /**
  * Integration test class for the DirectLink Provider service.
- * 
+ *
  * How to run the tests:
  *    mvn -Dtest=DirectLinkProviderIT -DfailIfNoTests=false test
  */
@@ -72,7 +73,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
     // Directlink service v1
     public DirectLink dlTestService = null;
-    
+
 	String gatewayId = null;
 	String firstPortId = null;
 
@@ -90,22 +91,22 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 	/**
 	 * Approve delete_gateway using Client Actions API
 	 */
-	private void deleteGateways(){
+	private void deleteGateways() {
 		// ********** List all gateways ************* 
 		ListGatewaysOptions listGatewaysOptionsModel = new ListGatewaysOptions();
 
 		// Invoke operation with valid options model (positive test)
 		Response<GatewayCollection> lisResp = dlTestService.listGateways(listGatewaysOptionsModel).execute();
 		assertNotNull(lisResp); assertEquals(200, lisResp.getStatusCode());
-		
-		GatewayCollection lisresponseObj = lisResp.getResult();
-		assertNotNull(lisresponseObj); 
-		assertNotEquals(0,lisresponseObj.getGateways().size());
 
-		List<Gateway> gateways = lisresponseObj.getGateways();
-		for(Gateway gateway: gateways){
-			if(gateway.getChangeRequest() != null && gateway.getChangeRequest().getType().equalsIgnoreCase("delete_gateway")){
-				if(gateway.getOperationalStatus().equalsIgnoreCase("provisioned") && gateway.getName().toLowerCase().contains("java-int-sdk-provider")) {
+		GatewayCollection lisresponseObj = lisResp.getResult();
+		assertNotNull(lisresponseObj);
+		assertNotEquals(0, lisresponseObj.getGateways().size());
+
+		List<GatewayCollectionGatewaysItem> gateways = lisresponseObj.getGateways();
+		for (GatewayCollectionGatewaysItem gateway: gateways) {
+			if (gateway.getChangeRequest() != null && gateway.getChangeRequest().getType().equalsIgnoreCase("delete_gateway")){
+				if (gateway.getOperationalStatus().equalsIgnoreCase("provisioned") && gateway.getName().toLowerCase().contains("java-int-sdk-provider")) {
 					// Construct an instance of CreateGatewayActionOptions model and approve the gateway delete request using client account
 					CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder().id(gateway.getId()).action("delete_gateway_approve").build();
 					Response<Gateway> response = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
@@ -159,25 +160,25 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 	@AfterClass
 	public void cleanup() {
 		// *************** Delete all SDK created gateways with pending request ******************************
- 
+
 		deleteGateways();
 
 		// *************** Delete all SDK created gateways ******************************
- 
+
 		// ********** List all provider gateways ************* 
 		ListProviderGatewaysOptions listProviderGatewaysOptions = new ListProviderGatewaysOptions.Builder().build();
 
 		// Invoke operation with valid options model (positive test)
 		Response<ProviderGatewayCollection> provListResp = dlProviderTestService.listProviderGateways(listProviderGatewaysOptions).execute();
 		assertNotNull(provListResp); assertEquals(200, provListResp.getStatusCode());
-		
+
 		ProviderGatewayCollection providerListResponseObj = provListResp.getResult();
-		assertNotNull(providerListResponseObj); 
-		assertNotEquals(0,providerListResponseObj.getGateways().size());
+		assertNotNull(providerListResponseObj);
+		assertNotEquals(0, providerListResponseObj.getGateways().size());
 
 		List<ProviderGateway> providerGateways = providerListResponseObj.getGateways();
 		for (ProviderGateway gateway: providerGateways) {
-			if(gateway.getName().toLowerCase().contains("java-int-sdk-provider") && !deleteNotAllowedStatus.contains(gateway.getOperationalStatus())) {
+			if (gateway.getName().toLowerCase().contains("java-int-sdk-provider") && !deleteNotAllowedStatus.contains(gateway.getOperationalStatus())) {
 				// Construct an instance of the DeleteProviderGatewayOptions model and re-send delete request using provider account
 				DeleteProviderGatewayOptions deleteProviderGatewayOptionsModel = new DeleteProviderGatewayOptions.Builder(gateway.getId()).build();
 				// Invoke operation with valid options model (positive test)
@@ -189,11 +190,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		// *************** Delete Approve all the deleted gateways above ******************************
 		deleteGateways();
-	
+
 	}
-	
-	@Test 
-	public void testProviderPorts() { 
+
+	@Test
+	public void testProviderPorts() {
         assertNotNull(dlProviderTestService);
 
 		// Construct an instance of the ListProviderPortsOptions model
@@ -220,13 +221,13 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
     }
 
     @Test (dependsOnMethods = "testProviderPorts")
-    public void testProviderGateways(){
-		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+    public void testProviderGateways() {
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
 		String customerAccId = config.get("CUSTOMER_ACCT_ID");
-		String gatewayName = "JAVA-INT-SDK-PROVIDER-"+timestamp; 
-		String updatedGatewayName = "JAVA-INT-SDK-PROVIDER-PATCH-"+timestamp; 
-		Long bgpAsn = 64999L; 
-		Long speedMbps = 1000L; 
+		String gatewayName = "JAVA-INT-SDK-PROVIDER-" + timestamp;
+		String updatedGatewayName = "JAVA-INT-SDK-PROVIDER-PATCH-" + timestamp;
+		Long bgpAsn = 64999L;
+		Long speedMbps = 1000L;
 
 		ProviderGatewayPortIdentity portIdentity = new ProviderGatewayPortIdentity.Builder(firstPortId).build();
 
@@ -266,11 +267,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		UpdateProviderGatewayOptions updateProviderGatewayOptionsModel = new UpdateProviderGatewayOptions.Builder()
 				.id(gatewayId).name(updatedGatewayName).build();
 
-		// Invoke operation with valid options model 
-		try { 
+		// Invoke operation with valid options model
+		try {
 			Response<ProviderGateway> updateGWRes = dlProviderTestService.updateProviderGateway(updateProviderGatewayOptionsModel).execute();
-			assertNotNull(updateGWRes); 
-			assertEquals(400, updateGWRes.getStatusCode()); 
+			assertNotNull(updateGWRes);
+			assertEquals(400, updateGWRes.getStatusCode());
 		} catch (com.ibm.cloud.sdk.core.service.exception.BadRequestException errResponse) {
 			assertEquals("Cannot update a gateway with current status", errResponse.getMessage());
 			assertEquals(400, errResponse.getStatusCode());
@@ -285,16 +286,16 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		gatewayId = null; // already cleaned up System.out.
 	}
-		
+
 	@Test(dependsOnMethods = "testProviderPorts")
-	public void testProviderGatewaysWithClientApi(){
-		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+	public void testProviderGatewaysWithClientApi() {
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
 		String customerAccId = config.get("CUSTOMER_ACCT_ID");
-		String gatewayName = "JAVA-INT-SDK-PROVIDER-"+timestamp; 
-		String updatedGatewayName = "JAVA-INT-SDK-PROVIDER-PATCH-"+timestamp; 
-		Long bgpAsn = 64999L; 
+		String gatewayName = "JAVA-INT-SDK-PROVIDER-" + timestamp;
+		String updatedGatewayName = "JAVA-INT-SDK-PROVIDER-PATCH-" + timestamp;
+		Long bgpAsn = 64999L;
 		Long speedMbps = 1000L;
-		Long updatedSpeedMbps = 2000L; 
+		Long updatedSpeedMbps = 2000L;
 
 		ProviderGatewayPortIdentity portIdentity = new ProviderGatewayPortIdentity.Builder(firstPortId).build();
 
@@ -316,10 +317,10 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		// Construct an instance of the GetGatewayOptions model
 		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
-		Response<Gateway> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
+		Response<GetGatewayResponse> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
 		assertNotNull(getGWRes);
 		assertEquals(200, getGWRes.getStatusCode());
-		Gateway getGWRespObj = getGWRes.getResult();
+		GetGatewayResponse getGWRespObj = getGWRes.getResult();
 		assertNotNull(getGWRespObj);
 		assertEquals(getGWRespObj.getId(), gatewayId);
 		assertEquals(getGWRespObj.getName(), gatewayName);
@@ -332,7 +333,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		// Construct an instance of CreateGatewayActionOptions model
 		CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action("create_gateway_approve").global(false).metered(false).build();
-		
+
 		Response<Gateway> actionGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(actionGWRes);
 		assertEquals(200, actionGWRes.getStatusCode());
@@ -354,11 +355,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(res);
 			assertEquals(200, res.getStatusCode());
 
-			Gateway responseObj = res.getResult();
+			GetGatewayResponse responseObj = res.getResult();
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -381,8 +382,8 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		UpdateProviderGatewayOptions updateProviderGatewayOptionsModel = new UpdateProviderGatewayOptions.Builder()
 				.id(gatewayId).name(updatedGatewayName).build();
 		Response<ProviderGateway> updateGWRes = dlProviderTestService.updateProviderGateway(updateProviderGatewayOptionsModel).execute();
-		assertNotNull(updateGWRes); 
-		assertEquals(200, updateGWRes.getStatusCode()); 
+		assertNotNull(updateGWRes);
+		assertEquals(200, updateGWRes.getStatusCode());
 		ProviderGateway updateGWResObj = updateGWRes.getResult();
 		assertNotNull(updateGWResObj);
 		assertEquals(updateGWResObj.getId(), gatewayId);
@@ -392,8 +393,8 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		UpdateProviderGatewayOptions speedUpdateProviderGatewayOptionsModel = new UpdateProviderGatewayOptions.Builder()
 				.id(gatewayId).speedMbps(updatedSpeedMbps).build();
 		updateGWRes = dlProviderTestService.updateProviderGateway(speedUpdateProviderGatewayOptionsModel).execute();
-		assertNotNull(updateGWRes); 
-		assertEquals(200, updateGWRes.getStatusCode()); 
+		assertNotNull(updateGWRes);
+		assertEquals(200, updateGWRes.getStatusCode());
 		updateGWResObj = updateGWRes.getResult();
 		assertNotNull(updateGWResObj);
 		assertEquals(updateGWResObj.getId(), gatewayId);
@@ -409,19 +410,19 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		// Construct an instance of CreateGatewayActionOptions model
 		createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action("update_attributes_approve").updates(updatesAction).build();
-		
-		getGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
-		assertNotNull(getGWRes);
-		assertEquals(200, getGWRes.getStatusCode());
-		Gateway getGWResObj = getGWRes.getResult();
-		assertNotNull(getGWResObj);
-		assertEquals(getGWResObj.getId(), gatewayId);
-		assertEquals(getGWResObj.getName(), updatedGatewayName);
-		assertEquals(getGWResObj.getBgpAsn(), bgpAsn);
-		assertEquals(getGWResObj.getSpeedMbps(), updatedSpeedMbps);
-		assertEquals(getGWResObj.getOperationalStatus(), "configuring");
-		assertEquals(getGWResObj.getPort().getId(), firstPortId);
-		assertNull(getGWResObj.getChangeRequest());
+
+		Response<Gateway> gwRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
+		assertNotNull(gwRes);
+		assertEquals(200, gwRes.getStatusCode());
+		Gateway gwResObj = gwRes.getResult();
+		assertNotNull(gwResObj);
+		assertEquals(gwResObj.getId(), gatewayId);
+		assertEquals(gwResObj.getName(), updatedGatewayName);
+		assertEquals(gwResObj.getBgpAsn(), bgpAsn);
+		assertEquals(gwResObj.getSpeedMbps(), updatedSpeedMbps);
+		assertEquals(gwResObj.getOperationalStatus(), "configuring");
+		assertEquals(gwResObj.getPort().getId(), firstPortId);
+		assertNull(gwResObj.getChangeRequest());
 
 		// Successfully wait for the gateway to go back to provisioned state
 		// getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
@@ -467,16 +468,16 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action("delete_gateway_reject").build();
 		
-		getGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
-		assertNotNull(getGWRes);
-		assertEquals(200, getGWRes.getStatusCode());
+		gwRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
+		assertNotNull(gwRes);
+		assertEquals(200, gwRes.getStatusCode());
 
 		// Construct an instance of the GetGatewayOptions model and successfully verify reject gateway using client account
 		getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
 		getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
 		assertNotNull(getGWRes);
 		assertEquals(200, getGWRes.getStatusCode());
-		getGWResObj = getGWRes.getResult();
+		GetGatewayResponse getGWResObj = getGWRes.getResult();
 		assertNotNull(getGWResObj);
 		assertEquals(getGWResObj.getId(), gatewayId);
 		assertNull(getGWResObj.getChangeRequest());
@@ -524,7 +525,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		// Construct an instance of CreateGatewayActionOptions model and approve the gateway delete request using client account
 		createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action("delete_gateway_approve").build();
-		
+
 		Response<Gateway> response = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(response);
 		assertEquals(204, response.getStatusCode());
@@ -533,12 +534,12 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 	}
 
 	@Test(dependsOnMethods = "testProviderPorts")
-	public void testProviderGatewaysWithClientApiMD5(){
-		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+	public void testProviderGatewaysWithClientApiMD5() {
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
 		String customerAccId = config.get("CUSTOMER_ACCT_ID");
 		String authKeyCrn = config.get("AUTHENTICATION_KEY");
-		String gatewayName = "JAVA-INT-SDK-PROVIDER-"+timestamp; 
-		Long bgpAsn = 64999L; 
+		String gatewayName = "JAVA-INT-SDK-PROVIDER-" + timestamp;
+		Long bgpAsn = 64999L;
 		Long speedMbps = 1000L;
 
 		ProviderGatewayPortIdentity portIdentity = new ProviderGatewayPortIdentity.Builder(firstPortId).build();
@@ -561,10 +562,10 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		// Construct an instance of the GetGatewayOptions model
 		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
-		Response<Gateway> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
+		Response<GetGatewayResponse> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
 		assertNotNull(getGWRes);
 		assertEquals(200, getGWRes.getStatusCode());
-		Gateway getGWRespObj = getGWRes.getResult();
+		GetGatewayResponse getGWRespObj = getGWRes.getResult();
 		assertNotNull(getGWRespObj);
 		assertEquals(getGWRespObj.getId(), gatewayId);
 		assertEquals(getGWRespObj.getName(), gatewayName);
@@ -578,7 +579,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		// Construct an instance of CreateGatewayActionOptions model
 		CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action("create_gateway_approve").global(false).metered(false).authenticationKey(authenticationKey).build();
-		
+
 		Response<Gateway> actionGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(actionGWRes);
 		assertEquals(200, actionGWRes.getStatusCode());
@@ -601,11 +602,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(res);
 			assertEquals(200, res.getStatusCode());
 
-			Gateway responseObj = res.getResult();
+			GetGatewayResponse responseObj = res.getResult();
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -645,7 +646,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		// Construct an instance of CreateGatewayActionOptions model and approve the gateway delete request using client account
 		createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action("delete_gateway_approve").build();
-		
+
 		Response<Gateway> response = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(response);
 		assertEquals(204, response.getStatusCode());
@@ -654,11 +655,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 	}
 
 	@Test(dependsOnMethods = "testProviderPorts")
-	public void testProviderGatewaysWithClientApiBbpIp(){
-		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+	public void testProviderGatewaysWithClientApiBbpIp() {
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
 		String customerAccId = config.get("CUSTOMER_ACCT_ID");
-		String gatewayName = "JAVA-INT-SDK-PROVIDER-BGP-IP"+timestamp; 
-		Long bgpAsn = 64999L; 
+		String gatewayName = "JAVA-INT-SDK-PROVIDER-BGP-IP" + timestamp;
+		Long bgpAsn = 64999L;
 		Long speedMbps = 1000L;
 
 		ProviderGatewayPortIdentity portIdentity = new ProviderGatewayPortIdentity.Builder(firstPortId).build();
@@ -681,10 +682,10 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		// Construct an instance of the GetGatewayOptions model
 		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
-		Response<Gateway> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
+		Response<GetGatewayResponse> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
 		assertNotNull(getGWRes);
 		assertEquals(200, getGWRes.getStatusCode());
-		Gateway getGWRespObj = getGWRes.getResult();
+		GetGatewayResponse getGWRespObj = getGWRes.getResult();
 		assertNotNull(getGWRespObj);
 		assertEquals(getGWRespObj.getId(), gatewayId);
 		assertEquals(getGWRespObj.getName(), gatewayName);
@@ -697,7 +698,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		// Construct an instance of CreateGatewayActionOptions model
 		CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action("create_gateway_approve").global(false).metered(false).build();
-		
+
 		Response<Gateway> actionGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(actionGWRes);
 		assertEquals(200, actionGWRes.getStatusCode());
@@ -719,11 +720,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(res);
 			assertEquals(200, res.getStatusCode());
 
-			Gateway responseObj = res.getResult();
+			GetGatewayResponse responseObj = res.getResult();
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -745,15 +746,15 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		long updatedBgpAsn = 63999L;
 		String updatedBgpCer = "172.17.252.2/29";
 		String updatedBgpIbm = "172.17.252.1/29";
-		// ********** Update the ASN, BGP IBM and CER CIDR mode using Patch gateway ************* 
-		try { 
+		// ********** Update the ASN, BGP IBM and CER CIDR mode using Patch gateway *************
+		try {
 			UpdateProviderGatewayOptions updateGatewayOptionsModel = new UpdateProviderGatewayOptions.Builder().id(gatewayId)
 				.bgpAsn(updatedBgpAsn).bgpCerCidr(updatedBgpCer).bgpIbmCidr(updatedBgpIbm).build();
-		
+
 			Response<ProviderGateway> updateResponse = dlProviderTestService.updateProviderGateway(updateGatewayOptionsModel).execute();
-			assertNotNull(updateResponse); 
+			assertNotNull(updateResponse);
 			assertEquals(200, updateResponse.getStatusCode());
-		
+
 			ProviderGateway updateResponseObj = updateResponse.getResult();
 			assertNotNull(updateResponseObj);
 			assertEquals(updateResponseObj.getId(), gatewayId);
@@ -783,8 +784,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		actionGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(actionGWRes);
-		assertEquals(200, actionGWRes.getStatusCode());	
-		
+		assertEquals(200, actionGWRes.getStatusCode());
 		// Construct an instance of GetGatewayOptions model and wait for gateway to move to provisioned state
 		getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
 
@@ -793,11 +793,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(res);
 			assertEquals(200, res.getStatusCode());
 
-			Gateway responseObj = res.getResult();
+			GetGatewayResponse responseObj = res.getResult();
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -826,7 +826,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		// Construct an instance of CreateGatewayActionOptions model and approve the gateway delete request using client account
 		createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action("delete_gateway_approve").build();
-		
+
 		Response<Gateway> response = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(response);
 		assertEquals(204, response.getStatusCode());
@@ -836,10 +836,10 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 	@Test(dependsOnMethods = "testProviderPorts")
 	public void testProviderGatewaysWithClientApiBfd(){
-		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
 		String customerAccId = config.get("CUSTOMER_ACCT_ID");
-		String gatewayName = "JAVA-INT-SDK-PROVIDER-BFD"+timestamp; 
-		Long bgpAsn = 64999L; 
+		String gatewayName = "JAVA-INT-SDK-PROVIDER-BFD" + timestamp;
+		Long bgpAsn = 64999L;
 		Long speedMbps = 1000L;
 
 		ProviderGatewayPortIdentity portIdentity = new ProviderGatewayPortIdentity.Builder(firstPortId).build();
@@ -862,10 +862,10 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		// Construct an instance of the GetGatewayOptions model
 		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
-		Response<Gateway> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
+		Response<GetGatewayResponse> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
 		assertNotNull(getGWRes);
 		assertEquals(200, getGWRes.getStatusCode());
-		Gateway getGWRespObj = getGWRes.getResult();
+		GetGatewayResponse getGWRespObj = getGWRes.getResult();
 		assertNotNull(getGWRespObj);
 		assertEquals(getGWRespObj.getId(), gatewayId);
 		assertEquals(getGWRespObj.getName(), gatewayName);
@@ -881,7 +881,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		GatewayBfdConfigActionTemplate gatewayBfdConfigActionTemplate = new GatewayBfdConfigActionTemplate.Builder().interval(bfdInterval).multiplier(bfdMultiplier).build();
 		CreateGatewayActionOptions createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action(CreateGatewayActionOptions.Action.CREATE_GATEWAY_APPROVE).global(false).metered(false).bfdConfig(gatewayBfdConfigActionTemplate).build();
-		
+
 		Response<Gateway> actionGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(actionGWRes);
 		assertEquals(200, actionGWRes.getStatusCode());
@@ -904,11 +904,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(res);
 			assertEquals(200, res.getStatusCode());
 
-			Gateway responseObj = res.getResult();
+			GetGatewayResponse responseObj = res.getResult();
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -937,20 +937,20 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		// Construct an instance of CreateGatewayActionOptions model and approve the gateway delete request using client account
 		createGatewayActionOptionsModel = new CreateGatewayActionOptions.Builder()
 				.id(gatewayId).action(CreateGatewayActionOptions.Action.DELETE_GATEWAY_APPROVE).build();
-		
+
 		Response<Gateway> response = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(response);
 		assertEquals(204, response.getStatusCode());
 
 		gatewayId = null; // already cleaned up System.out.
 	}
-	
+
 	@Test(dependsOnMethods = "testProviderPorts")
 	public void testProviderGatewaysWithClientApiVlan(){
-		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
 		String customerAccId = config.get("CUSTOMER_ACCT_ID");
-		String gatewayName = "JAVA-INT-SDK-PROVIDER-VLAN"+timestamp; 
-		Long bgpAsn = 64999L; 
+		String gatewayName = "JAVA-INT-SDK-PROVIDER-VLAN" + timestamp;
+		Long bgpAsn = 64999L;
 		Long speedMbps = 1000L;
 		Long vlan = 38L;
 		Long updatedVlan = 94L;
@@ -974,10 +974,10 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		// Construct an instance of the GetGatewayOptions model
 		GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder(gatewayId).build();
-		Response<Gateway> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
+		Response<GetGatewayResponse> getGWRes = dlTestService.getGateway(getGatewayOptionsModel).execute();
 		assertNotNull(getGWRes);
 		assertEquals(200, getGWRes.getStatusCode());
-		Gateway getGWRespObj = getGWRes.getResult();
+		GetGatewayResponse getGWRespObj = getGWRes.getResult();
 		assertNotNull(getGWRespObj);
 		assertEquals(getGWRespObj.getId(), gatewayId);
 		assertEquals(getGWRespObj.getName(), gatewayName);
@@ -1014,11 +1014,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(res);
 			assertEquals(200, res.getStatusCode());
 
-			Gateway responseObj = res.getResult();
+			GetGatewayResponse responseObj = res.getResult();
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {
@@ -1066,7 +1066,7 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 
 		actionGWRes = dlTestService.createGatewayAction(createGatewayActionOptionsModel).execute();
 		assertNotNull(actionGWRes);
-		assertEquals(200, actionGWRes.getStatusCode());	
+		assertEquals(200, actionGWRes.getStatusCode());
 		actionGWResObj = actionGWRes.getResult();
 		assertNotNull(actionGWResObj);
 		assertEquals(actionGWResObj.getVlan(), updatedVlan);
@@ -1084,11 +1084,11 @@ public class DirectLinkProviderIT extends SdkIntegrationTestBase {
 		}
 		while (!done) {
 			// Invoke operation with valid options model (positive test)
-			Response<Gateway> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
+			Response<GetGatewayResponse> res = dlTestService.getGateway(getGatewayOptionsModel).execute();
 			assertNotNull(res);
 			assertEquals(200, res.getStatusCode());
 
-			Gateway responseObj = res.getResult();
+			GetGatewayResponse responseObj = res.getResult();
 			assertNotNull(responseObj);
 
 			if (responseObj.getOperationalStatus().equals("provisioned")) {

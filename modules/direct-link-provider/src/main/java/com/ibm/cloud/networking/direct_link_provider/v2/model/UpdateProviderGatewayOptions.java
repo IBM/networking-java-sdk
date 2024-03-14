@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -39,6 +39,11 @@ public class UpdateProviderGatewayOptions extends GenericModel {
     private Long speedMbps;
     private Long vlan;
 
+    /**
+     * Instantiates a new Builder from an existing UpdateProviderGatewayOptions instance.
+     *
+     * @param updateProviderGatewayOptions the instance to initialize the Builder with
+     */
     private Builder(UpdateProviderGatewayOptions updateProviderGatewayOptions) {
       this.id = updateProviderGatewayOptions.id;
       this.bgpAsn = updateProviderGatewayOptions.bgpAsn;
@@ -151,6 +156,8 @@ public class UpdateProviderGatewayOptions extends GenericModel {
     }
   }
 
+  protected UpdateProviderGatewayOptions() { }
+
   protected UpdateProviderGatewayOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
@@ -253,7 +260,7 @@ public class UpdateProviderGatewayOptions extends GenericModel {
    *
    * VLAN to be modified for this gateway.
    *
-   * VLAN provided should be in the range 1 to 4094.
+   * VLAN provided should be in the range 2 to 3967.
    *
    * @return the vlan
    */

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -33,9 +33,9 @@ public class ListProviderPortsOptionsTest {
   public void testListProviderPortsOptions() throws Throwable {
     ListProviderPortsOptions listProviderPortsOptionsModel = new ListProviderPortsOptions.Builder()
       .start("testString")
-      .limit(Long.valueOf("1"))
+      .limit(Long.valueOf("50"))
       .build();
     assertEquals(listProviderPortsOptionsModel.start(), "testString");
-    assertEquals(listProviderPortsOptionsModel.limit(), Long.valueOf("1"));
+    assertEquals(listProviderPortsOptionsModel.limit(), Long.valueOf("50"));
   }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.43.0-49eab5c7-20211117-152138
+ * IBM OpenAPI SDK Code Generator Version: 3.80.0-29334a73-20230925-151553
  */
 
 package com.ibm.cloud.networking.direct_link_provider.v2;
@@ -48,8 +48,14 @@ import java.util.Map.Entry;
  */
 public class DirectLinkProvider extends BaseService {
 
+  /**
+   * Default service name used when configuring the `DirectLinkProvider` client.
+   */
   public static final String DEFAULT_SERVICE_NAME = "direct_link_provider";
 
+  /**
+   * Default service endpoint URL.
+   */
   public static final String DEFAULT_SERVICE_URL = "https://directlink.cloud.ibm.com/provider/v2";
 
   private String version;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,9 +15,11 @@ package com.ibm.cloud.networking.direct_link_provider.v2.model;
 /**
  * Update VLAN for this gateway.
  *
- * VLAN provided should be in the range 1 to 4094.
+ * VLAN provided should be in the range 2 to 3967.
  */
 public class ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayVLAN extends ProviderGatewayUpdateAttributesUpdatesItem {
 
+
+  protected ProviderGatewayUpdateAttributesUpdatesItemProviderGatewayVLAN() { }
 }
 
