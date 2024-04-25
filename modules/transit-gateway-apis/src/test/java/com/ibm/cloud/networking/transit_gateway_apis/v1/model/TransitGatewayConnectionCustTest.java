@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,8 +13,8 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GreTunnelZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionCust;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionCustZone;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionPrefixFilterReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -32,29 +32,10 @@ public class TransitGatewayConnectionCustTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
+  // TODO: Add tests for models that are abstract
   @Test
   public void testTransitGatewayConnectionCust() throws Throwable {
     TransitGatewayConnectionCust transitGatewayConnectionCustModel = new TransitGatewayConnectionCust();
-    assertNull(transitGatewayConnectionCustModel.getBaseNetworkType());
-    assertNull(transitGatewayConnectionCustModel.getName());
-    assertNull(transitGatewayConnectionCustModel.getNetworkId());
-    assertNull(transitGatewayConnectionCustModel.getNetworkType());
-    assertNull(transitGatewayConnectionCustModel.getId());
-    assertNull(transitGatewayConnectionCustModel.getBaseConnectionId());
-    assertNull(transitGatewayConnectionCustModel.getCreatedAt());
-    assertNull(transitGatewayConnectionCustModel.getLocalBgpAsn());
-    assertNull(transitGatewayConnectionCustModel.getLocalGatewayIp());
-    assertNull(transitGatewayConnectionCustModel.getLocalTunnelIp());
-    assertNull(transitGatewayConnectionCustModel.getMtu());
-    assertNull(transitGatewayConnectionCustModel.getNetworkAccountId());
-    assertNull(transitGatewayConnectionCustModel.getPrefixFilters());
-    assertNull(transitGatewayConnectionCustModel.getPrefixFiltersDefault());
-    assertNull(transitGatewayConnectionCustModel.getRemoteBgpAsn());
-    assertNull(transitGatewayConnectionCustModel.getRemoteGatewayIp());
-    assertNull(transitGatewayConnectionCustModel.getRemoteTunnelIp());
-    assertNull(transitGatewayConnectionCustModel.getRequestStatus());
-    assertNull(transitGatewayConnectionCustModel.getStatus());
-    assertNull(transitGatewayConnectionCustModel.getUpdatedAt());
-    assertNull(transitGatewayConnectionCustModel.getZone());
+    assertNotNull(transitGatewayConnectionCustModel);
   }
 }

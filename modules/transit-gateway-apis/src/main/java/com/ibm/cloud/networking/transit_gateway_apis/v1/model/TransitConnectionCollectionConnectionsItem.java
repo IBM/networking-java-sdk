@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,9 +19,13 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Transit gateway connection.
+ * TransitConnectionCollectionConnectionsItem.
+ *
+ * Classes which extend this class:
+ * - TransitConnectionCollectionConnectionsItemTransitConnection
+ * - TransitConnectionCollectionConnectionsItemTransitConnectionRedundantGRE
  */
-public class TransitConnection extends GenericModel {
+public class TransitConnectionCollectionConnectionsItem extends GenericModel {
 
   /**
    * Defines what type of network is connected via this connection. The list of enumerated values for this property may
@@ -95,6 +99,16 @@ public class TransitConnection extends GenericModel {
     String SUSPENDED = "suspended";
   }
 
+  /**
+   * The type of network the redundant GRE tunnel is targeting.
+   */
+  public interface BaseNetworkType {
+    /** classic. */
+    String CLASSIC = "classic";
+    /** vpc. */
+    String VPC = "vpc";
+  }
+
   @SerializedName("base_connection_id")
   protected String baseConnectionId;
   @SerializedName("created_at")
@@ -114,8 +128,6 @@ public class TransitConnection extends GenericModel {
   protected String networkId;
   @SerializedName("network_type")
   protected String networkType;
-  @SerializedName("prefix_filters")
-  protected List<TransitGatewayConnectionPrefixFilterReference> prefixFilters;
   @SerializedName("prefix_filters_default")
   protected String prefixFiltersDefault;
   @SerializedName("remote_bgp_asn")
@@ -131,9 +143,12 @@ public class TransitConnection extends GenericModel {
   protected TransitGatewayReference transitGateway;
   @SerializedName("updated_at")
   protected Date updatedAt;
-  protected ZoneReference zone;
+  protected GreTunnelZoneReference zone;
+  @SerializedName("base_network_type")
+  protected String baseNetworkType;
+  protected List<TransitGatewayRedundantGRETunnelReference> tunnels;
 
-  protected TransitConnection() { }
+  protected TransitConnectionCollectionConnectionsItem() { }
 
   /**
    * Gets the baseConnectionId.
@@ -264,18 +279,6 @@ public class TransitConnection extends GenericModel {
   }
 
   /**
-   * Gets the prefixFilters.
-   *
-   * Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
-   * array being applied first, and those at the end of the array is applied last, or just before the default.
-   *
-   * @return the prefixFilters
-   */
-  public List<TransitGatewayConnectionPrefixFilterReference> getPrefixFilters() {
-    return prefixFilters;
-  }
-
-  /**
    * Gets the prefixFiltersDefault.
    *
    * Default setting of permit or deny which applies to any routes that don't match a specified filter.
@@ -373,8 +376,30 @@ public class TransitConnection extends GenericModel {
    *
    * @return the zone
    */
-  public ZoneReference getZone() {
+  public GreTunnelZoneReference getZone() {
     return zone;
+  }
+
+  /**
+   * Gets the baseNetworkType.
+   *
+   * The type of network the redundant GRE tunnel is targeting.
+   *
+   * @return the baseNetworkType
+   */
+  public String getBaseNetworkType() {
+    return baseNetworkType;
+  }
+
+  /**
+   * Gets the tunnels.
+   *
+   * Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
+   *
+   * @return the tunnels
+   */
+  public List<TransitGatewayRedundantGRETunnelReference> getTunnels() {
+    return tunnels;
   }
 }
 

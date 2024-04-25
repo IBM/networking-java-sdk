@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,9 +12,6 @@
  */
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
@@ -22,82 +19,15 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class CreateTransitGatewayConnectionOptions extends GenericModel {
 
-  /**
-   * Defines what type of network is connected via this connection. For access to gre_tunnel or unbound_gre_tunnel
-   * connections contact IBM support.
-   */
-  public interface NetworkType {
-    /** classic. */
-    String CLASSIC = "classic";
-    /** directlink. */
-    String DIRECTLINK = "directlink";
-    /** gre_tunnel. */
-    String GRE_TUNNEL = "gre_tunnel";
-    /** unbound_gre_tunnel. */
-    String UNBOUND_GRE_TUNNEL = "unbound_gre_tunnel";
-    /** vpc. */
-    String VPC = "vpc";
-    /** power_virtual_server. */
-    String POWER_VIRTUAL_SERVER = "power_virtual_server";
-  }
-
-  /**
-   * The type of network the Unbound GRE tunnel is targeting. This field is required for network type
-   * 'unbound_gre_tunnel' connections. This field is required to be unspecified for network type 'classic',
-   * 'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
-   */
-  public interface BaseNetworkType {
-    /** classic. */
-    String CLASSIC = "classic";
-  }
-
-  /**
-   * Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
-   * optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
-   * required to be unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-   */
-  public interface PrefixFiltersDefault {
-    /** permit. */
-    String PERMIT = "permit";
-    /** deny. */
-    String DENY = "deny";
-  }
-
   protected String transitGatewayId;
-  protected String networkType;
-  protected String baseConnectionId;
-  protected String baseNetworkType;
-  protected String localGatewayIp;
-  protected String localTunnelIp;
-  protected String name;
-  protected String networkAccountId;
-  protected String networkId;
-  protected List<TransitGatewayConnectionPrefixFilter> prefixFilters;
-  protected String prefixFiltersDefault;
-  protected Long remoteBgpAsn;
-  protected String remoteGatewayIp;
-  protected String remoteTunnelIp;
-  protected ZoneIdentity zone;
+  protected TransitGatewayConnectionTemplate transitGatewayConnectionTemplate;
 
   /**
    * Builder.
    */
   public static class Builder {
     private String transitGatewayId;
-    private String networkType;
-    private String baseConnectionId;
-    private String baseNetworkType;
-    private String localGatewayIp;
-    private String localTunnelIp;
-    private String name;
-    private String networkAccountId;
-    private String networkId;
-    private List<TransitGatewayConnectionPrefixFilter> prefixFilters;
-    private String prefixFiltersDefault;
-    private Long remoteBgpAsn;
-    private String remoteGatewayIp;
-    private String remoteTunnelIp;
-    private ZoneIdentity zone;
+    private TransitGatewayConnectionTemplate transitGatewayConnectionTemplate;
 
     /**
      * Instantiates a new Builder from an existing CreateTransitGatewayConnectionOptions instance.
@@ -106,20 +36,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
      */
     private Builder(CreateTransitGatewayConnectionOptions createTransitGatewayConnectionOptions) {
       this.transitGatewayId = createTransitGatewayConnectionOptions.transitGatewayId;
-      this.networkType = createTransitGatewayConnectionOptions.networkType;
-      this.baseConnectionId = createTransitGatewayConnectionOptions.baseConnectionId;
-      this.baseNetworkType = createTransitGatewayConnectionOptions.baseNetworkType;
-      this.localGatewayIp = createTransitGatewayConnectionOptions.localGatewayIp;
-      this.localTunnelIp = createTransitGatewayConnectionOptions.localTunnelIp;
-      this.name = createTransitGatewayConnectionOptions.name;
-      this.networkAccountId = createTransitGatewayConnectionOptions.networkAccountId;
-      this.networkId = createTransitGatewayConnectionOptions.networkId;
-      this.prefixFilters = createTransitGatewayConnectionOptions.prefixFilters;
-      this.prefixFiltersDefault = createTransitGatewayConnectionOptions.prefixFiltersDefault;
-      this.remoteBgpAsn = createTransitGatewayConnectionOptions.remoteBgpAsn;
-      this.remoteGatewayIp = createTransitGatewayConnectionOptions.remoteGatewayIp;
-      this.remoteTunnelIp = createTransitGatewayConnectionOptions.remoteTunnelIp;
-      this.zone = createTransitGatewayConnectionOptions.zone;
+      this.transitGatewayConnectionTemplate = createTransitGatewayConnectionOptions.transitGatewayConnectionTemplate;
     }
 
     /**
@@ -132,11 +49,11 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
      * Instantiates a new builder with required properties.
      *
      * @param transitGatewayId the transitGatewayId
-     * @param networkType the networkType
+     * @param transitGatewayConnectionTemplate the transitGatewayConnectionTemplate
      */
-    public Builder(String transitGatewayId, String networkType) {
+    public Builder(String transitGatewayId, TransitGatewayConnectionTemplate transitGatewayConnectionTemplate) {
       this.transitGatewayId = transitGatewayId;
-      this.networkType = networkType;
+      this.transitGatewayConnectionTemplate = transitGatewayConnectionTemplate;
     }
 
     /**
@@ -146,22 +63,6 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
      */
     public CreateTransitGatewayConnectionOptions build() {
       return new CreateTransitGatewayConnectionOptions(this);
-    }
-
-    /**
-     * Adds an prefixFilters to prefixFilters.
-     *
-     * @param prefixFilters the new prefixFilters
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder addPrefixFilters(TransitGatewayConnectionPrefixFilter prefixFilters) {
-      com.ibm.cloud.sdk.core.util.Validator.notNull(prefixFilters,
-        "prefixFilters cannot be null");
-      if (this.prefixFilters == null) {
-        this.prefixFilters = new ArrayList<TransitGatewayConnectionPrefixFilter>();
-      }
-      this.prefixFilters.add(prefixFilters);
-      return this;
     }
 
     /**
@@ -176,159 +77,13 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     }
 
     /**
-     * Set the networkType.
+     * Set the transitGatewayConnectionTemplate.
      *
-     * @param networkType the networkType
+     * @param transitGatewayConnectionTemplate the transitGatewayConnectionTemplate
      * @return the CreateTransitGatewayConnectionOptions builder
      */
-    public Builder networkType(String networkType) {
-      this.networkType = networkType;
-      return this;
-    }
-
-    /**
-     * Set the baseConnectionId.
-     *
-     * @param baseConnectionId the baseConnectionId
-     * @return the CreateTransitGatewayConnectionOptions builder
-     * @deprecated this method is deprecated and may be removed in a future release
-     */
-    @Deprecated
-    public Builder baseConnectionId(String baseConnectionId) {
-      this.baseConnectionId = baseConnectionId;
-      return this;
-    }
-
-    /**
-     * Set the baseNetworkType.
-     *
-     * @param baseNetworkType the baseNetworkType
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder baseNetworkType(String baseNetworkType) {
-      this.baseNetworkType = baseNetworkType;
-      return this;
-    }
-
-    /**
-     * Set the localGatewayIp.
-     *
-     * @param localGatewayIp the localGatewayIp
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder localGatewayIp(String localGatewayIp) {
-      this.localGatewayIp = localGatewayIp;
-      return this;
-    }
-
-    /**
-     * Set the localTunnelIp.
-     *
-     * @param localTunnelIp the localTunnelIp
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder localTunnelIp(String localTunnelIp) {
-      this.localTunnelIp = localTunnelIp;
-      return this;
-    }
-
-    /**
-     * Set the name.
-     *
-     * @param name the name
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder name(String name) {
-      this.name = name;
-      return this;
-    }
-
-    /**
-     * Set the networkAccountId.
-     *
-     * @param networkAccountId the networkAccountId
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder networkAccountId(String networkAccountId) {
-      this.networkAccountId = networkAccountId;
-      return this;
-    }
-
-    /**
-     * Set the networkId.
-     *
-     * @param networkId the networkId
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder networkId(String networkId) {
-      this.networkId = networkId;
-      return this;
-    }
-
-    /**
-     * Set the prefixFilters.
-     * Existing prefixFilters will be replaced.
-     *
-     * @param prefixFilters the prefixFilters
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder prefixFilters(List<TransitGatewayConnectionPrefixFilter> prefixFilters) {
-      this.prefixFilters = prefixFilters;
-      return this;
-    }
-
-    /**
-     * Set the prefixFiltersDefault.
-     *
-     * @param prefixFiltersDefault the prefixFiltersDefault
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder prefixFiltersDefault(String prefixFiltersDefault) {
-      this.prefixFiltersDefault = prefixFiltersDefault;
-      return this;
-    }
-
-    /**
-     * Set the remoteBgpAsn.
-     *
-     * @param remoteBgpAsn the remoteBgpAsn
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder remoteBgpAsn(long remoteBgpAsn) {
-      this.remoteBgpAsn = remoteBgpAsn;
-      return this;
-    }
-
-    /**
-     * Set the remoteGatewayIp.
-     *
-     * @param remoteGatewayIp the remoteGatewayIp
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder remoteGatewayIp(String remoteGatewayIp) {
-      this.remoteGatewayIp = remoteGatewayIp;
-      return this;
-    }
-
-    /**
-     * Set the remoteTunnelIp.
-     *
-     * @param remoteTunnelIp the remoteTunnelIp
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder remoteTunnelIp(String remoteTunnelIp) {
-      this.remoteTunnelIp = remoteTunnelIp;
-      return this;
-    }
-
-    /**
-     * Set the zone.
-     *
-     * @param zone the zone
-     * @return the CreateTransitGatewayConnectionOptions builder
-     */
-    public Builder zone(ZoneIdentity zone) {
-      this.zone = zone;
+    public Builder transitGatewayConnectionTemplate(TransitGatewayConnectionTemplate transitGatewayConnectionTemplate) {
+      this.transitGatewayConnectionTemplate = transitGatewayConnectionTemplate;
       return this;
     }
   }
@@ -338,23 +93,10 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   protected CreateTransitGatewayConnectionOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.transitGatewayId,
       "transitGatewayId cannot be empty");
-    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.networkType,
-      "networkType cannot be null");
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.transitGatewayConnectionTemplate,
+      "transitGatewayConnectionTemplate cannot be null");
     transitGatewayId = builder.transitGatewayId;
-    networkType = builder.networkType;
-    baseConnectionId = builder.baseConnectionId;
-    baseNetworkType = builder.baseNetworkType;
-    localGatewayIp = builder.localGatewayIp;
-    localTunnelIp = builder.localTunnelIp;
-    name = builder.name;
-    networkAccountId = builder.networkAccountId;
-    networkId = builder.networkId;
-    prefixFilters = builder.prefixFilters;
-    prefixFiltersDefault = builder.prefixFiltersDefault;
-    remoteBgpAsn = builder.remoteBgpAsn;
-    remoteGatewayIp = builder.remoteGatewayIp;
-    remoteTunnelIp = builder.remoteTunnelIp;
-    zone = builder.zone;
+    transitGatewayConnectionTemplate = builder.transitGatewayConnectionTemplate;
   }
 
   /**
@@ -378,215 +120,14 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   }
 
   /**
-   * Gets the networkType.
+   * Gets the transitGatewayConnectionTemplate.
    *
-   * Defines what type of network is connected via this connection. For access to gre_tunnel or unbound_gre_tunnel
-   * connections contact IBM support.
+   * The connection template.
    *
-   * @return the networkType
+   * @return the transitGatewayConnectionTemplate
    */
-  public String networkType() {
-    return networkType;
-  }
-
-  /**
-   * Gets the baseConnectionId.
-   *
-   * network_type 'gre_tunnel' connections must be created over an existing network_type 'classic' connection. This
-   * field must specify the ID of an active transit gateway network_type 'classic' connection in the same transit
-   * gateway.
-   *
-   * This field is required for network type 'gre_tunnel' connections.
-   *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-   * and 'unbound_gre_tunnel' connections.
-   *
-   * @return the baseConnectionId
-   * @deprecated this method is deprecated and may be removed in a future release
-   */
-  @Deprecated
-  public String baseConnectionId() {
-    return baseConnectionId;
-  }
-
-  /**
-   * Gets the baseNetworkType.
-   *
-   * The type of network the Unbound GRE tunnel is targeting. This field is required for network type
-   * 'unbound_gre_tunnel' connections. This field is required to be unspecified for network type 'classic',
-   * 'directlink', 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
-   *
-   * @return the baseNetworkType
-   */
-  public String baseNetworkType() {
-    return baseNetworkType;
-  }
-
-  /**
-   * Gets the localGatewayIp.
-   *
-   * Local gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-   * connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-   * 'power_virtual_server' connections.
-   *
-   * @return the localGatewayIp
-   */
-  public String localGatewayIp() {
-    return localGatewayIp;
-  }
-
-  /**
-   * Gets the localTunnelIp.
-   *
-   * Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
-   * Neither can be the network nor broadcast addresses.
-   *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-   *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-   * connections.
-   *
-   * @return the localTunnelIp
-   */
-  public String localTunnelIp() {
-    return localTunnelIp;
-  }
-
-  /**
-   * Gets the name.
-   *
-   * The user-defined name for this transit gateway connection. Network type 'vpc'  connections are defaulted to the
-   * name of the VPC.  Network type 'classic' connections are named 'Classic'.
-   *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-   *
-   * This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
-   *
-   * @return the name
-   */
-  public String name() {
-    return name;
-  }
-
-  /**
-   * Gets the networkAccountId.
-   *
-   * The ID of the account which owns the network that is being connected. Generally only used if the network is in a
-   * different account than the gateway. This field is required for type 'unbound_gre_tunnel' when the
-   * associated_network_type is 'classic' and the GRE tunnel is in a different account than the gateway.
-   *
-   * @return the networkAccountId
-   */
-  public String networkAccountId() {
-    return networkAccountId;
-  }
-
-  /**
-   * Gets the networkId.
-   *
-   * The ID of the network being connected via this connection. For network types 'vpc','power_virtual_server' and
-   * 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway respectively. This field is required for
-   * network type 'vpc', 'power_virtual_server' and 'directlink' connections. This field is required to be unspecified
-   * for network type 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-   *
-   * @return the networkId
-   */
-  public String networkId() {
-    return networkId;
-  }
-
-  /**
-   * Gets the prefixFilters.
-   *
-   * Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk type
-   * 'vpc', 'classic', 'power_virtual_server' and 'directlink' connections. They are not allowed for type 'gre_tunnel'
-   * connections. This is order dependent with those first in the array being applied first, and those at the end of the
-   * array being applied last, or just before applying the default. This field is optional for network type 'classic',
-   * 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to be unspecified for network
-   * type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-   *
-   * @return the prefixFilters
-   */
-  public List<TransitGatewayConnectionPrefixFilter> prefixFilters() {
-    return prefixFilters;
-  }
-
-  /**
-   * Gets the prefixFiltersDefault.
-   *
-   * Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
-   * optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
-   * required to be unspecified for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-   *
-   * @return the prefixFiltersDefault
-   */
-  public String prefixFiltersDefault() {
-    return prefixFiltersDefault;
-  }
-
-  /**
-   * Gets the remoteBgpAsn.
-   *
-   * Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-   * 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel or
-   * unbound_gre_tunnel connection create requests IBM will assign an ASN.
-   *
-   * This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-   *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-   * connections.
-   *
-   * @return the remoteBgpAsn
-   */
-  public Long remoteBgpAsn() {
-    return remoteBgpAsn;
-  }
-
-  /**
-   * Gets the remoteGatewayIp.
-   *
-   * Remote gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-   * connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and
-   * 'power_virtual_server' connections.
-   *
-   * @return the remoteGatewayIp
-   */
-  public String remoteGatewayIp() {
-    return remoteGatewayIp;
-  }
-
-  /**
-   * Gets the remoteTunnelIp.
-   *
-   * Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
-   * Neither can be the network nor broadcast addresses.
-   *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-   *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-   * connections.
-   *
-   * @return the remoteTunnelIp
-   */
-  public String remoteTunnelIp() {
-    return remoteTunnelIp;
-  }
-
-  /**
-   * Gets the zone.
-   *
-   * Specify the connection's location.  The specified availability zone must reside in the gateway's region.
-   * Use the IBM Cloud global catalog to list zones within the desired region.
-   *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
-   *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server'
-   * connections.
-   *
-   * @return the zone
-   */
-  public ZoneIdentity zone() {
-    return zone;
+  public TransitGatewayConnectionTemplate transitGatewayConnectionTemplate() {
+    return transitGatewayConnectionTemplate;
   }
 }
 

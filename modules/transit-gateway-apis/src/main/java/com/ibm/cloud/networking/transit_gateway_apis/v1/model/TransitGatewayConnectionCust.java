@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,7 +19,11 @@ import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Connection included in transit gateway.
+ * TransitGatewayConnectionCust.
+ *
+ * Classes which extend this class:
+ * - TransitGatewayConnectionCustTransitGatewayConnectionNonRedundantGRETunnel
+ * - TransitGatewayConnectionCustTransitGatewayConnectionRedundantGRETunnel
  */
 public class TransitGatewayConnectionCust extends GenericModel {
 
@@ -139,7 +143,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   protected String status;
   @SerializedName("updated_at")
   protected Date updatedAt;
-  protected TransitGatewayConnectionCustZone zone;
+  protected GreTunnelZoneReference zone;
+  protected List<TransitGatewayRedundantGRETunnelReference> tunnels;
 
   protected TransitGatewayConnectionCust() { }
 
@@ -383,12 +388,23 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the zone.
    *
-   * Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
    *
    * @return the zone
    */
-  public TransitGatewayConnectionCustZone getZone() {
+  public GreTunnelZoneReference getZone() {
     return zone;
+  }
+
+  /**
+   * Gets the tunnels.
+   *
+   * Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.
+   *
+   * @return the tunnels
+   */
+  public List<TransitGatewayRedundantGRETunnelReference> getTunnels() {
+    return tunnels;
   }
 }
 

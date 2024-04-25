@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -65,9 +65,9 @@ public class ConnectionsPager {
 
   /**
    * Returns the next page of results.
-   * @return a List&lt;TransitConnection&gt; that contains the next page of results
+   * @return a List&lt;TransitConnectionCollectionConnectionsItem&gt; that contains the next page of results
    */
-  public List<TransitConnection> getNext() {
+  public List<TransitConnectionCollectionConnectionsItem> getNext() {
     if (!hasNext()) {
       throw new NoSuchElementException("No more results available");
     }
@@ -94,12 +94,12 @@ public class ConnectionsPager {
 
   /**
    * Returns all results by invoking getNext() repeatedly until all pages of results have been retrieved.
-   * @return a List&lt;TransitConnection&gt; containing all results returned by the "listConnections" method
+   * @return a List&lt;TransitConnectionCollectionConnectionsItem&gt; containing all results returned by the "listConnections" method
    */
-  public List<TransitConnection> getAll() {
-    List<TransitConnection> results = new ArrayList<>();
+  public List<TransitConnectionCollectionConnectionsItem> getAll() {
+    List<TransitConnectionCollectionConnectionsItem> results = new ArrayList<>();
     while (hasNext()) {
-      List<TransitConnection> nextPage = getNext();
+      List<TransitConnectionCollectionConnectionsItem> nextPage = getNext();
       results.addAll(nextPage);
     }
     return results;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -21,7 +21,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class TransitConnectionCollection extends GenericModel {
 
-  protected List<TransitConnection> connections;
+  protected List<TransitConnectionCollectionConnectionsItem> connections;
   protected PaginationFirstConnection first;
   protected Long limit;
   protected PaginationNextConnection next;
@@ -35,7 +35,7 @@ public class TransitConnectionCollection extends GenericModel {
    *
    * @return the connections
    */
-  public List<TransitConnection> getConnections() {
+  public List<TransitConnectionCollectionConnectionsItem> getConnections() {
     return connections;
   }
 
