@@ -65,9 +65,9 @@ public class ConnectionsPager {
 
   /**
    * Returns the next page of results.
-   * @return a List&lt;TransitConnectionCollectionConnectionsItem&gt; that contains the next page of results
+   * @return a List&lt;TransitConnection&gt; that contains the next page of results
    */
-  public List<TransitConnectionCollectionConnectionsItem> getNext() {
+  public List<TransitConnection> getNext() {
     if (!hasNext()) {
       throw new NoSuchElementException("No more results available");
     }
@@ -94,12 +94,12 @@ public class ConnectionsPager {
 
   /**
    * Returns all results by invoking getNext() repeatedly until all pages of results have been retrieved.
-   * @return a List&lt;TransitConnectionCollectionConnectionsItem&gt; containing all results returned by the "listConnections" method
+   * @return a List&lt;TransitConnection&gt; containing all results returned by the "listConnections" method
    */
-  public List<TransitConnectionCollectionConnectionsItem> getAll() {
-    List<TransitConnectionCollectionConnectionsItem> results = new ArrayList<>();
+  public List<TransitConnection> getAll() {
+    List<TransitConnection> results = new ArrayList<>();
     while (hasNext()) {
-      List<TransitConnectionCollectionConnectionsItem> nextPage = getNext();
+      List<TransitConnection> nextPage = getNext();
       results.addAll(nextPage);
     }
     return results;

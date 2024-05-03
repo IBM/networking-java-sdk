@@ -14,11 +14,8 @@
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GreTunnelZoneReference;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationFirstTGWConnection;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationNextTGWConnection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RgreTunnelZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnection;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionPrefixFilterReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayRedundantGRETunnelReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
@@ -31,19 +28,36 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the TransitGatewayConnectionCollection model.
+ * Unit test class for the TransitGatewayConnection model.
  */
-public class TransitGatewayConnectionCollectionTest {
+public class TransitGatewayConnectionTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testTransitGatewayConnectionCollection() throws Throwable {
-    TransitGatewayConnectionCollection transitGatewayConnectionCollectionModel = new TransitGatewayConnectionCollection();
-    assertNull(transitGatewayConnectionCollectionModel.getConnections());
-    assertNull(transitGatewayConnectionCollectionModel.getFirst());
-    assertNull(transitGatewayConnectionCollectionModel.getLimit());
-    assertNull(transitGatewayConnectionCollectionModel.getNext());
-    assertNull(transitGatewayConnectionCollectionModel.getTotalCount());
+  public void testTransitGatewayConnection() throws Throwable {
+    TransitGatewayConnection transitGatewayConnectionModel = new TransitGatewayConnection();
+    assertNull(transitGatewayConnectionModel.getBaseNetworkType());
+    assertNull(transitGatewayConnectionModel.getName());
+    assertNull(transitGatewayConnectionModel.getNetworkId());
+    assertNull(transitGatewayConnectionModel.getNetworkType());
+    assertNull(transitGatewayConnectionModel.getId());
+    assertNull(transitGatewayConnectionModel.getBaseConnectionId());
+    assertNull(transitGatewayConnectionModel.getCreatedAt());
+    assertNull(transitGatewayConnectionModel.getLocalBgpAsn());
+    assertNull(transitGatewayConnectionModel.getLocalGatewayIp());
+    assertNull(transitGatewayConnectionModel.getLocalTunnelIp());
+    assertNull(transitGatewayConnectionModel.getMtu());
+    assertNull(transitGatewayConnectionModel.getNetworkAccountId());
+    assertNull(transitGatewayConnectionModel.getPrefixFilters());
+    assertNull(transitGatewayConnectionModel.getPrefixFiltersDefault());
+    assertNull(transitGatewayConnectionModel.getRemoteBgpAsn());
+    assertNull(transitGatewayConnectionModel.getRemoteGatewayIp());
+    assertNull(transitGatewayConnectionModel.getRemoteTunnelIp());
+    assertNull(transitGatewayConnectionModel.getRequestStatus());
+    assertNull(transitGatewayConnectionModel.getStatus());
+    assertNull(transitGatewayConnectionModel.getTunnels());
+    assertNull(transitGatewayConnectionModel.getUpdatedAt());
+    assertNull(transitGatewayConnectionModel.getZone());
   }
 }

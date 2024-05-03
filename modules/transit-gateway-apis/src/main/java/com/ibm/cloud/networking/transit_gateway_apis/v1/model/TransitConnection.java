@@ -21,7 +21,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 /**
  * Connection included in transit gateway.
  */
-public class TransitGatewayConnectionCust extends GenericModel {
+public class TransitConnection extends GenericModel {
 
   /**
    * The type of network the GRE tunnel is targeting.
@@ -55,8 +55,9 @@ public class TransitGatewayConnectionCust extends GenericModel {
   }
 
   /**
-   * Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
-   * not apply to the 'redundant_gre' network type.
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   *
+   * This field does not apply to the 'redundant_gre' network type.
    */
   public interface PrefixFiltersDefault {
     /** permit. */
@@ -142,12 +143,14 @@ public class TransitGatewayConnectionCust extends GenericModel {
   @SerializedName("request_status")
   protected String requestStatus;
   protected String status;
+  @SerializedName("transit_gateway")
+  protected TransitGatewayReference transitGateway;
   protected List<TransitGatewayRedundantGRETunnelReference> tunnels;
   @SerializedName("updated_at")
   protected Date updatedAt;
   protected GreTunnelZoneReference zone;
 
-  protected TransitGatewayConnectionCust() { }
+  protected TransitConnection() { }
 
   /**
    * Gets the baseNetworkType.
@@ -296,8 +299,9 @@ public class TransitGatewayConnectionCust extends GenericModel {
    * Gets the prefixFilters.
    *
    * Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
-   * array being applied first, and those at the end of the array is applied last, or just before the default. This
-   * field does not apply to the 'redundant_gre' network type.
+   * array being applied first, and those at the end of the array is applied last, or just before the default.
+   *
+   * This field does not apply to the 'redundant_gre' network type.
    *
    * @return the prefixFilters
    */
@@ -308,8 +312,9 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the prefixFiltersDefault.
    *
-   * Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
-   * not apply to the 'redundant_gre' network type.
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   *
+   * This field does not apply to the 'redundant_gre' network type.
    *
    * @return the prefixFiltersDefault
    */
@@ -375,6 +380,17 @@ public class TransitGatewayConnectionCust extends GenericModel {
    */
   public String getStatus() {
     return status;
+  }
+
+  /**
+   * Gets the transitGateway.
+   *
+   * Transit gateway reference.
+   *
+   * @return the transitGateway
+   */
+  public TransitGatewayReference getTransitGateway() {
+    return transitGateway;
   }
 
   /**

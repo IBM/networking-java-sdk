@@ -21,7 +21,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class TransitConnectionCollection extends GenericModel {
 
-  protected List<TransitConnectionCollectionConnectionsItem> connections;
+  protected List<TransitConnection> connections;
   protected PaginationFirstConnection first;
   protected Long limit;
   protected PaginationNextConnection next;
@@ -35,7 +35,7 @@ public class TransitConnectionCollection extends GenericModel {
    *
    * @return the connections
    */
-  public List<TransitConnectionCollectionConnectionsItem> getConnections() {
+  public List<TransitConnection> getConnections() {
     return connections;
   }
 

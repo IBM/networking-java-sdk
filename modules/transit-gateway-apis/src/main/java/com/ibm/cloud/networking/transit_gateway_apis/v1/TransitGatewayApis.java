@@ -410,7 +410,51 @@ public class TransitGatewayApis extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(createTransitGatewayConnectionOptions.transitGatewayConnectionTemplate()), "application/json");
+    final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("network_type", createTransitGatewayConnectionOptions.networkType());
+    if (createTransitGatewayConnectionOptions.baseConnectionId() != null) {
+      contentJson.addProperty("base_connection_id", createTransitGatewayConnectionOptions.baseConnectionId());
+    }
+    if (createTransitGatewayConnectionOptions.baseNetworkType() != null) {
+      contentJson.addProperty("base_network_type", createTransitGatewayConnectionOptions.baseNetworkType());
+    }
+    if (createTransitGatewayConnectionOptions.localGatewayIp() != null) {
+      contentJson.addProperty("local_gateway_ip", createTransitGatewayConnectionOptions.localGatewayIp());
+    }
+    if (createTransitGatewayConnectionOptions.localTunnelIp() != null) {
+      contentJson.addProperty("local_tunnel_ip", createTransitGatewayConnectionOptions.localTunnelIp());
+    }
+    if (createTransitGatewayConnectionOptions.name() != null) {
+      contentJson.addProperty("name", createTransitGatewayConnectionOptions.name());
+    }
+    if (createTransitGatewayConnectionOptions.networkAccountId() != null) {
+      contentJson.addProperty("network_account_id", createTransitGatewayConnectionOptions.networkAccountId());
+    }
+    if (createTransitGatewayConnectionOptions.networkId() != null) {
+      contentJson.addProperty("network_id", createTransitGatewayConnectionOptions.networkId());
+    }
+    if (createTransitGatewayConnectionOptions.prefixFilters() != null) {
+      contentJson.add("prefix_filters", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayConnectionOptions.prefixFilters()));
+    }
+    if (createTransitGatewayConnectionOptions.prefixFiltersDefault() != null) {
+      contentJson.addProperty("prefix_filters_default", createTransitGatewayConnectionOptions.prefixFiltersDefault());
+    }
+    if (createTransitGatewayConnectionOptions.remoteBgpAsn() != null) {
+      contentJson.addProperty("remote_bgp_asn", createTransitGatewayConnectionOptions.remoteBgpAsn());
+    }
+    if (createTransitGatewayConnectionOptions.remoteGatewayIp() != null) {
+      contentJson.addProperty("remote_gateway_ip", createTransitGatewayConnectionOptions.remoteGatewayIp());
+    }
+    if (createTransitGatewayConnectionOptions.remoteTunnelIp() != null) {
+      contentJson.addProperty("remote_tunnel_ip", createTransitGatewayConnectionOptions.remoteTunnelIp());
+    }
+    if (createTransitGatewayConnectionOptions.tunnels() != null) {
+      contentJson.add("tunnels", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayConnectionOptions.tunnels()));
+    }
+    if (createTransitGatewayConnectionOptions.zone() != null) {
+      contentJson.add("zone", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayConnectionOptions.zone()));
+    }
+    builder.bodyJson(contentJson);
     ResponseConverter<TransitGatewayConnectionCust> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayConnectionCust>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);

@@ -65,9 +65,9 @@ public class TransitGatewayConnectionsPager {
 
   /**
    * Returns the next page of results.
-   * @return a List&lt;TransitGatewayConnectionCollectionConnectionsItem&gt; that contains the next page of results
+   * @return a List&lt;TransitGatewayConnection&gt; that contains the next page of results
    */
-  public List<TransitGatewayConnectionCollectionConnectionsItem> getNext() {
+  public List<TransitGatewayConnection> getNext() {
     if (!hasNext()) {
       throw new NoSuchElementException("No more results available");
     }
@@ -94,12 +94,12 @@ public class TransitGatewayConnectionsPager {
 
   /**
    * Returns all results by invoking getNext() repeatedly until all pages of results have been retrieved.
-   * @return a List&lt;TransitGatewayConnectionCollectionConnectionsItem&gt; containing all results returned by the "listTransitGatewayConnections" method
+   * @return a List&lt;TransitGatewayConnection&gt; containing all results returned by the "listTransitGatewayConnections" method
    */
-  public List<TransitGatewayConnectionCollectionConnectionsItem> getAll() {
-    List<TransitGatewayConnectionCollectionConnectionsItem> results = new ArrayList<>();
+  public List<TransitGatewayConnection> getAll() {
+    List<TransitGatewayConnection> results = new ArrayList<>();
     while (hasNext()) {
-      List<TransitGatewayConnectionCollectionConnectionsItem> nextPage = getNext();
+      List<TransitGatewayConnection> nextPage = getNext();
       results.addAll(nextPage);
     }
     return results;

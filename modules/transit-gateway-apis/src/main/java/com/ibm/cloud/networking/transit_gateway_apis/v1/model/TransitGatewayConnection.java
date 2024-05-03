@@ -21,7 +21,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 /**
  * Connection included in transit gateway.
  */
-public class TransitGatewayConnectionCust extends GenericModel {
+public class TransitGatewayConnection extends GenericModel {
 
   /**
    * The type of network the GRE tunnel is targeting.
@@ -147,7 +147,7 @@ public class TransitGatewayConnectionCust extends GenericModel {
   protected Date updatedAt;
   protected GreTunnelZoneReference zone;
 
-  protected TransitGatewayConnectionCust() { }
+  protected TransitGatewayConnection() { }
 
   /**
    * Gets the baseNetworkType.
