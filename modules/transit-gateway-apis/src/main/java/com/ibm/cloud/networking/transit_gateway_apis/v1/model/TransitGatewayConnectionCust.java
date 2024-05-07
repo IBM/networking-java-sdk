@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -29,6 +29,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   public interface BaseNetworkType {
     /** classic. */
     String CLASSIC = "classic";
+    /** vpc. */
+    String VPC = "vpc";
   }
 
   /**
@@ -48,10 +50,13 @@ public class TransitGatewayConnectionCust extends GenericModel {
     String VPC = "vpc";
     /** power_virtual_server. */
     String POWER_VIRTUAL_SERVER = "power_virtual_server";
+    /** redundant_gre. */
+    String REDUNDANT_GRE = "redundant_gre";
   }
 
   /**
-   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
+   * not apply to the 'redundant_gre' network type.
    */
   public interface PrefixFiltersDefault {
     /** permit. */
@@ -137,9 +142,10 @@ public class TransitGatewayConnectionCust extends GenericModel {
   @SerializedName("request_status")
   protected String requestStatus;
   protected String status;
+  protected List<TransitGatewayRedundantGRETunnelReference> tunnels;
   @SerializedName("updated_at")
   protected Date updatedAt;
-  protected TransitGatewayConnectionCustZone zone;
+  protected GreTunnelZoneReference zone;
 
   protected TransitGatewayConnectionCust() { }
 
@@ -169,8 +175,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
    * Gets the networkId.
    *
    * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
-   * 'power_virtual_server' and 'directlink'. For network types 'vpc','power_virtual_server' and 'directlink' this is
-   * the CRN of the VPC / PowerVS / Direct Link gateway respectively.
+   * 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
+   * 'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway respectively.
    *
    * @return the networkId
    */
@@ -290,7 +296,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
    * Gets the prefixFilters.
    *
    * Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
-   * array being applied first, and those at the end of the array is applied last, or just before the default.
+   * array being applied first, and those at the end of the array is applied last, or just before the default. This
+   * field does not apply to the 'redundant_gre' network type.
    *
    * @return the prefixFilters
    */
@@ -301,7 +308,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the prefixFiltersDefault.
    *
-   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter. This field does
+   * not apply to the 'redundant_gre' network type.
    *
    * @return the prefixFiltersDefault
    */
@@ -370,6 +378,17 @@ public class TransitGatewayConnectionCust extends GenericModel {
   }
 
   /**
+   * Gets the tunnels.
+   *
+   * Collection of all tunnels for 'redundant_gre' connection.
+   *
+   * @return the tunnels
+   */
+  public List<TransitGatewayRedundantGRETunnelReference> getTunnels() {
+    return tunnels;
+  }
+
+  /**
    * Gets the updatedAt.
    *
    * The date and time that this connection was last updated.
@@ -383,11 +402,11 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the zone.
    *
-   * Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
    *
    * @return the zone
    */
-  public TransitGatewayConnectionCustZone getZone() {
+  public GreTunnelZoneReference getZone() {
     return zone;
   }
 }
