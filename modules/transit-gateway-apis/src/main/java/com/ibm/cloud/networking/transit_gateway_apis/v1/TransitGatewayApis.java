@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,15 +22,19 @@ import com.ibm.cloud.networking.common.SdkCommon;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionActionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionPrefixFilterOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayGreTunnelOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayConnectionPrefixFilterOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayConnectionTunnelsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetGatewayLocationOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionPrefixFilterOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionTunnelsOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayGreTunnelOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListConnectionsOptions;
@@ -41,6 +45,8 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGateway
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCust;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RedundantGRETunnelCollection;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RedundantGRETunnelReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ReplaceTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReport;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportCollection;
@@ -53,6 +59,7 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConn
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionCust;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionPrefixFilterOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionTunnelsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayOptions;
 import com.ibm.cloud.sdk.core.http.RequestBuilder;
 import com.ibm.cloud.sdk.core.http.ResponseConverter;
@@ -441,6 +448,9 @@ public class TransitGatewayApis extends BaseService {
     if (createTransitGatewayConnectionOptions.remoteTunnelIp() != null) {
       contentJson.addProperty("remote_tunnel_ip", createTransitGatewayConnectionOptions.remoteTunnelIp());
     }
+    if (createTransitGatewayConnectionOptions.tunnels() != null) {
+      contentJson.add("tunnels", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayConnectionOptions.tunnels()));
+    }
     if (createTransitGatewayConnectionOptions.zone() != null) {
       contentJson.add("zone", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayConnectionOptions.zone()));
     }
@@ -559,6 +569,153 @@ public class TransitGatewayApis extends BaseService {
     contentJson.addProperty("action", createTransitGatewayConnectionActionsOptions.action());
     builder.bodyJson(contentJson);
     ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Retrieves specified Transit Gateway redundant gre connection tunnels.
+   *
+   * This request retrieves a list of all the tunnels for the redundant gre conneciton.
+   *
+   * @param getTransitGatewayGreTunnelOptions the {@link GetTransitGatewayGreTunnelOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RedundantGRETunnelCollection}
+   */
+  public ServiceCall<RedundantGRETunnelCollection> getTransitGatewayGreTunnel(GetTransitGatewayGreTunnelOptions getTransitGatewayGreTunnelOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getTransitGatewayGreTunnelOptions,
+      "getTransitGatewayGreTunnelOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", getTransitGatewayGreTunnelOptions.transitGatewayId());
+    pathParamsMap.put("id", getTransitGatewayGreTunnelOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "getTransitGatewayGreTunnel");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RedundantGRETunnelCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RedundantGRETunnelCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Create Transit Gateway redundant GRE tunnel.
+   *
+   * Add a tunnel to an existing Redundant GRE connection.
+   *
+   * @param createTransitGatewayGreTunnelOptions the {@link CreateTransitGatewayGreTunnelOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RedundantGRETunnelReference}
+   */
+  public ServiceCall<RedundantGRETunnelReference> createTransitGatewayGreTunnel(CreateTransitGatewayGreTunnelOptions createTransitGatewayGreTunnelOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createTransitGatewayGreTunnelOptions,
+      "createTransitGatewayGreTunnelOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", createTransitGatewayGreTunnelOptions.transitGatewayId());
+    pathParamsMap.put("id", createTransitGatewayGreTunnelOptions.id());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "createTransitGatewayGreTunnel");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("local_gateway_ip", createTransitGatewayGreTunnelOptions.localGatewayIp());
+    contentJson.addProperty("local_tunnel_ip", createTransitGatewayGreTunnelOptions.localTunnelIp());
+    contentJson.addProperty("name", createTransitGatewayGreTunnelOptions.name());
+    contentJson.addProperty("remote_gateway_ip", createTransitGatewayGreTunnelOptions.remoteGatewayIp());
+    contentJson.addProperty("remote_tunnel_ip", createTransitGatewayGreTunnelOptions.remoteTunnelIp());
+    contentJson.add("zone", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayGreTunnelOptions.zone()));
+    if (createTransitGatewayGreTunnelOptions.remoteBgpAsn() != null) {
+      contentJson.addProperty("remote_bgp_asn", createTransitGatewayGreTunnelOptions.remoteBgpAsn());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<RedundantGRETunnelReference> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RedundantGRETunnelReference>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Delete specified Transit Gateway redundant GRE tunnel.
+   *
+   * Remove a tunnel from a redundant GRE connection.
+   *
+   * @param deleteTransitGatewayConnectionTunnelsOptions the {@link DeleteTransitGatewayConnectionTunnelsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteTransitGatewayConnectionTunnels(DeleteTransitGatewayConnectionTunnelsOptions deleteTransitGatewayConnectionTunnelsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteTransitGatewayConnectionTunnelsOptions,
+      "deleteTransitGatewayConnectionTunnelsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", deleteTransitGatewayConnectionTunnelsOptions.transitGatewayId());
+    pathParamsMap.put("id", deleteTransitGatewayConnectionTunnelsOptions.id());
+    pathParamsMap.put("gre_tunnel_id", deleteTransitGatewayConnectionTunnelsOptions.greTunnelId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "deleteTransitGatewayConnectionTunnels");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Retrieves specified Transit Gateway connection tunnel.
+   *
+   * This request retrieves a connection tunnel from the Transit Gateway Connection.
+   *
+   * @param getTransitGatewayConnectionTunnelsOptions the {@link GetTransitGatewayConnectionTunnelsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RedundantGRETunnelReference}
+   */
+  public ServiceCall<RedundantGRETunnelReference> getTransitGatewayConnectionTunnels(GetTransitGatewayConnectionTunnelsOptions getTransitGatewayConnectionTunnelsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getTransitGatewayConnectionTunnelsOptions,
+      "getTransitGatewayConnectionTunnelsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", getTransitGatewayConnectionTunnelsOptions.transitGatewayId());
+    pathParamsMap.put("id", getTransitGatewayConnectionTunnelsOptions.id());
+    pathParamsMap.put("gre_tunnel_id", getTransitGatewayConnectionTunnelsOptions.greTunnelId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "getTransitGatewayConnectionTunnels");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RedundantGRETunnelReference> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RedundantGRETunnelReference>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Updates specified Transit Gateway redundant GRE tunnel.
+   *
+   * Update the name of a connection tunnel.
+   *
+   * @param updateTransitGatewayConnectionTunnelsOptions the {@link UpdateTransitGatewayConnectionTunnelsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RedundantGRETunnelReference}
+   */
+  public ServiceCall<RedundantGRETunnelReference> updateTransitGatewayConnectionTunnels(UpdateTransitGatewayConnectionTunnelsOptions updateTransitGatewayConnectionTunnelsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateTransitGatewayConnectionTunnelsOptions,
+      "updateTransitGatewayConnectionTunnelsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("transit_gateway_id", updateTransitGatewayConnectionTunnelsOptions.transitGatewayId());
+    pathParamsMap.put("id", updateTransitGatewayConnectionTunnelsOptions.id());
+    pathParamsMap.put("gre_tunnel_id", updateTransitGatewayConnectionTunnelsOptions.greTunnelId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/transit_gateways/{transit_gateway_id}/connections/{id}/tunnels/{gre_tunnel_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "updateTransitGatewayConnectionTunnels");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    if (updateTransitGatewayConnectionTunnelsOptions.name() != null) {
+      contentJson.addProperty("name", updateTransitGatewayConnectionTunnelsOptions.name());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<RedundantGRETunnelReference> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RedundantGRETunnelReference>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

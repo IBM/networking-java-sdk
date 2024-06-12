@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2024.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,10 +13,12 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GreTunnelZoneReference;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RgreTunnelZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitConnection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionPrefixFilterReference;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayRedundantGRETunnelReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayReference;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.DateUtils;
@@ -36,17 +38,18 @@ public class TransitConnectionTest {
   @Test
   public void testTransitConnection() throws Throwable {
     TransitConnection transitConnectionModel = new TransitConnection();
+    assertNull(transitConnectionModel.getBaseNetworkType());
+    assertNull(transitConnectionModel.getName());
+    assertNull(transitConnectionModel.getNetworkId());
+    assertNull(transitConnectionModel.getNetworkType());
+    assertNull(transitConnectionModel.getId());
     assertNull(transitConnectionModel.getBaseConnectionId());
     assertNull(transitConnectionModel.getCreatedAt());
-    assertNull(transitConnectionModel.getId());
     assertNull(transitConnectionModel.getLocalBgpAsn());
     assertNull(transitConnectionModel.getLocalGatewayIp());
     assertNull(transitConnectionModel.getLocalTunnelIp());
     assertNull(transitConnectionModel.getMtu());
-    assertNull(transitConnectionModel.getName());
     assertNull(transitConnectionModel.getNetworkAccountId());
-    assertNull(transitConnectionModel.getNetworkId());
-    assertNull(transitConnectionModel.getNetworkType());
     assertNull(transitConnectionModel.getPrefixFilters());
     assertNull(transitConnectionModel.getPrefixFiltersDefault());
     assertNull(transitConnectionModel.getRemoteBgpAsn());
@@ -55,6 +58,7 @@ public class TransitConnectionTest {
     assertNull(transitConnectionModel.getRequestStatus());
     assertNull(transitConnectionModel.getStatus());
     assertNull(transitConnectionModel.getTransitGateway());
+    assertNull(transitConnectionModel.getTunnels());
     assertNull(transitConnectionModel.getUpdatedAt());
     assertNull(transitConnectionModel.getZone());
   }
