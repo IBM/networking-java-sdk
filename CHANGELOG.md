@@ -1,3 +1,16 @@
+# [0.37.0](https://github.com/IBM/networking-java-sdk/compare/0.36.0...0.37.0) (2024-06-13)
+
+
+### Bug Fixes
+
+* fixing semantic-release failure ([#93](https://github.com/IBM/networking-java-sdk/issues/93)) ([4ce99e0](https://github.com/IBM/networking-java-sdk/commit/4ce99e07ed1b0d20a861be56cc8627ff28ed0589))
+* fixing semantic-release failure ([#95](https://github.com/IBM/networking-java-sdk/issues/95)) ([0c95530](https://github.com/IBM/networking-java-sdk/commit/0c9553064f5300b4df3d38e8528120a9567f39c0)), closes [#92](https://github.com/IBM/networking-java-sdk/issues/92)
+
+
+### Features
+
+* including RGRE changes ([#92](https://github.com/IBM/networking-java-sdk/issues/92)) ([71bcddf](https://github.com/IBM/networking-java-sdk/commit/71bcddff284632836ed7748419afc2631be33c9d))
+
 # [0.36.0](https://github.com/IBM/networking-java-sdk/compare/0.35.1...0.36.0) (2024-03-14)
 
 
