@@ -1,3 +1,10 @@
+## [0.37.1](https://github.com/IBM/networking-java-sdk/compare/0.37.0...0.37.1) (2024-12-10)
+
+
+### Bug Fixes
+
+* updating a vulnerable pakcage to the latest version number ([#100](https://github.com/IBM/networking-java-sdk/issues/100)) ([29f7627](https://github.com/IBM/networking-java-sdk/commit/29f7627bc1674ce5d126a5b1eec7f689765e5f70))
+
 # [0.37.0](https://github.com/IBM/networking-java-sdk/compare/0.36.0...0.37.0) (2024-06-13)
 
 
