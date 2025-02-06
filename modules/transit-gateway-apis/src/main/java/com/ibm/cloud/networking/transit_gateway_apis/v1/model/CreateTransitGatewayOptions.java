@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -21,6 +21,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
 
   protected String location;
   protected String name;
+  protected Boolean allowGreTrafficAcrossZones;
   protected Boolean global;
   protected ResourceGroupIdentity resourceGroup;
 
@@ -30,6 +31,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
   public static class Builder {
     private String location;
     private String name;
+    private Boolean allowGreTrafficAcrossZones;
     private Boolean global;
     private ResourceGroupIdentity resourceGroup;
 
@@ -41,6 +43,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
     private Builder(CreateTransitGatewayOptions createTransitGatewayOptions) {
       this.location = createTransitGatewayOptions.location;
       this.name = createTransitGatewayOptions.name;
+      this.allowGreTrafficAcrossZones = createTransitGatewayOptions.allowGreTrafficAcrossZones;
       this.global = createTransitGatewayOptions.global;
       this.resourceGroup = createTransitGatewayOptions.resourceGroup;
     }
@@ -94,6 +97,17 @@ public class CreateTransitGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the allowGreTrafficAcrossZones.
+     *
+     * @param allowGreTrafficAcrossZones the allowGreTrafficAcrossZones
+     * @return the CreateTransitGatewayOptions builder
+     */
+    public Builder allowGreTrafficAcrossZones(Boolean allowGreTrafficAcrossZones) {
+      this.allowGreTrafficAcrossZones = allowGreTrafficAcrossZones;
+      return this;
+    }
+
+    /**
      * Set the global.
      *
      * @param global the global
@@ -125,6 +139,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
       "name cannot be null");
     location = builder.location;
     name = builder.name;
+    allowGreTrafficAcrossZones = builder.allowGreTrafficAcrossZones;
     global = builder.global;
     resourceGroup = builder.resourceGroup;
   }
@@ -152,12 +167,23 @@ public class CreateTransitGatewayOptions extends GenericModel {
   /**
    * Gets the name.
    *
-   * Name Transit Gateway Services.
+   * A human readable name for the transit gateway.
    *
    * @return the name
    */
   public String name() {
     return name;
+  }
+
+  /**
+   * Gets the allowGreTrafficAcrossZones.
+   *
+   * Allow GRE traffic in this gateway to flow across zones.
+   *
+   * @return the allowGreTrafficAcrossZones
+   */
+  public Boolean allowGreTrafficAcrossZones() {
+    return allowGreTrafficAcrossZones;
   }
 
   /**

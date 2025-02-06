@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -33,12 +33,14 @@ public class UpdateTransitGatewayOptionsTest {
   public void testUpdateTransitGatewayOptions() throws Throwable {
     UpdateTransitGatewayOptions updateTransitGatewayOptionsModel = new UpdateTransitGatewayOptions.Builder()
       .id("testString")
+      .allowGreTrafficAcrossZones(true)
       .global(true)
-      .name("my-transit-gateway")
+      .name("my-resource")
       .build();
     assertEquals(updateTransitGatewayOptionsModel.id(), "testString");
+    assertEquals(updateTransitGatewayOptionsModel.allowGreTrafficAcrossZones(), Boolean.valueOf(true));
     assertEquals(updateTransitGatewayOptionsModel.global(), Boolean.valueOf(true));
-    assertEquals(updateTransitGatewayOptionsModel.name(), "my-transit-gateway");
+    assertEquals(updateTransitGatewayOptionsModel.name(), "my-resource");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

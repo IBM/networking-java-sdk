@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -52,12 +52,16 @@ public class TransitConnection extends GenericModel {
     String POWER_VIRTUAL_SERVER = "power_virtual_server";
     /** redundant_gre. */
     String REDUNDANT_GRE = "redundant_gre";
+    /** vmware. */
+    String VMWARE = "vmware";
+    /** vpn_gateway. */
+    String VPN_GATEWAY = "vpn_gateway";
   }
 
   /**
    * Default setting of permit or deny which applies to any routes that don't match a specified filter.
    *
-   * This field does not apply to the 'redundant_gre' network type.
+   * This field does not apply to the `redundant_gre` or `vmware` network types.
    */
   public interface PrefixFiltersDefault {
     /** permit. */
@@ -145,10 +149,10 @@ public class TransitConnection extends GenericModel {
   protected String status;
   @SerializedName("transit_gateway")
   protected TransitGatewayReference transitGateway;
-  protected List<TransitGatewayRedundantGRETunnelReference> tunnels;
+  protected List<TransitGatewayTunnel> tunnels;
   @SerializedName("updated_at")
   protected Date updatedAt;
-  protected GreTunnelZoneReference zone;
+  protected ZoneReference zone;
 
   protected TransitConnection() { }
 
@@ -177,9 +181,10 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the networkId.
    *
-   * The ID of the network being connected via this connection. This field is required for some types, such as 'vpc',
-   * 'power_virtual_server', 'directlink' and 'redundant_gre'. For network types 'vpc', 'redundant_gre',
-   * 'power_virtual_server' and 'directlink' this is the CRN of the VPC  / PowerVS / Direct Link gateway respectively.
+   * The ID of the network being connected via this connection. This field is required for some types, such as `vpc`,
+   * `vmware`, `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types `vpc`,
+   * `redundant_gre`, `power_virtual_server`, `vmware` and `directlink` this is the CRN of the VPC  / PowerVS / VDC /
+   * Direct Link gateway respectively.
    *
    * @return the networkId
    */
@@ -202,7 +207,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the id.
    *
-   * The unique identifier for this Transit Gateway Connection.
+   * The unique identifier for this Transit Gateway connection.
    *
    * @return the id
    */
@@ -213,10 +218,10 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the baseConnectionId.
    *
-   * network_type 'gre_tunnel' connections use 'base_connection_id' to specify the ID of a network_type 'classic'
+   * network_type `gre_tunnel` connections use `base_connection_id` to specify the ID of a network_type `classic`
    * connection the tunnel is configured over. The specified connection must reside in the same transit gateway and be
-   * in an active state. The 'classic' connection cannot be deleted until any 'gre_tunnel' connections using it are
-   * deleted. This field only applies to and is required for network type 'gre_tunnel' connections.
+   * in an active state. The `classic` connection cannot be deleted until any `gre_tunnel` connections using it are
+   * deleted. This field only applies to and is required for network type `gre_tunnel` connections.
    *
    * @return the baseConnectionId
    * @deprecated this method is deprecated and may be removed in a future release
@@ -240,7 +245,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the localBgpAsn.
    *
-   * Local network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * Local network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * @return the localBgpAsn
    */
@@ -251,7 +256,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the localGatewayIp.
    *
-   * Local gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+   * Local gateway IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
    * connections.
    *
    * @return the localGatewayIp
@@ -263,7 +268,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the localTunnelIp.
    *
-   * Local tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+   * Local tunnel IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
    * connections.
    *
    * @return the localTunnelIp
@@ -275,7 +280,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the mtu.
    *
-   * GRE tunnel MTU.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * GRE tunnel MTU.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * @return the mtu
    */
@@ -301,7 +306,7 @@ public class TransitConnection extends GenericModel {
    * Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
    * array being applied first, and those at the end of the array is applied last, or just before the default.
    *
-   * This field does not apply to the 'redundant_gre' network type.
+   * This field does not apply to the `redundant_gre` or `vmware` network types.
    *
    * @return the prefixFilters
    */
@@ -314,7 +319,7 @@ public class TransitConnection extends GenericModel {
    *
    * Default setting of permit or deny which applies to any routes that don't match a specified filter.
    *
-   * This field does not apply to the 'redundant_gre' network type.
+   * This field does not apply to the `redundant_gre` or `vmware` network types.
    *
    * @return the prefixFiltersDefault
    */
@@ -325,7 +330,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the remoteBgpAsn.
    *
-   * Remote network BGP ASN.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * Remote network BGP ASN.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * @return the remoteBgpAsn
    */
@@ -336,7 +341,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the remoteGatewayIp.
    *
-   * Remote gateway IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+   * Remote gateway IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
    * connections.
    *
    * @return the remoteGatewayIp
@@ -348,7 +353,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the remoteTunnelIp.
    *
-   * Remote tunnel IP address.  This field only applies to network type 'gre_tunnel' and 'unbound_gre_tunnel'
+   * Remote tunnel IP address.  This field only applies to network type `gre_tunnel` and `unbound_gre_tunnel`
    * connections.
    *
    * @return the remoteTunnelIp
@@ -396,11 +401,11 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the tunnels.
    *
-   * Collection of all tunnels for 'redundant_gre' connection.
+   * Collection of all tunnels for `redundant_gre` connection.
    *
    * @return the tunnels
    */
-  public List<TransitGatewayRedundantGRETunnelReference> getTunnels() {
+  public List<TransitGatewayTunnel> getTunnels() {
     return tunnels;
   }
 
@@ -418,11 +423,11 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the zone.
    *
-   * Location of GRE tunnel.  This field only applies to network type 'gre_tunnel' connections.
+   * Availability zone reference.
    *
    * @return the zone
    */
-  public GreTunnelZoneReference getZone() {
+  public ZoneReference getZone() {
     return zone;
   }
 }
