@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,6 +20,7 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class UpdateTransitGatewayOptions extends GenericModel {
 
   protected String id;
+  protected Boolean allowGreTrafficAcrossZones;
   protected Boolean global;
   protected String name;
 
@@ -28,6 +29,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
    */
   public static class Builder {
     private String id;
+    private Boolean allowGreTrafficAcrossZones;
     private Boolean global;
     private String name;
 
@@ -38,6 +40,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
      */
     private Builder(UpdateTransitGatewayOptions updateTransitGatewayOptions) {
       this.id = updateTransitGatewayOptions.id;
+      this.allowGreTrafficAcrossZones = updateTransitGatewayOptions.allowGreTrafficAcrossZones;
       this.global = updateTransitGatewayOptions.global;
       this.name = updateTransitGatewayOptions.name;
     }
@@ -78,6 +81,17 @@ public class UpdateTransitGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the allowGreTrafficAcrossZones.
+     *
+     * @param allowGreTrafficAcrossZones the allowGreTrafficAcrossZones
+     * @return the UpdateTransitGatewayOptions builder
+     */
+    public Builder allowGreTrafficAcrossZones(Boolean allowGreTrafficAcrossZones) {
+      this.allowGreTrafficAcrossZones = allowGreTrafficAcrossZones;
+      return this;
+    }
+
+    /**
      * Set the global.
      *
      * @param global the global
@@ -106,6 +120,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
     id = builder.id;
+    allowGreTrafficAcrossZones = builder.allowGreTrafficAcrossZones;
     global = builder.global;
     name = builder.name;
   }
@@ -131,6 +146,17 @@ public class UpdateTransitGatewayOptions extends GenericModel {
   }
 
   /**
+   * Gets the allowGreTrafficAcrossZones.
+   *
+   * Allow GRE traffic in this gateway to flow across zones.
+   *
+   * @return the allowGreTrafficAcrossZones
+   */
+  public Boolean allowGreTrafficAcrossZones() {
+    return allowGreTrafficAcrossZones;
+  }
+
+  /**
    * Gets the global.
    *
    * Allow global routing for a Transit Gateway.
@@ -144,7 +170,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
   /**
    * Gets the name.
    *
-   * The user-defined name for this transit gateway.
+   * A human readable name for a resource.
    *
    * @return the name
    */

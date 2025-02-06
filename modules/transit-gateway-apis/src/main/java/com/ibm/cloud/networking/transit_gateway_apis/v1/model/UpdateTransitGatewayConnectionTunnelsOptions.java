@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,6 +12,8 @@
  */
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import java.util.Map;
+
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
@@ -22,7 +24,7 @@ public class UpdateTransitGatewayConnectionTunnelsOptions extends GenericModel {
   protected String transitGatewayId;
   protected String id;
   protected String greTunnelId;
-  protected String name;
+  protected Map<String, Object> transitGatewayTunnelPatch;
 
   /**
    * Builder.
@@ -31,7 +33,7 @@ public class UpdateTransitGatewayConnectionTunnelsOptions extends GenericModel {
     private String transitGatewayId;
     private String id;
     private String greTunnelId;
-    private String name;
+    private Map<String, Object> transitGatewayTunnelPatch;
 
     /**
      * Instantiates a new Builder from an existing UpdateTransitGatewayConnectionTunnelsOptions instance.
@@ -42,7 +44,7 @@ public class UpdateTransitGatewayConnectionTunnelsOptions extends GenericModel {
       this.transitGatewayId = updateTransitGatewayConnectionTunnelsOptions.transitGatewayId;
       this.id = updateTransitGatewayConnectionTunnelsOptions.id;
       this.greTunnelId = updateTransitGatewayConnectionTunnelsOptions.greTunnelId;
-      this.name = updateTransitGatewayConnectionTunnelsOptions.name;
+      this.transitGatewayTunnelPatch = updateTransitGatewayConnectionTunnelsOptions.transitGatewayTunnelPatch;
     }
 
     /**
@@ -57,11 +59,13 @@ public class UpdateTransitGatewayConnectionTunnelsOptions extends GenericModel {
      * @param transitGatewayId the transitGatewayId
      * @param id the id
      * @param greTunnelId the greTunnelId
+     * @param transitGatewayTunnelPatch the transitGatewayTunnelPatch
      */
-    public Builder(String transitGatewayId, String id, String greTunnelId) {
+    public Builder(String transitGatewayId, String id, String greTunnelId, Map<String, Object> transitGatewayTunnelPatch) {
       this.transitGatewayId = transitGatewayId;
       this.id = id;
       this.greTunnelId = greTunnelId;
+      this.transitGatewayTunnelPatch = transitGatewayTunnelPatch;
     }
 
     /**
@@ -107,13 +111,13 @@ public class UpdateTransitGatewayConnectionTunnelsOptions extends GenericModel {
     }
 
     /**
-     * Set the name.
+     * Set the transitGatewayTunnelPatch.
      *
-     * @param name the name
+     * @param transitGatewayTunnelPatch the transitGatewayTunnelPatch
      * @return the UpdateTransitGatewayConnectionTunnelsOptions builder
      */
-    public Builder name(String name) {
-      this.name = name;
+    public Builder transitGatewayTunnelPatch(Map<String, Object> transitGatewayTunnelPatch) {
+      this.transitGatewayTunnelPatch = transitGatewayTunnelPatch;
       return this;
     }
   }
@@ -127,10 +131,12 @@ public class UpdateTransitGatewayConnectionTunnelsOptions extends GenericModel {
       "id cannot be empty");
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.greTunnelId,
       "greTunnelId cannot be empty");
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.transitGatewayTunnelPatch,
+      "transitGatewayTunnelPatch cannot be null");
     transitGatewayId = builder.transitGatewayId;
     id = builder.id;
     greTunnelId = builder.greTunnelId;
-    name = builder.name;
+    transitGatewayTunnelPatch = builder.transitGatewayTunnelPatch;
   }
 
   /**
@@ -176,14 +182,14 @@ public class UpdateTransitGatewayConnectionTunnelsOptions extends GenericModel {
   }
 
   /**
-   * Gets the name.
+   * Gets the transitGatewayTunnelPatch.
    *
-   * The user-defined name for this connection tunnel.
+   * The update connection tunnel template.
    *
-   * @return the name
+   * @return the transitGatewayTunnelPatch
    */
-  public String name() {
-    return name;
+  public Map<String, Object> transitGatewayTunnelPatch() {
+    return transitGatewayTunnelPatch;
   }
 }
 
