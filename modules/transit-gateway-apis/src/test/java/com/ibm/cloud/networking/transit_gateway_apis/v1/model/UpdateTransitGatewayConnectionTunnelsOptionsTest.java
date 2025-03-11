@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -35,12 +35,12 @@ public class UpdateTransitGatewayConnectionTunnelsOptionsTest {
       .transitGatewayId("testString")
       .id("testString")
       .greTunnelId("testString")
-      .name("gre2")
+      .transitGatewayTunnelPatch(java.util.Collections.singletonMap("anyKey", "anyValue"))
       .build();
     assertEquals(updateTransitGatewayConnectionTunnelsOptionsModel.transitGatewayId(), "testString");
     assertEquals(updateTransitGatewayConnectionTunnelsOptionsModel.id(), "testString");
     assertEquals(updateTransitGatewayConnectionTunnelsOptionsModel.greTunnelId(), "testString");
-    assertEquals(updateTransitGatewayConnectionTunnelsOptionsModel.name(), "gre2");
+    assertEquals(updateTransitGatewayConnectionTunnelsOptionsModel.transitGatewayTunnelPatch(), java.util.Collections.singletonMap("anyKey", "anyValue"));
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

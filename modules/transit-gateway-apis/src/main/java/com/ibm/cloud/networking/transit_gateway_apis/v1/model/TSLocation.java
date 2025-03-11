@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -28,7 +28,7 @@ public class TSLocation extends GenericModel {
   protected String type;
   @SerializedName("local_connection_locations")
   protected List<TSLocalLocation> localConnectionLocations;
-  protected List<ZoneReferenceCollection> zones;
+  protected List<ZoneReference> zones;
 
   protected TSLocation() { }
 
@@ -83,7 +83,7 @@ public class TSLocation extends GenericModel {
    *
    * @return the zones
    */
-  public List<ZoneReferenceCollection> getZones() {
+  public List<ZoneReference> getZones() {
     return zones;
   }
 }
