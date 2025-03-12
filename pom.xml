@@ -30,7 +30,7 @@
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.11.0</testng-version>
-        <okhttp3-version>4.10.0</okhttp3-version>
+        <okhttp3-version>4.12.0</okhttp3-version>
         <surefire-version>3.5.2</surefire-version>
         <jacoco-plugin-version>0.8.12</jacoco-plugin-version>
         <maven-deploy-plugin-version>3.1.4</maven-deploy-plugin-version>
