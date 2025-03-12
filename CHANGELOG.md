@@ -1,3 +1,11 @@
+## [0.37.2](https://github.com/IBM/networking-java-sdk/compare/0.37.1...0.37.2) (2025-03-12)
+
+
+### Bug Fixes
+
+* **deps:** update okhttp monorepo to v4.12.0 ([#125](https://github.com/IBM/networking-java-sdk/issues/125)) ([bfe89bf](https://github.com/IBM/networking-java-sdk/commit/bfe89bfbcf2335e3bdec0413c5f92ee5423c1e04))
+* **deps:** update slf4j monorepo to v2.0.17 ([#104](https://github.com/IBM/networking-java-sdk/issues/104)) ([d52a1aa](https://github.com/IBM/networking-java-sdk/commit/d52a1aab0fe1423e6b6bd4a8adbe5b7b2722e90b))
+
 ## [0.37.1](https://github.com/IBM/networking-java-sdk/compare/0.37.0...0.37.1) (2024-12-10)
 
 
