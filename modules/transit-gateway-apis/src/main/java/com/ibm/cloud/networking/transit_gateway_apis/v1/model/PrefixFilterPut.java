@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -163,12 +163,12 @@ public class PrefixFilterPut extends GenericModel {
    * Gets the ge.
    *
    * Defines the minimum matched prefix precision. If this field is non-zero then the filter will match all routes
-   * within the 'prefix' that have a prefix length greater or equal to this value.
+   * within the `prefix` that have a prefix length greater or equal to this value.
    *
    * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
-   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'ge' route matching
-   * behavior. If the 'le' value is non-zero the the 'ge' value must between the prefix length and the
-   * 'le' value, inclusive.
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the `ge` route matching
+   * behavior. If the `le` value is non-zero the the `ge` value must between the prefix length and the
+   * `le` value, inclusive.
    *
    * @return the ge
    */
@@ -180,11 +180,11 @@ public class PrefixFilterPut extends GenericModel {
    * Gets the le.
    *
    * Defines the maximum matched prefix precision. If this field is non-zero then the filter will match all routes
-   * within the 'prefix' that have a prefix length less than or equal to this value.
+   * within the `prefix` that have a prefix length less than or equal to this value.
    *
    * This value can be zero, or a non-negative number greater than or equal to the prefix length of the filter's prefix
-   * or less then or equal to 32. If this value is set to zero, the filter will not use the 'le' route matching
-   * behavior. If the 'ge' value is non-zero the the 'le' value must between the 'ge' value and 32, inclusive.
+   * or less then or equal to 32. If this value is set to zero, the filter will not use the `le` route matching
+   * behavior. If the `ge` value is non-zero the the `le` value must between the `ge` value and 32, inclusive.
    *
    * @return the le
    */
@@ -195,10 +195,10 @@ public class PrefixFilterPut extends GenericModel {
   /**
    * Gets the prefix.
    *
-   * The IPv4 Prefix to be matched by this filter. If both the 'le' and 'ge' are zero, then this filter will only apply
-   * to routes that exactly match this prefix, while a non-zero value for either 'le' or 'ge', this filter can apply to
+   * The IPv4 Prefix to be matched by this filter. If both the `le` and `ge` are zero, then this filter will only apply
+   * to routes that exactly match this prefix, while a non-zero value for either `le` or `ge`, this filter can apply to
    * multiple routes with different prefix lengths, but will still only apply to prefixes contained in the address space
-   * defined by 'prefix'.
+   * defined by `prefix`.
    *
    * @return the prefix
    */

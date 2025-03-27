@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -40,13 +40,15 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     String POWER_VIRTUAL_SERVER = "power_virtual_server";
     /** redundant_gre. */
     String REDUNDANT_GRE = "redundant_gre";
+    /** vpn_gateway. */
+    String VPN_GATEWAY = "vpn_gateway";
   }
 
   /**
    * The type of network the Unbound GRE tunnel is targeting. This field is required for network type
-   * 'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre' network type, the value is required and
-   * can be either VPC or Classic. This field is required to be unspecified for network type 'classic', 'directlink',
-   * 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+   * `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and
+   * can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`,
+   * `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
    */
   public interface BaseNetworkType {
     /** classic. */
@@ -57,8 +59,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
 
   /**
    * Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
-   * optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
-   * required to be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * optional for network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This field is
+   * required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre`
+   * connections.
    */
   public interface PrefixFiltersDefault {
     /** permit. */
@@ -71,6 +74,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   protected String networkType;
   protected String baseConnectionId;
   protected String baseNetworkType;
+  protected String cidr;
   protected String localGatewayIp;
   protected String localTunnelIp;
   protected String name;
@@ -81,7 +85,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   protected Long remoteBgpAsn;
   protected String remoteGatewayIp;
   protected String remoteTunnelIp;
-  protected List<TransitGatewayRedundantGRETunnelTemplate> tunnels;
+  protected List<TransitGatewayTunnelTemplate> tunnels;
   protected ZoneIdentity zone;
 
   /**
@@ -92,6 +96,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     private String networkType;
     private String baseConnectionId;
     private String baseNetworkType;
+    private String cidr;
     private String localGatewayIp;
     private String localTunnelIp;
     private String name;
@@ -102,7 +107,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     private Long remoteBgpAsn;
     private String remoteGatewayIp;
     private String remoteTunnelIp;
-    private List<TransitGatewayRedundantGRETunnelTemplate> tunnels;
+    private List<TransitGatewayTunnelTemplate> tunnels;
     private ZoneIdentity zone;
 
     /**
@@ -115,6 +120,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
       this.networkType = createTransitGatewayConnectionOptions.networkType;
       this.baseConnectionId = createTransitGatewayConnectionOptions.baseConnectionId;
       this.baseNetworkType = createTransitGatewayConnectionOptions.baseNetworkType;
+      this.cidr = createTransitGatewayConnectionOptions.cidr;
       this.localGatewayIp = createTransitGatewayConnectionOptions.localGatewayIp;
       this.localTunnelIp = createTransitGatewayConnectionOptions.localTunnelIp;
       this.name = createTransitGatewayConnectionOptions.name;
@@ -177,11 +183,11 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
      * @param tunnels the new tunnels
      * @return the CreateTransitGatewayConnectionOptions builder
      */
-    public Builder addTunnels(TransitGatewayRedundantGRETunnelTemplate tunnels) {
+    public Builder addTunnels(TransitGatewayTunnelTemplate tunnels) {
       com.ibm.cloud.sdk.core.util.Validator.notNull(tunnels,
         "tunnels cannot be null");
       if (this.tunnels == null) {
-        this.tunnels = new ArrayList<TransitGatewayRedundantGRETunnelTemplate>();
+        this.tunnels = new ArrayList<TransitGatewayTunnelTemplate>();
       }
       this.tunnels.add(tunnels);
       return this;
@@ -230,6 +236,17 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
      */
     public Builder baseNetworkType(String baseNetworkType) {
       this.baseNetworkType = baseNetworkType;
+      return this;
+    }
+
+    /**
+     * Set the cidr.
+     *
+     * @param cidr the cidr
+     * @return the CreateTransitGatewayConnectionOptions builder
+     */
+    public Builder cidr(String cidr) {
+      this.cidr = cidr;
       return this;
     }
 
@@ -351,7 +368,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
      * @param tunnels the tunnels
      * @return the CreateTransitGatewayConnectionOptions builder
      */
-    public Builder tunnels(List<TransitGatewayRedundantGRETunnelTemplate> tunnels) {
+    public Builder tunnels(List<TransitGatewayTunnelTemplate> tunnels) {
       this.tunnels = tunnels;
       return this;
     }
@@ -379,6 +396,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     networkType = builder.networkType;
     baseConnectionId = builder.baseConnectionId;
     baseNetworkType = builder.baseNetworkType;
+    cidr = builder.cidr;
     localGatewayIp = builder.localGatewayIp;
     localTunnelIp = builder.localTunnelIp;
     name = builder.name;
@@ -427,14 +445,14 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the baseConnectionId.
    *
-   * network_type 'gre_tunnel' connections must be created over an existing network_type 'classic' connection. This
-   * field must specify the ID of an active transit gateway network_type 'classic' connection in the same transit
+   * network_type `gre_tunnel` connections must be created over an existing network_type `classic` connection. This
+   * field must specify the ID of an active transit gateway network_type `classic` connection in the same transit
    * gateway.
    *
-   * This field is required for network type 'gre_tunnel' connections.
+   * This field is required for network type `gre_tunnel` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-   * 'power_virtual_server', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
+   * `power_virtual_server`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
    *
    * @return the baseConnectionId
    * @deprecated this method is deprecated and may be removed in a future release
@@ -448,9 +466,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Gets the baseNetworkType.
    *
    * The type of network the Unbound GRE tunnel is targeting. This field is required for network type
-   * 'unbound_gre_tunnel' and must be set to 'classic'.  For a 'redundant_gre' network type, the value is required and
-   * can be either VPC or Classic. This field is required to be unspecified for network type 'classic', 'directlink',
-   * 'vpc', 'power_virtual_server' and 'gre_tunnel' connections.
+   * `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and
+   * can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`,
+   * `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
    *
    * @return the baseNetworkType
    */
@@ -459,11 +477,27 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   }
 
   /**
+   * Gets the cidr.
+   *
+   * network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels.
+   *
+   * This field is required for network type `vpn_gateway` connections.
+   *
+   * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
+   * `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
+   *
+   * @return the cidr
+   */
+  public String cidr() {
+    return cidr;
+  }
+
+  /**
    * Gets the localGatewayIp.
    *
-   * Local gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-   * connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-   * 'power_virtual_server' and 'redundant_gre' connections.
+   * Local gateway IP address. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
+   * connections. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
+   * `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
    *
    * @return the localGatewayIp
    */
@@ -477,10 +511,10 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Local tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
    * Neither can be the network nor broadcast addresses.
    *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-   * and 'redundant_gre' connections.
+   * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
+   * `vpn_gateway` and `redundant_gre` connections.
    *
    * @return the localTunnelIp
    */
@@ -491,12 +525,13 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the name.
    *
-   * The user-defined name for this transit gateway connection. Network type 'vpc'  connections are defaulted to the
-   * name of the VPC.  Network type 'classic' connections are named 'Classic'.
+   * The user-defined name for this transit gateway connection. Network type `vpc`  connections are defaulted to the
+   * name of the VPC.  Network type `classic` connections are named `classic`.
    *
-   * This field is required for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * This field is required for network type `power_virtual_server`, `directlink`, `gre_tunnel`, `unbound_gre_tunnel`,
+   * `vpn_gateway` and `redundant_gre` connections.
    *
-   * This field is optional for network type 'classic', 'directlink', 'vpc' and 'power_virtual_server' connections.
+   * This field is optional for network type `classic`, `vpc` connections.
    *
    * @return the name
    */
@@ -508,8 +543,8 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Gets the networkAccountId.
    *
    * The ID of the account which owns the network that is being connected. Generally only used if the network is in a
-   * different account than the gateway. This field is required for type 'unbound_gre_tunnel' when the
-   * associated_network_type is 'classic' or network_type is 'redundant_gre' and the GRE tunnel is in a different
+   * different account than the gateway. This field is required for type `unbound_gre_tunnel` when the
+   * associated_network_type is `classic` or network_type is `redundant_gre` and the GRE tunnel is in a different
    * account than the gateway.
    *
    * @return the networkAccountId
@@ -521,11 +556,11 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the networkId.
    *
-   * The ID of the network being connected via this connection. For network types 'vpc','power_virtual_server' and
-   * 'directlink' this is the CRN of the VPC / PowerVS / Direct Link gateway respectively. This field is required for
-   * network type 'vpc', 'power_virtual_server' and 'directlink' connections.  It is also required for 'redundant_gre'
-   * connections when the base_network_type is set to VPC. This field is required to be unspecified for network type
-   * 'classic', 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * The ID of the network being connected via this connection. For network types `vpc`,`power_virtual_server`,
+   * `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC / Direct Link / VPN gateway respectively.
+   * This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway`, and `directlink` connections.
+   *  It is also required for `redundant_gre` connections when the base_network_type is set to VPC. This field is
+   * required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * @return the networkId
    */
@@ -537,11 +572,11 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Gets the prefixFilters.
    *
    * Array of prefix route filters for a transit gateway connection. Prefix filters can be specified for netowrk type
-   * 'vpc', 'classic', 'power_virtual_server' and 'directlink' connections. They are not allowed for type 'gre_tunnel'
+   * `vpc`, `classic`, `power_virtual_server` and `directlink` connections. They are not allowed for type `gre_tunnel`
    * connections. This is order dependent with those first in the array being applied first, and those at the end of the
-   * array being applied last, or just before applying the default. This field is optional for network type 'classic',
-   * 'vpc', 'directlink', and 'power_virtual_server' connections. This field is required to be unspecified for network
-   * type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * array being applied last, or just before applying the default. This field is optional for network type `classic`,
+   * `vpc`, `directlink`, and `power_virtual_server` connections. This field is required to be unspecified for network
+   * type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre` connections.
    *
    * @return the prefixFilters
    */
@@ -553,8 +588,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Gets the prefixFiltersDefault.
    *
    * Default setting of permit or deny which applies to any routes that don't match a specified filter. This field is
-   * optional for network type 'classic', 'vpc', 'directlink', and 'power_virtual_server' connections. This field is
-   * required to be unspecified for network type 'gre_tunnel', 'unbound_gre_tunnel' and 'redundant_gre' connections.
+   * optional for network type `classic`, `vpc`, `directlink`, and `power_virtual_server` connections. This field is
+   * required to be unspecified for network type `gre_tunnel`, `unbound_gre_tunnel`, `vpn_gateway` and `redundant_gre`
+   * connections.
    *
    * @return the prefixFiltersDefault
    */
@@ -566,13 +602,13 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Gets the remoteBgpAsn.
    *
    * Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-   * 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If 'remote_bgp_asn' is omitted on gre_tunnel or
+   * 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on gre_tunnel or
    * unbound_gre_tunnel connection create requests IBM will assign an ASN.
    *
-   * This field is optional for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-   * and 'gre_tunnel' connections.
+   * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
+   * `vpn_gateway` and `gre_tunnel` connections.
    *
    * @return the remoteBgpAsn
    */
@@ -583,9 +619,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the remoteGatewayIp.
    *
-   * Remote gateway IP address. This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel'
-   * connections. This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',
-   * 'power_virtual_server' and 'redundant_gre' connections.
+   * Remote gateway IP address. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel`
+   * connections. This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,
+   * `power_virtual_server`, `vpn_gateway` and `redundant_gre` connections.
    *
    * @return the remoteGatewayIp
    */
@@ -599,10 +635,10 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Remote tunnel IP address. The local_tunnel_ip and remote_tunnel_ip addresses must be in the same /30 network.
    * Neither can be the network nor broadcast addresses.
    *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc',  'power_virtual_server'
-   * and 'redundant_gre' connections.
+   * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`,  `power_virtual_server`,
+   * `vpn_gateway` and `redundant_gre` connections.
    *
    * @return the remoteTunnelIp
    */
@@ -613,12 +649,12 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the tunnels.
    *
-   * Array of GRE tunnels for a transit gateway redundant GRE tunnel connection.  This field is required for
-   * 'redundant_gre' connections.
+   * Array of GRE tunnels for a transit gateway `redundant_gre` and `vpn_gateway` connections.  This field is required
+   * for `redundant_gre` and `vpn_gateway` connections.
    *
    * @return the tunnels
    */
-  public List<TransitGatewayRedundantGRETunnelTemplate> tunnels() {
+  public List<TransitGatewayTunnelTemplate> tunnels() {
     return tunnels;
   }
 
@@ -628,10 +664,10 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Specify the connection's location.  The specified availability zone must reside in the gateway's region.
    * Use the IBM Cloud global catalog to list zones within the desired region.
    *
-   * This field is required for network type 'gre_tunnel' and 'unbound_gre_tunnel' connections.
+   * This field is required for network type `gre_tunnel`, `unbound_gre_tunnel` and `vpn_gateway` connections.
    *
-   * This field is required to be unspecified for network type 'classic', 'directlink', 'vpc', 'power_virtual_server'
-   * and 'redundant_gre' connections.
+   * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`
+   * and `redundant_gre` connections.
    *
    * @return the zone
    */

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -41,13 +41,19 @@ public class TransitGateway extends GenericModel {
     String SUSPENDED = "suspended";
   }
 
-  protected String id;
-  protected String crn;
-  protected String name;
-  protected String location;
+  @SerializedName("connection_count")
+  protected Long connectionCount;
+  @SerializedName("connection_needs_attention")
+  protected Boolean connectionNeedsAttention;
   @SerializedName("created_at")
   protected Date createdAt;
+  protected String crn;
   protected Boolean global;
+  @SerializedName("gre_enhanced_route_propagation")
+  protected Boolean greEnhancedRoutePropagation;
+  protected String id;
+  protected String location;
+  protected String name;
   @SerializedName("resource_group")
   protected ResourceGroupReference resourceGroup;
   protected String status;
@@ -57,47 +63,25 @@ public class TransitGateway extends GenericModel {
   protected TransitGateway() { }
 
   /**
-   * Gets the id.
+   * Gets the connectionCount.
    *
-   * The unique identifier for this Transit Gateway.
+   * The number of connections associated with this Transit Gateway.
    *
-   * @return the id
+   * @return the connectionCount
    */
-  public String getId() {
-    return id;
+  public Long getConnectionCount() {
+    return connectionCount;
   }
 
   /**
-   * Gets the crn.
+   * Gets the connectionNeedsAttention.
    *
-   * The CRN for this Transit Gateway.
+   * Indicates if this Transit Gateway has a connection that needs attention (Such as cross account approval).
    *
-   * @return the crn
+   * @return the connectionNeedsAttention
    */
-  public String getCrn() {
-    return crn;
-  }
-
-  /**
-   * Gets the name.
-   *
-   * A human readable name for the transit gateway.
-   *
-   * @return the name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Gets the location.
-   *
-   * Location of Transit Gateway Services.
-   *
-   * @return the location
-   */
-  public String getLocation() {
-    return location;
+  public Boolean isConnectionNeedsAttention() {
+    return connectionNeedsAttention;
   }
 
   /**
@@ -112,6 +96,17 @@ public class TransitGateway extends GenericModel {
   }
 
   /**
+   * Gets the crn.
+   *
+   * Cloud Resource Name of a transit gateway.
+   *
+   * @return the crn
+   */
+  public String getCrn() {
+    return crn;
+  }
+
+  /**
    * Gets the global.
    *
    * Allow global routing for a Transit Gateway.
@@ -120,6 +115,50 @@ public class TransitGateway extends GenericModel {
    */
   public Boolean isGlobal() {
     return global;
+  }
+
+  /**
+   * Gets the greEnhancedRoutePropagation.
+   *
+   * Allow GRE Enhanced Route Propagation on this gateway.
+   *
+   * @return the greEnhancedRoutePropagation
+   */
+  public Boolean isGreEnhancedRoutePropagation() {
+    return greEnhancedRoutePropagation;
+  }
+
+  /**
+   * Gets the id.
+   *
+   * A unique identifier for this transit gateway.
+   *
+   * @return the id
+   */
+  public String getId() {
+    return id;
+  }
+
+  /**
+   * Gets the location.
+   *
+   * Location of Transit Gateway Services.
+   *
+   * @return the location
+   */
+  public String getLocation() {
+    return location;
+  }
+
+  /**
+   * Gets the name.
+   *
+   * A human readable name for the transit gateway.
+   *
+   * @return the name
+   */
+  public String getName() {
+    return name;
   }
 
   /**

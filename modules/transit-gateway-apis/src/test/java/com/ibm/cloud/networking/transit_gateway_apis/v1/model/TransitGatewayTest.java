@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -33,12 +33,15 @@ public class TransitGatewayTest {
   @Test
   public void testTransitGateway() throws Throwable {
     TransitGateway transitGatewayModel = new TransitGateway();
-    assertNull(transitGatewayModel.getId());
-    assertNull(transitGatewayModel.getCrn());
-    assertNull(transitGatewayModel.getName());
-    assertNull(transitGatewayModel.getLocation());
+    assertNull(transitGatewayModel.getConnectionCount());
+    assertNull(transitGatewayModel.isConnectionNeedsAttention());
     assertNull(transitGatewayModel.getCreatedAt());
+    assertNull(transitGatewayModel.getCrn());
     assertNull(transitGatewayModel.isGlobal());
+    assertNull(transitGatewayModel.isGreEnhancedRoutePropagation());
+    assertNull(transitGatewayModel.getId());
+    assertNull(transitGatewayModel.getLocation());
+    assertNull(transitGatewayModel.getName());
     assertNull(transitGatewayModel.getResourceGroup());
     assertNull(transitGatewayModel.getStatus());
     assertNull(transitGatewayModel.getUpdatedAt());

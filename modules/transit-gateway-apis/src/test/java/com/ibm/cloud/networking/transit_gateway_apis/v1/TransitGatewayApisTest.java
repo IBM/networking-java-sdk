@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -29,14 +29,13 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetGatewayLocation
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionTunnelsOptions;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayGreTunnelOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayRouteReportOptions;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GreTunnelZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListGatewayLocationsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionPrefixFiltersOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionsOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayGreTunnelOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayRouteReportsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationFirstConnection;
@@ -48,12 +47,9 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationNextTGWC
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCust;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterPut;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RedundantGRETunnelCollection;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RedundantGRETunnelReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ReplaceTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupReference;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RgreTunnelZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReport;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportConnection;
@@ -74,9 +70,11 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConn
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionPrefixFilter;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionPrefixFilterReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionsPager;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayRedundantGRETunnelReference;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayRedundantGRETunnelTemplate;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayReference;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnel;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnelCollection;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnelPatch;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnelTemplate;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewaysPager;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionPrefixFilterOptions;
@@ -85,7 +83,6 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatew
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneIdentity;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneIdentityByName;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneReference;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneReferenceCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.security.Authenticator;
@@ -137,7 +134,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testListTransitGatewaysWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}, \"transit_gateways\": [{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\", \"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
+    String mockResponseBody = "{\"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}, \"transit_gateways\": [{\"connection_count\": 5, \"connection_needs_attention\": true, \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"global\": true, \"gre_enhanced_route_propagation\": true, \"id\": \"0a06fb9b-820f-4c44-8a31-77f1f0806d28\", \"location\": \"us-south\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"resource_group\": {\"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\", \"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
     String listTransitGatewaysPath = "/transit_gateways";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -185,8 +182,8 @@ public class TransitGatewayApisTest {
   @Test
   public void testListTransitGatewaysWithPagerGetNext() throws Throwable {
     // Set up the two-page mock response.
-    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"transit_gateways\":[{\"id\":\"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"crn\":\"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"name\":\"my-transit-gateway-in-TransitGateway\",\"location\":\"us-south\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"global\":true,\"resource_group\":{\"href\":\"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\",\"id\":\"56969d6043e9465c883cb9f7363e78e8\"},\"status\":\"available\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"total_count\":2,\"limit\":1}";
-    String mockResponsePage2 = "{\"transit_gateways\":[{\"id\":\"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"crn\":\"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"name\":\"my-transit-gateway-in-TransitGateway\",\"location\":\"us-south\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"global\":true,\"resource_group\":{\"href\":\"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\",\"id\":\"56969d6043e9465c883cb9f7363e78e8\"},\"status\":\"available\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"total_count\":2,\"limit\":1}";
+    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"transit_gateways\":[{\"connection_count\":5,\"connection_needs_attention\":true,\"created_at\":\"2019-01-01T12:00:00.000Z\",\"crn\":\"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"global\":true,\"gre_enhanced_route_propagation\":true,\"id\":\"0a06fb9b-820f-4c44-8a31-77f1f0806d28\",\"location\":\"us-south\",\"name\":\"my-transit-gateway-in-TransitGateway\",\"resource_group\":{\"href\":\"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\",\"id\":\"56969d6043e9465c883cb9f7363e78e8\"},\"status\":\"available\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"total_count\":2,\"limit\":1}";
+    String mockResponsePage2 = "{\"transit_gateways\":[{\"connection_count\":5,\"connection_needs_attention\":true,\"created_at\":\"2019-01-01T12:00:00.000Z\",\"crn\":\"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"global\":true,\"gre_enhanced_route_propagation\":true,\"id\":\"0a06fb9b-820f-4c44-8a31-77f1f0806d28\",\"location\":\"us-south\",\"name\":\"my-transit-gateway-in-TransitGateway\",\"resource_group\":{\"href\":\"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\",\"id\":\"56969d6043e9465c883cb9f7363e78e8\"},\"status\":\"available\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"total_count\":2,\"limit\":1}";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
       .setResponseCode(200)
@@ -218,8 +215,8 @@ public class TransitGatewayApisTest {
   @Test
   public void testListTransitGatewaysWithPagerGetAll() throws Throwable {
     // Set up the two-page mock response.
-    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"transit_gateways\":[{\"id\":\"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"crn\":\"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"name\":\"my-transit-gateway-in-TransitGateway\",\"location\":\"us-south\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"global\":true,\"resource_group\":{\"href\":\"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\",\"id\":\"56969d6043e9465c883cb9f7363e78e8\"},\"status\":\"available\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"total_count\":2,\"limit\":1}";
-    String mockResponsePage2 = "{\"transit_gateways\":[{\"id\":\"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"crn\":\"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"name\":\"my-transit-gateway-in-TransitGateway\",\"location\":\"us-south\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"global\":true,\"resource_group\":{\"href\":\"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\",\"id\":\"56969d6043e9465c883cb9f7363e78e8\"},\"status\":\"available\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"total_count\":2,\"limit\":1}";
+    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"transit_gateways\":[{\"connection_count\":5,\"connection_needs_attention\":true,\"created_at\":\"2019-01-01T12:00:00.000Z\",\"crn\":\"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"global\":true,\"gre_enhanced_route_propagation\":true,\"id\":\"0a06fb9b-820f-4c44-8a31-77f1f0806d28\",\"location\":\"us-south\",\"name\":\"my-transit-gateway-in-TransitGateway\",\"resource_group\":{\"href\":\"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\",\"id\":\"56969d6043e9465c883cb9f7363e78e8\"},\"status\":\"available\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"total_count\":2,\"limit\":1}";
+    String mockResponsePage2 = "{\"transit_gateways\":[{\"connection_count\":5,\"connection_needs_attention\":true,\"created_at\":\"2019-01-01T12:00:00.000Z\",\"crn\":\"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\",\"global\":true,\"gre_enhanced_route_propagation\":true,\"id\":\"0a06fb9b-820f-4c44-8a31-77f1f0806d28\",\"location\":\"us-south\",\"name\":\"my-transit-gateway-in-TransitGateway\",\"resource_group\":{\"href\":\"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\",\"id\":\"56969d6043e9465c883cb9f7363e78e8\"},\"status\":\"available\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"total_count\":2,\"limit\":1}";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
       .setResponseCode(200)
@@ -247,7 +244,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testCreateTransitGatewayWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\", \"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
+    String mockResponseBody = "{\"connection_count\": 5, \"connection_needs_attention\": true, \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"global\": true, \"gre_enhanced_route_propagation\": true, \"id\": \"0a06fb9b-820f-4c44-8a31-77f1f0806d28\", \"location\": \"us-south\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"resource_group\": {\"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\", \"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
     String createTransitGatewayPath = "/transit_gateways";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -262,8 +259,9 @@ public class TransitGatewayApisTest {
     // Construct an instance of the CreateTransitGatewayOptions model
     CreateTransitGatewayOptions createTransitGatewayOptionsModel = new CreateTransitGatewayOptions.Builder()
       .location("us-south")
-      .name("Transit_Service_BWTN_SJ_DL")
+      .name("my-transit-gateway-in-TransitGateway")
       .global(true)
+      .greEnhancedRoutePropagation(true)
       .resourceGroup(resourceGroupIdentityModel)
       .build();
 
@@ -358,7 +356,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testGetTransitGatewayWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\", \"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
+    String mockResponseBody = "{\"connection_count\": 5, \"connection_needs_attention\": true, \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"global\": true, \"gre_enhanced_route_propagation\": true, \"id\": \"0a06fb9b-820f-4c44-8a31-77f1f0806d28\", \"location\": \"us-south\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"resource_group\": {\"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\", \"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
     String getTransitGatewayPath = "/transit_gateways/testString";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -410,7 +408,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testUpdateTransitGatewayWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"id\": \"ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"location\": \"us-south\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"global\": true, \"resource_group\": {\"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\", \"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
+    String mockResponseBody = "{\"connection_count\": 5, \"connection_needs_attention\": true, \"created_at\": \"2019-01-01T12:00:00.000Z\", \"crn\": \"crn:v1:bluemix:public:transit:dal03:a/57a7d05f36894e3cb9b46a43556d903e::gateway:ef4dcb1a-fee4-41c7-9e11-9cd99e65c1f4\", \"global\": true, \"gre_enhanced_route_propagation\": true, \"id\": \"0a06fb9b-820f-4c44-8a31-77f1f0806d28\", \"location\": \"us-south\", \"name\": \"my-transit-gateway-in-TransitGateway\", \"resource_group\": {\"href\": \"https://resource-manager.bluemix.net/v1/resource_groups/56969d6043e9465c883cb9f7363e78e8\", \"id\": \"56969d6043e9465c883cb9f7363e78e8\"}, \"status\": \"available\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}";
     String updateTransitGatewayPath = "/transit_gateways/testString";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -421,7 +419,8 @@ public class TransitGatewayApisTest {
     UpdateTransitGatewayOptions updateTransitGatewayOptionsModel = new UpdateTransitGatewayOptions.Builder()
       .id("testString")
       .global(true)
-      .name("my-transit-gateway")
+      .greEnhancedRoutePropagation(true)
+      .name("my-resource")
       .build();
 
     // Invoke updateTransitGateway() with a valid options model and verify the result
@@ -464,7 +463,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testListConnectionsWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"connections\": [{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"networkAccountId\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"transit_gateway\": {\"crn\": \"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"id\": \"456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"name\": \"my-transit-gw100\"}, \"tunnels\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}}";
+    String mockResponseBody = "{\"connections\": [{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"networkAccountId\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"transit_gateway\": {\"crn\": \"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"id\": \"456f58c1-afe7-123a-0a0a-7f3d720f1a44\", \"name\": \"my-transit-gw100\"}, \"tunnels\": [{\"base_network_type\": \"classic\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}}";
     String listConnectionsPath = "/connections";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -476,6 +475,7 @@ public class TransitGatewayApisTest {
       .limit(Long.valueOf("10"))
       .start("testString")
       .networkId("testString")
+      .networkType("testString")
       .build();
 
     // Invoke listConnections() with a valid options model and verify the result
@@ -498,6 +498,7 @@ public class TransitGatewayApisTest {
     assertEquals(Long.valueOf(query.get("limit")), Long.valueOf("10"));
     assertEquals(query.get("start"), "testString");
     assertEquals(query.get("network_id"), "testString");
+    assertEquals(query.get("network_type"), "testString");
   }
 
   // Test the listConnections operation with and without retries enabled
@@ -514,8 +515,8 @@ public class TransitGatewayApisTest {
   @Test
   public void testListConnectionsWithPagerGetNext() throws Throwable {
     // Set up the two-page mock response.
-    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"transit_gateway\":{\"crn\":\"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"id\":\"456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"name\":\"my-transit-gw100\"},\"tunnels\":[{\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
-    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"transit_gateway\":{\"crn\":\"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"id\":\"456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"name\":\"my-transit-gw100\"},\"tunnels\":[{\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
+    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"transit_gateway\":{\"crn\":\"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"id\":\"456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"name\":\"my-transit-gw100\"},\"tunnels\":[{\"base_network_type\":\"classic\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
+    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"transit_gateway\":{\"crn\":\"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"id\":\"456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"name\":\"my-transit-gw100\"},\"tunnels\":[{\"base_network_type\":\"classic\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
       .setResponseCode(200)
@@ -532,6 +533,7 @@ public class TransitGatewayApisTest {
     ListConnectionsOptions listConnectionsOptions = new ListConnectionsOptions.Builder()
       .limit(Long.valueOf("10"))
       .networkId("testString")
+      .networkType("testString")
       .build();
 
     List<TransitConnection> allResults = new ArrayList<>();
@@ -548,8 +550,8 @@ public class TransitGatewayApisTest {
   @Test
   public void testListConnectionsWithPagerGetAll() throws Throwable {
     // Set up the two-page mock response.
-    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"transit_gateway\":{\"crn\":\"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"id\":\"456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"name\":\"my-transit-gw100\"},\"tunnels\":[{\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
-    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"transit_gateway\":{\"crn\":\"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"id\":\"456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"name\":\"my-transit-gw100\"},\"tunnels\":[{\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
+    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"transit_gateway\":{\"crn\":\"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"id\":\"456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"name\":\"my-transit-gw100\"},\"tunnels\":[{\"base_network_type\":\"classic\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
+    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"transit_gateway\":{\"crn\":\"crn:v1:bluemix:public:transit:us-south:a/123456::gateway:456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"id\":\"456f58c1-afe7-123a-0a0a-7f3d720f1a44\",\"name\":\"my-transit-gw100\"},\"tunnels\":[{\"base_network_type\":\"classic\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
       .setResponseCode(200)
@@ -566,6 +568,7 @@ public class TransitGatewayApisTest {
     ListConnectionsOptions listConnectionsOptions = new ListConnectionsOptions.Builder()
       .limit(Long.valueOf("10"))
       .networkId("testString")
+      .networkType("testString")
       .build();
 
     ConnectionsPager pager = new ConnectionsPager(transitGatewayApisService, listConnectionsOptions);
@@ -578,7 +581,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testListTransitGatewayConnectionsWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"connections\": [{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"networkAccountId\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"tunnels\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}, \"total_count\": 500}";
+    String mockResponseBody = "{\"connections\": [{\"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"base_network_type\": \"classic\", \"cidr\": \"192.168.0.0/24\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"tunnels\": [{\"base_network_type\": \"classic\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"first\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?limit=50\"}, \"limit\": 50, \"next\": {\"href\": \"https://transit.cloud.ibm.com/v1/transit_gateways/{transit_gateway_id}/connections?start=MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa&limit=50\", \"start\": \"MjAyMC0wNS0wOFQxNDoxNzowMy45NzQ5NzNa\"}, \"total_count\": 500}";
     String listTransitGatewayConnectionsPath = "/transit_gateways/testString/connections";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -636,8 +639,8 @@ public class TransitGatewayApisTest {
   @Test
   public void testListTransitGatewayConnectionsWithPagerGetNext() throws Throwable {
     // Set up the two-page mock response.
-    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"tunnels\":[{\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
-    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"tunnels\":[{\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
+    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"connections\":[{\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"base_network_type\":\"classic\",\"cidr\":\"192.168.0.0/24\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"tunnels\":[{\"base_network_type\":\"classic\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
+    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"connections\":[{\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"base_network_type\":\"classic\",\"cidr\":\"192.168.0.0/24\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"tunnels\":[{\"base_network_type\":\"classic\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
       .setResponseCode(200)
@@ -671,8 +674,8 @@ public class TransitGatewayApisTest {
   @Test
   public void testListTransitGatewayConnectionsWithPagerGetAll() throws Throwable {
     // Set up the two-page mock response.
-    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"tunnels\":[{\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
-    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"connections\":[{\"base_network_type\":\"classic\",\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"network_account_id\":\"networkAccountId\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"tunnels\":[{\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
+    String mockResponsePage1 = "{\"next\":{\"start\":\"1\"},\"total_count\":2,\"limit\":1,\"connections\":[{\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"base_network_type\":\"classic\",\"cidr\":\"192.168.0.0/24\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"tunnels\":[{\"base_network_type\":\"classic\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
+    String mockResponsePage2 = "{\"total_count\":2,\"limit\":1,\"connections\":[{\"base_connection_id\":\"975f58c1-afe7-469a-9727-7f3d720f2d32\",\"base_network_type\":\"classic\",\"cidr\":\"192.168.0.0/24\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":64490,\"local_gateway_ip\":\"192.168.100.1\",\"local_tunnel_ip\":\"192.168.129.2\",\"mtu\":9000,\"name\":\"Transit_Service_BWTN_SJ_DL\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"network_type\":\"vpc\",\"prefix_filters\":[{\"action\":\"permit\",\"before\":\"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"ge\":0,\"id\":\"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\",\"le\":32,\"prefix\":\"192.168.100.0/24\",\"updated_at\":\"2019-01-01T12:00:00.000Z\"}],\"prefix_filters_default\":\"permit\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.63.12\",\"remote_tunnel_ip\":\"192.168.129.1\",\"request_status\":\"pending\",\"status\":\"attached\",\"tunnels\":[{\"base_network_type\":\"classic\",\"created_at\":\"2019-01-01T12:00:00.000Z\",\"id\":\"1a15dca5-7e33-45e1-b7c5-bc690e569531\",\"local_bgp_asn\":11,\"local_gateway_ip\":\"10.242.63.12\",\"local_tunnel_ip\":\"192.168.100.20\",\"mtu\":9000,\"name\":\"gre1\",\"network_account_id\":\"networkAccountId\",\"network_id\":\"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\",\"remote_bgp_asn\":65010,\"remote_gateway_ip\":\"10.242.33.22\",\"remote_tunnel_ip\":\"192.168.129.1\",\"status\":\"attached\",\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}],\"updated_at\":\"2019-01-01T12:00:00.000Z\",\"zone\":{\"name\":\"us-south-1\"}}]}";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
       .setResponseCode(200)
@@ -702,7 +705,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testCreateTransitGatewayConnectionWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"networkAccountId\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"tunnels\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
+    String mockResponseBody = "{\"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"base_network_type\": \"classic\", \"cidr\": \"192.168.0.0/24\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"tunnels\": [{\"base_network_type\": \"classic\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
     String createTransitGatewayConnectionPath = "/transit_gateways/testString/connections";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -722,8 +725,8 @@ public class TransitGatewayApisTest {
       .name("us-south-1")
       .build();
 
-    // Construct an instance of the TransitGatewayRedundantGRETunnelTemplate model
-    TransitGatewayRedundantGRETunnelTemplate transitGatewayRedundantGreTunnelTemplateModel = new TransitGatewayRedundantGRETunnelTemplate.Builder()
+    // Construct an instance of the TransitGatewayTunnelTemplate model
+    TransitGatewayTunnelTemplate transitGatewayTunnelTemplateModel = new TransitGatewayTunnelTemplate.Builder()
       .localGatewayIp("10.242.63.12")
       .localTunnelIp("192.168.100.20")
       .name("gre1")
@@ -739,6 +742,7 @@ public class TransitGatewayApisTest {
       .networkType("vpc")
       .baseConnectionId("975f58c1-afe7-469a-9727-7f3d720f2d32")
       .baseNetworkType("classic")
+      .cidr("192.168.0.0/24")
       .localGatewayIp("192.168.100.1")
       .localTunnelIp("192.168.129.2")
       .name("Transit_Service_BWTN_SJ_DL")
@@ -749,7 +753,7 @@ public class TransitGatewayApisTest {
       .remoteBgpAsn(Long.valueOf("65010"))
       .remoteGatewayIp("10.242.63.12")
       .remoteTunnelIp("192.168.129.1")
-      .tunnels(java.util.Arrays.asList(transitGatewayRedundantGreTunnelTemplateModel))
+      .tunnels(java.util.Arrays.asList(transitGatewayTunnelTemplateModel))
       .zone(zoneIdentityModel)
       .build();
 
@@ -845,7 +849,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testGetTransitGatewayConnectionWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"networkAccountId\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"tunnels\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
+    String mockResponseBody = "{\"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"base_network_type\": \"classic\", \"cidr\": \"192.168.0.0/24\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"tunnels\": [{\"base_network_type\": \"classic\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
     String getTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -898,7 +902,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testUpdateTransitGatewayConnectionWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"base_network_type\": \"classic\", \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"network_account_id\": \"networkAccountId\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"tunnels\": [{\"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
+    String mockResponseBody = "{\"base_connection_id\": \"975f58c1-afe7-469a-9727-7f3d720f2d32\", \"base_network_type\": \"classic\", \"cidr\": \"192.168.0.0/24\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 64490, \"local_gateway_ip\": \"192.168.100.1\", \"local_tunnel_ip\": \"192.168.129.2\", \"mtu\": 9000, \"name\": \"Transit_Service_BWTN_SJ_DL\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"network_type\": \"vpc\", \"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}], \"prefix_filters_default\": \"permit\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.63.12\", \"remote_tunnel_ip\": \"192.168.129.1\", \"request_status\": \"pending\", \"status\": \"attached\", \"tunnels\": [{\"base_network_type\": \"classic\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}], \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}";
     String updateTransitGatewayConnectionPath = "/transit_gateways/testString/connections/testString";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -1002,27 +1006,27 @@ public class TransitGatewayApisTest {
     transitGatewayApisService.createTransitGatewayConnectionActions(null).execute();
   }
 
-  // Test the getTransitGatewayGreTunnel operation with a valid options model parameter
+  // Test the listTransitGatewayGreTunnel operation with a valid options model parameter
   @Test
-  public void testGetTransitGatewayGreTunnelWOptions() throws Throwable {
+  public void testListTransitGatewayGreTunnelWOptions() throws Throwable {
     // Register a mock response
     String mockResponseBody = "{\"tunnels\": [{\"base_network_type\": \"classic\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"id\": \"1a15dca5-7e33-45e1-b7c5-bc690e569531\", \"local_bgp_asn\": 11, \"local_gateway_ip\": \"10.242.63.12\", \"local_tunnel_ip\": \"192.168.100.20\", \"mtu\": 9000, \"name\": \"gre1\", \"network_account_id\": \"networkAccountId\", \"network_id\": \"crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b\", \"remote_bgp_asn\": 65010, \"remote_gateway_ip\": \"10.242.33.22\", \"remote_tunnel_ip\": \"192.168.129.1\", \"status\": \"attached\", \"updated_at\": \"2019-01-01T12:00:00.000Z\", \"zone\": {\"name\": \"us-south-1\"}}]}";
-    String getTransitGatewayGreTunnelPath = "/transit_gateways/testString/connections/testString/tunnels";
+    String listTransitGatewayGreTunnelPath = "/transit_gateways/testString/connections/testString/tunnels";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
       .setResponseCode(200)
       .setBody(mockResponseBody));
 
-    // Construct an instance of the GetTransitGatewayGreTunnelOptions model
-    GetTransitGatewayGreTunnelOptions getTransitGatewayGreTunnelOptionsModel = new GetTransitGatewayGreTunnelOptions.Builder()
+    // Construct an instance of the ListTransitGatewayGreTunnelOptions model
+    ListTransitGatewayGreTunnelOptions listTransitGatewayGreTunnelOptionsModel = new ListTransitGatewayGreTunnelOptions.Builder()
       .transitGatewayId("testString")
       .id("testString")
       .build();
 
-    // Invoke getTransitGatewayGreTunnel() with a valid options model and verify the result
-    Response<RedundantGRETunnelCollection> response = transitGatewayApisService.getTransitGatewayGreTunnel(getTransitGatewayGreTunnelOptionsModel).execute();
+    // Invoke listTransitGatewayGreTunnel() with a valid options model and verify the result
+    Response<TransitGatewayTunnelCollection> response = transitGatewayApisService.listTransitGatewayGreTunnel(listTransitGatewayGreTunnelOptionsModel).execute();
     assertNotNull(response);
-    RedundantGRETunnelCollection responseObj = response.getResult();
+    TransitGatewayTunnelCollection responseObj = response.getResult();
     assertNotNull(responseObj);
 
     // Verify the contents of the request sent to the mock server
@@ -1031,28 +1035,28 @@ public class TransitGatewayApisTest {
     assertEquals(request.getMethod(), "GET");
     // Verify request path
     String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, getTransitGatewayGreTunnelPath);
+    assertEquals(parsedPath, listTransitGatewayGreTunnelPath);
     // Verify query params
     Map<String, String> query = TestUtilities.parseQueryString(request);
     assertNotNull(query);
     assertEquals(query.get("version"), "testString");
   }
 
-  // Test the getTransitGatewayGreTunnel operation with and without retries enabled
+  // Test the listTransitGatewayGreTunnel operation with and without retries enabled
   @Test
-  public void testGetTransitGatewayGreTunnelWRetries() throws Throwable {
+  public void testListTransitGatewayGreTunnelWRetries() throws Throwable {
     transitGatewayApisService.enableRetries(4, 30);
-    testGetTransitGatewayGreTunnelWOptions();
+    testListTransitGatewayGreTunnelWOptions();
 
     transitGatewayApisService.disableRetries();
-    testGetTransitGatewayGreTunnelWOptions();
+    testListTransitGatewayGreTunnelWOptions();
   }
 
-  // Test the getTransitGatewayGreTunnel operation with a null options model (negative test)
+  // Test the listTransitGatewayGreTunnel operation with a null options model (negative test)
   @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testGetTransitGatewayGreTunnelNoOptions() throws Throwable {
+  public void testListTransitGatewayGreTunnelNoOptions() throws Throwable {
     server.enqueue(new MockResponse());
-    transitGatewayApisService.getTransitGatewayGreTunnel(null).execute();
+    transitGatewayApisService.listTransitGatewayGreTunnel(null).execute();
   }
 
   // Test the createTransitGatewayGreTunnel operation with a valid options model parameter
@@ -1085,9 +1089,9 @@ public class TransitGatewayApisTest {
       .build();
 
     // Invoke createTransitGatewayGreTunnel() with a valid options model and verify the result
-    Response<RedundantGRETunnelReference> response = transitGatewayApisService.createTransitGatewayGreTunnel(createTransitGatewayGreTunnelOptionsModel).execute();
+    Response<TransitGatewayTunnel> response = transitGatewayApisService.createTransitGatewayGreTunnel(createTransitGatewayGreTunnelOptionsModel).execute();
     assertNotNull(response);
-    RedundantGRETunnelReference responseObj = response.getResult();
+    TransitGatewayTunnel responseObj = response.getResult();
     assertNotNull(responseObj);
 
     // Verify the contents of the request sent to the mock server
@@ -1192,9 +1196,9 @@ public class TransitGatewayApisTest {
       .build();
 
     // Invoke getTransitGatewayConnectionTunnels() with a valid options model and verify the result
-    Response<RedundantGRETunnelReference> response = transitGatewayApisService.getTransitGatewayConnectionTunnels(getTransitGatewayConnectionTunnelsOptionsModel).execute();
+    Response<TransitGatewayTunnel> response = transitGatewayApisService.getTransitGatewayConnectionTunnels(getTransitGatewayConnectionTunnelsOptionsModel).execute();
     assertNotNull(response);
-    RedundantGRETunnelReference responseObj = response.getResult();
+    TransitGatewayTunnel responseObj = response.getResult();
     assertNotNull(responseObj);
 
     // Verify the contents of the request sent to the mock server
@@ -1238,18 +1242,24 @@ public class TransitGatewayApisTest {
       .setResponseCode(200)
       .setBody(mockResponseBody));
 
+    // Construct an instance of the TransitGatewayTunnelPatch model
+    TransitGatewayTunnelPatch transitGatewayTunnelPatchModel = new TransitGatewayTunnelPatch.Builder()
+      .name("gre2")
+      .build();
+    Map<String, Object> transitGatewayTunnelPatchModelAsPatch = transitGatewayTunnelPatchModel.asPatch();
+
     // Construct an instance of the UpdateTransitGatewayConnectionTunnelsOptions model
     UpdateTransitGatewayConnectionTunnelsOptions updateTransitGatewayConnectionTunnelsOptionsModel = new UpdateTransitGatewayConnectionTunnelsOptions.Builder()
       .transitGatewayId("testString")
       .id("testString")
       .greTunnelId("testString")
-      .name("gre2")
+      .transitGatewayTunnelPatch(transitGatewayTunnelPatchModelAsPatch)
       .build();
 
     // Invoke updateTransitGatewayConnectionTunnels() with a valid options model and verify the result
-    Response<RedundantGRETunnelReference> response = transitGatewayApisService.updateTransitGatewayConnectionTunnels(updateTransitGatewayConnectionTunnelsOptionsModel).execute();
+    Response<TransitGatewayTunnel> response = transitGatewayApisService.updateTransitGatewayConnectionTunnels(updateTransitGatewayConnectionTunnelsOptionsModel).execute();
     assertNotNull(response);
-    RedundantGRETunnelReference responseObj = response.getResult();
+    TransitGatewayTunnel responseObj = response.getResult();
     assertNotNull(responseObj);
 
     // Verify the contents of the request sent to the mock server
@@ -1329,7 +1339,7 @@ public class TransitGatewayApisTest {
   @Test
   public void testGetGatewayLocationWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"billing_location\": \"us\", \"name\": \"us-south\", \"type\": \"region\", \"local_connection_locations\": [{\"display_name\": \"Dallas\", \"name\": \"us-south\", \"supported_connection_types\": [\"supportedConnectionTypes\"], \"type\": \"region\"}], \"zones\": [{\"zones\": [{\"name\": \"us-south-1\"}]}]}";
+    String mockResponseBody = "{\"billing_location\": \"us\", \"name\": \"us-south\", \"type\": \"region\", \"local_connection_locations\": [{\"display_name\": \"Dallas\", \"name\": \"us-south\", \"supported_connection_types\": [\"supportedConnectionTypes\"], \"type\": \"region\"}], \"zones\": [{\"name\": \"us-south-1\"}]}";
     String getGatewayLocationPath = "/locations/testString";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,6 +22,7 @@ public class ListConnectionsOptions extends GenericModel {
   protected Long limit;
   protected String start;
   protected String networkId;
+  protected String networkType;
 
   /**
    * Builder.
@@ -30,6 +31,7 @@ public class ListConnectionsOptions extends GenericModel {
     private Long limit;
     private String start;
     private String networkId;
+    private String networkType;
 
     /**
      * Instantiates a new Builder from an existing ListConnectionsOptions instance.
@@ -40,6 +42,7 @@ public class ListConnectionsOptions extends GenericModel {
       this.limit = listConnectionsOptions.limit;
       this.start = listConnectionsOptions.start;
       this.networkId = listConnectionsOptions.networkId;
+      this.networkType = listConnectionsOptions.networkType;
     }
 
     /**
@@ -89,6 +92,17 @@ public class ListConnectionsOptions extends GenericModel {
       this.networkId = networkId;
       return this;
     }
+
+    /**
+     * Set the networkType.
+     *
+     * @param networkType the networkType
+     * @return the ListConnectionsOptions builder
+     */
+    public Builder networkType(String networkType) {
+      this.networkType = networkType;
+      return this;
+    }
   }
 
   protected ListConnectionsOptions() { }
@@ -97,6 +111,7 @@ public class ListConnectionsOptions extends GenericModel {
     limit = builder.limit;
     start = builder.start;
     networkId = builder.networkId;
+    networkType = builder.networkType;
   }
 
   /**
@@ -139,6 +154,17 @@ public class ListConnectionsOptions extends GenericModel {
    */
   public String networkId() {
     return networkId;
+  }
+
+  /**
+   * Gets the networkType.
+   *
+   * Search for connections with the given network_type value.
+   *
+   * @return the networkType
+   */
+  public String networkType() {
+    return networkType;
   }
 }
 

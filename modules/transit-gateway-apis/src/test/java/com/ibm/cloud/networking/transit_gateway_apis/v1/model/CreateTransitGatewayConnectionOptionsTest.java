@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,7 +15,7 @@ package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionPrefixFilter;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayRedundantGRETunnelTemplate;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnelTemplate;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneIdentityByName;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -50,7 +50,7 @@ public class CreateTransitGatewayConnectionOptionsTest {
       .build();
     assertEquals(zoneIdentityModel.name(), "us-south-1");
 
-    TransitGatewayRedundantGRETunnelTemplate transitGatewayRedundantGreTunnelTemplateModel = new TransitGatewayRedundantGRETunnelTemplate.Builder()
+    TransitGatewayTunnelTemplate transitGatewayTunnelTemplateModel = new TransitGatewayTunnelTemplate.Builder()
       .localGatewayIp("10.242.63.12")
       .localTunnelIp("192.168.100.20")
       .name("gre1")
@@ -59,19 +59,20 @@ public class CreateTransitGatewayConnectionOptionsTest {
       .remoteTunnelIp("192.168.129.1")
       .zone(zoneIdentityModel)
       .build();
-    assertEquals(transitGatewayRedundantGreTunnelTemplateModel.localGatewayIp(), "10.242.63.12");
-    assertEquals(transitGatewayRedundantGreTunnelTemplateModel.localTunnelIp(), "192.168.100.20");
-    assertEquals(transitGatewayRedundantGreTunnelTemplateModel.name(), "gre1");
-    assertEquals(transitGatewayRedundantGreTunnelTemplateModel.remoteBgpAsn(), Long.valueOf("65010"));
-    assertEquals(transitGatewayRedundantGreTunnelTemplateModel.remoteGatewayIp(), "10.242.33.22");
-    assertEquals(transitGatewayRedundantGreTunnelTemplateModel.remoteTunnelIp(), "192.168.129.1");
-    assertEquals(transitGatewayRedundantGreTunnelTemplateModel.zone(), zoneIdentityModel);
+    assertEquals(transitGatewayTunnelTemplateModel.localGatewayIp(), "10.242.63.12");
+    assertEquals(transitGatewayTunnelTemplateModel.localTunnelIp(), "192.168.100.20");
+    assertEquals(transitGatewayTunnelTemplateModel.name(), "gre1");
+    assertEquals(transitGatewayTunnelTemplateModel.remoteBgpAsn(), Long.valueOf("65010"));
+    assertEquals(transitGatewayTunnelTemplateModel.remoteGatewayIp(), "10.242.33.22");
+    assertEquals(transitGatewayTunnelTemplateModel.remoteTunnelIp(), "192.168.129.1");
+    assertEquals(transitGatewayTunnelTemplateModel.zone(), zoneIdentityModel);
 
     CreateTransitGatewayConnectionOptions createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
       .transitGatewayId("testString")
       .networkType("vpc")
       .baseConnectionId("975f58c1-afe7-469a-9727-7f3d720f2d32")
       .baseNetworkType("classic")
+      .cidr("192.168.0.0/24")
       .localGatewayIp("192.168.100.1")
       .localTunnelIp("192.168.129.2")
       .name("Transit_Service_BWTN_SJ_DL")
@@ -82,13 +83,14 @@ public class CreateTransitGatewayConnectionOptionsTest {
       .remoteBgpAsn(Long.valueOf("65010"))
       .remoteGatewayIp("10.242.63.12")
       .remoteTunnelIp("192.168.129.1")
-      .tunnels(java.util.Arrays.asList(transitGatewayRedundantGreTunnelTemplateModel))
+      .tunnels(java.util.Arrays.asList(transitGatewayTunnelTemplateModel))
       .zone(zoneIdentityModel)
       .build();
     assertEquals(createTransitGatewayConnectionOptionsModel.transitGatewayId(), "testString");
     assertEquals(createTransitGatewayConnectionOptionsModel.networkType(), "vpc");
     assertEquals(createTransitGatewayConnectionOptionsModel.baseConnectionId(), "975f58c1-afe7-469a-9727-7f3d720f2d32");
     assertEquals(createTransitGatewayConnectionOptionsModel.baseNetworkType(), "classic");
+    assertEquals(createTransitGatewayConnectionOptionsModel.cidr(), "192.168.0.0/24");
     assertEquals(createTransitGatewayConnectionOptionsModel.localGatewayIp(), "192.168.100.1");
     assertEquals(createTransitGatewayConnectionOptionsModel.localTunnelIp(), "192.168.129.2");
     assertEquals(createTransitGatewayConnectionOptionsModel.name(), "Transit_Service_BWTN_SJ_DL");
@@ -99,7 +101,7 @@ public class CreateTransitGatewayConnectionOptionsTest {
     assertEquals(createTransitGatewayConnectionOptionsModel.remoteBgpAsn(), Long.valueOf("65010"));
     assertEquals(createTransitGatewayConnectionOptionsModel.remoteGatewayIp(), "10.242.63.12");
     assertEquals(createTransitGatewayConnectionOptionsModel.remoteTunnelIp(), "192.168.129.1");
-    assertEquals(createTransitGatewayConnectionOptionsModel.tunnels(), java.util.Arrays.asList(transitGatewayRedundantGreTunnelTemplateModel));
+    assertEquals(createTransitGatewayConnectionOptionsModel.tunnels(), java.util.Arrays.asList(transitGatewayTunnelTemplateModel));
     assertEquals(createTransitGatewayConnectionOptionsModel.zone(), zoneIdentityModel);
   }
 

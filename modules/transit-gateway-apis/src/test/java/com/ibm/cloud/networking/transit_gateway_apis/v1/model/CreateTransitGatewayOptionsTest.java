@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -39,13 +39,15 @@ public class CreateTransitGatewayOptionsTest {
 
     CreateTransitGatewayOptions createTransitGatewayOptionsModel = new CreateTransitGatewayOptions.Builder()
       .location("us-south")
-      .name("Transit_Service_BWTN_SJ_DL")
+      .name("my-transit-gateway-in-TransitGateway")
       .global(true)
+      .greEnhancedRoutePropagation(true)
       .resourceGroup(resourceGroupIdentityModel)
       .build();
     assertEquals(createTransitGatewayOptionsModel.location(), "us-south");
-    assertEquals(createTransitGatewayOptionsModel.name(), "Transit_Service_BWTN_SJ_DL");
+    assertEquals(createTransitGatewayOptionsModel.name(), "my-transit-gateway-in-TransitGateway");
     assertEquals(createTransitGatewayOptionsModel.global(), Boolean.valueOf(true));
+    assertEquals(createTransitGatewayOptionsModel.greEnhancedRoutePropagation(), Boolean.valueOf(true));
     assertEquals(createTransitGatewayOptionsModel.resourceGroup(), resourceGroupIdentityModel);
   }
 

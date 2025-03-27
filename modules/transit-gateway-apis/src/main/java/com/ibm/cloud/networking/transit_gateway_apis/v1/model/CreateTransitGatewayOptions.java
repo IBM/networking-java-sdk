@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,6 +22,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
   protected String location;
   protected String name;
   protected Boolean global;
+  protected Boolean greEnhancedRoutePropagation;
   protected ResourceGroupIdentity resourceGroup;
 
   /**
@@ -31,6 +32,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
     private String location;
     private String name;
     private Boolean global;
+    private Boolean greEnhancedRoutePropagation;
     private ResourceGroupIdentity resourceGroup;
 
     /**
@@ -42,6 +44,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
       this.location = createTransitGatewayOptions.location;
       this.name = createTransitGatewayOptions.name;
       this.global = createTransitGatewayOptions.global;
+      this.greEnhancedRoutePropagation = createTransitGatewayOptions.greEnhancedRoutePropagation;
       this.resourceGroup = createTransitGatewayOptions.resourceGroup;
     }
 
@@ -105,6 +108,17 @@ public class CreateTransitGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the greEnhancedRoutePropagation.
+     *
+     * @param greEnhancedRoutePropagation the greEnhancedRoutePropagation
+     * @return the CreateTransitGatewayOptions builder
+     */
+    public Builder greEnhancedRoutePropagation(Boolean greEnhancedRoutePropagation) {
+      this.greEnhancedRoutePropagation = greEnhancedRoutePropagation;
+      return this;
+    }
+
+    /**
      * Set the resourceGroup.
      *
      * @param resourceGroup the resourceGroup
@@ -126,6 +140,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
     location = builder.location;
     name = builder.name;
     global = builder.global;
+    greEnhancedRoutePropagation = builder.greEnhancedRoutePropagation;
     resourceGroup = builder.resourceGroup;
   }
 
@@ -152,7 +167,7 @@ public class CreateTransitGatewayOptions extends GenericModel {
   /**
    * Gets the name.
    *
-   * Name Transit Gateway Services.
+   * A human readable name for the transit gateway.
    *
    * @return the name
    */
@@ -169,6 +184,17 @@ public class CreateTransitGatewayOptions extends GenericModel {
    */
   public Boolean global() {
     return global;
+  }
+
+  /**
+   * Gets the greEnhancedRoutePropagation.
+   *
+   * Allow GRE Enhanced Route Propagation on this gateway.
+   *
+   * @return the greEnhancedRoutePropagation
+   */
+  public Boolean greEnhancedRoutePropagation() {
+    return greEnhancedRoutePropagation;
   }
 
   /**

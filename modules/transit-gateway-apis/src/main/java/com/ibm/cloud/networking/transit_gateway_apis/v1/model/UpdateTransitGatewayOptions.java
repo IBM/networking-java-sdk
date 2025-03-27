@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -21,6 +21,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
 
   protected String id;
   protected Boolean global;
+  protected Boolean greEnhancedRoutePropagation;
   protected String name;
 
   /**
@@ -29,6 +30,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
   public static class Builder {
     private String id;
     private Boolean global;
+    private Boolean greEnhancedRoutePropagation;
     private String name;
 
     /**
@@ -39,6 +41,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
     private Builder(UpdateTransitGatewayOptions updateTransitGatewayOptions) {
       this.id = updateTransitGatewayOptions.id;
       this.global = updateTransitGatewayOptions.global;
+      this.greEnhancedRoutePropagation = updateTransitGatewayOptions.greEnhancedRoutePropagation;
       this.name = updateTransitGatewayOptions.name;
     }
 
@@ -89,6 +92,17 @@ public class UpdateTransitGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the greEnhancedRoutePropagation.
+     *
+     * @param greEnhancedRoutePropagation the greEnhancedRoutePropagation
+     * @return the UpdateTransitGatewayOptions builder
+     */
+    public Builder greEnhancedRoutePropagation(Boolean greEnhancedRoutePropagation) {
+      this.greEnhancedRoutePropagation = greEnhancedRoutePropagation;
+      return this;
+    }
+
+    /**
      * Set the name.
      *
      * @param name the name
@@ -107,6 +121,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
       "id cannot be empty");
     id = builder.id;
     global = builder.global;
+    greEnhancedRoutePropagation = builder.greEnhancedRoutePropagation;
     name = builder.name;
   }
 
@@ -142,9 +157,20 @@ public class UpdateTransitGatewayOptions extends GenericModel {
   }
 
   /**
+   * Gets the greEnhancedRoutePropagation.
+   *
+   * Allow GRE Enhanced Route Propagation on this gateway.
+   *
+   * @return the greEnhancedRoutePropagation
+   */
+  public Boolean greEnhancedRoutePropagation() {
+    return greEnhancedRoutePropagation;
+  }
+
+  /**
    * Gets the name.
    *
-   * The user-defined name for this transit gateway.
+   * A human readable name for a resource.
    *
    * @return the name
    */

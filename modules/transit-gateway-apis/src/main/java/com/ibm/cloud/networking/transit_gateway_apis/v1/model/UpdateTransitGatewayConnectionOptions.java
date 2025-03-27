@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -174,8 +174,8 @@ public class UpdateTransitGatewayConnectionOptions extends GenericModel {
    * Gets the name.
    *
    * The user-defined name for this transit gateway. If specified as empty string or nil,  the name will be the network
-   * name (the name of the VPC in the case of network type 'vpc',  and the word Classic, in the case of network type
-   * 'classic').
+   * name (the name of the VPC in the case of network type `vpc`,  and the word Classic, in the case of network type
+   * `classic`).
    *
    * @return the name
    */
