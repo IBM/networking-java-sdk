@@ -10,7 +10,6 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import java.util.ArrayList;
@@ -163,9 +162,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     }
 
     /**
-     * Adds a new element to prefixFilters.
+     * Adds an prefixFilters to prefixFilters.
      *
-     * @param prefixFilters the new element to be added
+     * @param prefixFilters the new prefixFilters
      * @return the CreateTransitGatewayConnectionOptions builder
      */
     public Builder addPrefixFilters(TransitGatewayConnectionPrefixFilter prefixFilters) {
@@ -179,9 +178,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     }
 
     /**
-     * Adds a new element to tunnels.
+     * Adds an tunnels to tunnels.
      *
-     * @param tunnels the new element to be added
+     * @param tunnels the new tunnels
      * @return the CreateTransitGatewayConnectionOptions builder
      */
     public Builder addTunnels(TransitGatewayTunnelTemplate tunnels) {

@@ -10,7 +10,6 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import java.util.ArrayList;
@@ -75,9 +74,9 @@ public class ReplaceTransitGatewayConnectionPrefixFilterOptions extends GenericM
     }
 
     /**
-     * Adds a new element to prefixFilters.
+     * Adds an prefixFilters to prefixFilters.
      *
-     * @param prefixFilters the new element to be added
+     * @param prefixFilters the new prefixFilters
      * @return the ReplaceTransitGatewayConnectionPrefixFilterOptions builder
      */
     public Builder addPrefixFilters(PrefixFilterPut prefixFilters) {
