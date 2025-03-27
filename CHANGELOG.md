@@ -1,3 +1,10 @@
+# [0.38.0](https://github.com/IBM/networking-java-sdk/compare/0.37.3...0.38.0) (2025-03-27)
+
+
+### Features
+
+* rename allow_gre_traffic_across_zones ([deb3489](https://github.com/IBM/networking-java-sdk/commit/deb3489ec286be63cbeeab38a3fa5d7622aad810))
+
 ## [0.37.3](https://github.com/IBM/networking-java-sdk/compare/0.37.2...0.37.3) (2025-03-12)
 
 
