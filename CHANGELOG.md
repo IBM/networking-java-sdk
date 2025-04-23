@@ -1,3 +1,10 @@
+## [0.38.1](https://github.com/IBM/networking-java-sdk/compare/0.38.0...0.38.1) (2025-04-23)
+
+
+### Bug Fixes
+
+* **deps:** update dependency com.ibm.cloud:sdk-core to v9.23.1 ([#133](https://github.com/IBM/networking-java-sdk/issues/133)) ([c1da0e4](https://github.com/IBM/networking-java-sdk/commit/c1da0e46ed54e53a1dedb09822a1c4a21014efc4))
+
 # [0.38.0](https://github.com/IBM/networking-java-sdk/compare/0.37.3...0.38.0) (2025-03-27)
 
 
