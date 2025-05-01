@@ -1,3 +1,10 @@
+## [0.38.2](https://github.com/IBM/networking-java-sdk/compare/0.38.1...0.38.2) (2025-05-01)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @semantic-release/github to v11.0.2 ([#134](https://github.com/IBM/networking-java-sdk/issues/134)) ([b552deb](https://github.com/IBM/networking-java-sdk/commit/b552debcdceb5b998e73acb7e2b20dd8fb7d0fbb))
+
 ## [0.38.1](https://github.com/IBM/networking-java-sdk/compare/0.38.0...0.38.1) (2025-04-23)
 
 
