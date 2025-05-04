@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -62,13 +62,40 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     String DEDICATED = "dedicated";
   }
 
+  /**
+   * Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+   * `cross_connect_router`.
+   *
+   * - non_macsec: The direct link does not support MACsec.
+   * - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+   * - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+   * direct link creation.
+   *
+   * If not explicitly provided, the field will be assigned with the following priorities based on
+   * `cross_connect_router` capabilities and available ports:
+   *   - `macsec` was not provided in the request
+   *     - `non_macsec`
+   *     - `macsec_optional`
+   *   - `macsec` was provided in the request
+   *     - `macsec_optional`
+   *     - `macsec`.
+   */
+  public interface MacsecCapability {
+    /** non_macsec. */
+    String NON_MACSEC = "non_macsec";
+    /** macsec. */
+    String MACSEC = "macsec";
+    /** macsec_optional. */
+    String MACSEC_OPTIONAL = "macsec_optional";
+  }
+
 
   /**
    * Builder.
    */
   public static class Builder {
     private List<AsPrependTemplate> asPrepends;
-    private GatewayTemplateAuthenticationKey authenticationKey;
+    private AuthenticationKeyIdentity authenticationKey;
     private GatewayBfdConfigTemplate bfdConfig;
     private Long bgpAsn;
     private String bgpBaseCidr;
@@ -90,7 +117,8 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     private String crossConnectRouter;
     private String customerName;
     private String locationName;
-    private GatewayMacsecConfigTemplate macsecConfig;
+    private GatewayMacsecPrototype macsec;
+    private String macsecCapability;
     private Long vlan;
 
     /**
@@ -122,7 +150,8 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
       this.crossConnectRouter = gatewayTemplateGatewayTypeDedicatedTemplate.crossConnectRouter;
       this.customerName = gatewayTemplateGatewayTypeDedicatedTemplate.customerName;
       this.locationName = gatewayTemplateGatewayTypeDedicatedTemplate.locationName;
-      this.macsecConfig = gatewayTemplateGatewayTypeDedicatedTemplate.macsecConfig;
+      this.macsec = gatewayTemplateGatewayTypeDedicatedTemplate.macsec;
+      this.macsecCapability = gatewayTemplateGatewayTypeDedicatedTemplate.macsecCapability;
       this.vlan = gatewayTemplateGatewayTypeDedicatedTemplate.vlan;
     }
 
@@ -169,9 +198,9 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     }
 
     /**
-     * Adds an asPrepends to asPrepends.
+     * Adds a new element to asPrepends.
      *
-     * @param asPrepends the new asPrepends
+     * @param asPrepends the new element to be added
      * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
      */
     public Builder addAsPrepends(AsPrependTemplate asPrepends) {
@@ -185,9 +214,9 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     }
 
     /**
-     * Adds an exportRouteFilters to exportRouteFilters.
+     * Adds a new element to exportRouteFilters.
      *
-     * @param exportRouteFilters the new exportRouteFilters
+     * @param exportRouteFilters the new element to be added
      * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
      */
     public Builder addExportRouteFilters(GatewayTemplateRouteFilter exportRouteFilters) {
@@ -201,9 +230,9 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     }
 
     /**
-     * Adds an importRouteFilters to importRouteFilters.
+     * Adds a new element to importRouteFilters.
      *
-     * @param importRouteFilters the new importRouteFilters
+     * @param importRouteFilters the new element to be added
      * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
      */
     public Builder addImportRouteFilters(GatewayTemplateRouteFilter importRouteFilters) {
@@ -234,7 +263,7 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
      * @param authenticationKey the authenticationKey
      * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
      */
-    public Builder authenticationKey(GatewayTemplateAuthenticationKey authenticationKey) {
+    public Builder authenticationKey(AuthenticationKeyIdentity authenticationKey) {
       this.authenticationKey = authenticationKey;
       return this;
     }
@@ -473,13 +502,24 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     }
 
     /**
-     * Set the macsecConfig.
+     * Set the macsec.
      *
-     * @param macsecConfig the macsecConfig
+     * @param macsec the macsec
      * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
      */
-    public Builder macsecConfig(GatewayMacsecConfigTemplate macsecConfig) {
-      this.macsecConfig = macsecConfig;
+    public Builder macsec(GatewayMacsecPrototype macsec) {
+      this.macsec = macsec;
+      return this;
+    }
+
+    /**
+     * Set the macsecCapability.
+     *
+     * @param macsecCapability the macsecCapability
+     * @return the GatewayTemplateGatewayTypeDedicatedTemplate builder
+     */
+    public Builder macsecCapability(String macsecCapability) {
+      this.macsecCapability = macsecCapability;
       return this;
     }
 
@@ -541,7 +581,8 @@ public class GatewayTemplateGatewayTypeDedicatedTemplate extends GatewayTemplate
     crossConnectRouter = builder.crossConnectRouter;
     customerName = builder.customerName;
     locationName = builder.locationName;
-    macsecConfig = builder.macsecConfig;
+    macsec = builder.macsec;
+    macsecCapability = builder.macsecCapability;
     vlan = builder.vlan;
   }
 

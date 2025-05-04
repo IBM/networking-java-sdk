@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -48,21 +48,24 @@ import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnect
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollectionGatewaysItem;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsec;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakPatch;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakPrototype;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecPatch;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPatchTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
 
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayImportRouteFilterOptions;
-
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayMacsecCakOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayImportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayMacsecCakOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ExportRouteFilterCollection;
-// import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
-// import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
-// import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplate;
-// import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplateFallbackCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeConnectTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
@@ -70,12 +73,14 @@ import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayResponse;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.HpcsKeyIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.ImportRouteFilterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayAsPrependsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayExportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayImportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayLetterOfAuthorizationOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayMacsecCaksOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayVirtualConnectionsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewaysOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListOfferingTypeLocationCrossConnectRoutersOptions;
@@ -93,9 +98,15 @@ import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayExportRouteFi
 import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayImportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.SakRekeyPatchSakRekeyTimerModePatch;
+import com.ibm.cloud.networking.direct_link.v1.model.SakRekeyPrototypeSakRekeyTimerModePrototype;
+import com.ibm.cloud.networking.direct_link.v1.model.SetGatewayMacsecOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UnsetGatewayMacsecOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayImportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayMacsecCakOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayMacsecOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateRouteFilterTemplate;
@@ -112,13 +123,13 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayImportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayMacsecCakOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayMacsecOptions;
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
 import com.ibm.cloud.sdk.core.service.exception.NotFoundException;
-// import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
-// import com.ibm.cloud.networking.direct_link.v1.model.GatewayPatchTemplateAuthenticationKey;
 
 /**
  * Integration test class for the DirectLink service.
@@ -139,6 +150,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	String exportRFId = null;
 	String importRFId = null;
 	String eTag = null;
+	String cakId = null;
 
 	Map<String, String> config = null;
 
@@ -519,7 +531,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 
 		// Construct an instance of the GatewayPatchTemplate model with null vlan
 		GatewayPatchTemplate gatewayPatchTemplateWNullVLANModel = new GatewayPatchTemplate.Builder()
-			.global(false).metered(true).name(updatedGatewayName).speedMbps(Long.valueOf("1000")).vlan(null).build();
+			.global(false).metered(true).name(updatedGatewayName).speedMbps(Long.valueOf("1000")).vlan(Long.valueOf(null)).build();
 		// convert to map asPatch
 		Map<String, Object> gatewayPatchTemplateWNUllVLANModelAsPatch = gatewayPatchTemplateWNullVLANModel.asPatch();
 		// Construct an instance of the UpdateGatewayOptions model
@@ -576,94 +588,6 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	  
 		// *********** Do not delete the GW to be re-used later **************************
 	}
-	 
-	// @Test(dependsOnMethods = "testDedicatedGatewayOptions")
-	// public void testMacsecEnabledGatewayOptions() {
-	// 	Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
-	// 	assertNotNull(testService);
-	// 	String locationName = config.get("LOCATION_NAME");// "dal09";//read this from env file 
-	// 	String gatewayName = "JAVA-INT-SDK-MACSEC-"+timestamp; 
-	// 	String updatedGatewayName = "JAVA-INT-SDK-MACSEC-PATCH-"+timestamp; 
-	// 	Long bgpAsn = 64999L; 
-	// 	String bgpBaseCidr = "169.254.0.0/16"; 
-	// 	String crossConnectRouter =	"LAB-xcr01.dal09"; 
-	// 	boolean global = true; 
-	// 	Long speedMbps = 1000L; 
-	// 	boolean metered = false; 
-	// 	String carrierName = "carrier1"; 
-	// 	String customerName = "customer1"; 
-	// 	String gatewayType = "dedicated";
-	// 	String cak = config.get("CAK");
-	  
-	// 	GatewayMacsecConfigTemplatePrimaryCak primaryCak = new GatewayMacsecConfigTemplatePrimaryCak.Builder(cak).build();
-
-	//   GatewayMacsecConfigTemplate macsecConfig = new GatewayMacsecConfigTemplate.Builder(true, primaryCak).build();
-
-	//   GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
-	//   	.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).bgpCerCidr("10.254.30.78/30").bgpIbmCidr("10.254.30.77/30")
-	//   	.global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
-	//   	.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName) 
-	//   	.locationName(locationName).macsecConfig(macsecConfig).build();
-	  
-	//   // ***************** Create macsec enabled dedicated Gateway ********************* //
-	// 	// Construct an instance of the CreateGatewayOptions model 
-	// 	CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder().gatewayTemplate(gatewayTemplateModel).build();
-	  
-	//   // Invoke operation with valid options model (positive test)
-	//   Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
-	// 	assertNotNull(response); 
-	// 	assertEquals(201, 
-	// 	response.getStatusCode());
-	  
-	// 	Gateway responseObj = response.getResult(); 
-	// 	assertNotNull(responseObj);
-	// 	assertNotNull(responseObj.getMacsecConfig());
-		
-	// 	// save gw id for clean up routine if we terminate
-	//   gatewayId = responseObj.getId();
-	  
-	//   //********** Get the macsec enabled dedicate gateway just created *************
-	//   GetGatewayOptions getGatewayOptionsModel = new GetGatewayOptions.Builder().id(gatewayId).build();
-	  
-	//   // Invoke operation with valid options model (positive test)
-	//   Response<Gateway> getGatewayResponse = testService.getGateway(getGatewayOptionsModel).execute();
-	// 	assertNotNull(getGatewayResponse); 
-	// 	assertEquals(200, getGatewayResponse.getStatusCode());
-	  
-	// 	responseObj = getGatewayResponse.getResult(); 
-	// 	assertNotNull(responseObj);
-
-	// 	GatewayMacsecConfigPatchTemplateFallbackCak fallbackCak = new GatewayMacsecConfigPatchTemplateFallbackCak.Builder(cak).build();
-	// 	GatewayMacsecConfigPatchTemplate macsecPatchConfig = new GatewayMacsecConfigPatchTemplate.Builder().fallbackCak(fallbackCak).build();
-	  
-	// 	// ********** Patch the gateway using attributes that can be changed with the current gw status ************* 
-	// 	// Construct an instance of the UpdateGatewayOptions model 
-	// 	UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
-	// 		.name(updatedGatewayName).macsecConfig(macsecPatchConfig).build(); 
-			
-	// 	// Invoke operation with valid options model (positive test) 
-	// 	Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
-	// 	assertNotNull(updateResponse); 
-	// 	assertEquals(200, updateResponse.getStatusCode());
-	  
-	//    	Gateway updateResponseObj = updateResponse.getResult();
-	//   	assertNotNull(updateResponseObj);
-	  
-	// 	// Delete the dedicated GW 
-	// 	DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(responseObj.getId()) .build(); 
-			
-	// 	//  Invoke operation with valid options model (positive test) 
-	// 	Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
-	// 	assertNotNull(Delresponse); 
-	// 	assertEquals(204, Delresponse.getStatusCode());
-		
-	// 	Void delResponseObj = Delresponse.getResult(); // Response does not have a return type. Check that the result is null. 
-	// 	assertNull(delResponseObj);
-	  
-	//   	gatewayId = null; // already cleaned up System.out.
-
-
-	// }
 	
 	@org.junit.Ignore
 	//@Test (dependsOnMethods = "testDedicatedGatewayOptions")
@@ -1006,7 +930,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// ********* Update VPC virtual connection using an attribute that can be changed ************
 		// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 		UpdateGatewayVirtualConnectionOptions updateGatewayVirtualConnectionOptionsModel = new UpdateGatewayVirtualConnectionOptions.Builder()
-			.gatewayId(connectGatewayId).id(vpcVcId).name("JAVA-INT-SDK-VPC-VC-PATCH").build();
+			.gatewayId(connectGatewayId).id(vpcVcId).build();
 
 		// Invoke operation with valid options model (positive test)
 		Response<GatewayVirtualConnection> updateResponse = testService
@@ -1019,7 +943,7 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		// ********* Update VPC virtual connection using a valid attribute that can not be changed because the VC does not span accounts requiring a status approval ************
 		// Construct an instance of the UpdateGatewayVirtualConnectionOptions model
 		updateGatewayVirtualConnectionOptionsModel = new UpdateGatewayVirtualConnectionOptions.Builder()
-				.gatewayId(connectGatewayId).id(vpcVcId).status("rejected").build();
+				.gatewayId(connectGatewayId).id(vpcVcId).build();
 
 		// Invoke operation with valid options model (positive test) 
 		try { 
@@ -1620,6 +1544,222 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		checkRouteReportDeletion(getGatewayRouteReportOptions);
 	}
    
+	/**
+	 * MACSec Gateway
+	 */
+	// Test setGatewayMacsec
+	@Test(dependsOnMethods = "testConnectGatewayOptions")
+	public void testSetGatewayMacsec() {
+		// Construct an instance of the HpcsKeyIdentity model
+		HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+		.crn("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:ebc0fbe6-fd7c-4971-b127-71a385c8f602")
+		.build();
+
+		// Construct an instance of the GatewayMacsecCakPrototype model
+		GatewayMacsecCakPrototype gatewayMacsecCakPrototypeModel = new GatewayMacsecCakPrototype.Builder()
+		.key(hpcsKeyIdentityModel)
+		.name("AA01")
+		.session("primary")
+		.build();
+
+		// Construct an instance of the SakRekeyPrototypeSakRekeyTimerModePrototype model
+		SakRekeyPrototypeSakRekeyTimerModePrototype sakRekeyPrototypeModel = new SakRekeyPrototypeSakRekeyTimerModePrototype.Builder()
+		.interval(Long.valueOf("76"))
+		.mode("timer")
+		.build();
+
+		// Construct an instance of the SetGatewayMacsecOptions model
+		SetGatewayMacsecOptions setGatewayMacsecOptionsModel = new SetGatewayMacsecOptions.Builder()
+		.id(connectGatewayId)
+		.active(true)
+		.caks(java.util.Arrays.asList(gatewayMacsecCakPrototypeModel))
+		.sakRekey(sakRekeyPrototypeModel)
+		.securityPolicy("must_secure")
+		.windowSize(Long.valueOf("522"))
+		.build();
+
+		// Invoke setGatewayMacsec() with a valid options model and verify the result
+		Response<GatewayMacsec> gatewayMacsecResponse = testService.setGatewayMacsec(setGatewayMacsecOptionsModel).execute();
+		assertNotNull(gatewayMacsecResponse);
+		GatewayMacsec gatewayMacsecResponseObj = gatewayMacsecResponse.getResult();
+		assertNotNull(gatewayMacsecResponseObj);
+		assertEquals(true, gatewayMacsecResponseObj.isActive());
+		assertEquals("must_secure", gatewayMacsecResponseObj.getSecurityPolicy());
+		assertEquals("522", gatewayMacsecResponseObj.getWindowSize());
+	}
+
+	// Test getGatewayMacsec
+	@Test(dependsOnMethods = "testSetGatewayMacsec")
+	public void testGetGatewayMacsec() {
+		// Construct an instance of the GetGatewayMacsecOptions model
+		GetGatewayMacsecOptions getGatewayMacsecOptionsModel = new GetGatewayMacsecOptions.Builder()
+			.id(connectGatewayId)
+			.build();
+
+		// Invoke getGatewayMacsec() with a valid options model and verify the result
+		Response<GatewayMacsec> gatewayMacsecResponse = testService.getGatewayMacsec(getGatewayMacsecOptionsModel).execute();
+		assertNotNull(gatewayMacsecResponse);
+		GatewayMacsec gatewayMacsecResponseObj = gatewayMacsecResponse.getResult();
+		assertNotNull(gatewayMacsecResponseObj);
+		assertEquals(true, gatewayMacsecResponseObj.isActive());
+		assertEquals("must_secure", gatewayMacsecResponseObj.getSecurityPolicy());
+		assertEquals("522", gatewayMacsecResponseObj.getWindowSize());
+	}
+
+	// Test listGatewayMacsecCaks
+	@Test(dependsOnMethods = "testSetGatewayMacsec")
+	public void testListGatewayMacsecCaks() {
+		// Construct an instance of the ListGatewayMacsecCaksOptions model
+		ListGatewayMacsecCaksOptions listGatewayMacsecCaksOptionsModel = new ListGatewayMacsecCaksOptions.Builder()
+		.id(connectGatewayId)
+		.build();
+
+		// Invoke listGatewayMacsecCaks() with a valid options model and verify the result
+		Response<GatewayMacsecCakCollection> gatewayMacsecCollectionResponse = testService.listGatewayMacsecCaks(listGatewayMacsecCaksOptionsModel).execute();
+		assertNotNull(gatewayMacsecCollectionResponse);
+		GatewayMacsecCakCollection gatewayMacsecCollectionResponseObj = gatewayMacsecCollectionResponse.getResult();
+		assertNotNull(gatewayMacsecCollectionResponseObj);
+		assertEquals(1, gatewayMacsecCollectionResponseObj.getCaks().size());
+	}
+
+	// Test createGatewayMacsecCak
+	@Test(dependsOnMethods = "testCreateGatewayMacsecCak")
+	public void testCreateGatewayMacsecCak() {
+		// Construct an instance of the HpcsKeyIdentity model
+		HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+		.crn("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6")
+		.build();
+
+		// Construct an instance of the CreateGatewayMacsecCakOptions model
+		CreateGatewayMacsecCakOptions createGatewayMacsecCakOptionsModel = new CreateGatewayMacsecCakOptions.Builder()
+		.id(connectGatewayId)
+		.key(hpcsKeyIdentityModel)
+		.name("BB02")
+		.session("fallback")
+		.build();
+
+		// Invoke createGatewayMacsecCak() with a valid options model and verify the result
+		Response<GatewayMacsecCak> gatewayMacsecCakResponse = testService.createGatewayMacsecCak(createGatewayMacsecCakOptionsModel).execute();
+		assertNotNull(gatewayMacsecCakResponse);
+		GatewayMacsecCak gatewayMacsecCakResponseObj = gatewayMacsecCakResponse.getResult();
+		assertNotNull(gatewayMacsecCakResponseObj);
+		cakId = gatewayMacsecCakResponseObj.getId();
+		assertNotNull(cakId);
+		assertEquals("BB02", gatewayMacsecCakResponseObj.getName());
+		assertEquals("fallback", gatewayMacsecCakResponseObj.getSession());
+	}
+
+	// Test getGatewayMacsecCak
+	@Test(dependsOnMethods = "testCreateGatewayMacsecCak")
+	public void testGetGatewayMacsecCak() {
+		// Construct an instance of the GetGatewayMacsecCakOptions model
+		GetGatewayMacsecCakOptions getGatewayMacsecCakOptionsModel = new GetGatewayMacsecCakOptions.Builder()
+			.id(connectGatewayId)
+			.cakId(cakId)
+			.build();
+
+		// Invoke getGatewayMacsecCak() with a valid options model and verify the result
+		Response<GatewayMacsecCak> gatewayMacsecCakResponse = testService.getGatewayMacsecCak(getGatewayMacsecCakOptionsModel).execute();
+		assertNotNull(gatewayMacsecCakResponse);
+		GatewayMacsecCak gatewayMacsecCakResponseObj = gatewayMacsecCakResponse.getResult();
+		assertNotNull(gatewayMacsecCakResponseObj);
+		assertEquals(cakId, gatewayMacsecCakResponseObj.getId());
+	}
+
+	// Test updateGatewayMacsecCak
+	@Test(dependsOnMethods = "testCreateGatewayMacsecCak")
+	public void testUpdateGatewayMacsecCak() {
+		// Construct an instance of the HpcsKeyIdentity model
+		HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+		.crn("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6")
+		.build();
+
+		// Construct an instance of the GatewayMacsecCakPatch model
+		GatewayMacsecCakPatch gatewayMacsecCakPatchModel = new GatewayMacsecCakPatch.Builder()
+		.key(hpcsKeyIdentityModel)
+		.name("AA02")
+		.build();
+		Map<String, Object> gatewayMacsecCakPatchModelAsPatch = gatewayMacsecCakPatchModel.asPatch();
+
+		// Construct an instance of the UpdateGatewayMacsecCakOptions model
+		UpdateGatewayMacsecCakOptions updateGatewayMacsecCakOptionsModel = new UpdateGatewayMacsecCakOptions.Builder()
+		.id(connectGatewayId)
+		.cakId(cakId)
+		.gatewayMacsecCakPatch(gatewayMacsecCakPatchModelAsPatch)
+		.build();
+
+		// Invoke updateGatewayMacsecCak() with a valid options model and verify the result
+		Response<GatewayMacsecCak> gatewayMacsecCakResponse = testService.updateGatewayMacsecCak(updateGatewayMacsecCakOptionsModel).execute();
+		assertNotNull(gatewayMacsecCakResponse);
+		GatewayMacsecCak gatewayMacsecCakResponseObj = gatewayMacsecCakResponse.getResult();
+		assertNotNull(gatewayMacsecCakResponseObj);
+		assertEquals("AA02", gatewayMacsecCakResponseObj.getName());
+	}
+
+	// Test deleteGatewayMacsecCak
+	@Test(dependsOnMethods = "testUpdateGatewayMacsecCak")
+	public void testDeleteGatewayMacsecCak() {
+		// Construct an instance of the DeleteGatewayMacsecCakOptions model
+		DeleteGatewayMacsecCakOptions deleteGatewayMacsecCakOptionsModel = new DeleteGatewayMacsecCakOptions.Builder()
+		.id(connectGatewayId)
+		.cakId(cakId)
+		.build();
+
+		// Invoke deleteGatewayMacsecCak() with a valid options model and verify the result
+		Response<Void> response = testService.deleteGatewayMacsecCak(deleteGatewayMacsecCakOptionsModel).execute();
+		assertNotNull(response);
+		assertNull(response.getResult());
+		assertEquals(204, response.getStatusCode());
+	}
+
+	// Test updateGatewayMacsec
+	@Test(dependsOnMethods = "testGetGatewayMacsec")
+	public void testUpdateGatewayMacsec() {
+		// Construct an instance of the SakRekeyPatchSakRekeyTimerModePatch model
+		SakRekeyPatchSakRekeyTimerModePatch sakRekeyPatchModel = new SakRekeyPatchSakRekeyTimerModePatch.Builder()
+		.interval(Long.valueOf("3601"))
+		.mode("timer")
+		.build();
+
+		// Construct an instance of the GatewayMacsecPatch model
+		GatewayMacsecPatch gatewayMacsecPatchModel = new GatewayMacsecPatch.Builder()
+		.active(true)
+		.sakRekey(sakRekeyPatchModel)
+		.securityPolicy("must_secure")
+		.windowSize(Long.valueOf("74"))
+		.build();
+		Map<String, Object> gatewayMacsecPatchModelAsPatch = gatewayMacsecPatchModel.asPatch();
+
+		// Construct an instance of the UpdateGatewayMacsecOptions model
+		UpdateGatewayMacsecOptions updateGatewayMacsecOptionsModel = new UpdateGatewayMacsecOptions.Builder()
+		.id(connectGatewayId)
+		.gatewayMacsecPatch(gatewayMacsecPatchModelAsPatch)
+		.build();
+
+		// Invoke updateGatewayMacsec() with a valid options model and verify the result
+		Response<GatewayMacsec> gatewayMacsecResponse = testService.updateGatewayMacsec(updateGatewayMacsecOptionsModel).execute();
+		assertNotNull(gatewayMacsecResponse);
+		GatewayMacsec gatewayMacsecResponseObj = gatewayMacsecResponse.getResult();
+		assertNotNull(gatewayMacsecResponseObj);
+		assertEquals("must_secure", gatewayMacsecResponseObj.getSecurityPolicy());
+		assertEquals("74", gatewayMacsecResponseObj.getWindowSize());
+	}
+
+	// Test unsetGatewayMacsec
+	@Test(dependsOnMethods = "testUpdateGatewayMacsec")
+	public void testUnsetGatewayMacsec() {
+		// Construct an instance of the UnsetGatewayMacsecOptions model
+		UnsetGatewayMacsecOptions unsetGatewayMacsecOptionsModel = new UnsetGatewayMacsecOptions.Builder()
+		.id(connectGatewayId)
+		.build();
+
+		// Invoke unsetGatewayMacsec() with a valid options model and verify the result
+		Response<Void> response = testService.unsetGatewayMacsec(unsetGatewayMacsecOptionsModel).execute();
+		assertNotNull(response);
+		assertNull(response.getResult());
+		assertEquals(204, response.getStatusCode());
+	}
+
 	// @Test (dependsOnMethods = "testCompletionNotice")
 	public void testOfferings() {
 		assertNotNull(testService);

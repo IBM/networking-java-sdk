@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.80.0-29334a73-20230925-151553
+ * IBM OpenAPI SDK Code Generator Version: 3.99.1-daeb6e46-20250131-173156
  */
 
 package com.ibm.cloud.networking.direct_link.v1;
@@ -24,23 +24,30 @@ import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayCompletionNoticeOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayImportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayMacsecCakOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayImportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayMacsecCakOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayRouteReportOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.DeleteGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ExportRouteFilterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.Gateway;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsec;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatisticCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnection;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayVirtualConnectionCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayImportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayMacsecCakOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayMacsecOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayResponse;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayRouteReportOptions;
@@ -54,6 +61,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNotice
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayExportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayImportRouteFiltersOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayLetterOfAuthorizationOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayMacsecCaksOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayRouteReportsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayVirtualConnectionsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewaysOptions;
@@ -72,8 +80,12 @@ import com.ibm.cloud.networking.direct_link.v1.model.ReplaceGatewayImportRouteFi
 import com.ibm.cloud.networking.direct_link.v1.model.RouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReport;
 import com.ibm.cloud.networking.direct_link.v1.model.RouteReportCollection;
+import com.ibm.cloud.networking.direct_link.v1.model.SetGatewayMacsecOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UnsetGatewayMacsecOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayExportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayImportRouteFilterOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayMacsecCakOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayMacsecOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.UpdateGatewayVirtualConnectionOptions;
 import com.ibm.cloud.sdk.core.http.RequestBuilder;
@@ -300,10 +312,7 @@ public class DirectLink extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    String patchBodyString = com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayOptions.gatewayPatchTemplatePatch());
-    patchBodyString = patchBodyString.replace(".0,", ",");
-    builder.bodyContent(patchBodyString, "application/merge-patch+json");
-    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayOptions.gatewayPatchTemplatePatch()), "application/merge-patch+json");
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateGatewayOptions.gatewayPatchTemplatePatch()), "application/merge-patch+json");
     ResponseConverter<Gateway> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Gateway>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -514,6 +523,63 @@ public class DirectLink extends BaseService {
   }
 
   /**
+   * List AS Prepends.
+   *
+   * Retrieve all AS Prepends for the specified Direct Link gateway.
+   *
+   * @param listGatewayAsPrependsOptions the {@link ListGatewayAsPrependsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
+   */
+  public ServiceCall<AsPrependCollection> listGatewayAsPrepends(ListGatewayAsPrependsOptions listGatewayAsPrependsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayAsPrependsOptions,
+      "listGatewayAsPrependsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", listGatewayAsPrependsOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayAsPrepends");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<AsPrependCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Replace existing AS Prepends.
+   *
+   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
+   * individual AS Prepend item is unchanged.
+   *
+   * @param replaceGatewayAsPrependsOptions the {@link ReplaceGatewayAsPrependsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
+   */
+  public ServiceCall<AsPrependCollection> replaceGatewayAsPrepends(ReplaceGatewayAsPrependsOptions replaceGatewayAsPrependsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(replaceGatewayAsPrependsOptions,
+      "replaceGatewayAsPrependsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("gateway_id", replaceGatewayAsPrependsOptions.gatewayId());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "replaceGatewayAsPrepends");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.header("If-Match", replaceGatewayAsPrependsOptions.ifMatch());
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    if (replaceGatewayAsPrependsOptions.asPrepends() != null) {
+      contentJson.add("as_prepends", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(replaceGatewayAsPrependsOptions.asPrepends()));
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<AsPrependCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
    * List export route filters.
    *
    * List all export route filters that influence the export routes advertised to the on premises network and learned
@@ -707,9 +773,7 @@ public class DirectLink extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    String replaceString = com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayExportRouteFilterOptions.updateRouteFilterTemplatePatch());
-    replaceString = replaceString.replace(".0,", ",");
-    builder.bodyContent(replaceString, "application/merge-patch+json");
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateGatewayExportRouteFilterOptions.updateRouteFilterTemplatePatch()), "application/merge-patch+json");
     ResponseConverter<RouteFilter> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteFilter>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -908,11 +972,252 @@ public class DirectLink extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    String replaceString = com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateGatewayImportRouteFilterOptions.updateRouteFilterTemplatePatch());
-    replaceString = replaceString.replace(".0,", ",");
-    builder.bodyContent(replaceString, "application/merge-patch+json");
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateGatewayImportRouteFilterOptions.updateRouteFilterTemplatePatch()), "application/merge-patch+json");
     ResponseConverter<RouteFilter> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteFilter>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Unset MACsec configuration.
+   *
+   * Removes the MACsec configuration from a direct link, disabling the features.
+   *
+   * @param unsetGatewayMacsecOptions the {@link UnsetGatewayMacsecOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> unsetGatewayMacsec(UnsetGatewayMacsecOptions unsetGatewayMacsecOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(unsetGatewayMacsecOptions,
+      "unsetGatewayMacsecOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", unsetGatewayMacsecOptions.id());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/macsec", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "unsetGatewayMacsec");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get MACsec configuration.
+   *
+   * Retrieve the MACsec configuration of a direct link.
+   *
+   * @param getGatewayMacsecOptions the {@link GetGatewayMacsecOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link GatewayMacsec}
+   */
+  public ServiceCall<GatewayMacsec> getGatewayMacsec(GetGatewayMacsecOptions getGatewayMacsecOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayMacsecOptions,
+      "getGatewayMacsecOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", getGatewayMacsecOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/macsec", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getGatewayMacsec");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<GatewayMacsec> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayMacsec>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update MACsec configuration.
+   *
+   * Updates the MACsec configuration on a direct link.
+   *
+   * @param updateGatewayMacsecOptions the {@link UpdateGatewayMacsecOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link GatewayMacsec}
+   */
+  public ServiceCall<GatewayMacsec> updateGatewayMacsec(UpdateGatewayMacsecOptions updateGatewayMacsecOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateGatewayMacsecOptions,
+      "updateGatewayMacsecOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", updateGatewayMacsecOptions.id());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/macsec", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "updateGatewayMacsec");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateGatewayMacsecOptions.gatewayMacsecPatch()), "application/merge-patch+json");
+    ResponseConverter<GatewayMacsec> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayMacsec>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Set MACsec configuration.
+   *
+   * Sets the MACsec configuration on a direct link, enabling the feature.
+   *
+   * @param setGatewayMacsecOptions the {@link SetGatewayMacsecOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link GatewayMacsec}
+   */
+  public ServiceCall<GatewayMacsec> setGatewayMacsec(SetGatewayMacsecOptions setGatewayMacsecOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(setGatewayMacsecOptions,
+      "setGatewayMacsecOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", setGatewayMacsecOptions.id());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/macsec", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "setGatewayMacsec");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (setGatewayMacsecOptions.ifMatch() != null) {
+      builder.header("If-Match", setGatewayMacsecOptions.ifMatch());
+    }
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    contentJson.addProperty("active", setGatewayMacsecOptions.active());
+    contentJson.add("caks", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(setGatewayMacsecOptions.caks()));
+    contentJson.add("sak_rekey", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(setGatewayMacsecOptions.sakRekey()));
+    contentJson.addProperty("security_policy", setGatewayMacsecOptions.securityPolicy());
+    if (setGatewayMacsecOptions.windowSize() != null) {
+      contentJson.addProperty("window_size", setGatewayMacsecOptions.windowSize());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<GatewayMacsec> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayMacsec>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List MACsec CAKs.
+   *
+   * List the CAKs associated with the MACsec configuration of a direct link.
+   *
+   * @param listGatewayMacsecCaksOptions the {@link ListGatewayMacsecCaksOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link GatewayMacsecCakCollection}
+   */
+  public ServiceCall<GatewayMacsecCakCollection> listGatewayMacsecCaks(ListGatewayMacsecCaksOptions listGatewayMacsecCaksOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayMacsecCaksOptions,
+      "listGatewayMacsecCaksOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", listGatewayMacsecCaksOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/macsec/caks", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayMacsecCaks");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<GatewayMacsecCakCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayMacsecCakCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Create MACsec CAK.
+   *
+   * Creates a CAK associated with the MACsec configuration of a direct link.
+   *
+   * @param createGatewayMacsecCakOptions the {@link CreateGatewayMacsecCakOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link GatewayMacsecCak}
+   */
+  public ServiceCall<GatewayMacsecCak> createGatewayMacsecCak(CreateGatewayMacsecCakOptions createGatewayMacsecCakOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(createGatewayMacsecCakOptions,
+      "createGatewayMacsecCakOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", createGatewayMacsecCakOptions.id());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/macsec/caks", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "createGatewayMacsecCak");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    final JsonObject contentJson = new JsonObject();
+    contentJson.add("key", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createGatewayMacsecCakOptions.key()));
+    contentJson.addProperty("name", createGatewayMacsecCakOptions.name());
+    contentJson.addProperty("session", createGatewayMacsecCakOptions.session());
+    builder.bodyJson(contentJson);
+    ResponseConverter<GatewayMacsecCak> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayMacsecCak>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Delete MACsec CAK.
+   *
+   * Deletes the CAK from the MACsec configuration of a direct link.
+   *
+   * @param deleteGatewayMacsecCakOptions the {@link DeleteGatewayMacsecCakOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a void result
+   */
+  public ServiceCall<Void> deleteGatewayMacsecCak(DeleteGatewayMacsecCakOptions deleteGatewayMacsecCakOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteGatewayMacsecCakOptions,
+      "deleteGatewayMacsecCakOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", deleteGatewayMacsecCakOptions.id());
+    pathParamsMap.put("cak_id", deleteGatewayMacsecCakOptions.cakId());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/macsec/caks/{cak_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "deleteGatewayMacsecCak");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get MACsec CAK.
+   *
+   * Get a MACsec CAK by its identifier.
+   *
+   * @param getGatewayMacsecCakOptions the {@link GetGatewayMacsecCakOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link GatewayMacsecCak}
+   */
+  public ServiceCall<GatewayMacsecCak> getGatewayMacsecCak(GetGatewayMacsecCakOptions getGatewayMacsecCakOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getGatewayMacsecCakOptions,
+      "getGatewayMacsecCakOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", getGatewayMacsecCakOptions.id());
+    pathParamsMap.put("cak_id", getGatewayMacsecCakOptions.cakId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/macsec/caks/{cak_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "getGatewayMacsecCak");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<GatewayMacsecCak> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayMacsecCak>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update MACsec CAK.
+   *
+   * Updates the CAK on the MACsec configuration of a direct link.
+   *
+   * @param updateGatewayMacsecCakOptions the {@link UpdateGatewayMacsecCakOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link GatewayMacsecCak}
+   */
+  public ServiceCall<GatewayMacsecCak> updateGatewayMacsecCak(UpdateGatewayMacsecCakOptions updateGatewayMacsecCakOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateGatewayMacsecCakOptions,
+      "updateGatewayMacsecCakOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", updateGatewayMacsecCakOptions.id());
+    pathParamsMap.put("cak_id", updateGatewayMacsecCakOptions.cakId());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{id}/macsec/caks/{cak_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "updateGatewayMacsecCak");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateGatewayMacsecCakOptions.gatewayMacsecCakPatch()), "application/merge-patch+json");
+    ResponseConverter<GatewayMacsecCak> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayMacsecCak>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
@@ -1149,14 +1454,7 @@ public class DirectLink extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    final JsonObject contentJson = new JsonObject();
-    if (updateGatewayVirtualConnectionOptions.name() != null) {
-      contentJson.addProperty("name", updateGatewayVirtualConnectionOptions.name());
-    }
-    if (updateGatewayVirtualConnectionOptions.status() != null) {
-      contentJson.addProperty("status", updateGatewayVirtualConnectionOptions.status());
-    }
-    builder.bodyJson(contentJson);
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateGatewayVirtualConnectionOptions.gatewayVirtualConnectionPatchTemplatePatch()), "application/merge-patch+json");
     ResponseConverter<GatewayVirtualConnection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<GatewayVirtualConnection>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -1306,63 +1604,6 @@ public class DirectLink extends BaseService {
     builder.query("version", String.valueOf(this.version));
     ResponseConverter<Port> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Port>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * List AS Prepends.
-   *
-   * Retrieve all AS Prepends for the specified Direct Link gateway.
-   *
-   * @param listGatewayAsPrependsOptions the {@link ListGatewayAsPrependsOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
-   */
-  public ServiceCall<AsPrependCollection> listGatewayAsPrepends(ListGatewayAsPrependsOptions listGatewayAsPrependsOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(listGatewayAsPrependsOptions,
-      "listGatewayAsPrependsOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("gateway_id", listGatewayAsPrependsOptions.gatewayId());
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "listGatewayAsPrepends");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.query("version", String.valueOf(this.version));
-    ResponseConverter<AsPrependCollection> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Replace existing AS Prepends.
-   *
-   * Replace the given set of AS prepends on the specified gateway.  Existing resources may be reused when the
-   * individual AS Prepend item is unchanged.
-   *
-   * @param replaceGatewayAsPrependsOptions the {@link ReplaceGatewayAsPrependsOptions} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link AsPrependCollection}
-   */
-  public ServiceCall<AsPrependCollection> replaceGatewayAsPrepends(ReplaceGatewayAsPrependsOptions replaceGatewayAsPrependsOptions) {
-    com.ibm.cloud.sdk.core.util.Validator.notNull(replaceGatewayAsPrependsOptions,
-      "replaceGatewayAsPrependsOptions cannot be null");
-    Map<String, String> pathParamsMap = new HashMap<String, String>();
-    pathParamsMap.put("gateway_id", replaceGatewayAsPrependsOptions.gatewayId());
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/gateways/{gateway_id}/as_prepends", pathParamsMap));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("direct_link", "v1", "replaceGatewayAsPrepends");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    builder.header("If-Match", replaceGatewayAsPrependsOptions.ifMatch());
-    builder.query("version", String.valueOf(this.version));
-    final JsonObject contentJson = new JsonObject();
-    if (replaceGatewayAsPrependsOptions.asPrepends() != null) {
-      contentJson.add("as_prepends", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(replaceGatewayAsPrependsOptions.asPrepends()));
-    }
-    builder.bodyJson(contentJson);
-    ResponseConverter<AsPrependCollection> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<AsPrependCollection>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

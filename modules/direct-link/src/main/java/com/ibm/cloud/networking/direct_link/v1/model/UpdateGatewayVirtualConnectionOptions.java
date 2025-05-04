@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,6 +12,8 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import java.util.Map;
+
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
@@ -19,22 +21,9 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class UpdateGatewayVirtualConnectionOptions extends GenericModel {
 
-  /**
-   * Status of the virtual connection.  Virtual connections that span IBM Cloud Accounts are created in approval_pending
-   * status.  The owner of the target network can accept or reject connection requests by patching status to attached or
-   * rejected respectively.
-   */
-  public interface Status {
-    /** attached. */
-    String ATTACHED = "attached";
-    /** rejected. */
-    String REJECTED = "rejected";
-  }
-
   protected String gatewayId;
   protected String id;
-  protected String name;
-  protected String status;
+  protected Map<String, Object> gatewayVirtualConnectionPatchTemplatePatch;
 
   /**
    * Builder.
@@ -42,14 +31,17 @@ public class UpdateGatewayVirtualConnectionOptions extends GenericModel {
   public static class Builder {
     private String gatewayId;
     private String id;
-    private String name;
-    private String status;
+    private Map<String, Object> gatewayVirtualConnectionPatchTemplatePatch;
 
+    /**
+     * Instantiates a new Builder from an existing UpdateGatewayVirtualConnectionOptions instance.
+     *
+     * @param updateGatewayVirtualConnectionOptions the instance to initialize the Builder with
+     */
     private Builder(UpdateGatewayVirtualConnectionOptions updateGatewayVirtualConnectionOptions) {
       this.gatewayId = updateGatewayVirtualConnectionOptions.gatewayId;
       this.id = updateGatewayVirtualConnectionOptions.id;
-      this.name = updateGatewayVirtualConnectionOptions.name;
-      this.status = updateGatewayVirtualConnectionOptions.status;
+      this.gatewayVirtualConnectionPatchTemplatePatch = updateGatewayVirtualConnectionOptions.gatewayVirtualConnectionPatchTemplatePatch;
     }
 
     /**
@@ -63,10 +55,12 @@ public class UpdateGatewayVirtualConnectionOptions extends GenericModel {
      *
      * @param gatewayId the gatewayId
      * @param id the id
+     * @param gatewayVirtualConnectionPatchTemplatePatch the gatewayVirtualConnectionPatchTemplatePatch
      */
-    public Builder(String gatewayId, String id) {
+    public Builder(String gatewayId, String id, Map<String, Object> gatewayVirtualConnectionPatchTemplatePatch) {
       this.gatewayId = gatewayId;
       this.id = id;
+      this.gatewayVirtualConnectionPatchTemplatePatch = gatewayVirtualConnectionPatchTemplatePatch;
     }
 
     /**
@@ -101,37 +95,29 @@ public class UpdateGatewayVirtualConnectionOptions extends GenericModel {
     }
 
     /**
-     * Set the name.
+     * Set the gatewayVirtualConnectionPatchTemplatePatch.
      *
-     * @param name the name
+     * @param gatewayVirtualConnectionPatchTemplatePatch the gatewayVirtualConnectionPatchTemplatePatch
      * @return the UpdateGatewayVirtualConnectionOptions builder
      */
-    public Builder name(String name) {
-      this.name = name;
-      return this;
-    }
-
-    /**
-     * Set the status.
-     *
-     * @param status the status
-     * @return the UpdateGatewayVirtualConnectionOptions builder
-     */
-    public Builder status(String status) {
-      this.status = status;
+    public Builder gatewayVirtualConnectionPatchTemplatePatch(Map<String, Object> gatewayVirtualConnectionPatchTemplatePatch) {
+      this.gatewayVirtualConnectionPatchTemplatePatch = gatewayVirtualConnectionPatchTemplatePatch;
       return this;
     }
   }
+
+  protected UpdateGatewayVirtualConnectionOptions() { }
 
   protected UpdateGatewayVirtualConnectionOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.gatewayId,
       "gatewayId cannot be empty");
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.id,
       "id cannot be empty");
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.gatewayVirtualConnectionPatchTemplatePatch,
+      "gatewayVirtualConnectionPatchTemplatePatch cannot be null");
     gatewayId = builder.gatewayId;
     id = builder.id;
-    name = builder.name;
-    status = builder.status;
+    gatewayVirtualConnectionPatchTemplatePatch = builder.gatewayVirtualConnectionPatchTemplatePatch;
   }
 
   /**
@@ -166,28 +152,14 @@ public class UpdateGatewayVirtualConnectionOptions extends GenericModel {
   }
 
   /**
-   * Gets the name.
+   * Gets the gatewayVirtualConnectionPatchTemplatePatch.
    *
-   * The user-defined name for this virtual connection.  Virtual connection names are unique within a gateway.  This is
-   * the name of the virtual connection itself, the network being connected may have its own name attribute.
+   * The virtual connection patch template.
    *
-   * @return the name
+   * @return the gatewayVirtualConnectionPatchTemplatePatch
    */
-  public String name() {
-    return name;
-  }
-
-  /**
-   * Gets the status.
-   *
-   * Status of the virtual connection.  Virtual connections that span IBM Cloud Accounts are created in approval_pending
-   * status.  The owner of the target network can accept or reject connection requests by patching status to attached or
-   * rejected respectively.
-   *
-   * @return the status
-   */
-  public String status() {
-    return status;
+  public Map<String, Object> gatewayVirtualConnectionPatchTemplatePatch() {
+    return gatewayVirtualConnectionPatchTemplatePatch;
   }
 }
 

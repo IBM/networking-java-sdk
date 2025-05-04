@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,15 +14,16 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakPrototype;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecPrototype;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
+import com.ibm.cloud.networking.direct_link.v1.model.HpcsKeyIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.SakRekeyPrototypeSakRekeyTimerModePrototype;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -51,10 +52,10 @@ public class CreateGatewayOptionsTest {
     assertEquals(asPrependTemplateModel.prefix(), "172.17.0.0/16");
     assertEquals(asPrependTemplateModel.specificPrefixes(), java.util.Arrays.asList("192.168.3.0/24"));
 
-    GatewayTemplateAuthenticationKey gatewayTemplateAuthenticationKeyModel = new GatewayTemplateAuthenticationKey.Builder()
-      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+    AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity authenticationKeyIdentityModel = new AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity.Builder()
+      .crn("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
-    assertEquals(gatewayTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
+    assertEquals(authenticationKeyIdentityModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
 
     GatewayBfdConfigTemplate gatewayBfdConfigTemplateModel = new GatewayBfdConfigTemplate.Builder()
       .interval(Long.valueOf("2000"))
@@ -79,30 +80,43 @@ public class CreateGatewayOptionsTest {
       .build();
     assertEquals(resourceGroupIdentityModel.id(), "56969d6043e9465c883cb9f7363e78e8");
 
-    GatewayMacsecConfigTemplateFallbackCak gatewayMacsecConfigTemplateFallbackCakModel = new GatewayMacsecConfigTemplateFallbackCak.Builder()
+    HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
-    assertEquals(gatewayMacsecConfigTemplateFallbackCakModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
+    assertEquals(hpcsKeyIdentityModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
 
-    GatewayMacsecConfigTemplatePrimaryCak gatewayMacsecConfigTemplatePrimaryCakModel = new GatewayMacsecConfigTemplatePrimaryCak.Builder()
-      .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
+    GatewayMacsecCakPrototype gatewayMacsecCakPrototypeModel = new GatewayMacsecCakPrototype.Builder()
+      .key(hpcsKeyIdentityModel)
+      .name("1000")
+      .session("primary")
       .build();
-    assertEquals(gatewayMacsecConfigTemplatePrimaryCakModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
+    assertEquals(gatewayMacsecCakPrototypeModel.key(), hpcsKeyIdentityModel);
+    assertEquals(gatewayMacsecCakPrototypeModel.name(), "1000");
+    assertEquals(gatewayMacsecCakPrototypeModel.session(), "primary");
 
-    GatewayMacsecConfigTemplate gatewayMacsecConfigTemplateModel = new GatewayMacsecConfigTemplate.Builder()
+    SakRekeyPrototypeSakRekeyTimerModePrototype sakRekeyPrototypeModel = new SakRekeyPrototypeSakRekeyTimerModePrototype.Builder()
+      .interval(Long.valueOf("3600"))
+      .mode("timer")
+      .build();
+    assertEquals(sakRekeyPrototypeModel.interval(), Long.valueOf("3600"));
+    assertEquals(sakRekeyPrototypeModel.mode(), "timer");
+
+    GatewayMacsecPrototype gatewayMacsecPrototypeModel = new GatewayMacsecPrototype.Builder()
       .active(true)
-      .fallbackCak(gatewayMacsecConfigTemplateFallbackCakModel)
-      .primaryCak(gatewayMacsecConfigTemplatePrimaryCakModel)
-      .windowSize(Long.valueOf("148809600"))
+      .caks(java.util.Arrays.asList(gatewayMacsecCakPrototypeModel))
+      .sakRekey(sakRekeyPrototypeModel)
+      .securityPolicy("must_secure")
+      .windowSize(Long.valueOf("64"))
       .build();
-    assertEquals(gatewayMacsecConfigTemplateModel.active(), Boolean.valueOf(true));
-    assertEquals(gatewayMacsecConfigTemplateModel.fallbackCak(), gatewayMacsecConfigTemplateFallbackCakModel);
-    assertEquals(gatewayMacsecConfigTemplateModel.primaryCak(), gatewayMacsecConfigTemplatePrimaryCakModel);
-    assertEquals(gatewayMacsecConfigTemplateModel.windowSize(), Long.valueOf("148809600"));
+    assertEquals(gatewayMacsecPrototypeModel.active(), Boolean.valueOf(true));
+    assertEquals(gatewayMacsecPrototypeModel.caks(), java.util.Arrays.asList(gatewayMacsecCakPrototypeModel));
+    assertEquals(gatewayMacsecPrototypeModel.sakRekey(), sakRekeyPrototypeModel);
+    assertEquals(gatewayMacsecPrototypeModel.securityPolicy(), "must_secure");
+    assertEquals(gatewayMacsecPrototypeModel.windowSize(), Long.valueOf("64"));
 
     GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
       .asPrepends(java.util.Arrays.asList(asPrependTemplateModel))
-      .authenticationKey(gatewayTemplateAuthenticationKeyModel)
+      .authenticationKey(authenticationKeyIdentityModel)
       .bfdConfig(gatewayBfdConfigTemplateModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpBaseCidr("testString")
@@ -124,11 +138,12 @@ public class CreateGatewayOptionsTest {
       .crossConnectRouter("xcr01.dal03")
       .customerName("newCustomerName")
       .locationName("dal03")
-      .macsecConfig(gatewayMacsecConfigTemplateModel)
+      .macsec(gatewayMacsecPrototypeModel)
+      .macsecCapability("non_macsec")
       .vlan(Long.valueOf("10"))
       .build();
     assertEquals(gatewayTemplateModel.asPrepends(), java.util.Arrays.asList(asPrependTemplateModel));
-    assertEquals(gatewayTemplateModel.authenticationKey(), gatewayTemplateAuthenticationKeyModel);
+    assertEquals(gatewayTemplateModel.authenticationKey(), authenticationKeyIdentityModel);
     assertEquals(gatewayTemplateModel.bfdConfig(), gatewayBfdConfigTemplateModel);
     assertEquals(gatewayTemplateModel.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateModel.bgpBaseCidr(), "testString");
@@ -150,7 +165,8 @@ public class CreateGatewayOptionsTest {
     assertEquals(gatewayTemplateModel.crossConnectRouter(), "xcr01.dal03");
     assertEquals(gatewayTemplateModel.customerName(), "newCustomerName");
     assertEquals(gatewayTemplateModel.locationName(), "dal03");
-    assertEquals(gatewayTemplateModel.macsecConfig(), gatewayMacsecConfigTemplateModel);
+    assertEquals(gatewayTemplateModel.macsec(), gatewayMacsecPrototypeModel);
+    assertEquals(gatewayTemplateModel.macsecCapability(), "non_macsec");
     assertEquals(gatewayTemplateModel.vlan(), Long.valueOf("10"));
 
     CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder()

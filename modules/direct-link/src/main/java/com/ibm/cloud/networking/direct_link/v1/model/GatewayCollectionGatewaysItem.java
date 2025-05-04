@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -86,8 +86,30 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
   }
 
   /**
+   * Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+   * `cross_connect_router`.
+   *
+   * Only included on type=dedicated direct links.
+   *
+   * - non_macsec: The direct link does not support MACsec.
+   * - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+   * - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+   * direct link creation.
+   */
+  public interface MacsecCapability {
+    /** non_macsec. */
+    String NON_MACSEC = "non_macsec";
+    /** macsec. */
+    String MACSEC = "macsec";
+    /** macsec_optional. */
+    String MACSEC_OPTIONAL = "macsec_optional";
+  }
+
+  /**
    * Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
    * processes using this field  must tolerate unexpected values.
+   *
+   * See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
    */
   public interface OperationalStatus {
     /** awaiting_completion_notice. */
@@ -116,6 +138,8 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
     String LOA_REJECTED = "loa_rejected";
     /** provisioned. */
     String PROVISIONED = "provisioned";
+    /** failed. */
+    String FAILED = "failed";
   }
 
   /**
@@ -132,7 +156,7 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
   @SerializedName("as_prepends")
   protected List<AsPrepend> asPrepends;
   @SerializedName("authentication_key")
-  protected GatewayAuthenticationKey authenticationKey;
+  protected AuthenticationKeyReference authenticationKey;
   @SerializedName("bfd_config")
   protected GatewayBfdConfig bfdConfig;
   @SerializedName("bgp_asn")
@@ -180,21 +204,24 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
   protected String locationDisplayName;
   @SerializedName("location_name")
   protected String locationName;
-  @SerializedName("macsec_config")
-  protected GatewayMacsecConfig macsecConfig;
+  protected GatewayMacsecReference macsec;
+  @SerializedName("macsec_capability")
+  protected String macsecCapability;
   protected Boolean metered;
   protected String name;
   @SerializedName("operational_status")
   protected String operationalStatus;
-  protected GatewayPort port;
+  @SerializedName("operational_status_reasons")
+  protected List<GatewayStatusReason> operationalStatusReasons;
+  @SerializedName("patch_panel_completion_notice")
+  protected String patchPanelCompletionNotice;
+  protected GatewayPortReference port;
   @SerializedName("provider_api_managed")
   protected Boolean providerApiManaged;
   @SerializedName("resource_group")
   protected ResourceGroupReference resourceGroup;
   @SerializedName("speed_mbps")
   protected Long speedMbps;
-  @SerializedName("patch_panel_completion_notice")
-  protected String patchPanelCompletionNotice;
   protected String type;
   protected Long vlan;
 
@@ -214,14 +241,9 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
   /**
    * Gets the authenticationKey.
    *
-   * The identity of the standard key to use for BGP MD5 authentication key.
-   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
-   * in length.
-   * To clear the optional `authentication_key` field patch its crn to `""`.
-   *
    * @return the authenticationKey
    */
-  public GatewayAuthenticationKey getAuthenticationKey() {
+  public AuthenticationKeyReference getAuthenticationKey() {
     return authenticationKey;
   }
 
@@ -254,7 +276,7 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
    *
    * See bgp_cer_cidr and bgp_ibm_cidr fields instead for IP related information.
    *
-   * Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+   * Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
    *
    * @return the bgpBaseCidr
    */
@@ -401,7 +423,7 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
   /**
    * Gets the crossConnectRouter.
    *
-   * Cross connect router.  Only included on type=dedicated gateways.
+   * Cross connect router. Only included on type=dedicated gateways.
    *
    * @return the crossConnectRouter
    */
@@ -510,15 +532,33 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
   }
 
   /**
-   * Gets the macsecConfig.
+   * Gets the macsec.
    *
-   * MACsec configuration information.  For Dedicated Gateways with MACsec configured, return configuration information.
-   *  Contact IBM support for access to MACsec.
+   * MACsec configuration information of a Direct Link gateway.
    *
-   * @return the macsecConfig
+   * @return the macsec
    */
-  public GatewayMacsecConfig getMacsecConfig() {
-    return macsecConfig;
+  public GatewayMacsecReference getMacsec() {
+    return macsec;
+  }
+
+  /**
+   * Gets the macsecCapability.
+   *
+   * Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+   * `cross_connect_router`.
+   *
+   * Only included on type=dedicated direct links.
+   *
+   * - non_macsec: The direct link does not support MACsec.
+   * - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+   * - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+   * direct link creation.
+   *
+   * @return the macsecCapability
+   */
+  public String getMacsecCapability() {
+    return macsecCapability;
   }
 
   /**
@@ -550,6 +590,8 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
    * Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
    * processes using this field  must tolerate unexpected values.
    *
+   * See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
+   *
    * @return the operationalStatus
    */
   public String getOperationalStatus() {
@@ -557,13 +599,35 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
   }
 
   /**
+   * Gets the operationalStatusReasons.
+   *
+   * Context for certain values of `operational_status`.
+   *
+   * @return the operationalStatusReasons
+   */
+  public List<GatewayStatusReason> getOperationalStatusReasons() {
+    return operationalStatusReasons;
+  }
+
+  /**
+   * Gets the patchPanelCompletionNotice.
+   *
+   * Gateway patch panel complete notification from implementation team.
+   *
+   * @return the patchPanelCompletionNotice
+   */
+  public String getPatchPanelCompletionNotice() {
+    return patchPanelCompletionNotice;
+  }
+
+  /**
    * Gets the port.
    *
-   * gateway port for type=connect gateways.
+   * Port information for type=connect gateways.
    *
    * @return the port
    */
-  public GatewayPort getPort() {
+  public GatewayPortReference getPort() {
     return port;
   }
 
@@ -598,17 +662,6 @@ public class GatewayCollectionGatewaysItem extends GenericModel {
    */
   public Long getSpeedMbps() {
     return speedMbps;
-  }
-
-  /**
-   * Gets the patchPanelCompletionNotice.
-   *
-   * Gateway patch panel complete notification from implementation team.
-   *
-   * @return the patchPanelCompletionNotice
-   */
-  public String getPatchPanelCompletionNotice() {
-    return patchPanelCompletionNotice;
   }
 
   /**
