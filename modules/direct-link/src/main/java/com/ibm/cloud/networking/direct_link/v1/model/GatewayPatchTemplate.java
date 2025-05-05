@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -71,7 +71,7 @@ public class GatewayPatchTemplate extends GenericModel {
   }
 
   @SerializedName("authentication_key")
-  protected GatewayPatchTemplateAuthenticationKey authenticationKey;
+  protected AuthenticationKeyIdentity authenticationKey;
   @SerializedName("bfd_config")
   protected GatewayBfdPatchTemplate bfdConfig;
   @SerializedName("bgp_asn")
@@ -89,8 +89,6 @@ public class GatewayPatchTemplate extends GenericModel {
   protected Boolean global;
   @SerializedName("loa_reject_reason")
   protected String loaRejectReason;
-  @SerializedName("macsec_config")
-  protected GatewayMacsecConfigPatchTemplate macsecConfig;
   protected Boolean metered;
   protected String name;
   @SerializedName("operational_status")
@@ -105,7 +103,7 @@ public class GatewayPatchTemplate extends GenericModel {
    * Builder.
    */
   public static class Builder {
-    private GatewayPatchTemplateAuthenticationKey authenticationKey;
+    private AuthenticationKeyIdentity authenticationKey;
     private GatewayBfdPatchTemplate bfdConfig;
     private Long bgpAsn;
     private String bgpCerCidr;
@@ -115,7 +113,6 @@ public class GatewayPatchTemplate extends GenericModel {
     private String defaultImportRouteFilter;
     private Boolean global;
     private String loaRejectReason;
-    private GatewayMacsecConfigPatchTemplate macsecConfig;
     private Boolean metered;
     private String name;
     private String operationalStatus;
@@ -139,7 +136,6 @@ public class GatewayPatchTemplate extends GenericModel {
       this.defaultImportRouteFilter = gatewayPatchTemplate.defaultImportRouteFilter;
       this.global = gatewayPatchTemplate.global;
       this.loaRejectReason = gatewayPatchTemplate.loaRejectReason;
-      this.macsecConfig = gatewayPatchTemplate.macsecConfig;
       this.metered = gatewayPatchTemplate.metered;
       this.name = gatewayPatchTemplate.name;
       this.operationalStatus = gatewayPatchTemplate.operationalStatus;
@@ -169,7 +165,7 @@ public class GatewayPatchTemplate extends GenericModel {
      * @param authenticationKey the authenticationKey
      * @return the GatewayPatchTemplate builder
      */
-    public Builder authenticationKey(GatewayPatchTemplateAuthenticationKey authenticationKey) {
+    public Builder authenticationKey(AuthenticationKeyIdentity authenticationKey) {
       this.authenticationKey = authenticationKey;
       return this;
     }
@@ -274,17 +270,6 @@ public class GatewayPatchTemplate extends GenericModel {
     }
 
     /**
-     * Set the macsecConfig.
-     *
-     * @param macsecConfig the macsecConfig
-     * @return the GatewayPatchTemplate builder
-     */
-    public Builder macsecConfig(GatewayMacsecConfigPatchTemplate macsecConfig) {
-      this.macsecConfig = macsecConfig;
-      return this;
-    }
-
-    /**
      * Set the metered.
      *
      * @param metered the metered
@@ -345,7 +330,7 @@ public class GatewayPatchTemplate extends GenericModel {
      * @param vlan the vlan
      * @return the GatewayPatchTemplate builder
      */
-    public Builder vlan(Long vlan) {
+    public Builder vlan(long vlan) {
       this.vlan = vlan;
       return this;
     }
@@ -364,7 +349,6 @@ public class GatewayPatchTemplate extends GenericModel {
     defaultImportRouteFilter = builder.defaultImportRouteFilter;
     global = builder.global;
     loaRejectReason = builder.loaRejectReason;
-    macsecConfig = builder.macsecConfig;
     metered = builder.metered;
     name = builder.name;
     operationalStatus = builder.operationalStatus;
@@ -385,14 +369,13 @@ public class GatewayPatchTemplate extends GenericModel {
   /**
    * Gets the authenticationKey.
    *
-   * The identity of the standard key to use for BGP MD5 authentication key.
-   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
-   * in length.
-   * To clear the optional `authentication_key` field patch its crn to `""`.
+   * A reference to a key to use as the BGP MD5 authentication key.
+   *
+   * Patch to `null` to disable BGP MD5 authentication.
    *
    * @return the authenticationKey
    */
-  public GatewayPatchTemplateAuthenticationKey authenticationKey() {
+  public AuthenticationKeyIdentity authenticationKey() {
     return authenticationKey;
   }
 
@@ -513,20 +496,6 @@ public class GatewayPatchTemplate extends GenericModel {
   }
 
   /**
-   * Gets the macsecConfig.
-   *
-   * MACsec configuration information.  When patching any macsec_config fields, no other fields may be specified in the
-   * patch request.  Contact IBM support for access to MACsec.
-   *
-   * A MACsec config cannot be added to a gateway created without MACsec.
-   *
-   * @return the macsecConfig
-   */
-  public GatewayMacsecConfigPatchTemplate macsecConfig() {
-    return macsecConfig;
-  }
-
-  /**
    * Gets the metered.
    *
    * Metered billing option.  When `true` gateway usage is billed per gigabyte.  When `false` there is no per gigabyte
@@ -613,6 +582,5 @@ public class GatewayPatchTemplate extends GenericModel {
   public Map<String, Object> asPatch() {
     return GsonSingleton.getGson().fromJson(this.toString(), Map.class);
   }
-
 }
 

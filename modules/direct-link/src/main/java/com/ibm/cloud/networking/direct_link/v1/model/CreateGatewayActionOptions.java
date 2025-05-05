@@ -77,7 +77,7 @@ public class CreateGatewayActionOptions extends GenericModel {
   protected String id;
   protected String action;
   protected List<AsPrependTemplate> asPrepends;
-  protected GatewayActionTemplateAuthenticationKey authenticationKey;
+  protected AuthenticationKeyIdentity authenticationKey;
   protected GatewayBfdConfigActionTemplate bfdConfig;
   protected String connectionMode;
   protected String defaultExportRouteFilter;
@@ -96,7 +96,7 @@ public class CreateGatewayActionOptions extends GenericModel {
     private String id;
     private String action;
     private List<AsPrependTemplate> asPrepends;
-    private GatewayActionTemplateAuthenticationKey authenticationKey;
+    private AuthenticationKeyIdentity authenticationKey;
     private GatewayBfdConfigActionTemplate bfdConfig;
     private String connectionMode;
     private String defaultExportRouteFilter;
@@ -155,9 +155,9 @@ public class CreateGatewayActionOptions extends GenericModel {
     }
 
     /**
-     * Adds an asPrepends to asPrepends.
+     * Adds a new element to asPrepends.
      *
-     * @param asPrepends the new asPrepends
+     * @param asPrepends the new element to be added
      * @return the CreateGatewayActionOptions builder
      */
     public Builder addAsPrepends(AsPrependTemplate asPrepends) {
@@ -171,9 +171,9 @@ public class CreateGatewayActionOptions extends GenericModel {
     }
 
     /**
-     * Adds an exportRouteFilters to exportRouteFilters.
+     * Adds a new element to exportRouteFilters.
      *
-     * @param exportRouteFilters the new exportRouteFilters
+     * @param exportRouteFilters the new element to be added
      * @return the CreateGatewayActionOptions builder
      */
     public Builder addExportRouteFilters(GatewayTemplateRouteFilter exportRouteFilters) {
@@ -187,9 +187,9 @@ public class CreateGatewayActionOptions extends GenericModel {
     }
 
     /**
-     * Adds an importRouteFilters to importRouteFilters.
+     * Adds a new element to importRouteFilters.
      *
-     * @param importRouteFilters the new importRouteFilters
+     * @param importRouteFilters the new element to be added
      * @return the CreateGatewayActionOptions builder
      */
     public Builder addImportRouteFilters(GatewayTemplateRouteFilter importRouteFilters) {
@@ -203,9 +203,9 @@ public class CreateGatewayActionOptions extends GenericModel {
     }
 
     /**
-     * Adds an updates to updates.
+     * Adds a new element to updates.
      *
-     * @param updates the new updates
+     * @param updates the new element to be added
      * @return the CreateGatewayActionOptions builder
      */
     public Builder addUpdates(GatewayActionTemplateUpdatesItem updates) {
@@ -258,7 +258,7 @@ public class CreateGatewayActionOptions extends GenericModel {
      * @param authenticationKey the authenticationKey
      * @return the CreateGatewayActionOptions builder
      */
-    public Builder authenticationKey(GatewayActionTemplateAuthenticationKey authenticationKey) {
+    public Builder authenticationKey(AuthenticationKeyIdentity authenticationKey) {
       this.authenticationKey = authenticationKey;
       return this;
     }
@@ -444,14 +444,9 @@ public class CreateGatewayActionOptions extends GenericModel {
   /**
    * Gets the authenticationKey.
    *
-   * Applicable for create_gateway_approve requests to select the gateway's BGP MD5 authentication key.
-   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
-   * in length.
-   * To clear the optional `authentication_key` field patch its crn to `""`.
-   *
    * @return the authenticationKey
    */
-  public GatewayActionTemplateAuthenticationKey authenticationKey() {
+  public AuthenticationKeyIdentity authenticationKey() {
     return authenticationKey;
   }
 

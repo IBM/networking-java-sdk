@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,15 +13,15 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayActionOptions;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayActionTemplateUpdatesItemGatewayClientSpeedUpdate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigActionTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -48,10 +48,10 @@ public class CreateGatewayActionOptionsTest {
     assertEquals(asPrependTemplateModel.prefix(), "172.17.0.0/16");
     assertEquals(asPrependTemplateModel.specificPrefixes(), java.util.Arrays.asList("192.168.3.0/24"));
 
-    GatewayActionTemplateAuthenticationKey gatewayActionTemplateAuthenticationKeyModel = new GatewayActionTemplateAuthenticationKey.Builder()
-      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+    AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity authenticationKeyIdentityModel = new AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity.Builder()
+      .crn("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
-    assertEquals(gatewayActionTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
+    assertEquals(authenticationKeyIdentityModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
 
     GatewayBfdConfigActionTemplate gatewayBfdConfigActionTemplateModel = new GatewayBfdConfigActionTemplate.Builder()
       .interval(Long.valueOf("2000"))
@@ -85,7 +85,7 @@ public class CreateGatewayActionOptionsTest {
       .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
       .action("create_gateway_approve")
       .asPrepends(java.util.Arrays.asList(asPrependTemplateModel))
-      .authenticationKey(gatewayActionTemplateAuthenticationKeyModel)
+      .authenticationKey(authenticationKeyIdentityModel)
       .bfdConfig(gatewayBfdConfigActionTemplateModel)
       .connectionMode("transit")
       .defaultExportRouteFilter("permit")
@@ -100,7 +100,7 @@ public class CreateGatewayActionOptionsTest {
     assertEquals(createGatewayActionOptionsModel.id(), "0a06fb9b-820f-4c44-8a31-77f1f0806d28");
     assertEquals(createGatewayActionOptionsModel.action(), "create_gateway_approve");
     assertEquals(createGatewayActionOptionsModel.asPrepends(), java.util.Arrays.asList(asPrependTemplateModel));
-    assertEquals(createGatewayActionOptionsModel.authenticationKey(), gatewayActionTemplateAuthenticationKeyModel);
+    assertEquals(createGatewayActionOptionsModel.authenticationKey(), authenticationKeyIdentityModel);
     assertEquals(createGatewayActionOptionsModel.bfdConfig(), gatewayBfdConfigActionTemplateModel);
     assertEquals(createGatewayActionOptionsModel.connectionMode(), "transit");
     assertEquals(createGatewayActionOptionsModel.defaultExportRouteFilter(), "permit");

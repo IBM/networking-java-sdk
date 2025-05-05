@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,14 +14,15 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplateFallbackCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigTemplatePrimaryCak;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakPrototype;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecPrototype;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
+import com.ibm.cloud.networking.direct_link.v1.model.HpcsKeyIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.SakRekeyPrototypeSakRekeyTimerModePrototype;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;

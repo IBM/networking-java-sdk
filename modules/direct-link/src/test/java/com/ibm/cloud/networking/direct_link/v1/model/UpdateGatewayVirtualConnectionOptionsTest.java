@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,32 +20,30 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import org.testng.annotations.Test;
-import static org.testng.Assert.*;
-
-/**
- * Unit test class for the UpdateGatewayVirtualConnectionOptions model.
- */
-public class UpdateGatewayVirtualConnectionOptionsTest {
-  final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
-  final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
-
-  @Test
-  public void testUpdateGatewayVirtualConnectionOptions() throws Throwable {
-    UpdateGatewayVirtualConnectionOptions updateGatewayVirtualConnectionOptionsModel = new UpdateGatewayVirtualConnectionOptions.Builder()
-      .gatewayId("testString")
-      .id("testString")
-      .name("newConnectionName")
-      .status("attached")
-      .build();
-    assertEquals(updateGatewayVirtualConnectionOptionsModel.gatewayId(), "testString");
-    assertEquals(updateGatewayVirtualConnectionOptionsModel.id(), "testString");
-    assertEquals(updateGatewayVirtualConnectionOptionsModel.name(), "newConnectionName");
-    assertEquals(updateGatewayVirtualConnectionOptionsModel.status(), "attached");
-  }
-
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testUpdateGatewayVirtualConnectionOptionsError() throws Throwable {
-    new UpdateGatewayVirtualConnectionOptions.Builder().build();
-  }
-
-}
+ import static org.testng.Assert.*;
+ 
+ /**
+  * Unit test class for the UpdateGatewayVirtualConnectionOptions model.
+  */
+ public class UpdateGatewayVirtualConnectionOptionsTest {
+   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
+   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
+ 
+   @Test
+   public void testUpdateGatewayVirtualConnectionOptions() throws Throwable {
+     UpdateGatewayVirtualConnectionOptions updateGatewayVirtualConnectionOptionsModel = new UpdateGatewayVirtualConnectionOptions.Builder()
+       .gatewayId("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+       .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
+       .gatewayVirtualConnectionPatchTemplatePatch(java.util.Collections.singletonMap("anyKey", "anyValue"))
+       .build();
+     assertEquals(updateGatewayVirtualConnectionOptionsModel.gatewayId(), "0a06fb9b-820f-4c44-8a31-77f1f0806d28");
+     assertEquals(updateGatewayVirtualConnectionOptionsModel.id(), "0a06fb9b-820f-4c44-8a31-77f1f0806d28");
+     assertEquals(updateGatewayVirtualConnectionOptionsModel.gatewayVirtualConnectionPatchTemplatePatch(), java.util.Collections.singletonMap("anyKey", "anyValue"));
+   }
+ 
+   @Test(expectedExceptions = IllegalArgumentException.class)
+   public void testUpdateGatewayVirtualConnectionOptionsError() throws Throwable {
+     new UpdateGatewayVirtualConnectionOptions.Builder().build();
+   }
+ 
+ }
