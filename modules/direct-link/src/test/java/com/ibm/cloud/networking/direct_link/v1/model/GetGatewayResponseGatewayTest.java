@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,14 +14,13 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrepend;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayAuthenticationKey;
+import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyReferenceKeyProtectAuthenticationKeyReference;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfig;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayChangeRequestGatewayClientGatewayCreate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfig;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigActiveCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigFallbackCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPrimaryCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayPort;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecReference;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecStatusReason;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortReference;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayStatusReason;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayResponseGateway;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
@@ -70,15 +69,17 @@ public class GetGatewayResponseGatewayTest {
     assertNull(getGatewayResponseGatewayModel.getLinkStatusUpdatedAt());
     assertNull(getGatewayResponseGatewayModel.getLocationDisplayName());
     assertNull(getGatewayResponseGatewayModel.getLocationName());
-    assertNull(getGatewayResponseGatewayModel.getMacsecConfig());
+    assertNull(getGatewayResponseGatewayModel.getMacsec());
+    assertNull(getGatewayResponseGatewayModel.getMacsecCapability());
     assertNull(getGatewayResponseGatewayModel.isMetered());
     assertNull(getGatewayResponseGatewayModel.getName());
     assertNull(getGatewayResponseGatewayModel.getOperationalStatus());
+    assertNull(getGatewayResponseGatewayModel.getOperationalStatusReasons());
+    assertNull(getGatewayResponseGatewayModel.getPatchPanelCompletionNotice());
     assertNull(getGatewayResponseGatewayModel.getPort());
     assertNull(getGatewayResponseGatewayModel.isProviderApiManaged());
     assertNull(getGatewayResponseGatewayModel.getResourceGroup());
     assertNull(getGatewayResponseGatewayModel.getSpeedMbps());
-    assertNull(getGatewayResponseGatewayModel.getPatchPanelCompletionNotice());
     assertNull(getGatewayResponseGatewayModel.getType());
     assertNull(getGatewayResponseGatewayModel.getVlan());
   }

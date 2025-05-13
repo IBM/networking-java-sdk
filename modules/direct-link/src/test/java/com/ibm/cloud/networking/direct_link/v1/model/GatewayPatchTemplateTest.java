@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,12 +13,9 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdPatchTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplateFallbackCak;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecConfigPatchTemplatePrimaryCak;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPatchTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayPatchTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -37,10 +34,10 @@ public class GatewayPatchTemplateTest {
 
   @Test
   public void testGatewayPatchTemplate() throws Throwable {
-    GatewayPatchTemplateAuthenticationKey gatewayPatchTemplateAuthenticationKeyModel = new GatewayPatchTemplateAuthenticationKey.Builder()
-      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+    AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity authenticationKeyIdentityModel = new AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity.Builder()
+      .crn("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
-    assertEquals(gatewayPatchTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
+    assertEquals(authenticationKeyIdentityModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
 
     GatewayBfdPatchTemplate gatewayBfdPatchTemplateModel = new GatewayBfdPatchTemplate.Builder()
       .interval(Long.valueOf("2000"))
@@ -49,29 +46,8 @@ public class GatewayPatchTemplateTest {
     assertEquals(gatewayBfdPatchTemplateModel.interval(), Long.valueOf("2000"));
     assertEquals(gatewayBfdPatchTemplateModel.multiplier(), Long.valueOf("10"));
 
-    GatewayMacsecConfigPatchTemplateFallbackCak gatewayMacsecConfigPatchTemplateFallbackCakModel = new GatewayMacsecConfigPatchTemplateFallbackCak.Builder()
-      .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-      .build();
-    assertEquals(gatewayMacsecConfigPatchTemplateFallbackCakModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
-
-    GatewayMacsecConfigPatchTemplatePrimaryCak gatewayMacsecConfigPatchTemplatePrimaryCakModel = new GatewayMacsecConfigPatchTemplatePrimaryCak.Builder()
-      .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-      .build();
-    assertEquals(gatewayMacsecConfigPatchTemplatePrimaryCakModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
-
-    GatewayMacsecConfigPatchTemplate gatewayMacsecConfigPatchTemplateModel = new GatewayMacsecConfigPatchTemplate.Builder()
-      .active(true)
-      .fallbackCak(gatewayMacsecConfigPatchTemplateFallbackCakModel)
-      .primaryCak(gatewayMacsecConfigPatchTemplatePrimaryCakModel)
-      .windowSize(Long.valueOf("512"))
-      .build();
-    assertEquals(gatewayMacsecConfigPatchTemplateModel.active(), Boolean.valueOf(true));
-    assertEquals(gatewayMacsecConfigPatchTemplateModel.fallbackCak(), gatewayMacsecConfigPatchTemplateFallbackCakModel);
-    assertEquals(gatewayMacsecConfigPatchTemplateModel.primaryCak(), gatewayMacsecConfigPatchTemplatePrimaryCakModel);
-    assertEquals(gatewayMacsecConfigPatchTemplateModel.windowSize(), Long.valueOf("512"));
-
     GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
-      .authenticationKey(gatewayPatchTemplateAuthenticationKeyModel)
+      .authenticationKey(authenticationKeyIdentityModel)
       .bfdConfig(gatewayBfdPatchTemplateModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpCerCidr("169.254.0.10/30")
@@ -81,7 +57,6 @@ public class GatewayPatchTemplateTest {
       .defaultImportRouteFilter("permit")
       .global(true)
       .loaRejectReason("The port mentioned was incorrect")
-      .macsecConfig(gatewayMacsecConfigPatchTemplateModel)
       .metered(false)
       .name("testGateway")
       .operationalStatus("loa_accepted")
@@ -89,7 +64,7 @@ public class GatewayPatchTemplateTest {
       .speedMbps(Long.valueOf("1000"))
       .vlan(Long.valueOf("10"))
       .build();
-    assertEquals(gatewayPatchTemplateModel.authenticationKey(), gatewayPatchTemplateAuthenticationKeyModel);
+    assertEquals(gatewayPatchTemplateModel.authenticationKey(), authenticationKeyIdentityModel);
     assertEquals(gatewayPatchTemplateModel.bfdConfig(), gatewayBfdPatchTemplateModel);
     assertEquals(gatewayPatchTemplateModel.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayPatchTemplateModel.bgpCerCidr(), "169.254.0.10/30");
@@ -99,7 +74,6 @@ public class GatewayPatchTemplateTest {
     assertEquals(gatewayPatchTemplateModel.defaultImportRouteFilter(), "permit");
     assertEquals(gatewayPatchTemplateModel.global(), Boolean.valueOf(true));
     assertEquals(gatewayPatchTemplateModel.loaRejectReason(), "The port mentioned was incorrect");
-    assertEquals(gatewayPatchTemplateModel.macsecConfig(), gatewayMacsecConfigPatchTemplateModel);
     assertEquals(gatewayPatchTemplateModel.metered(), Boolean.valueOf(false));
     assertEquals(gatewayPatchTemplateModel.name(), "testGateway");
     assertEquals(gatewayPatchTemplateModel.operationalStatus(), "loa_accepted");
@@ -111,7 +85,7 @@ public class GatewayPatchTemplateTest {
 
     GatewayPatchTemplate gatewayPatchTemplateModelNew = TestUtilities.deserialize(json, GatewayPatchTemplate.class);
     assertTrue(gatewayPatchTemplateModelNew instanceof GatewayPatchTemplate);
-    assertEquals(gatewayPatchTemplateModelNew.authenticationKey().toString(), gatewayPatchTemplateAuthenticationKeyModel.toString());
+    assertEquals(gatewayPatchTemplateModelNew.authenticationKey().toString(), authenticationKeyIdentityModel.toString());
     assertEquals(gatewayPatchTemplateModelNew.bfdConfig().toString(), gatewayBfdPatchTemplateModel.toString());
     assertEquals(gatewayPatchTemplateModelNew.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayPatchTemplateModelNew.bgpCerCidr(), "169.254.0.10/30");
@@ -121,7 +95,6 @@ public class GatewayPatchTemplateTest {
     assertEquals(gatewayPatchTemplateModelNew.defaultImportRouteFilter(), "permit");
     assertEquals(gatewayPatchTemplateModelNew.global(), Boolean.valueOf(true));
     assertEquals(gatewayPatchTemplateModelNew.loaRejectReason(), "The port mentioned was incorrect");
-    assertEquals(gatewayPatchTemplateModelNew.macsecConfig().toString(), gatewayMacsecConfigPatchTemplateModel.toString());
     assertEquals(gatewayPatchTemplateModelNew.metered(), Boolean.valueOf(false));
     assertEquals(gatewayPatchTemplateModelNew.name(), "testGateway");
     assertEquals(gatewayPatchTemplateModelNew.operationalStatus(), "loa_accepted");
@@ -131,8 +104,8 @@ public class GatewayPatchTemplateTest {
   }
   @Test
   public void testGatewayPatchTemplateAsPatch() throws Throwable {
-    GatewayPatchTemplateAuthenticationKey gatewayPatchTemplateAuthenticationKeyModel = new GatewayPatchTemplateAuthenticationKey.Builder()
-      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+    AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity authenticationKeyIdentityModel = new AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity.Builder()
+      .crn("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
 
     GatewayBfdPatchTemplate gatewayBfdPatchTemplateModel = new GatewayBfdPatchTemplate.Builder()
@@ -140,23 +113,8 @@ public class GatewayPatchTemplateTest {
       .multiplier(Long.valueOf("10"))
       .build();
 
-    GatewayMacsecConfigPatchTemplateFallbackCak gatewayMacsecConfigPatchTemplateFallbackCakModel = new GatewayMacsecConfigPatchTemplateFallbackCak.Builder()
-      .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-      .build();
-
-    GatewayMacsecConfigPatchTemplatePrimaryCak gatewayMacsecConfigPatchTemplatePrimaryCakModel = new GatewayMacsecConfigPatchTemplatePrimaryCak.Builder()
-      .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
-      .build();
-
-    GatewayMacsecConfigPatchTemplate gatewayMacsecConfigPatchTemplateModel = new GatewayMacsecConfigPatchTemplate.Builder()
-      .active(true)
-      .fallbackCak(gatewayMacsecConfigPatchTemplateFallbackCakModel)
-      .primaryCak(gatewayMacsecConfigPatchTemplatePrimaryCakModel)
-      .windowSize(Long.valueOf("512"))
-      .build();
-
     GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder()
-      .authenticationKey(gatewayPatchTemplateAuthenticationKeyModel)
+      .authenticationKey(authenticationKeyIdentityModel)
       .bfdConfig(gatewayBfdPatchTemplateModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpCerCidr("169.254.0.10/30")
@@ -166,7 +124,6 @@ public class GatewayPatchTemplateTest {
       .defaultImportRouteFilter("permit")
       .global(true)
       .loaRejectReason("The port mentioned was incorrect")
-      .macsecConfig(gatewayMacsecConfigPatchTemplateModel)
       .metered(false)
       .name("testGateway")
       .operationalStatus("loa_accepted")
@@ -187,7 +144,6 @@ public class GatewayPatchTemplateTest {
     assertEquals(mergePatch.get("default_import_route_filter"), "permit");
     assertTrue(mergePatch.containsKey("global"));
     assertEquals(mergePatch.get("loa_reject_reason"), "The port mentioned was incorrect");
-    assertTrue(mergePatch.containsKey("macsec_config"));
     assertTrue(mergePatch.containsKey("metered"));
     assertEquals(mergePatch.get("name"), "testGateway");
     assertEquals(mergePatch.get("operational_status"), "loa_accepted");
