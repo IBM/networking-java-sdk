@@ -1,3 +1,11 @@
+## [0.38.3](https://github.com/IBM/networking-java-sdk/compare/0.38.2...0.38.3) (2025-05-30)
+
+
+### Bug Fixes
+
+* **deps:** update dependency com.ibm.cloud:sdk-core to v9.24.1 ([#139](https://github.com/IBM/networking-java-sdk/issues/139)) ([5c3dca3](https://github.com/IBM/networking-java-sdk/commit/5c3dca3427c5778c341478227e3eaa52e7d636c2))
+* **deps:** update semantic-release monorepo ([#138](https://github.com/IBM/networking-java-sdk/issues/138)) ([d62a27a](https://github.com/IBM/networking-java-sdk/commit/d62a27a1fcb6465e48bdc109ebf5dc4aa062836a))
+
 ## [0.38.2](https://github.com/IBM/networking-java-sdk/compare/0.38.1...0.38.2) (2025-05-01)
 
 
