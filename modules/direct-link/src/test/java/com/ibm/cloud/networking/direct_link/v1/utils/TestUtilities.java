@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2022.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,6 +12,7 @@
  */
 package com.ibm.cloud.networking.direct_link.v1.utils;
 
+import java.util.Base64;
 import java.util.Map;
 import java.util.Set;
 import java.util.List;
@@ -115,8 +116,8 @@ public class TestUtilities {
         return list;
     }
 
-    public static byte[] createMockByteArray(String bytes) {
-        return bytes.getBytes();
+    public static byte[] createMockByteArray(String encodedString) throws Exception {
+        return Base64.getDecoder().decode(encodedString);
     }
 
     public static Date createMockDate(String date) throws Exception {
