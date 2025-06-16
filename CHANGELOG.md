@@ -1,3 +1,10 @@
+# [0.39.0](https://github.com/IBM/networking-java-sdk/compare/0.38.3...0.39.0) (2025-06-16)
+
+
+### Features
+
+* direct link macsec changes ([#135](https://github.com/IBM/networking-java-sdk/issues/135)) ([5f46759](https://github.com/IBM/networking-java-sdk/commit/5f4675977fbb5aef692e8efb8c108d012587783c))
+
 ## [0.38.3](https://github.com/IBM/networking-java-sdk/compare/0.38.2...0.38.3) (2025-05-30)
 
 
