@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -76,8 +76,30 @@ public class GatewayCollectionGatewaysItemGateway extends GatewayCollectionGatew
   }
 
   /**
+   * Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+   * `cross_connect_router`.
+   *
+   * Only included on type=dedicated direct links.
+   *
+   * - non_macsec: The direct link does not support MACsec.
+   * - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+   * - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+   * direct link creation.
+   */
+  public interface MacsecCapability {
+    /** non_macsec. */
+    String NON_MACSEC = "non_macsec";
+    /** macsec. */
+    String MACSEC = "macsec";
+    /** macsec_optional. */
+    String MACSEC_OPTIONAL = "macsec_optional";
+  }
+
+  /**
    * Gateway operational status. The list of enumerated values for this property may expand in the future. Code and
    * processes using this field  must tolerate unexpected values.
+   *
+   * See `operational_status_reasons[]` for possible remediation of the `failed` `operational_status`.
    */
   public interface OperationalStatus {
     /** awaiting_completion_notice. */
@@ -106,6 +128,8 @@ public class GatewayCollectionGatewaysItemGateway extends GatewayCollectionGatew
     String LOA_REJECTED = "loa_rejected";
     /** provisioned. */
     String PROVISIONED = "provisioned";
+    /** failed. */
+    String FAILED = "failed";
   }
 
   /**

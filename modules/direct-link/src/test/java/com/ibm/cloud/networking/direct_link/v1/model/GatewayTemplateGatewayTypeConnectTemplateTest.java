@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,9 +14,9 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
+import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayPortIdentity;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateAuthenticationKey;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeConnectTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
@@ -48,10 +48,10 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
     assertEquals(asPrependTemplateModel.prefix(), "172.17.0.0/16");
     assertEquals(asPrependTemplateModel.specificPrefixes(), java.util.Arrays.asList("192.168.3.0/24"));
 
-    GatewayTemplateAuthenticationKey gatewayTemplateAuthenticationKeyModel = new GatewayTemplateAuthenticationKey.Builder()
-      .crn("crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c")
+    AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity authenticationKeyIdentityModel = new AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity.Builder()
+      .crn("crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
-    assertEquals(gatewayTemplateAuthenticationKeyModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/766d8d374a484f029d0fca5a40a52a1c:5d343839-07d3-4213-a950-0f71ed45423f:key:7fc1a0ba-4633-48cb-997b-5749787c952c");
+    assertEquals(authenticationKeyIdentityModel.crn(), "crn:v1:bluemix:public:kms:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
 
     GatewayBfdConfigTemplate gatewayBfdConfigTemplateModel = new GatewayBfdConfigTemplate.Builder()
       .interval(Long.valueOf("2000"))
@@ -83,7 +83,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
 
     GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateGatewayTypeConnectTemplateModel = new GatewayTemplateGatewayTypeConnectTemplate.Builder()
       .asPrepends(java.util.Arrays.asList(asPrependTemplateModel))
-      .authenticationKey(gatewayTemplateAuthenticationKeyModel)
+      .authenticationKey(authenticationKeyIdentityModel)
       .bfdConfig(gatewayBfdConfigTemplateModel)
       .bgpAsn(Long.valueOf("64999"))
       .bgpBaseCidr("testString")
@@ -104,7 +104,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
       .port(gatewayPortIdentityModel)
       .build();
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.asPrepends(), java.util.Arrays.asList(asPrependTemplateModel));
-    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.authenticationKey(), gatewayTemplateAuthenticationKeyModel);
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.authenticationKey(), authenticationKeyIdentityModel);
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bfdConfig(), gatewayBfdConfigTemplateModel);
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModel.bgpBaseCidr(), "testString");
@@ -128,7 +128,7 @@ public class GatewayTemplateGatewayTypeConnectTemplateTest {
 
     GatewayTemplateGatewayTypeConnectTemplate gatewayTemplateGatewayTypeConnectTemplateModelNew = TestUtilities.deserialize(json, GatewayTemplateGatewayTypeConnectTemplate.class);
     assertTrue(gatewayTemplateGatewayTypeConnectTemplateModelNew instanceof GatewayTemplateGatewayTypeConnectTemplate);
-    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.authenticationKey().toString(), gatewayTemplateAuthenticationKeyModel.toString());
+    assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.authenticationKey().toString(), authenticationKeyIdentityModel.toString());
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bfdConfig().toString(), gatewayBfdConfigTemplateModel.toString());
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpAsn(), Long.valueOf("64999"));
     assertEquals(gatewayTemplateGatewayTypeConnectTemplateModelNew.bgpBaseCidr(), "testString");

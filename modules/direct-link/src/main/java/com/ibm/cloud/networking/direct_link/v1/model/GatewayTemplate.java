@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2024.
+ * (C) Copyright IBM Corp. 2023.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -68,10 +68,37 @@ public class GatewayTemplate extends GenericModel {
     String DEDICATED = "dedicated";
   }
 
+  /**
+   * Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+   * `cross_connect_router`.
+   *
+   * - non_macsec: The direct link does not support MACsec.
+   * - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+   * - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+   * direct link creation.
+   *
+   * If not explicitly provided, the field will be assigned with the following priorities based on
+   * `cross_connect_router` capabilities and available ports:
+   *   - `macsec` was not provided in the request
+   *     - `non_macsec`
+   *     - `macsec_optional`
+   *   - `macsec` was provided in the request
+   *     - `macsec_optional`
+   *     - `macsec`.
+   */
+  public interface MacsecCapability {
+    /** non_macsec. */
+    String NON_MACSEC = "non_macsec";
+    /** macsec. */
+    String MACSEC = "macsec";
+    /** macsec_optional. */
+    String MACSEC_OPTIONAL = "macsec_optional";
+  }
+
   @SerializedName("as_prepends")
   protected List<AsPrependTemplate> asPrepends;
   @SerializedName("authentication_key")
-  protected GatewayTemplateAuthenticationKey authenticationKey;
+  protected AuthenticationKeyIdentity authenticationKey;
   @SerializedName("bfd_config")
   protected GatewayBfdConfigTemplate bfdConfig;
   @SerializedName("bgp_asn")
@@ -110,8 +137,9 @@ public class GatewayTemplate extends GenericModel {
   protected String customerName;
   @SerializedName("location_name")
   protected String locationName;
-  @SerializedName("macsec_config")
-  protected GatewayMacsecConfigTemplate macsecConfig;
+  protected GatewayMacsecPrototype macsec;
+  @SerializedName("macsec_capability")
+  protected String macsecCapability;
   protected Long vlan;
   protected GatewayPortIdentity port;
 
@@ -131,14 +159,9 @@ public class GatewayTemplate extends GenericModel {
   /**
    * Gets the authenticationKey.
    *
-   * The identity of the standard key to use for BGP MD5 authentication key.
-   * The key material that you provide must be base64 encoded and original string must be maximum 126 ASCII characters
-   * in length.
-   * To clear the optional `authentication_key` field patch its crn to `""`.
-   *
    * @return the authenticationKey
    */
-  public GatewayTemplateAuthenticationKey authenticationKey() {
+  public AuthenticationKeyIdentity authenticationKey() {
     return authenticationKey;
   }
 
@@ -172,7 +195,7 @@ public class GatewayTemplate extends GenericModel {
    * Field is deprecated.  See bgp_ibm_cidr and bgp_cer_cidr for details on how to create a gateway using either
    * automatic or explicit IP assignment.  Any bgp_base_cidr value set will be ignored.
    *
-   * Deprecated field bgp_base_cidr will be removed from the API specificiation after 15-MAR-2021.
+   * Deprecated field bgp_base_cidr will be removed from the API specification after 15-MAR-2021.
    *
    * @return the bgpBaseCidr
    */
@@ -399,14 +422,40 @@ public class GatewayTemplate extends GenericModel {
   }
 
   /**
-   * Gets the macsecConfig.
+   * Gets the macsec.
    *
-   * MACsec configuration information.  Contact IBM support for access to MACsec.
+   * MACsec configuration information of a Direct Link gateway.
    *
-   * @return the macsecConfig
+   * @return the macsec
    */
-  public GatewayMacsecConfigTemplate macsecConfig() {
-    return macsecConfig;
+  public GatewayMacsecPrototype macsec() {
+    return macsec;
+  }
+
+  /**
+   * Gets the macsecCapability.
+   *
+   * Indicates the direct link's MACsec capability. It must match one of the MACsec related `capabilities` of the
+   * `cross_connect_router`.
+   *
+   * - non_macsec: The direct link does not support MACsec.
+   * - macsec: The direct link supports MACsec. The MACsec feature must be enabled.
+   * - macsec_optional: The direct link supports MACsec. The MACsec feature is not required and can be enabled after
+   * direct link creation.
+   *
+   * If not explicitly provided, the field will be assigned with the following priorities based on
+   * `cross_connect_router` capabilities and available ports:
+   *   - `macsec` was not provided in the request
+   *     - `non_macsec`
+   *     - `macsec_optional`
+   *   - `macsec` was provided in the request
+   *     - `macsec_optional`
+   *     - `macsec`.
+   *
+   * @return the macsecCapability
+   */
+  public String macsecCapability() {
+    return macsecCapability;
   }
 
   /**

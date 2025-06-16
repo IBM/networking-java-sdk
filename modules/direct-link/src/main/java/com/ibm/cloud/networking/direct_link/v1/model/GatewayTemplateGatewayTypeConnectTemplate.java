@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2023.
+ * (C) Copyright IBM Corp. 2025.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -68,7 +68,7 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
    */
   public static class Builder {
     private List<AsPrependTemplate> asPrepends;
-    private GatewayTemplateAuthenticationKey authenticationKey;
+    private AuthenticationKeyIdentity authenticationKey;
     private GatewayBfdConfigTemplate bfdConfig;
     private Long bgpAsn;
     private String bgpBaseCidr;
@@ -153,9 +153,9 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
     }
 
     /**
-     * Adds an asPrepends to asPrepends.
+     * Adds a new element to asPrepends.
      *
-     * @param asPrepends the new asPrepends
+     * @param asPrepends the new element to be added
      * @return the GatewayTemplateGatewayTypeConnectTemplate builder
      */
     public Builder addAsPrepends(AsPrependTemplate asPrepends) {
@@ -169,9 +169,9 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
     }
 
     /**
-     * Adds an exportRouteFilters to exportRouteFilters.
+     * Adds a new element to exportRouteFilters.
      *
-     * @param exportRouteFilters the new exportRouteFilters
+     * @param exportRouteFilters the new element to be added
      * @return the GatewayTemplateGatewayTypeConnectTemplate builder
      */
     public Builder addExportRouteFilters(GatewayTemplateRouteFilter exportRouteFilters) {
@@ -185,9 +185,9 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
     }
 
     /**
-     * Adds an importRouteFilters to importRouteFilters.
+     * Adds a new element to importRouteFilters.
      *
-     * @param importRouteFilters the new importRouteFilters
+     * @param importRouteFilters the new element to be added
      * @return the GatewayTemplateGatewayTypeConnectTemplate builder
      */
     public Builder addImportRouteFilters(GatewayTemplateRouteFilter importRouteFilters) {
@@ -218,7 +218,7 @@ public class GatewayTemplateGatewayTypeConnectTemplate extends GatewayTemplate {
      * @param authenticationKey the authenticationKey
      * @return the GatewayTemplateGatewayTypeConnectTemplate builder
      */
-    public Builder authenticationKey(GatewayTemplateAuthenticationKey authenticationKey) {
+    public Builder authenticationKey(AuthenticationKeyIdentity authenticationKey) {
       this.authenticationKey = authenticationKey;
       return this;
     }
