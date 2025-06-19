@@ -7,6 +7,7 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
+    "npm-force-resolutions": "^0.0.10",
     "semantic-release": "^24.0.0"
   },
   "scripts": {
@@ -14,5 +15,8 @@
   },
   "dependencies": {
     "@semantic-release/github": "^11.0.3"
+  },
+  "resolutions": {
+    "brace-expansion": "2.0.2"
   }
 }
