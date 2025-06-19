@@ -1,3 +1,10 @@
+## [0.39.1](https://github.com/IBM/networking-java-sdk/compare/0.39.0...0.39.1) (2025-06-19)
+
+
+### Bug Fixes
+
+* Addressed security vulnerability by updating brace-expansion([#140](https://github.com/IBM/networking-java-sdk/issues/140)) ([e09770c](https://github.com/IBM/networking-java-sdk/commit/e09770c0275fbff09361d82bae59a8eff4933f3b))
+
 # [0.39.0](https://github.com/IBM/networking-java-sdk/compare/0.38.3...0.39.0) (2025-06-16)
 
 
