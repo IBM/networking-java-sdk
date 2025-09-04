@@ -1,3 +1,10 @@
+# [0.41.0](https://github.com/IBM/networking-java-sdk/compare/0.40.0...0.41.0) (2025-09-04)
+
+
+### Features
+
+* **CIS:** add ruleset to modules ([#150](https://github.com/IBM/networking-java-sdk/issues/150)) ([d748792](https://github.com/IBM/networking-java-sdk/commit/d74879274b10815b655fe0b83677fb91c16e3b82))
+
 # [0.40.0](https://github.com/IBM/networking-java-sdk/compare/0.39.2...0.40.0) (2025-08-27)
 
 

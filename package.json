@@ -14,7 +14,7 @@
     "semantic-release": "semantic-release"
   },
   "dependencies": {
-    "@semantic-release/github": "^11.0.4"
+    "@semantic-release/github": "^11.0.5"
   },
   "resolutions": {
     "brace-expansion": "4.0.1"
