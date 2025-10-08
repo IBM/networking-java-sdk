@@ -10,7 +10,6 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -190,7 +189,8 @@ public class CreateTransitGatewayOptions extends GenericModel {
   /**
    * Gets the greEnhancedRoutePropagation.
    *
-   * Allow GRE Enhanced Route Propagation on this gateway.
+   * Allow route propagation across all GREs connected to the same transit gateway. This affects connections on the
+   * gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`.
    *
    * @return the greEnhancedRoutePropagation
    */

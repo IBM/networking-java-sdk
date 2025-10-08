@@ -10,7 +10,6 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import java.util.Date;
@@ -35,6 +34,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
     String CLASSIC = "classic";
     /** vpc. */
     String VPC = "vpc";
+    /** vpn. */
+    String VPN = "vpn";
   }
 
   /**
@@ -429,7 +430,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the zone.
    *
-   * Location of GRE tunnel. This field is required for network type `gre_tunnel` and `vpn_gateway` connections.
+   * Location of GRE tunnel. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
+   * This field is optional for network type `vpn_gateway` connections.
    *
    * @return the zone
    */
