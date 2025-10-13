@@ -1,3 +1,10 @@
+# [0.42.0](https://github.com/IBM/networking-java-sdk/compare/0.41.0...0.42.0) (2025-10-13)
+
+
+### Features
+
+* Introduced prefix-filters for RGRE connections ([#156](https://github.com/IBM/networking-java-sdk/issues/156)) ([733ccd6](https://github.com/IBM/networking-java-sdk/commit/733ccd629f7138801141b1fe7284b9421f8b4bb6))
+
 # [0.41.0](https://github.com/IBM/networking-java-sdk/compare/0.40.0...0.41.0) (2025-09-04)
 
 
