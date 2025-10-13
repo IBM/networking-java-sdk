@@ -13,6 +13,7 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionPrefixFilterReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnel;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnelCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneReference;

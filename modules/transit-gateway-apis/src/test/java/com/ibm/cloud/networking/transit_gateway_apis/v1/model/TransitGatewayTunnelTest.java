@@ -13,10 +13,12 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionPrefixFilterReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnel;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +45,8 @@ public class TransitGatewayTunnelTest {
     assertNull(transitGatewayTunnelModel.getName());
     assertNull(transitGatewayTunnelModel.getNetworkAccountId());
     assertNull(transitGatewayTunnelModel.getNetworkId());
+    assertNull(transitGatewayTunnelModel.getPrefixFilters());
+    assertNull(transitGatewayTunnelModel.getPrefixFiltersDefault());
     assertNull(transitGatewayTunnelModel.getRemoteBgpAsn());
     assertNull(transitGatewayTunnelModel.getRemoteGatewayIp());
     assertNull(transitGatewayTunnelModel.getRemoteTunnelIp());

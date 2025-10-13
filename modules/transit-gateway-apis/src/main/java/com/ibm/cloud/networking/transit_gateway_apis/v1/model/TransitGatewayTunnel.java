@@ -10,10 +10,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -31,6 +31,18 @@ public class TransitGatewayTunnel extends GenericModel {
     String CLASSIC = "classic";
     /** vpc. */
     String VPC = "vpc";
+    /** vpn. */
+    String VPN = "vpn";
+  }
+
+  /**
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   */
+  public interface PrefixFiltersDefault {
+    /** permit. */
+    String PERMIT = "permit";
+    /** deny. */
+    String DENY = "deny";
   }
 
   /**
@@ -73,6 +85,10 @@ public class TransitGatewayTunnel extends GenericModel {
   protected String networkAccountId;
   @SerializedName("network_id")
   protected String networkId;
+  @SerializedName("prefix_filters")
+  protected List<TransitGatewayConnectionPrefixFilterReference> prefixFilters;
+  @SerializedName("prefix_filters_default")
+  protected String prefixFiltersDefault;
   @SerializedName("remote_bgp_asn")
   protected Long remoteBgpAsn;
   @SerializedName("remote_gateway_ip")
@@ -199,11 +215,34 @@ public class TransitGatewayTunnel extends GenericModel {
   }
 
   /**
+   * Gets the prefixFilters.
+   *
+   * Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
+   * array being applied first, and those at the end of the array is applied last, or just before the default.
+   *
+   * @return the prefixFilters
+   */
+  public List<TransitGatewayConnectionPrefixFilterReference> getPrefixFilters() {
+    return prefixFilters;
+  }
+
+  /**
+   * Gets the prefixFiltersDefault.
+   *
+   * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   *
+   * @return the prefixFiltersDefault
+   */
+  public String getPrefixFiltersDefault() {
+    return prefixFiltersDefault;
+  }
+
+  /**
    * Gets the remoteBgpAsn.
    *
-   * Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
-   * 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create requests, IBM
-   * will assign an ASN.
+   * Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
+   * 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn` is
+   * omitted on create requests, IBM will assign an ASN.
    *
    * @return the remoteBgpAsn
    */
