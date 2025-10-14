@@ -12,10 +12,10 @@
  */
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.GenericModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
  * The createTransitGatewayConnection options.
@@ -162,9 +162,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     }
 
     /**
-     * Adds an prefixFilters to prefixFilters.
+     * Adds a new element to prefixFilters.
      *
-     * @param prefixFilters the new prefixFilters
+     * @param prefixFilters the new element to be added
      * @return the CreateTransitGatewayConnectionOptions builder
      */
     public Builder addPrefixFilters(TransitGatewayConnectionPrefixFilter prefixFilters) {
@@ -178,9 +178,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
     }
 
     /**
-     * Adds an tunnels to tunnels.
+     * Adds a new element to tunnels.
      *
-     * @param tunnels the new tunnels
+     * @param tunnels the new element to be added
      * @return the CreateTransitGatewayConnectionOptions builder
      */
     public Builder addTunnels(TransitGatewayTunnelTemplate tunnels) {
@@ -481,10 +481,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    *
    * network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels.
    *
-   * This field is optional for network type `vpn_gateway` connections.
-   *
-   * If left unspecified when creating a `vpn_gateway` connection, a default cidr address of `100.64.0.0/10` will be
-   * used.
+   * This field is required for network type `vpn_gateway` connections.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
    * `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
