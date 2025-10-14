@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.73.0-eeee85a9-20230607-165104
+ * IBM OpenAPI SDK Code Generator Version: 3.107.1-41b0fbd0-20250825-080732
  */
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
@@ -721,7 +721,7 @@ public class TransitGatewayApis extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateTransitGatewayConnectionTunnelsOptions.transitGatewayTunnelPatch()), "application/merge-patch+json");
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateTransitGatewayConnectionTunnelsOptions.transitGatewayTunnelPatch()), "application/merge-patch+json");
     ResponseConverter<TransitGatewayTunnel> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayTunnel>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -813,7 +813,9 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Add a prefix filter to a Transit Gateway connection.
    *
-   * Add a Prefix Filter to a Transit Gateway Connection. Prefix Filters can be added to all Connection types.
+   * Add a Prefix Filter to a Transit Gateway Connection. Prefix Filters can be added to `vpc`, `classic`, `directlink`,
+   * and `power_virtual_server` Connection types. Prefix Filters cannot be added to `gre_tunnel`, `unbound_gre_tunnel`,
+   * `redundant_gre` or `vpn_gateway` Connection types.
    *
    * @param createTransitGatewayConnectionPrefixFilterOptions the {@link CreateTransitGatewayConnectionPrefixFilterOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link PrefixFilterCust}
