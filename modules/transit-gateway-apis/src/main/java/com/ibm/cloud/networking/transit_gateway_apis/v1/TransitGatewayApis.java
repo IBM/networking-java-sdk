@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.73.0-eeee85a9-20230607-165104
+ * IBM OpenAPI SDK Code Generator Version: 3.90.0-5aad763d-20240506-203857
  */
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
@@ -813,7 +813,7 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Add a prefix filter to a Transit Gateway connection.
    *
-   * Add a Prefix Filter to a Transit Gateway Connection. Prefix Filters can be added to all Connection types.
+   * Add a prefix filter to a Transit Gateway connection.
    *
    * @param createTransitGatewayConnectionPrefixFilterOptions the {@link CreateTransitGatewayConnectionPrefixFilterOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link PrefixFilterCust}
