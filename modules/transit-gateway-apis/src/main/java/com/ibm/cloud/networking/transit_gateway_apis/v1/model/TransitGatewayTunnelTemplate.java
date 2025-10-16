@@ -10,6 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import com.google.gson.annotations.SerializedName;
@@ -242,9 +243,9 @@ public class TransitGatewayTunnelTemplate extends GenericModel {
   /**
    * Gets the remoteBgpAsn.
    *
-   * Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
-   * 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999 If `remote_bgp_asn` is
-   * omitted on create requests, IBM will assign an ASN.
+   * Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
+   * 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on create requests, IBM
+   * will assign an ASN.
    *
    * @return the remoteBgpAsn
    */

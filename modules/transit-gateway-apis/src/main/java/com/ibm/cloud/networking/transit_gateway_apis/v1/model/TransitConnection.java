@@ -10,6 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import java.util.Date;
@@ -31,8 +32,6 @@ public class TransitConnection extends GenericModel {
     String CLASSIC = "classic";
     /** vpc. */
     String VPC = "vpc";
-    /** vpn. */
-    String VPN = "vpn";
   }
 
   /**
@@ -60,6 +59,8 @@ public class TransitConnection extends GenericModel {
 
   /**
    * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   *
+   * This field does not apply to the `redundant_gre` network types.
    */
   public interface PrefixFiltersDefault {
     /** permit. */
@@ -304,6 +305,8 @@ public class TransitConnection extends GenericModel {
    * Array of prefix route filters for a transit gateway connection. This is order dependent with those first in the
    * array being applied first, and those at the end of the array is applied last, or just before the default.
    *
+   * This field does not apply to the `redundant_gre` network types.
+   *
    * @return the prefixFilters
    */
   public List<TransitGatewayConnectionPrefixFilterReference> getPrefixFilters() {
@@ -314,6 +317,8 @@ public class TransitConnection extends GenericModel {
    * Gets the prefixFiltersDefault.
    *
    * Default setting of permit or deny which applies to any routes that don't match a specified filter.
+   *
+   * This field does not apply to the `redundant_gre` network types.
    *
    * @return the prefixFiltersDefault
    */
