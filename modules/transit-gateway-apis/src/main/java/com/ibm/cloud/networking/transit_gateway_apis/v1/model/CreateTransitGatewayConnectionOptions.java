@@ -10,6 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -601,9 +602,9 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the remoteBgpAsn.
    *
-   * Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512, 64513, 65100,
-   * 65200-65234, 65402-65433, 65500, 65516, 65519, 65521, 65531 and 4201065000-4201065999. If `remote_bgp_asn` is
-   * omitted on gre_tunnel or unbound_gre_tunnel connection create requests IBM will assign an ASN.
+   * Remote network BGP ASN. The following ASN values are reserved and unavailable 0, 13884, 36351, 64512-64513, 65100,
+   * 65200-65234, 65402-65433, 65500 and 4201065000-4201065999. If `remote_bgp_asn` is omitted on gre_tunnel or
+   * unbound_gre_tunnel connection create requests IBM will assign an ASN.
    *
    * This field is optional for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
@@ -649,8 +650,8 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the tunnels.
    *
-   * Array of GRE tunnels for a transit gateway `redundant_gre` connections.  This field is required for `redundant_gre`
-   * connections.
+   * Array of GRE tunnels for a transit gateway `redundant_gre` and `vpn_gateway` connections.  This field is required
+   * for `redundant_gre` and `vpn_gateway` connections.
    *
    * @return the tunnels
    */
@@ -664,9 +665,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Specify the connection's location.  The specified availability zone must reside in the gateway's region.
    * Use the IBM Cloud global catalog to list zones within the desired region.
    *
-   * This field is required for network type `gre_tunnel`, and `unbound_gre_tunnel` connections.
-   *
-   * This field is optional for network type `vpn_gateway` connections.
+   * This field is required for network type `gre_tunnel`, `unbound_gre_tunnel` and `vpn_gateway` connections.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`
    * and `redundant_gre` connections.

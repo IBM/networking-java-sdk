@@ -1,3 +1,10 @@
+## [0.42.1](https://github.com/IBM/networking-java-sdk/compare/0.42.0...0.42.1) (2025-10-16)
+
+
+### Reverts
+
+* Revert "feat: Introduced prefix-filters for RGRE connections ([#156](https://github.com/IBM/networking-java-sdk/issues/156))" ([#160](https://github.com/IBM/networking-java-sdk/issues/160)) ([b84a805](https://github.com/IBM/networking-java-sdk/commit/b84a805ffca076de057372ac4af2bcac0eada89a))
+
 # [0.42.0](https://github.com/IBM/networking-java-sdk/compare/0.41.0...0.42.0) (2025-10-13)
 
 

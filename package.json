@@ -8,13 +8,13 @@
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
     "npm-force-resolutions": "^0.0.10",
-    "semantic-release": "^24.0.0"
+    "semantic-release": "^25.0.0"
   },
   "scripts": {
     "semantic-release": "semantic-release"
   },
   "dependencies": {
-    "@semantic-release/github": "^11.0.6"
+    "@semantic-release/github": "^12.0.0"
   },
   "resolutions": {
     "brace-expansion": "4.0.1"
