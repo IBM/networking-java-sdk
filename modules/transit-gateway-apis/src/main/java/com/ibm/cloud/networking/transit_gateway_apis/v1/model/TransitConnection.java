@@ -13,11 +13,11 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
-import com.google.gson.annotations.SerializedName;
-import com.ibm.cloud.sdk.core.service.model.GenericModel;
 import java.util.Date;
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
  * Connection included in transit gateway.
@@ -32,6 +32,8 @@ public class TransitConnection extends GenericModel {
     String CLASSIC = "classic";
     /** vpc. */
     String VPC = "vpc";
+    /** vpn. */
+    String VPN = "vpn";
   }
 
   /**
