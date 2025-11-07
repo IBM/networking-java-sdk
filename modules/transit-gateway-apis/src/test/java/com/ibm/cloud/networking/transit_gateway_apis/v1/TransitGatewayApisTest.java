@@ -13,6 +13,11 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
 
+import com.ibm.cloud.sdk.core.http.Response;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.TransitGatewayApis;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ConnectionsPager;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionActionsOptions;
@@ -47,8 +52,6 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationNextTG;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PaginationNextTGWConnection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCust;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterPut;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ReplaceTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReport;
@@ -85,11 +88,6 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneIdentity;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneIdentityByName;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.http.Response;
-import com.ibm.cloud.sdk.core.security.Authenticator;
-import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -1497,68 +1495,6 @@ public class TransitGatewayApisTest {
   public void testCreateTransitGatewayConnectionPrefixFilterNoOptions() throws Throwable {
     server.enqueue(new MockResponse());
     transitGatewayApisService.createTransitGatewayConnectionPrefixFilter(null).execute();
-  }
-
-  // Test the replaceTransitGatewayConnectionPrefixFilter operation with a valid options model parameter
-  @Test
-  public void testReplaceTransitGatewayConnectionPrefixFilterWOptions() throws Throwable {
-    // Register a mock response
-    String mockResponseBody = "{\"prefix_filters\": [{\"action\": \"permit\", \"before\": \"1a15dcab-7e40-45e1-b7c5-bc690eaa9782\", \"created_at\": \"2019-01-01T12:00:00.000Z\", \"ge\": 0, \"id\": \"1a15dcab-7e30-45e1-b7c5-bc690eaa9865\", \"le\": 32, \"prefix\": \"192.168.100.0/24\", \"updated_at\": \"2019-01-01T12:00:00.000Z\"}]}";
-    String replaceTransitGatewayConnectionPrefixFilterPath = "/transit_gateways/testString/connections/testString/prefix_filters";
-    server.enqueue(new MockResponse()
-      .setHeader("Content-type", "application/json")
-      .setResponseCode(201)
-      .setBody(mockResponseBody));
-
-    // Construct an instance of the PrefixFilterPut model
-    PrefixFilterPut prefixFilterPutModel = new PrefixFilterPut.Builder()
-      .action("permit")
-      .ge(Long.valueOf("0"))
-      .le(Long.valueOf("32"))
-      .prefix("192.168.100.0/24")
-      .build();
-
-    // Construct an instance of the ReplaceTransitGatewayConnectionPrefixFilterOptions model
-    ReplaceTransitGatewayConnectionPrefixFilterOptions replaceTransitGatewayConnectionPrefixFilterOptionsModel = new ReplaceTransitGatewayConnectionPrefixFilterOptions.Builder()
-      .transitGatewayId("testString")
-      .id("testString")
-      .prefixFilters(java.util.Arrays.asList(prefixFilterPutModel))
-      .build();
-
-    // Invoke replaceTransitGatewayConnectionPrefixFilter() with a valid options model and verify the result
-    Response<PrefixFilterCollection> response = transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(replaceTransitGatewayConnectionPrefixFilterOptionsModel).execute();
-    assertNotNull(response);
-    PrefixFilterCollection responseObj = response.getResult();
-    assertNotNull(responseObj);
-
-    // Verify the contents of the request sent to the mock server
-    RecordedRequest request = server.takeRequest();
-    assertNotNull(request);
-    assertEquals(request.getMethod(), "PUT");
-    // Verify request path
-    String parsedPath = TestUtilities.parseReqPath(request);
-    assertEquals(parsedPath, replaceTransitGatewayConnectionPrefixFilterPath);
-    // Verify query params
-    Map<String, String> query = TestUtilities.parseQueryString(request);
-    assertNotNull(query);
-    assertEquals(query.get("version"), "testString");
-  }
-
-  // Test the replaceTransitGatewayConnectionPrefixFilter operation with and without retries enabled
-  @Test
-  public void testReplaceTransitGatewayConnectionPrefixFilterWRetries() throws Throwable {
-    transitGatewayApisService.enableRetries(4, 30);
-    testReplaceTransitGatewayConnectionPrefixFilterWOptions();
-
-    transitGatewayApisService.disableRetries();
-    testReplaceTransitGatewayConnectionPrefixFilterWOptions();
-  }
-
-  // Test the replaceTransitGatewayConnectionPrefixFilter operation with a null options model (negative test)
-  @Test(expectedExceptions = IllegalArgumentException.class)
-  public void testReplaceTransitGatewayConnectionPrefixFilterNoOptions() throws Throwable {
-    server.enqueue(new MockResponse());
-    transitGatewayApisService.replaceTransitGatewayConnectionPrefixFilter(null).execute();
   }
 
   // Test the deleteTransitGatewayConnectionPrefixFilter operation with a valid options model parameter

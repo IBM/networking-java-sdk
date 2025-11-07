@@ -14,7 +14,6 @@
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnel;
-import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;

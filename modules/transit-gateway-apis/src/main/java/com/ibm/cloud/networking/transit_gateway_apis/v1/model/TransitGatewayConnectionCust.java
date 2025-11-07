@@ -35,6 +35,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
     String CLASSIC = "classic";
     /** vpc. */
     String VPC = "vpc";
+    /** vpn. */
+    String VPN = "vpn";
   }
 
   /**
@@ -429,7 +431,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the zone.
    *
-   * Location of GRE tunnel. This field is required for network type `gre_tunnel` and `vpn_gateway` connections.
+   * Location of GRE tunnel. This field is required for network type `gre_tunnel` and `unbound_gre_tunnel` connections.
+   * This field is optional for network type `vpn_gateway` connections.
    *
    * @return the zone
    */

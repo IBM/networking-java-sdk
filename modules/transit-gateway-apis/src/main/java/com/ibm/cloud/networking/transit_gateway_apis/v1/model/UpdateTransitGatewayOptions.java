@@ -160,7 +160,9 @@ public class UpdateTransitGatewayOptions extends GenericModel {
   /**
    * Gets the greEnhancedRoutePropagation.
    *
-   * Allow GRE Enhanced Route Propagation on this gateway.
+   * Allow route propagation across all GREs connected to the same transit gateway. This affects connections on the
+   * gateway of type `redundant_gre`, `unbound_gre_tunnel` and `gre_tunnel`. It takes a few minutes for the change to
+   * take effect.
    *
    * @return the greEnhancedRoutePropagation
    */

@@ -32,6 +32,8 @@ public class TransitConnection extends GenericModel {
     String CLASSIC = "classic";
     /** vpc. */
     String VPC = "vpc";
+    /** vpn. */
+    String VPN = "vpn";
   }
 
   /**
