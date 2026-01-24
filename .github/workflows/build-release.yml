@@ -34,10 +34,6 @@ jobs:
       - name: Build and test
         run: mvn verify -fae -DskipITs --settings build/.travis.settings.xml
 
-      - name: Publish code coverage
-        if: success()
-        run: build/publishCodeCoverage.sh
-
   semantic-release:
     name: Semantic Release
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
