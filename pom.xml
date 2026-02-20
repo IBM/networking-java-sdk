@@ -22,19 +22,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!--
-            This is the version associated with the Java core. The version used here should be compatible with the version
-            of the SDK generator used to generate your SDK code.
-            See this link for details: https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/Compatibility-Chart
+            To check if newer versions of dependencies are available, run:
+               mvn versions:display-dependency-updates
         -->
-        <sdk-core-version>9.24.3</sdk-core-version>
+
+        <!-- This is the version associated with the Java core. -->
+        <sdk-core-version>9.25.0</sdk-core-version>
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.11.0</testng-version>
-        <okhttp3-version>4.12.0</okhttp3-version>
+        <okhttp3-version>5.3.2</okhttp3-version>
         <surefire-version>3.5.4</surefire-version>
         <jacoco-plugin-version>0.8.14</jacoco-plugin-version>
         <maven-deploy-plugin-version>3.1.4</maven-deploy-plugin-version>
-        <nexus-staging-plugin-version>1.7.0</nexus-staging-plugin-version>
+        <central-publish-plugin-version>0.8.0</central-publish-plugin-version>
         <maven-gpg-plugin-version>3.2.8</maven-gpg-plugin-version>
         <maven-source-plugin-version>3.3.1</maven-source-plugin-version>
         <maven-shade-plugin-version>3.6.1</maven-shade-plugin-version>
@@ -43,12 +44,20 @@
         <maven-compiler-plugin-version>3.14.1</maven-compiler-plugin-version>
         <maven-site-plugin-version>3.21.0</maven-site-plugin-version>
         <maven-checkstyle-plugin-version>3.6.0</maven-checkstyle-plugin-version>
+        <checkstyle-version>10.24.0</checkstyle-version>
         <maven-reports-plugin-version>3.9.0</maven-reports-plugin-version>
         <maven-failsafe-plugin-version>3.5.4</maven-failsafe-plugin-version>
         <maven-buildnumber-plugin-version>3.2.1</maven-buildnumber-plugin-version>
         <powermock-version>2.0.9</powermock-version>
         <mockito-version>5.1.1</mockito-version>
         <slf4j-version>2.0.17</slf4j-version>
+
+        <maven-enforcer-version>3.4.1</maven-enforcer-version>
+        <min-jdk-version>11</min-jdk-version>
+        <min-maven-version>3.5.0</min-maven-version>
+
+        <java-source-version>1.8</java-source-version>
+        <java-target-version>1.8</java-target-version>
     </properties>
 
     <modules>
@@ -208,13 +217,41 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>${maven-enforcer-version}</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-versions</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireMavenVersion>
+                                        <version>${min-maven-version}</version>
+                                        <message>Apache Maven
+                                            ${min-maven-version}+ is required to
+                                            build this project.</message>
+                                    </requireMavenVersion>
+                                    <requireJavaVersion>
+                                        <version>${min-jdk-version}</version>
+                                        <message>Java ${min-jdk-version}+ is
+                                            required to build this project.</message>
+                                    </requireJavaVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>${maven-deploy-plugin-version}</version>
                 </plugin>
                 <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>${nexus-staging-plugin-version}</version>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <version>${central-publish-plugin-version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -228,8 +265,9 @@
                     <executions>
                         <execution>
                             <id>attach-sources</id>
+                            <phase>package</phase>
                             <goals>
-                                <goal>jar</goal>
+                                <goal>jar-no-fork</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -255,8 +293,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin-version}</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${java-source-version}</source>
+                        <target>${java-target-version}</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -282,6 +320,13 @@
                         <configLocation>checkstyle.xml</configLocation>
                         <consoleOutput>true</consoleOutput>
                     </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>${checkstyle-version}</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -440,14 +485,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -483,7 +520,6 @@
     </developers>
 
     <profiles>
-
         <!-- "central" is used to deploy artifacts on maven central -->
         <profile>
             <id>central</id>
@@ -496,24 +532,20 @@
                     <!-- We don't deploy snapshot releases -->
                 </snapshotRepository>
                 <repository>
-                    <!-- This is where the nexus staging plugin will publish artifacts -->
-                    <id>ossrh</id>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                    <id>central</id>
+                    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
                 </repository>
             </distributionManagement>
 
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                            <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
-                            <stagingProgressTimeoutMinutes>30</stagingProgressTimeoutMinutes>
+                            <publishingServerId>central</publishingServerId>
+                            <autoPublish>true</autoPublish>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -539,7 +571,8 @@
                 </plugins>
             </build>
             <properties>
-                <!-- Configure the gpg plugin to use the env vars defined in the Travis build settings -->
+                <!-- Configure the gpg plugin to use the env vars defined in the
+                build settings -->
                 <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
                 <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
             </properties>

@@ -19,27 +19,28 @@
 *.tar.gz
 *.rar
 
+*.env
+*.key
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
 /**/target/
 /**/test-output/
-.settings/
+/**/.settings/
 .classpath
 .project
 .factorypath
 *-apiref.json
-.vscode
+
+*.iml
 .idea
+.vscode/
 .openapi-generator/
 .openapi-generator-ignore
 
-# credentials files
-*.env
-.*env
-signing.key
+# files produced by "npm install" commands during build
+node_modules/
 
-# MacOS
+# MacOS specific .DS_Store file
 .DS_Store
-
-package-lock.json

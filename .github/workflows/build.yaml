@@ -1,0 +1,183 @@
+# This workflow will build and unit test the project.
+# If the workflow is running on the "master" branch, then
+# semantic-release is also run to create a new release (if
+# warranted by the new commits being built).
+
+name: Build & Release
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+# Default permissions: read-only
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  detect-secrets:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    name: detect-secrets
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install detect-secrets
+        run: |
+          pip install --upgrade "git+https://github.com/ibm/detect-secrets.git@master#egg=detect-secrets"
+
+      - name: Run detect-secrets
+        run: |
+          detect-secrets scan --update .secrets.baseline
+          detect-secrets -v audit --report --fail-on-unaudited --fail-on-live --fail-on-audited-real .secrets.baseline
+
+  build:
+    name: build-test (java ${{matrix.java-version}})
+    needs: detect-secrets
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: ['11', '17']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java ${{matrix.java-version}}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{matrix.java-version}}
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build & Test
+        run: mvn -B clean verify -fae -DskipITs
+
+  results:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: Final Test Results
+    needs: [build]
+    steps:
+      - run: |
+          result="${{ needs.build.result }}"
+          if [[ $result == "success" || $result == "skipped" ]]; then
+            exit 0
+          else
+            exit 1
+          fi
+
+  create-release:
+    name: semantic-release
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+
+    # Explicit least privilege
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+
+    concurrency:
+      group: release-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Notify Slack - Release Started
+        if: vars.SLACK_RELEASE_WEBHOOK_URL != ''
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-java-sdk",
+              "language": "java",
+              "status": "started",
+              "actor": "${{ github.actor }}"
+            }'
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Install Publishing Tools
+        run: |
+          pip install bump2version
+          npm ci
+
+      - name: Verify version consistency
+        run: |
+          # Extract versions from all files
+          BUMPVERSION_VERSION=$(grep "^current_version = " .bumpversion.cfg | cut -d'=' -f2 | tr -d ' ')
+          POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          README_VERSION=$(grep "# IBM Cloud Networking Services Java SDK Version" README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || echo "not-found")
+          
+          echo "Version in .bumpversion.cfg: $BUMPVERSION_VERSION"
+          echo "Version in pom.xml: $POM_VERSION"
+          echo "Version in README.md: $README_VERSION"
+          
+          # Check if versions match (allow -SNAPSHOT suffix in pom.xml)
+          POM_BASE_VERSION=$(echo "$POM_VERSION" | sed 's/-SNAPSHOT//')
+          
+          if [ "$BUMPVERSION_VERSION" != "$POM_BASE_VERSION" ]; then
+            echo "❌ ERROR: Version mismatch detected!"
+            echo "Version in .bumpversion.cfg ($BUMPVERSION_VERSION) must match pom.xml base version ($POM_BASE_VERSION)"
+            exit 1
+          fi
+          
+          if [ "$README_VERSION" != "not-found" ] && [ "$BUMPVERSION_VERSION" != "$README_VERSION" ]; then
+            echo "⚠️  WARNING: README.md version ($README_VERSION) differs from .bumpversion.cfg ($BUMPVERSION_VERSION)"
+            echo "This will be updated by semantic-release"
+          fi
+          
+          echo "✅ Version consistency check passed: $BUMPVERSION_VERSION"
+
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+      - name: Notify Slack - Release Failed
+        if: failure() && vars.SLACK_RELEASE_WEBHOOK_URL != ''
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-java-sdk",
+              "language": "java",
+              "status": "failed",
+              "actor": "${{ github.actor }}"
+            }'

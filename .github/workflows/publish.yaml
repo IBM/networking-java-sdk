@@ -1,0 +1,99 @@
+# This workflow is responsible for:
+# - publishing artifacts to Maven Central
+# - building and publishing javadocs to the git repository.
+# It is triggered when a new release is created.
+
+name: Publish Release
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+    # Allow this workflow to be triggered manually
+
+# Default permissions: read-only
+permissions:
+  contents: read
+
+jobs:
+  publish-release:
+    name: publish-release
+    runs-on: ubuntu-latest
+    
+    # Explicit least privilege
+    permissions:
+      contents: write
+ 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: 'temurin'
+          cache: 'maven'
+          # Configure ~/.m2/settings.xml
+          server-id: central
+          server-username: CP_USERNAME
+          server-password: CP_PASSWORD
+          # Import GPG key into build agent's local keystore
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Set artifact version to ${{ github.ref_name }}
+        run: mvn -B versions:set -DnewVersion=${{ github.ref_name}} -DgenerateBackupPoms=false
+
+      - name: Publish Javadocs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO_SLUG: ${{ github.repository }}
+          GH_TAG: ${{ github.ref_name}}
+        run: |
+          mvn -B clean javadoc:aggregate
+          build/publishJavadoc-gha.sh
+
+      - name: Publish to Maven Central
+        env:
+          CP_USERNAME: ${{ secrets.CP_USERNAME }}
+          CP_PASSWORD: ${{ secrets.CP_PASSWORD }}
+          GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          mvn -B deploy -DskipTests -P central
+
+      - name: Get package version
+        if: success()
+        id: get_version
+        run: |
+          VERSION=${{ github.ref_name }}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Notify Slack - Publish Completed
+        if: success() && vars.SLACK_MAVEN_WEBHOOK_URL != ''
+        run: |
+          curl -X POST "${{ secrets.SLACK_MAVEN_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "version": "${{ steps.get_version.outputs.version }}",
+              "package_name": "networking-java-sdk",
+              "maven_url": "https://central.sonatype.com/artifact/com.ibm.cloud/networking-java-sdk/${{ steps.get_version.outputs.version }}",
+              "github_release": "${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}",
+              "commit_sha": "${{ github.sha }}",
+              "actor": "${{ github.actor }}"
+            }'
+
+      - name: Notify Slack - Publish Failed
+        if: failure() && vars.SLACK_RELEASE_WEBHOOK_URL != ''
+        run: |
+          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
+            -H 'Content-Type: application/json' \
+            -d '{
+              "sdk": "networking-java-sdk",
+              "language": "java",
+              "status": "failed",
+              "actor": "${{ github.actor }}"
+            }'

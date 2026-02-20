@@ -1,4 +1,11 @@
 ---
+# ============================================================================
+# DEPRECATED: This Travis CI configuration is deprecated.
+# The project has migrated to GitHub Actions.
+# See .github/workflows/build.yaml and .github/workflows/publish.yaml
+# This file is kept for reference only.
+# ============================================================================
+
 language: java
 dist: focal
 
