@@ -17,13 +17,14 @@ echo '<!DOCTYPE html>
         <h1>IBM Cloud Network Services Java SDK Documentation</h1>
     </div>
 
-    <p><a href="https://cloud.ibm.com/apidocs?category=network">Network Services Info</a>
+    <p><a href="https://cloud.ibm.com/apidocs?category=network">Networking Services Info</a>
         | <a href="https://github.com/IBM/networking-java-sdk">GitHub</a>
     </p>
 
-    <p>Javadoc by branch/release:</p>
-    <ul><li><a href="docs/latest">Latest</a></li>'
-ls docs | grep --invert-match index.html | sed 's/^.*/<li><a href="docs\/&">&<\/a><\/li>/'
+    <p>Javadoc by release:</p>
+    <ul>'
+echo ${GITHUB_REF_NAME} | sed 's/^.*/        <li><a href="docs\/&">Latest release<\/a><\/li>/'
+ls docs | grep --invert-match index.html | sed 's/^.*/        <li><a href="docs\/&">&<\/a><\/li>/'
 echo '    </ul>
 </div>
 </body>

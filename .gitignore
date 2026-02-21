@@ -19,12 +19,15 @@
 *.tar.gz
 *.rar
 
+# Sensitive files
 *.env
 *.key
+*.asc
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# Maven
 /**/target/
 /**/test-output/
 /**/.settings/
@@ -32,15 +35,29 @@ hs_err_pid*
 .project
 .factorypath
 *-apiref.json
+pom.xml.versionsBackup
 
+# IDE
 *.iml
 .idea
 .vscode/
+
+# OpenAPI Generator
 .openapi-generator/
 .openapi-generator-ignore
 
-# files produced by "npm install" commands during build
+# Node.js (semantic-release)
 node_modules/
+package-lock.json
 
-# MacOS specific .DS_Store file
+# MacOS
 .DS_Store
+
+# Test files
+test.txt
+test.txt.gpg
+my-public-key.asc
+test-gpg-signing.sh
+
+# GitHub Pages (local clone)
+gh-pages/

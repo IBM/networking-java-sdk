@@ -130,8 +130,8 @@
 
     <!-- >>> Update these values to reflect your project -->
     <ciManagement>
-        <system>Travis-CI</system>
-        <url>https://travis-ci.com/IBM/networking-java-sdk</url>
+        <system>GitHub Actions</system>
+        <url>https://github.com/IBM/networking-java-sdk/actions</url>
     </ciManagement>
 
     <repositories>

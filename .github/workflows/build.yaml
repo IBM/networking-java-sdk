@@ -142,28 +142,31 @@ jobs:
         run: |
           # Extract versions from all files
           BUMPVERSION_VERSION=$(grep "^current_version = " .bumpversion.cfg | cut -d'=' -f2 | tr -d ' ')
-          POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           README_VERSION=$(grep "# IBM Cloud Networking Services Java SDK Version" README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || echo "not-found")
+          POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           
           echo "Version in .bumpversion.cfg: $BUMPVERSION_VERSION"
-          echo "Version in pom.xml: $POM_VERSION"
           echo "Version in README.md: $README_VERSION"
+          echo "Version in pom.xml: $POM_VERSION (should be 99-SNAPSHOT)"
           
-          # Check if versions match (allow -SNAPSHOT suffix in pom.xml)
-          POM_BASE_VERSION=$(echo "$POM_VERSION" | sed 's/-SNAPSHOT//')
-          
-          if [ "$BUMPVERSION_VERSION" != "$POM_BASE_VERSION" ]; then
-            echo "❌ ERROR: Version mismatch detected!"
-            echo "Version in .bumpversion.cfg ($BUMPVERSION_VERSION) must match pom.xml base version ($POM_BASE_VERSION)"
+          # Verify pom.xml uses 99-SNAPSHOT (standard approach)
+          if [ "$POM_VERSION" != "99-SNAPSHOT" ]; then
+            echo "❌ ERROR: pom.xml version must be 99-SNAPSHOT (found: $POM_VERSION)"
+            echo "The version is set dynamically during publish, not in pom.xml"
             exit 1
           fi
           
+          # Verify .bumpversion.cfg and README.md match
           if [ "$README_VERSION" != "not-found" ] && [ "$BUMPVERSION_VERSION" != "$README_VERSION" ]; then
-            echo "⚠️  WARNING: README.md version ($README_VERSION) differs from .bumpversion.cfg ($BUMPVERSION_VERSION)"
-            echo "This will be updated by semantic-release"
+            echo "❌ ERROR: Version mismatch detected!"
+            echo ".bumpversion.cfg version ($BUMPVERSION_VERSION) must match README.md version ($README_VERSION)"
+            exit 1
           fi
           
-          echo "✅ Version consistency check passed: $BUMPVERSION_VERSION"
+          echo "✅ Version consistency check passed"
+          echo "  - pom.xml: $POM_VERSION (correct)"
+          echo "  - .bumpversion.cfg: $BUMPVERSION_VERSION"
+          echo "  - README.md: $README_VERSION"
 
       - name: Run semantic-release
         env:
