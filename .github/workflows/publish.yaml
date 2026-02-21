@@ -80,7 +80,7 @@ jobs:
             -d '{
               "version": "${{ steps.get_version.outputs.version }}",
               "package_name": "networking-java-sdk",
-              "maven_url": "https://central.sonatype.com/artifact/com.ibm.cloud/networking-java-sdk/${{ steps.get_version.outputs.version }}",
+              "maven_url": "https://central.sonatype.com/artifact/com.ibm.cloud/networking/${{ steps.get_version.outputs.version }}",
               "github_release": "${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}",
               "commit_sha": "${{ github.sha }}",
               "actor": "${{ github.actor }}"
