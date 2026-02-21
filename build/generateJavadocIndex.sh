@@ -17,7 +17,7 @@ echo '<!DOCTYPE html>
         <h1>IBM Cloud Network Services Java SDK Documentation</h1>
     </div>
 
-    <p><a href="https://cloud.ibm.com/apidocs?category=network">Networking Services Info</a>
+    <p><a href="https://cloud.ibm.com/apidocs?category=network">Network Services Info</a>
         | <a href="https://github.com/IBM/networking-java-sdk">GitHub</a>
     </p>
 
