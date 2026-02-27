@@ -11,24 +11,16 @@ on:
   workflow_dispatch:
     # Allow this workflow to be triggered manually
 
-# Default permissions: read-only
-permissions:
-  contents: read
-
 jobs:
   publish-release:
     name: publish-release
     runs-on: ubuntu-latest
-    
-    # Explicit least privilege
-    permissions:
-      contents: write
  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -49,7 +41,7 @@ jobs:
 
       - name: Publish Javadocs
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_REPO_SLUG: ${{ github.repository }}
           GH_TAG: ${{ github.ref_name}}
         run: |

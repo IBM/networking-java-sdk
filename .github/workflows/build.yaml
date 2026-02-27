@@ -86,13 +86,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
 
-    # Explicit least privilege
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-      id-token: write
-
     concurrency:
       group: release-${{ github.ref }}
       cancel-in-progress: true
@@ -170,7 +163,7 @@ jobs:
 
       - name: Run semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
 
       - name: Notify Slack - Release Failed
