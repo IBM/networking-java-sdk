@@ -73,7 +73,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Notify Slack - Publish Completed
-        if: success() && secrets.SLACK_MAVEN_WEBHOOK_URL != ''
+        if: success()
         run: |
           curl -X POST "${{ secrets.SLACK_MAVEN_WEBHOOK_URL }}" \
             -H 'Content-Type: application/json' \
@@ -87,7 +87,7 @@ jobs:
             }'
 
       - name: Notify Slack - Publish Failed
-        if: failure() && secrets.SLACK_RELEASE_WEBHOOK_URL != ''
+        if: failure()
         run: |
           curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
             -H 'Content-Type: application/json' \
