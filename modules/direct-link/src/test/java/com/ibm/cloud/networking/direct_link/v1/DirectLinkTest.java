@@ -109,7 +109,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatisticsOptions
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayStatusOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
-import com.ibm.cloud.networking.direct_link.v1.model.HpcsKeyIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakKeyReferenceHpcsCakKeyReference;
 import com.ibm.cloud.networking.direct_link.v1.model.HpcsKeyReference;
 import com.ibm.cloud.networking.direct_link.v1.model.ImportRouteFilterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayAsPrependsOptions;
@@ -303,14 +303,14 @@ public class DirectLinkTest {
       .id("56969d6043e9465c883cb9f7363e78e8")
       .build();
 
-    // Construct an instance of the HpcsKeyIdentity model
-    HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+    // Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+    GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
 
     // Construct an instance of the GatewayMacsecCakPrototype model
     GatewayMacsecCakPrototype gatewayMacsecCakPrototypeModel = new GatewayMacsecCakPrototype.Builder()
-      .key(hpcsKeyIdentityModel)
+      .key(hpcsCakKeyReferenceModel)
       .name("1000")
       .session("primary")
       .build();
@@ -1939,14 +1939,14 @@ public class DirectLinkTest {
       .setResponseCode(200)
       .setBody(mockResponseBody));
 
-    // Construct an instance of the HpcsKeyIdentity model
-    HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+    // Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+    GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
 
     // Construct an instance of the GatewayMacsecCakPrototype model
     GatewayMacsecCakPrototype gatewayMacsecCakPrototypeModel = new GatewayMacsecCakPrototype.Builder()
-      .key(hpcsKeyIdentityModel)
+      .key(hpcsCakKeyReferenceModel)
       .name("1000")
       .session("primary")
       .build();
@@ -2067,15 +2067,15 @@ public class DirectLinkTest {
       .setResponseCode(201)
       .setBody(mockResponseBody));
 
-    // Construct an instance of the HpcsKeyIdentity model
-    HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+    // Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+    GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
 
     // Construct an instance of the CreateGatewayMacsecCakOptions model
     CreateGatewayMacsecCakOptions createGatewayMacsecCakOptionsModel = new CreateGatewayMacsecCakOptions.Builder()
       .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-      .key(hpcsKeyIdentityModel)
+      .key(hpcsCakKeyReferenceModel)
       .name("1000")
       .session("primary")
       .build();
@@ -2232,14 +2232,14 @@ public class DirectLinkTest {
       .setResponseCode(200)
       .setBody(mockResponseBody));
 
-    // Construct an instance of the HpcsKeyIdentity model
-    HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+    // Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+    GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
 
     // Construct an instance of the GatewayMacsecCakPatch model
     GatewayMacsecCakPatch gatewayMacsecCakPatchModel = new GatewayMacsecCakPatch.Builder()
-      .key(hpcsKeyIdentityModel)
+      .key(hpcsCakKeyReferenceModel)
       .name("1000")
       .build();
     Map<String, Object> gatewayMacsecCakPatchModelAsPatch = gatewayMacsecCakPatchModel.asPatch();

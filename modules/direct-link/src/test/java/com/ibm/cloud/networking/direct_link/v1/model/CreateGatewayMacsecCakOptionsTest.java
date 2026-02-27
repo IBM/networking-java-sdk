@@ -14,7 +14,7 @@
 package com.ibm.cloud.networking.direct_link.v1.model;
 
 import com.ibm.cloud.networking.direct_link.v1.model.CreateGatewayMacsecCakOptions;
-import com.ibm.cloud.networking.direct_link.v1.model.HpcsKeyIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakKeyReferenceHpcsCakKeyReference;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -32,19 +32,19 @@ public class CreateGatewayMacsecCakOptionsTest {
 
   @Test
   public void testCreateGatewayMacsecCakOptions() throws Throwable {
-    HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+    GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
-    assertEquals(hpcsKeyIdentityModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
+    assertEquals(hpcsCakKeyReferenceModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
 
     CreateGatewayMacsecCakOptions createGatewayMacsecCakOptionsModel = new CreateGatewayMacsecCakOptions.Builder()
       .id("0a06fb9b-820f-4c44-8a31-77f1f0806d28")
-      .key(hpcsKeyIdentityModel)
+      .key(hpcsCakKeyReferenceModel)
       .name("1000")
       .session("primary")
       .build();
     assertEquals(createGatewayMacsecCakOptionsModel.id(), "0a06fb9b-820f-4c44-8a31-77f1f0806d28");
-    assertEquals(createGatewayMacsecCakOptionsModel.key(), hpcsKeyIdentityModel);
+    assertEquals(createGatewayMacsecCakOptionsModel.key(), hpcsCakKeyReferenceModel);
     assertEquals(createGatewayMacsecCakOptionsModel.name(), "1000");
     assertEquals(createGatewayMacsecCakOptionsModel.session(), "primary");
   }

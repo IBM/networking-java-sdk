@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,15 +13,7 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
-import com.ibm.cloud.networking.direct_link.v1.model.AsPrependTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyIdentityKeyProtectAuthenticationKeyIdentity;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayBfdConfigTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakPrototype;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecPrototype;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplate;
-import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
-import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
-import com.ibm.cloud.networking.direct_link.v1.model.SakRekeyPrototypeSakRekeyTimerModePrototype;
+import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -31,16 +23,15 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the GatewayTemplate model.
+ * Unit test class for the AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference model.
  */
-public class GatewayTemplateTest {
+public class AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReferenceTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
-  // TODO: Add tests for models that are abstract
   @Test
-  public void testGatewayTemplate() throws Throwable {
-    GatewayTemplate gatewayTemplateModel = new GatewayTemplate();
-    assertNotNull(gatewayTemplateModel);
+  public void testAuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference() throws Throwable {
+    AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference authenticationKeyReferenceSecretsManagerAuthenticationKeyReferenceModel = new AuthenticationKeyReferenceSecretsManagerAuthenticationKeyReference();
+    assertNull(authenticationKeyReferenceSecretsManagerAuthenticationKeyReferenceModel.getCrn());
   }
 }
