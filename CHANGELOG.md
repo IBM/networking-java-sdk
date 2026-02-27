@@ -1,3 +1,17 @@
+## [0.42.3](https://github.com/IBM/networking-java-sdk/compare/0.42.2...0.42.3) (2026-02-27)
+
+
+### Bug Fixes
+
+* **CI:** added github actions ([3e108e4](https://github.com/IBM/networking-java-sdk/commit/3e108e404bab3e737da4d1510336dc70c09f257e))
+* **CI:** fixed everything from publishing perspective ([6ef7e9b](https://github.com/IBM/networking-java-sdk/commit/6ef7e9b7f28bc6a628068fc453c78b77a322589f))
+* **CI:** removed code coverage doc ([f8fa85a](https://github.com/IBM/networking-java-sdk/commit/f8fa85ad60812b6bb29ccd3bf2bd7ed99d343ab8))
+* **CI:** update secrets manager baseline ([d6e079f](https://github.com/IBM/networking-java-sdk/commit/d6e079ff1ce3336e6e628d006fb24c467ecd64f8))
+* **CI:** updated the publish workflow for maven central upload ([e61d837](https://github.com/IBM/networking-java-sdk/commit/e61d837af9a5e930f151743d05a740276628b28a))
+* **CI:** updated to released version and fixed workflow for slack notification ([#179](https://github.com/IBM/networking-java-sdk/issues/179)) ([bfdef9f](https://github.com/IBM/networking-java-sdk/commit/bfdef9f4e8a61523f5f354e16fb6477ed5ca6439))
+* **CI:** updating the maven central url properly ([fc881e7](https://github.com/IBM/networking-java-sdk/commit/fc881e79ed614e9b0b3ba0ba708cd91e70abc38a))
+* **CI:** use PAT instead of GH Action Drive ([f42b071](https://github.com/IBM/networking-java-sdk/commit/f42b071fa2d5cbd248138b54da7cc4b4020c890a))
+
 ## [0.42.1](https://github.com/IBM/networking-java-sdk/compare/0.42.0...0.42.1) (2025-10-16)
 
 
