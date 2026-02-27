@@ -12,8 +12,9 @@
       }
     ],
     [
-      "@semantic-release/git", 
+      "@semantic-release/git",
       {
+        "assets": ["CHANGELOG.md", "README.md", ".bumpversion.cfg"],
         "message": "chore(release): ${nextRelease.version} release notes\n\n${nextRelease.notes}"
       }
     ],
