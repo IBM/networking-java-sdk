@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IBM/networking-java-sdk.svg?branch=master)](https://travis-ci.com/IBM/networking-java-sdk)
+[![Build Status](https://github.com/IBM/networking-java-sdk/actions/workflows/build.yaml/badge.svg)](https://github.com/IBM/networking-java-sdk/actions/workflows/build.yaml)
 [![Javadoc](https://img.shields.io/static/v1?label=javadoc&message=latest&color=blue)](https://ibm.github.io/networking-java-sdk/docs/latest)
 [![Release](https://img.shields.io/github/v/release/IBM/networking-java-sdk)](https://github.com/IBM/networking-java-sdk/releases/latest)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
