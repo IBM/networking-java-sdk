@@ -99,7 +99,7 @@ jobs:
 
     steps:
       - name: Notify Slack - Release Started
-        if: vars.SLACK_RELEASE_WEBHOOK_URL != ''
+        if: secrets.SLACK_RELEASE_WEBHOOK_URL != ''
         run: |
           curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
             -H 'Content-Type: application/json' \
@@ -174,7 +174,7 @@ jobs:
         run: npx semantic-release
 
       - name: Notify Slack - Release Failed
-        if: failure() && vars.SLACK_RELEASE_WEBHOOK_URL != ''
+        if: failure() && secrets.SLACK_RELEASE_WEBHOOK_URL != ''
         run: |
           curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
             -H 'Content-Type: application/json' \
