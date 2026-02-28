@@ -34,7 +34,7 @@ public class GatewayMacsecCakPrototype extends GenericModel {
     String FALLBACK = "fallback";
   }
 
-  protected HpcsKeyIdentity key;
+  protected GatewayMacsecCakKeyReference key;
   protected String name;
   protected String session;
 
@@ -42,7 +42,7 @@ public class GatewayMacsecCakPrototype extends GenericModel {
    * Builder.
    */
   public static class Builder {
-    private HpcsKeyIdentity key;
+    private GatewayMacsecCakKeyReference key;
     private String name;
     private String session;
 
@@ -70,7 +70,7 @@ public class GatewayMacsecCakPrototype extends GenericModel {
      * @param name the name
      * @param session the session
      */
-    public Builder(HpcsKeyIdentity key, String name, String session) {
+    public Builder(GatewayMacsecCakKeyReference key, String name, String session) {
       this.key = key;
       this.name = name;
       this.session = session;
@@ -91,7 +91,7 @@ public class GatewayMacsecCakPrototype extends GenericModel {
      * @param key the key
      * @return the GatewayMacsecCakPrototype builder
      */
-    public Builder key(HpcsKeyIdentity key) {
+    public Builder key(GatewayMacsecCakKeyReference key) {
       this.key = key;
       return this;
     }
@@ -145,11 +145,11 @@ public class GatewayMacsecCakPrototype extends GenericModel {
   /**
    * Gets the key.
    *
-   * A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   * A reference to a key stored in a key management service.
    *
    * @return the key
    */
-  public HpcsKeyIdentity key() {
+  public GatewayMacsecCakKeyReference key() {
     return key;
   }
 

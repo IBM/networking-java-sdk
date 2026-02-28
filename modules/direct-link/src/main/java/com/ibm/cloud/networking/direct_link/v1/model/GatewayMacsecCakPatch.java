@@ -25,14 +25,14 @@ import com.ibm.cloud.sdk.core.util.GsonSingleton;
  */
 public class GatewayMacsecCakPatch extends GenericModel {
 
-  protected HpcsKeyIdentity key;
+  protected GatewayMacsecCakKeyReference key;
   protected String name;
 
   /**
    * Builder.
    */
   public static class Builder {
-    private HpcsKeyIdentity key;
+    private GatewayMacsecCakKeyReference key;
     private String name;
 
     /**
@@ -66,7 +66,7 @@ public class GatewayMacsecCakPatch extends GenericModel {
      * @param key the key
      * @return the GatewayMacsecCakPatch builder
      */
-    public Builder key(HpcsKeyIdentity key) {
+    public Builder key(GatewayMacsecCakKeyReference key) {
       this.key = key;
       return this;
     }
@@ -102,11 +102,11 @@ public class GatewayMacsecCakPatch extends GenericModel {
   /**
    * Gets the key.
    *
-   * A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   * A reference to a key stored in a key management service.
    *
    * @return the key
    */
-  public HpcsKeyIdentity key() {
+  public GatewayMacsecCakKeyReference key() {
     return key;
   }
 
