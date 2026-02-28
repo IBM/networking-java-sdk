@@ -1,3 +1,10 @@
+## [0.42.4](https://github.com/IBM/networking-java-sdk/compare/0.42.3...0.42.4) (2026-02-28)
+
+
+### Bug Fixes
+
+* **CI:** java docs update changes ([e23f45c](https://github.com/IBM/networking-java-sdk/commit/e23f45c481c17ae14c32d12c3ae78459b35d34a7))
+
 ## [0.42.3](https://github.com/IBM/networking-java-sdk/compare/0.42.2...0.42.3) (2026-02-27)
 
 
