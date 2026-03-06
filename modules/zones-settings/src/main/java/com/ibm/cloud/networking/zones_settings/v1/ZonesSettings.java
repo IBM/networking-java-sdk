@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.12.1-318e07c8-20200909-152230
+ * IBM OpenAPI SDK Code Generator Version: 3.112.0-f88e9264-20260220-115155
  */
 
 package com.ibm.cloud.networking.zones_settings.v1;
@@ -21,14 +21,20 @@ import com.google.gson.JsonObject;
 import com.ibm.cloud.networking.common.SdkCommon;
 import com.ibm.cloud.networking.zones_settings.v1.model.AlwaysUseHttpsResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.AutomaticHttpsRewritesResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.BotMgtResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.BrotliResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.BrowserCheckResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ChallengeTtlResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.CiphersResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.EmailObfuscationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetAlwaysUseHttpsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetAutomaticHttpsRewritesOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetBotManagementOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetBrotliOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetBrowserCheckOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetChallengeTtlOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetCiphersOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetEmailObfuscationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHttp2Options;
@@ -37,13 +43,19 @@ import com.ibm.cloud.networking.zones_settings.v1.model.GetImageLoadOptimization
 import com.ibm.cloud.networking.zones_settings.v1.model.GetImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetIpGeolocationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetIpv6Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetLogRetentionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetMaxUploadOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetMinTlsVersionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetMinifyOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetMobileRedirectOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetOpportunisticEncryptionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetOpportunisticOnionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetOriginMaxHttpVersionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetOriginPostQuantumEncryptionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetPrefetchPreloadOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetProxyReadTimeoutOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetPseudoIpv4Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetReplaceInsecureJsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetResponseBufferingOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetScriptLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetSecurityHeaderOptions;
@@ -61,14 +73,20 @@ import com.ibm.cloud.networking.zones_settings.v1.model.ImageLoadOptimizationRes
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageSizeOptimizationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.IpGeolocationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.Ipv6Resp;
+import com.ibm.cloud.networking.zones_settings.v1.model.LogRetentionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.MaxUploadResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.MinTlsVersionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.MinifyResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.MobileRedirectResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.OpportunisticEncryptionResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.OpportunisticOnionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.OriginErrorPagePassThruResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.OriginMaxHttpVersionResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.OriginPostQuantumEncryptionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.PrefetchPreloadResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.ProxyReadTimeoutResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.PseudoIpv4Resp;
+import com.ibm.cloud.networking.zones_settings.v1.model.ReplaceInsecureJsResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ResponseBufferingResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ScriptLoadOptimizationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderResp;
@@ -77,9 +95,12 @@ import com.ibm.cloud.networking.zones_settings.v1.model.TlsClientAuthResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.TrueClientIpResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateAlwaysUseHttpsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateAutomaticHttpsRewritesOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateBotManagementOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateBrotliOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateBrowserCheckOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateChallengeTtlOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateCiphersOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateEmailObfuscationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHttp2Options;
@@ -88,13 +109,19 @@ import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageLoadOptimizat
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateIpGeolocationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateIpv6Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateLogRetentionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateMaxUploadOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateMinTlsVersionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateMinifyOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateMobileRedirectOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateOpportunisticEncryptionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateOpportunisticOnionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateOriginMaxHttpVersionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateOriginPostQuantumEncryptionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdatePrefetchPreloadOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateProxyReadTimeoutOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdatePseudoIpv4Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateReplaceInsecureJsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateResponseBufferingOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateScriptLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateSecurityHeaderOptions;
@@ -116,19 +143,25 @@ import com.ibm.cloud.sdk.core.security.Authenticator;
 import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
 import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.HashMap;
 
 /**
  * CIS Zones Settings.
  *
- * @version v1
+ * API Version: 1.0.1
  */
 public class ZonesSettings extends BaseService {
 
+  /**
+   * Default service name used when configuring the `ZonesSettings` client.
+   */
   public static final String DEFAULT_SERVICE_NAME = "zones_settings";
 
+  /**
+   * Default service endpoint URL.
+   */
   public static final String DEFAULT_SERVICE_URL = "https://api.cis.cloud.ibm.com";
 
   private String crn;
@@ -230,9 +263,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ZonesDnssecResp}
    */
   public ServiceCall<ZonesDnssecResp> getZoneDnssec(GetZoneDnssecOptions getZoneDnssecOptions) {
-    String[] pathSegments = { "v1", "zones", "dnssec" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/dnssec", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getZoneDnssec");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -268,9 +302,10 @@ public class ZonesSettings extends BaseService {
       updateZoneDnssecOptions = new UpdateZoneDnssecOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "dnssec" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/dnssec", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateZoneDnssec");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -308,9 +343,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ZonesCnameFlatteningResp}
    */
   public ServiceCall<ZonesCnameFlatteningResp> getZoneCnameFlattening(GetZoneCnameFlatteningOptions getZoneCnameFlatteningOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/cname_flattening" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/cname_flattening", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getZoneCnameFlattening");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -346,9 +382,10 @@ public class ZonesSettings extends BaseService {
       updateZoneCnameFlatteningOptions = new UpdateZoneCnameFlatteningOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/cname_flattening" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/cname_flattening", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateZoneCnameFlattening");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -386,9 +423,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link OpportunisticEncryptionResp}
    */
   public ServiceCall<OpportunisticEncryptionResp> getOpportunisticEncryption(GetOpportunisticEncryptionOptions getOpportunisticEncryptionOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/opportunistic_encryption" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/opportunistic_encryption", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getOpportunisticEncryption");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -424,9 +462,10 @@ public class ZonesSettings extends BaseService {
       updateOpportunisticEncryptionOptions = new UpdateOpportunisticEncryptionOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/opportunistic_encryption" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/opportunistic_encryption", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateOpportunisticEncryption");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -456,6 +495,86 @@ public class ZonesSettings extends BaseService {
   }
 
   /**
+   * Get opportunistic onion setting.
+   *
+   * Get opportunistic onion setting for a zone.
+   *
+   * @param getOpportunisticOnionOptions the {@link GetOpportunisticOnionOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link OpportunisticOnionResp}
+   */
+  public ServiceCall<OpportunisticOnionResp> getOpportunisticOnion(GetOpportunisticOnionOptions getOpportunisticOnionOptions) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/opportunistic_onion", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getOpportunisticOnion");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<OpportunisticOnionResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<OpportunisticOnionResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get opportunistic onion setting.
+   *
+   * Get opportunistic onion setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link OpportunisticOnionResp}
+   */
+  public ServiceCall<OpportunisticOnionResp> getOpportunisticOnion() {
+    return getOpportunisticOnion(null);
+  }
+
+  /**
+   * Update opportunistic onion setting.
+   *
+   * Update opportunistic onion setting for a zone.
+   *
+   * @param updateOpportunisticOnionOptions the {@link UpdateOpportunisticOnionOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link OpportunisticOnionResp}
+   */
+  public ServiceCall<OpportunisticOnionResp> updateOpportunisticOnion(UpdateOpportunisticOnionOptions updateOpportunisticOnionOptions) {
+    boolean skipBody = false;
+    if (updateOpportunisticOnionOptions == null) {
+      updateOpportunisticOnionOptions = new UpdateOpportunisticOnionOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/opportunistic_onion", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateOpportunisticOnion");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateOpportunisticOnionOptions.value() != null) {
+        contentJson.addProperty("value", updateOpportunisticOnionOptions.value());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<OpportunisticOnionResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<OpportunisticOnionResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update opportunistic onion setting.
+   *
+   * Update opportunistic onion setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link OpportunisticOnionResp}
+   */
+  public ServiceCall<OpportunisticOnionResp> updateOpportunisticOnion() {
+    return updateOpportunisticOnion(null);
+  }
+
+  /**
    * Get challenge TTL setting.
    *
    * Get challenge TTL setting for a zone.
@@ -464,9 +583,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ChallengeTtlResp}
    */
   public ServiceCall<ChallengeTtlResp> getChallengeTtl(GetChallengeTtlOptions getChallengeTtlOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/challenge_ttl" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/challenge_ttl", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getChallengeTtl");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -502,9 +622,10 @@ public class ZonesSettings extends BaseService {
       updateChallengeTtlOptions = new UpdateChallengeTtlOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/challenge_ttl" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/challenge_ttl", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateChallengeTtl");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -542,9 +663,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link AutomaticHttpsRewritesResp}
    */
   public ServiceCall<AutomaticHttpsRewritesResp> getAutomaticHttpsRewrites(GetAutomaticHttpsRewritesOptions getAutomaticHttpsRewritesOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/automatic_https_rewrites" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/automatic_https_rewrites", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getAutomaticHttpsRewrites");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -580,9 +702,10 @@ public class ZonesSettings extends BaseService {
       updateAutomaticHttpsRewritesOptions = new UpdateAutomaticHttpsRewritesOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/automatic_https_rewrites" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/automatic_https_rewrites", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateAutomaticHttpsRewrites");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -620,9 +743,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link TrueClientIpResp}
    */
   public ServiceCall<TrueClientIpResp> getTrueClientIp(GetTrueClientIpOptions getTrueClientIpOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/true_client_ip_header" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/true_client_ip_header", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getTrueClientIp");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -658,9 +782,10 @@ public class ZonesSettings extends BaseService {
       updateTrueClientIpOptions = new UpdateTrueClientIpOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/true_client_ip_header" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/true_client_ip_header", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateTrueClientIp");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -698,9 +823,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link AlwaysUseHttpsResp}
    */
   public ServiceCall<AlwaysUseHttpsResp> getAlwaysUseHttps(GetAlwaysUseHttpsOptions getAlwaysUseHttpsOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/always_use_https" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/always_use_https", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getAlwaysUseHttps");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -736,9 +862,10 @@ public class ZonesSettings extends BaseService {
       updateAlwaysUseHttpsOptions = new UpdateAlwaysUseHttpsOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/always_use_https" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/always_use_https", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateAlwaysUseHttps");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -776,9 +903,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ImageSizeOptimizationResp}
    */
   public ServiceCall<ImageSizeOptimizationResp> getImageSizeOptimization(GetImageSizeOptimizationOptions getImageSizeOptimizationOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/image_size_optimization" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/image_size_optimization", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getImageSizeOptimization");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -814,9 +942,10 @@ public class ZonesSettings extends BaseService {
       updateImageSizeOptimizationOptions = new UpdateImageSizeOptimizationOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/image_size_optimization" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/image_size_optimization", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateImageSizeOptimization");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -854,9 +983,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ScriptLoadOptimizationResp}
    */
   public ServiceCall<ScriptLoadOptimizationResp> getScriptLoadOptimization(GetScriptLoadOptimizationOptions getScriptLoadOptimizationOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/script_load_optimization" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/script_load_optimization", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getScriptLoadOptimization");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -892,9 +1022,10 @@ public class ZonesSettings extends BaseService {
       updateScriptLoadOptimizationOptions = new UpdateScriptLoadOptimizationOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/script_load_optimization" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/script_load_optimization", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateScriptLoadOptimization");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -932,9 +1063,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ImageLoadOptimizationResp}
    */
   public ServiceCall<ImageLoadOptimizationResp> getImageLoadOptimization(GetImageLoadOptimizationOptions getImageLoadOptimizationOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/image_load_optimization" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/image_load_optimization", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getImageLoadOptimization");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -970,9 +1102,10 @@ public class ZonesSettings extends BaseService {
       updateImageLoadOptimizationOptions = new UpdateImageLoadOptimizationOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/image_load_optimization" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/image_load_optimization", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateImageLoadOptimization");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1010,9 +1143,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link MinifyResp}
    */
   public ServiceCall<MinifyResp> getMinify(GetMinifyOptions getMinifyOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/minify" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/minify", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getMinify");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1048,9 +1182,10 @@ public class ZonesSettings extends BaseService {
       updateMinifyOptions = new UpdateMinifyOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/minify" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/minify", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateMinify");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1088,9 +1223,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link MinTlsVersionResp}
    */
   public ServiceCall<MinTlsVersionResp> getMinTlsVersion(GetMinTlsVersionOptions getMinTlsVersionOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/min_tls_version" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/min_tls_version", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getMinTlsVersion");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1126,9 +1262,10 @@ public class ZonesSettings extends BaseService {
       updateMinTlsVersionOptions = new UpdateMinTlsVersionOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/min_tls_version" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/min_tls_version", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateMinTlsVersion");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1166,9 +1303,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link IpGeolocationResp}
    */
   public ServiceCall<IpGeolocationResp> getIpGeolocation(GetIpGeolocationOptions getIpGeolocationOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/ip_geolocation" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/ip_geolocation", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getIpGeolocation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1204,9 +1342,10 @@ public class ZonesSettings extends BaseService {
       updateIpGeolocationOptions = new UpdateIpGeolocationOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/ip_geolocation" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/ip_geolocation", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateIpGeolocation");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1244,9 +1383,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ServerSideExcludeResp}
    */
   public ServiceCall<ServerSideExcludeResp> getServerSideExclude(GetServerSideExcludeOptions getServerSideExcludeOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/server_side_exclude" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/server_side_exclude", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getServerSideExclude");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1282,9 +1422,10 @@ public class ZonesSettings extends BaseService {
       updateServerSideExcludeOptions = new UpdateServerSideExcludeOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/server_side_exclude" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/server_side_exclude", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateServerSideExclude");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1322,9 +1463,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link SecurityHeaderResp}
    */
   public ServiceCall<SecurityHeaderResp> getSecurityHeader(GetSecurityHeaderOptions getSecurityHeaderOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/security_header" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/security_header", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getSecurityHeader");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1360,9 +1502,10 @@ public class ZonesSettings extends BaseService {
       updateSecurityHeaderOptions = new UpdateSecurityHeaderOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/security_header" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/security_header", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateSecurityHeader");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1400,9 +1543,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link MobileRedirectResp}
    */
   public ServiceCall<MobileRedirectResp> getMobileRedirect(GetMobileRedirectOptions getMobileRedirectOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/mobile_redirect" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/mobile_redirect", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getMobileRedirect");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1438,9 +1582,10 @@ public class ZonesSettings extends BaseService {
       updateMobileRedirectOptions = new UpdateMobileRedirectOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/mobile_redirect" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/mobile_redirect", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateMobileRedirect");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1478,9 +1623,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link PrefetchPreloadResp}
    */
   public ServiceCall<PrefetchPreloadResp> getPrefetchPreload(GetPrefetchPreloadOptions getPrefetchPreloadOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/prefetch_preload" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/prefetch_preload", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getPrefetchPreload");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1516,9 +1662,10 @@ public class ZonesSettings extends BaseService {
       updatePrefetchPreloadOptions = new UpdatePrefetchPreloadOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/prefetch_preload" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/prefetch_preload", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updatePrefetchPreload");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1556,9 +1703,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link Http2Resp}
    */
   public ServiceCall<Http2Resp> getHttp2(GetHttp2Options getHttp2Options) {
-    String[] pathSegments = { "v1", "zones", "settings/http2" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/http2", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getHttp2");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1594,9 +1742,10 @@ public class ZonesSettings extends BaseService {
       updateHttp2Options = new UpdateHttp2Options.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/http2" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/http2", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateHttp2");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1623,28 +1772,6 @@ public class ZonesSettings extends BaseService {
    */
   public ServiceCall<Http2Resp> updateHttp2() {
     return updateHttp2(null);
-  }
-
-  /**
-   * Get IPv6 compatibility setting.
-   *
-   * Get IPv6 compatibility setting for a zone.
-   *
-   * @param getIpv6Options the {@link GetIpv6Options} containing the options for the call
-   * @return a {@link ServiceCall} with a result of type {@link Ipv6Resp}
-   */
-  public ServiceCall<Ipv6Resp> getIpv6(GetIpv6Options getIpv6Options) {
-    String[] pathSegments = { "v1", "zones", "settings/ipv6" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
-    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getIpv6");
-    for (Entry<String, String> header : sdkHeaders.entrySet()) {
-      builder.header(header.getKey(), header.getValue());
-    }
-    builder.header("Accept", "application/json");
-    ResponseConverter<Ipv6Resp> responseConverter =
-      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Ipv6Resp>() { }.getType());
-    return createServiceCall(builder.build(), responseConverter);
   }
 
   /**
@@ -1732,6 +1859,29 @@ public class ZonesSettings extends BaseService {
    *
    * Get IPv6 compatibility setting for a zone.
    *
+   * @param getIpv6Options the {@link GetIpv6Options} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link Ipv6Resp}
+   */
+  public ServiceCall<Ipv6Resp> getIpv6(GetIpv6Options getIpv6Options) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/ipv6", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getIpv6");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<Ipv6Resp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<Ipv6Resp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get IPv6 compatibility setting.
+   *
+   * Get IPv6 compatibility setting for a zone.
+   *
    * @return a {@link ServiceCall} with a result of type {@link Ipv6Resp}
    */
   public ServiceCall<Ipv6Resp> getIpv6() {
@@ -1752,9 +1902,10 @@ public class ZonesSettings extends BaseService {
       updateIpv6Options = new UpdateIpv6Options.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/ipv6" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/ipv6", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateIpv6");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1792,9 +1943,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link WebsocketsResp}
    */
   public ServiceCall<WebsocketsResp> getWebSockets(GetWebSocketsOptions getWebSocketsOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/websockets" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/websockets", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getWebSockets");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1830,9 +1982,10 @@ public class ZonesSettings extends BaseService {
       updateWebSocketsOptions = new UpdateWebSocketsOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/websockets" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/websockets", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateWebSockets");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1870,9 +2023,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link PseudoIpv4Resp}
    */
   public ServiceCall<PseudoIpv4Resp> getPseudoIpv4(GetPseudoIpv4Options getPseudoIpv4Options) {
-    String[] pathSegments = { "v1", "zones", "settings/pseudo_ipv4" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/pseudo_ipv4", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getPseudoIpv4");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1908,9 +2062,10 @@ public class ZonesSettings extends BaseService {
       updatePseudoIpv4Options = new UpdatePseudoIpv4Options.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/pseudo_ipv4" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/pseudo_ipv4", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updatePseudoIpv4");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1948,9 +2103,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ResponseBufferingResp}
    */
   public ServiceCall<ResponseBufferingResp> getResponseBuffering(GetResponseBufferingOptions getResponseBufferingOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/response_buffering" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/response_buffering", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getResponseBuffering");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -1986,9 +2142,10 @@ public class ZonesSettings extends BaseService {
       updateResponseBufferingOptions = new UpdateResponseBufferingOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/response_buffering" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/response_buffering", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateResponseBuffering");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2026,9 +2183,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link HotlinkProtectionResp}
    */
   public ServiceCall<HotlinkProtectionResp> getHotlinkProtection(GetHotlinkProtectionOptions getHotlinkProtectionOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/hotlink_protection" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/hotlink_protection", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getHotlinkProtection");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2064,9 +2222,10 @@ public class ZonesSettings extends BaseService {
       updateHotlinkProtectionOptions = new UpdateHotlinkProtectionOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/hotlink_protection" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/hotlink_protection", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateHotlinkProtection");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2104,9 +2263,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link MaxUploadResp}
    */
   public ServiceCall<MaxUploadResp> getMaxUpload(GetMaxUploadOptions getMaxUploadOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/max_upload" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/max_upload", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getMaxUpload");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2142,9 +2302,10 @@ public class ZonesSettings extends BaseService {
       updateMaxUploadOptions = new UpdateMaxUploadOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/max_upload" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/max_upload", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateMaxUpload");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2182,9 +2343,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link TlsClientAuthResp}
    */
   public ServiceCall<TlsClientAuthResp> getTlsClientAuth(GetTlsClientAuthOptions getTlsClientAuthOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/tls_client_auth" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/tls_client_auth", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getTlsClientAuth");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2220,9 +2382,10 @@ public class ZonesSettings extends BaseService {
       updateTlsClientAuthOptions = new UpdateTlsClientAuthOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/tls_client_auth" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/tls_client_auth", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateTlsClientAuth");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2252,6 +2415,166 @@ public class ZonesSettings extends BaseService {
   }
 
   /**
+   * Get brotli setting.
+   *
+   * Get brotli setting for a zone.
+   *
+   * @param getBrotliOptions the {@link GetBrotliOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link BrotliResp}
+   */
+  public ServiceCall<BrotliResp> getBrotli(GetBrotliOptions getBrotliOptions) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/brotli", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getBrotli");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<BrotliResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<BrotliResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get brotli setting.
+   *
+   * Get brotli setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link BrotliResp}
+   */
+  public ServiceCall<BrotliResp> getBrotli() {
+    return getBrotli(null);
+  }
+
+  /**
+   * Update brotli setting.
+   *
+   * Update brotli setting for a zone.
+   *
+   * @param updateBrotliOptions the {@link UpdateBrotliOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link BrotliResp}
+   */
+  public ServiceCall<BrotliResp> updateBrotli(UpdateBrotliOptions updateBrotliOptions) {
+    boolean skipBody = false;
+    if (updateBrotliOptions == null) {
+      updateBrotliOptions = new UpdateBrotliOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/brotli", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateBrotli");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateBrotliOptions.value() != null) {
+        contentJson.addProperty("value", updateBrotliOptions.value());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<BrotliResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<BrotliResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update brotli setting.
+   *
+   * Update brotli setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link BrotliResp}
+   */
+  public ServiceCall<BrotliResp> updateBrotli() {
+    return updateBrotli(null);
+  }
+
+  /**
+   * Get proxy read timeout setting.
+   *
+   * Get proxy read timeout setting for a zone.
+   *
+   * @param getProxyReadTimeoutOptions the {@link GetProxyReadTimeoutOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ProxyReadTimeoutResp}
+   */
+  public ServiceCall<ProxyReadTimeoutResp> getProxyReadTimeout(GetProxyReadTimeoutOptions getProxyReadTimeoutOptions) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/proxy_read_timeout", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getProxyReadTimeout");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<ProxyReadTimeoutResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ProxyReadTimeoutResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get proxy read timeout setting.
+   *
+   * Get proxy read timeout setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link ProxyReadTimeoutResp}
+   */
+  public ServiceCall<ProxyReadTimeoutResp> getProxyReadTimeout() {
+    return getProxyReadTimeout(null);
+  }
+
+  /**
+   * Update proxy read timeout setting.
+   *
+   * Update proxy read timeout setting for a zone.
+   *
+   * @param updateProxyReadTimeoutOptions the {@link UpdateProxyReadTimeoutOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ProxyReadTimeoutResp}
+   */
+  public ServiceCall<ProxyReadTimeoutResp> updateProxyReadTimeout(UpdateProxyReadTimeoutOptions updateProxyReadTimeoutOptions) {
+    boolean skipBody = false;
+    if (updateProxyReadTimeoutOptions == null) {
+      updateProxyReadTimeoutOptions = new UpdateProxyReadTimeoutOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/proxy_read_timeout", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateProxyReadTimeout");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateProxyReadTimeoutOptions.value() != null) {
+        contentJson.addProperty("value", updateProxyReadTimeoutOptions.value());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<ProxyReadTimeoutResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ProxyReadTimeoutResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update proxy read timeout setting.
+   *
+   * Update proxy read timeout setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link ProxyReadTimeoutResp}
+   */
+  public ServiceCall<ProxyReadTimeoutResp> updateProxyReadTimeout() {
+    return updateProxyReadTimeout(null);
+  }
+
+  /**
    * Get browser check setting.
    *
    * Get browser check setting for a zone.
@@ -2260,9 +2583,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link BrowserCheckResp}
    */
   public ServiceCall<BrowserCheckResp> getBrowserCheck(GetBrowserCheckOptions getBrowserCheckOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/browser_check" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/browser_check", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getBrowserCheck");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2298,9 +2622,10 @@ public class ZonesSettings extends BaseService {
       updateBrowserCheckOptions = new UpdateBrowserCheckOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/browser_check" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/browser_check", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateBrowserCheck");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2338,9 +2663,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link OriginErrorPagePassThruResp}
    */
   public ServiceCall<OriginErrorPagePassThruResp> getEnableErrorPagesOn(GetEnableErrorPagesOnOptions getEnableErrorPagesOnOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/origin_error_page_pass_thru" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/origin_error_page_pass_thru", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getEnableErrorPagesOn");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2376,9 +2702,10 @@ public class ZonesSettings extends BaseService {
       updateEnableErrorPagesOnOptions = new UpdateEnableErrorPagesOnOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/origin_error_page_pass_thru" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/origin_error_page_pass_thru", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateEnableErrorPagesOn");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2416,9 +2743,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link WafResp}
    */
   public ServiceCall<WafResp> getWebApplicationFirewall(GetWebApplicationFirewallOptions getWebApplicationFirewallOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/waf" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/waf", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getWebApplicationFirewall");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2454,9 +2782,10 @@ public class ZonesSettings extends BaseService {
       updateWebApplicationFirewallOptions = new UpdateWebApplicationFirewallOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/waf" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/waf", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateWebApplicationFirewall");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2494,9 +2823,10 @@ public class ZonesSettings extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link CiphersResp}
    */
   public ServiceCall<CiphersResp> getCiphers(GetCiphersOptions getCiphersOptions) {
-    String[] pathSegments = { "v1", "zones", "settings/ciphers" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/ciphers", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getCiphers");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2532,9 +2862,10 @@ public class ZonesSettings extends BaseService {
       updateCiphersOptions = new UpdateCiphersOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "settings/ciphers" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/ciphers", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateCiphers");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -2561,6 +2892,471 @@ public class ZonesSettings extends BaseService {
    */
   public ServiceCall<CiphersResp> updateCiphers() {
     return updateCiphers(null);
+  }
+
+  /**
+   * Get origin max http version setting.
+   *
+   * Get origin max http version setting for a zone.
+   *
+   * @param getOriginMaxHttpVersionOptions the {@link GetOriginMaxHttpVersionOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link OriginMaxHttpVersionResp}
+   */
+  public ServiceCall<OriginMaxHttpVersionResp> getOriginMaxHttpVersion(GetOriginMaxHttpVersionOptions getOriginMaxHttpVersionOptions) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/origin_max_http_version", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getOriginMaxHttpVersion");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<OriginMaxHttpVersionResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<OriginMaxHttpVersionResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get origin max http version setting.
+   *
+   * Get origin max http version setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link OriginMaxHttpVersionResp}
+   */
+  public ServiceCall<OriginMaxHttpVersionResp> getOriginMaxHttpVersion() {
+    return getOriginMaxHttpVersion(null);
+  }
+
+  /**
+   * Update origin max http version setting.
+   *
+   * Update origin max http version setting for a zone.
+   *
+   * @param updateOriginMaxHttpVersionOptions the {@link UpdateOriginMaxHttpVersionOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link OriginMaxHttpVersionResp}
+   */
+  public ServiceCall<OriginMaxHttpVersionResp> updateOriginMaxHttpVersion(UpdateOriginMaxHttpVersionOptions updateOriginMaxHttpVersionOptions) {
+    boolean skipBody = false;
+    if (updateOriginMaxHttpVersionOptions == null) {
+      updateOriginMaxHttpVersionOptions = new UpdateOriginMaxHttpVersionOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/origin_max_http_version", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateOriginMaxHttpVersion");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateOriginMaxHttpVersionOptions.value() != null) {
+        contentJson.addProperty("value", updateOriginMaxHttpVersionOptions.value());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<OriginMaxHttpVersionResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<OriginMaxHttpVersionResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update origin max http version setting.
+   *
+   * Update origin max http version setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link OriginMaxHttpVersionResp}
+   */
+  public ServiceCall<OriginMaxHttpVersionResp> updateOriginMaxHttpVersion() {
+    return updateOriginMaxHttpVersion(null);
+  }
+
+  /**
+   * Get origin post quantum encryption setting.
+   *
+   * Get origin post quantum encryption setting for a zone.
+   *
+   * @param getOriginPostQuantumEncryptionOptions the {@link GetOriginPostQuantumEncryptionOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link OriginPostQuantumEncryptionResp}
+   */
+  public ServiceCall<OriginPostQuantumEncryptionResp> getOriginPostQuantumEncryption(GetOriginPostQuantumEncryptionOptions getOriginPostQuantumEncryptionOptions) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/cache/origin_post_quantum_encryption", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getOriginPostQuantumEncryption");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<OriginPostQuantumEncryptionResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<OriginPostQuantumEncryptionResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get origin post quantum encryption setting.
+   *
+   * Get origin post quantum encryption setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link OriginPostQuantumEncryptionResp}
+   */
+  public ServiceCall<OriginPostQuantumEncryptionResp> getOriginPostQuantumEncryption() {
+    return getOriginPostQuantumEncryption(null);
+  }
+
+  /**
+   * Update origin post quantum encryption setting.
+   *
+   * Update origin post quantum encryption setting for a zone.
+   *
+   * @param updateOriginPostQuantumEncryptionOptions the {@link UpdateOriginPostQuantumEncryptionOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link OriginPostQuantumEncryptionResp}
+   */
+  public ServiceCall<OriginPostQuantumEncryptionResp> updateOriginPostQuantumEncryption(UpdateOriginPostQuantumEncryptionOptions updateOriginPostQuantumEncryptionOptions) {
+    boolean skipBody = false;
+    if (updateOriginPostQuantumEncryptionOptions == null) {
+      updateOriginPostQuantumEncryptionOptions = new UpdateOriginPostQuantumEncryptionOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/cache/origin_post_quantum_encryption", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateOriginPostQuantumEncryption");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateOriginPostQuantumEncryptionOptions.value() != null) {
+        contentJson.addProperty("value", updateOriginPostQuantumEncryptionOptions.value());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<OriginPostQuantumEncryptionResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<OriginPostQuantumEncryptionResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update origin post quantum encryption setting.
+   *
+   * Update origin post quantum encryption setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link OriginPostQuantumEncryptionResp}
+   */
+  public ServiceCall<OriginPostQuantumEncryptionResp> updateOriginPostQuantumEncryption() {
+    return updateOriginPostQuantumEncryption(null);
+  }
+
+  /**
+   * Retrieves the current setting for log retention.
+   *
+   * Get the current setting for log retention. This setting is available for Enterprise plans only. If this setting is
+   * turned on, then logs from the cloud edge are retained for the customers domain. Otherwise they will be discarded.
+   *
+   * @param getLogRetentionOptions the {@link GetLogRetentionOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link LogRetentionResp}
+   */
+  public ServiceCall<LogRetentionResp> getLogRetention(GetLogRetentionOptions getLogRetentionOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getLogRetentionOptions,
+      "getLogRetentionOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", getLogRetentionOptions.crn());
+    pathParamsMap.put("zone_identifier", getLogRetentionOptions.zoneIdentifier());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/logs/retention", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getLogRetention");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<LogRetentionResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LogRetentionResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Toggles the current setting for log retention.
+   *
+   * Toggles the current setting for log retention.
+   *
+   * @param updateLogRetentionOptions the {@link UpdateLogRetentionOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link LogRetentionResp}
+   */
+  public ServiceCall<LogRetentionResp> updateLogRetention(UpdateLogRetentionOptions updateLogRetentionOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateLogRetentionOptions,
+      "updateLogRetentionOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", updateLogRetentionOptions.crn());
+    pathParamsMap.put("zone_identifier", updateLogRetentionOptions.zoneIdentifier());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/logs/retention", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateLogRetention");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    final JsonObject contentJson = new JsonObject();
+    if (updateLogRetentionOptions.flag() != null) {
+      contentJson.addProperty("flag", updateLogRetentionOptions.flag());
+    }
+    builder.bodyJson(contentJson);
+    ResponseConverter<LogRetentionResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<LogRetentionResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get Bot management settings.
+   *
+   * Get Bot management settings for a given zone.
+   *
+   * @param getBotManagementOptions the {@link GetBotManagementOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link BotMgtResp}
+   */
+  public ServiceCall<BotMgtResp> getBotManagement(GetBotManagementOptions getBotManagementOptions) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/bot_management", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getBotManagement");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<BotMgtResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<BotMgtResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get Bot management settings.
+   *
+   * Get Bot management settings for a given zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link BotMgtResp}
+   */
+  public ServiceCall<BotMgtResp> getBotManagement() {
+    return getBotManagement(null);
+  }
+
+  /**
+   * Update Bot management settings.
+   *
+   * Update Bot management settings for given zone.
+   *
+   * @param updateBotManagementOptions the {@link UpdateBotManagementOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link BotMgtResp}
+   */
+  public ServiceCall<BotMgtResp> updateBotManagement(UpdateBotManagementOptions updateBotManagementOptions) {
+    boolean skipBody = false;
+    if (updateBotManagementOptions == null) {
+      updateBotManagementOptions = new UpdateBotManagementOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/bot_management", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateBotManagement");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateBotManagementOptions.sessionScore() != null) {
+        contentJson.addProperty("session_score", updateBotManagementOptions.sessionScore());
+      }
+      if (updateBotManagementOptions.enableJs() != null) {
+        contentJson.addProperty("enable_js", updateBotManagementOptions.enableJs());
+      }
+      if (updateBotManagementOptions.useLatestModel() != null) {
+        contentJson.addProperty("use_latest_model", updateBotManagementOptions.useLatestModel());
+      }
+      if (updateBotManagementOptions.aiBotsProtection() != null) {
+        contentJson.addProperty("ai_bots_protection", updateBotManagementOptions.aiBotsProtection());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<BotMgtResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<BotMgtResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update Bot management settings.
+   *
+   * Update Bot management settings for given zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link BotMgtResp}
+   */
+  public ServiceCall<BotMgtResp> updateBotManagement() {
+    return updateBotManagement(null);
+  }
+
+  /**
+   * Get replace insecure Javascript setting.
+   *
+   * Get replace insecure Javascript for a zone.
+   *
+   * @param getReplaceInsecureJsOptions the {@link GetReplaceInsecureJsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ReplaceInsecureJsResp}
+   */
+  public ServiceCall<ReplaceInsecureJsResp> getReplaceInsecureJs(GetReplaceInsecureJsOptions getReplaceInsecureJsOptions) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/replace_insecure_js", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getReplaceInsecureJs");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<ReplaceInsecureJsResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ReplaceInsecureJsResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get replace insecure Javascript setting.
+   *
+   * Get replace insecure Javascript for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link ReplaceInsecureJsResp}
+   */
+  public ServiceCall<ReplaceInsecureJsResp> getReplaceInsecureJs() {
+    return getReplaceInsecureJs(null);
+  }
+
+  /**
+   * Update replace insecure Javascript setting.
+   *
+   * Update replace insecure Javascript setting for a zone.
+   *
+   * @param updateReplaceInsecureJsOptions the {@link UpdateReplaceInsecureJsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ReplaceInsecureJsResp}
+   */
+  public ServiceCall<ReplaceInsecureJsResp> updateReplaceInsecureJs(UpdateReplaceInsecureJsOptions updateReplaceInsecureJsOptions) {
+    boolean skipBody = false;
+    if (updateReplaceInsecureJsOptions == null) {
+      updateReplaceInsecureJsOptions = new UpdateReplaceInsecureJsOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/replace_insecure_js", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateReplaceInsecureJs");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateReplaceInsecureJsOptions.value() != null) {
+        contentJson.addProperty("value", updateReplaceInsecureJsOptions.value());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<ReplaceInsecureJsResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ReplaceInsecureJsResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update replace insecure Javascript setting.
+   *
+   * Update replace insecure Javascript setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link ReplaceInsecureJsResp}
+   */
+  public ServiceCall<ReplaceInsecureJsResp> updateReplaceInsecureJs() {
+    return updateReplaceInsecureJs(null);
+  }
+
+  /**
+   * Get email address obfuscation setting.
+   *
+   * Get email address obfuscation for a zone.
+   *
+   * @param getEmailObfuscationOptions the {@link GetEmailObfuscationOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link EmailObfuscationResp}
+   */
+  public ServiceCall<EmailObfuscationResp> getEmailObfuscation(GetEmailObfuscationOptions getEmailObfuscationOptions) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/email_obfuscation", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getEmailObfuscation");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<EmailObfuscationResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<EmailObfuscationResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get email address obfuscation setting.
+   *
+   * Get email address obfuscation for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link EmailObfuscationResp}
+   */
+  public ServiceCall<EmailObfuscationResp> getEmailObfuscation() {
+    return getEmailObfuscation(null);
+  }
+
+  /**
+   * Update email address obfuscation setting.
+   *
+   * Update email address obfuscation setting for a zone.
+   *
+   * @param updateEmailObfuscationOptions the {@link UpdateEmailObfuscationOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link EmailObfuscationResp}
+   */
+  public ServiceCall<EmailObfuscationResp> updateEmailObfuscation(UpdateEmailObfuscationOptions updateEmailObfuscationOptions) {
+    boolean skipBody = false;
+    if (updateEmailObfuscationOptions == null) {
+      updateEmailObfuscationOptions = new UpdateEmailObfuscationOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/email_obfuscation", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateEmailObfuscation");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateEmailObfuscationOptions.value() != null) {
+        contentJson.addProperty("value", updateEmailObfuscationOptions.value());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<EmailObfuscationResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<EmailObfuscationResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update email address obfuscation setting.
+   *
+   * Update email address obfuscation setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link EmailObfuscationResp}
+   */
+  public ServiceCall<EmailObfuscationResp> updateEmailObfuscation() {
+    return updateEmailObfuscation(null);
   }
 
 }

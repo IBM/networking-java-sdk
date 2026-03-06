@@ -15,21 +15,22 @@ package com.ibm.cloud.networking.zones_settings.v1;
 
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.networking.zones_settings.v1.model.AlwaysUseHttpsResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.AlwaysUseHttpsRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.AutomaticHttpsRewritesResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.AutomaticHttpsRewritesRespResult;
+import com.ibm.cloud.networking.zones_settings.v1.model.BotMgtResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.BotMgtSettings;
+import com.ibm.cloud.networking.zones_settings.v1.model.BrotliResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.BrowserCheckResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.BrowserCheckRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ChallengeTtlResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.ChallengeTtlRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.CiphersResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.CiphersRespResult;
-import com.ibm.cloud.networking.zones_settings.v1.model.CnameFlatteningResponse;
+import com.ibm.cloud.networking.zones_settings.v1.model.EmailObfuscationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetAlwaysUseHttpsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetAutomaticHttpsRewritesOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetBotManagementOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetBrotliOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetBrowserCheckOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetChallengeTtlOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetCiphersOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetEmailObfuscationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetHttp2Options;
@@ -38,13 +39,19 @@ import com.ibm.cloud.networking.zones_settings.v1.model.GetImageLoadOptimization
 import com.ibm.cloud.networking.zones_settings.v1.model.GetImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetIpGeolocationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetIpv6Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetLogRetentionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetMaxUploadOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetMinTlsVersionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetMinifyOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetMobileRedirectOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetOpportunisticEncryptionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetOpportunisticOnionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetOriginMaxHttpVersionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetOriginPostQuantumEncryptionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetPrefetchPreloadOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetProxyReadTimeoutOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetPseudoIpv4Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetReplaceInsecureJsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetResponseBufferingOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetScriptLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetSecurityHeaderOptions;
@@ -56,60 +63,44 @@ import com.ibm.cloud.networking.zones_settings.v1.model.GetWebSocketsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetZoneCnameFlatteningOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetZoneDnssecOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.HotlinkProtectionResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.HotlinkProtectionRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.Http2Resp;
-import com.ibm.cloud.networking.zones_settings.v1.model.Http2RespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.Http3Resp;
-import com.ibm.cloud.networking.zones_settings.v1.model.Http3RespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageLoadOptimizationResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.ImageLoadOptimizationRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ImageSizeOptimizationResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.ImageSizeOptimizationRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.IpGeolocationResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.IpGeolocationRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.Ipv6Resp;
-import com.ibm.cloud.networking.zones_settings.v1.model.Ipv6RespResult;
+import com.ibm.cloud.networking.zones_settings.v1.model.LogRetentionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.MaxUploadResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.MaxUploadRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.MinTlsVersionResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.MinTlsVersionRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.MinifyResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.MinifyRespResult;
-import com.ibm.cloud.networking.zones_settings.v1.model.MinifyRespResultValue;
 import com.ibm.cloud.networking.zones_settings.v1.model.MinifySettingValue;
 import com.ibm.cloud.networking.zones_settings.v1.model.MobileRedirecSettingValue;
 import com.ibm.cloud.networking.zones_settings.v1.model.MobileRedirectResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.MobileRedirectRespResult;
-import com.ibm.cloud.networking.zones_settings.v1.model.MobileRedirectRespResultValue;
 import com.ibm.cloud.networking.zones_settings.v1.model.OpportunisticEncryptionResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.OpportunisticEncryptionRespResult;
+import com.ibm.cloud.networking.zones_settings.v1.model.OpportunisticOnionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.OriginErrorPagePassThruResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.OriginErrorPagePassThruRespResult;
+import com.ibm.cloud.networking.zones_settings.v1.model.OriginMaxHttpVersionResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.OriginPostQuantumEncryptionResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.PrefetchPreloadResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.PrefetchPreloadRespResult;
+import com.ibm.cloud.networking.zones_settings.v1.model.ProxyReadTimeoutResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.PseudoIpv4Resp;
-import com.ibm.cloud.networking.zones_settings.v1.model.PseudoIpv4RespResult;
+import com.ibm.cloud.networking.zones_settings.v1.model.ReplaceInsecureJsResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ResponseBufferingResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.ResponseBufferingRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ScriptLoadOptimizationResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.ScriptLoadOptimizationRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderRespResult;
-import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderRespResultValue;
-import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderRespResultValueStrictTransportSecurity;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderSettingValue;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderSettingValueStrictTransportSecurity;
 import com.ibm.cloud.networking.zones_settings.v1.model.ServerSideExcludeResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.ServerSideExcludeRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.TlsClientAuthResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.TlsClientAuthRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.TrueClientIpResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.TrueClientIpRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateAlwaysUseHttpsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateAutomaticHttpsRewritesOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateBotManagementOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateBrotliOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateBrowserCheckOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateChallengeTtlOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateCiphersOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateEmailObfuscationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateEnableErrorPagesOnOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHotlinkProtectionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateHttp2Options;
@@ -118,13 +109,19 @@ import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageLoadOptimizat
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateImageSizeOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateIpGeolocationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateIpv6Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateLogRetentionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateMaxUploadOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateMinTlsVersionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateMinifyOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateMobileRedirectOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateOpportunisticEncryptionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateOpportunisticOnionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateOriginMaxHttpVersionOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateOriginPostQuantumEncryptionOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdatePrefetchPreloadOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateProxyReadTimeoutOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdatePseudoIpv4Options;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateReplaceInsecureJsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateResponseBufferingOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateScriptLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateSecurityHeaderOptions;
@@ -136,20 +133,15 @@ import com.ibm.cloud.networking.zones_settings.v1.model.UpdateWebSocketsOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateZoneCnameFlatteningOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateZoneDnssecOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.WafResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.WafRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.WebsocketsResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.WebsocketsRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ZonesCnameFlatteningResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ZonesDnssecResp;
-import com.ibm.cloud.networking.zones_settings.v1.model.ZonesDnssecRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -173,6 +165,7 @@ public class ZonesSettingsIT extends SdkIntegrationTestBase {
    * This method provides our config filename to the base class.
    */
 
+  @Override
   public String getConfigFilename() {
     return "../../cloud_internet_services.env";
   }
@@ -1500,6 +1493,464 @@ public class ZonesSettingsIT extends SdkIntegrationTestBase {
       CiphersResp ciphersRespResult = response.getResult();
 
       assertNotNull(ciphersRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetOpportunisticOnion() throws Exception {
+    try {
+      GetOpportunisticOnionOptions getOpportunisticOnionOptions = new GetOpportunisticOnionOptions();
+
+      // Invoke operation
+      Response<OpportunisticOnionResp> response = service.getOpportunisticOnion(getOpportunisticOnionOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      OpportunisticOnionResp opportunisticOnionRespResult = response.getResult();
+
+      assertNotNull(opportunisticOnionRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateOpportunisticOnion() throws Exception {
+    try {
+      // Get current value
+      GetOpportunisticOnionOptions getOptions = new GetOpportunisticOnionOptions();
+      Response<OpportunisticOnionResp> getResponse = service.getOpportunisticOnion(getOptions).execute();
+      OpportunisticOnionResp currentResp = getResponse.getResult();
+      String currentValue = currentResp.getResult().getValue();
+
+      // Toggle value
+      String newValue = "on".equals(currentValue) ? "off" : "on";
+
+      UpdateOpportunisticOnionOptions updateOpportunisticOnionOptions = new UpdateOpportunisticOnionOptions.Builder()
+        .value(newValue)
+        .build();
+
+      // Invoke operation
+      Response<OpportunisticOnionResp> response = service.updateOpportunisticOnion(updateOpportunisticOnionOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      OpportunisticOnionResp opportunisticOnionRespResult = response.getResult();
+
+      assertNotNull(opportunisticOnionRespResult);
+      assertTrue(opportunisticOnionRespResult.isSuccess());
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetBrotli() throws Exception {
+    try {
+      GetBrotliOptions getBrotliOptions = new GetBrotliOptions();
+
+      // Invoke operation
+      Response<BrotliResp> response = service.getBrotli(getBrotliOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      BrotliResp brotliRespResult = response.getResult();
+
+      assertNotNull(brotliRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateBrotli() throws Exception {
+    try {
+      // Get current value
+      GetBrotliOptions getOptions = new GetBrotliOptions();
+      Response<BrotliResp> getResponse = service.getBrotli(getOptions).execute();
+      BrotliResp currentResp = getResponse.getResult();
+      String currentValue = currentResp.getResult().getValue();
+
+      // Toggle value
+      String newValue = "on".equals(currentValue) ? "off" : "on";
+
+      UpdateBrotliOptions updateBrotliOptions = new UpdateBrotliOptions.Builder()
+        .value(newValue)
+        .build();
+
+      // Invoke operation
+      Response<BrotliResp> response = service.updateBrotli(updateBrotliOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      BrotliResp brotliRespResult = response.getResult();
+
+      assertNotNull(brotliRespResult);
+      assertTrue(brotliRespResult.isSuccess());
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetProxyReadTimeout() throws Exception {
+    try {
+      GetProxyReadTimeoutOptions getProxyReadTimeoutOptions = new GetProxyReadTimeoutOptions();
+
+      // Invoke operation
+      Response<ProxyReadTimeoutResp> response = service.getProxyReadTimeout(getProxyReadTimeoutOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      ProxyReadTimeoutResp proxyReadTimeoutRespResult = response.getResult();
+
+      assertNotNull(proxyReadTimeoutRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateProxyReadTimeout() throws Exception {
+    try {
+      UpdateProxyReadTimeoutOptions updateProxyReadTimeoutOptions = new UpdateProxyReadTimeoutOptions.Builder()
+        .value(100.0)
+        .build();
+
+      // Invoke operation
+      Response<ProxyReadTimeoutResp> response = service.updateProxyReadTimeout(updateProxyReadTimeoutOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      ProxyReadTimeoutResp proxyReadTimeoutRespResult = response.getResult();
+
+      assertNotNull(proxyReadTimeoutRespResult);
+      assertTrue(proxyReadTimeoutRespResult.isSuccess());
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetOriginMaxHttpVersion() throws Exception {
+    try {
+      GetOriginMaxHttpVersionOptions getOriginMaxHttpVersionOptions = new GetOriginMaxHttpVersionOptions();
+
+      // Invoke operation
+      Response<OriginMaxHttpVersionResp> response = service.getOriginMaxHttpVersion(getOriginMaxHttpVersionOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      OriginMaxHttpVersionResp originMaxHttpVersionRespResult = response.getResult();
+
+      assertNotNull(originMaxHttpVersionRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateOriginMaxHttpVersion() throws Exception {
+    try {
+      // Get current value
+      GetOriginMaxHttpVersionOptions getOptions = new GetOriginMaxHttpVersionOptions();
+      Response<OriginMaxHttpVersionResp> getResponse = service.getOriginMaxHttpVersion(getOptions).execute();
+      OriginMaxHttpVersionResp currentResp = getResponse.getResult();
+      String currentValue = currentResp.getResult().getValue();
+
+      // Toggle value between "2" and "1"
+      String newValue = "2".equals(currentValue) ? "1" : "2";
+
+      UpdateOriginMaxHttpVersionOptions updateOriginMaxHttpVersionOptions = new UpdateOriginMaxHttpVersionOptions.Builder()
+        .value(newValue)
+        .build();
+
+      // Invoke operation
+      Response<OriginMaxHttpVersionResp> response = service.updateOriginMaxHttpVersion(updateOriginMaxHttpVersionOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      OriginMaxHttpVersionResp originMaxHttpVersionRespResult = response.getResult();
+
+      assertNotNull(originMaxHttpVersionRespResult);
+      assertTrue(originMaxHttpVersionRespResult.isSuccess());
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetOriginPostQuantumEncryption() throws Exception {
+    try {
+      GetOriginPostQuantumEncryptionOptions getOriginPostQuantumEncryptionOptions = new GetOriginPostQuantumEncryptionOptions();
+
+      // Invoke operation
+      Response<OriginPostQuantumEncryptionResp> response = service.getOriginPostQuantumEncryption(getOriginPostQuantumEncryptionOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      OriginPostQuantumEncryptionResp originPostQuantumEncryptionRespResult = response.getResult();
+
+      assertNotNull(originPostQuantumEncryptionRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateOriginPostQuantumEncryption() throws Exception {
+    try {
+      UpdateOriginPostQuantumEncryptionOptions updateOriginPostQuantumEncryptionOptions = new UpdateOriginPostQuantumEncryptionOptions.Builder()
+        .value(UpdateOriginPostQuantumEncryptionOptions.Value.PREFERRED)
+        .build();
+
+      // Invoke operation
+      Response<OriginPostQuantumEncryptionResp> response = service.updateOriginPostQuantumEncryption(updateOriginPostQuantumEncryptionOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      OriginPostQuantumEncryptionResp originPostQuantumEncryptionRespResult = response.getResult();
+
+      assertNotNull(originPostQuantumEncryptionRespResult);
+      assertTrue(originPostQuantumEncryptionRespResult.isSuccess());
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetLogRetention() throws Exception {
+    try {
+      GetLogRetentionOptions getLogRetentionOptions = new GetLogRetentionOptions.Builder()
+        .crn(crn)
+        .zoneIdentifier(zoneIdentifier)
+        .build();
+
+      // Invoke operation
+      Response<LogRetentionResp> response = service.getLogRetention(getLogRetentionOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      LogRetentionResp logRetentionRespResult = response.getResult();
+
+      assertNotNull(logRetentionRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateLogRetention() throws Exception {
+    try {
+      // Get current value
+      GetLogRetentionOptions getOptions = new GetLogRetentionOptions.Builder()
+        .crn(crn)
+        .zoneIdentifier(zoneIdentifier)
+        .build();
+      Response<LogRetentionResp> getResponse = service.getLogRetention(getOptions).execute();
+      LogRetentionResp currentResp = getResponse.getResult();
+      Boolean currentFlag = currentResp.getResult().isFlag();
+
+      // Toggle value
+      Boolean newFlag = !Boolean.TRUE.equals(currentFlag);
+
+      UpdateLogRetentionOptions updateLogRetentionOptions = new UpdateLogRetentionOptions.Builder()
+        .crn(crn)
+        .zoneIdentifier(zoneIdentifier)
+        .flag(newFlag)
+        .build();
+
+      // Invoke operation
+      Response<LogRetentionResp> response = service.updateLogRetention(updateLogRetentionOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      LogRetentionResp logRetentionRespResult = response.getResult();
+
+      assertNotNull(logRetentionRespResult);
+      assertTrue(logRetentionRespResult.isSuccess());
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetBotManagement() throws Exception {
+    try {
+      GetBotManagementOptions getBotManagementOptions = new GetBotManagementOptions();
+
+      // Invoke operation
+      Response<BotMgtResp> response = service.getBotManagement(getBotManagementOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      BotMgtResp botMgtRespResult = response.getResult();
+
+      assertNotNull(botMgtRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateBotManagement() throws Exception {
+    try {
+      // Get current settings
+      GetBotManagementOptions getOptions = new GetBotManagementOptions();
+      Response<BotMgtResp> getResponse = service.getBotManagement(getOptions).execute();
+      BotMgtResp currentResp = getResponse.getResult();
+      BotMgtSettings currentSettings = currentResp.getResult();
+
+      UpdateBotManagementOptions updateBotManagementOptions = new UpdateBotManagementOptions.Builder()
+        .sessionScore(currentSettings.sessionScore())
+        .enableJs(currentSettings.enableJs())
+        .useLatestModel(currentSettings.useLatestModel())
+        .aiBotsProtection(currentSettings.aiBotsProtection())
+        .build();
+
+      // Invoke operation
+      Response<BotMgtResp> response = service.updateBotManagement(updateBotManagementOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      BotMgtResp botMgtRespResult = response.getResult();
+
+      assertNotNull(botMgtRespResult);
+      assertTrue(botMgtRespResult.isSuccess());
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetReplaceInsecureJs() throws Exception {
+    try {
+      GetReplaceInsecureJsOptions getReplaceInsecureJsOptions = new GetReplaceInsecureJsOptions();
+
+      // Invoke operation
+      Response<ReplaceInsecureJsResp> response = service.getReplaceInsecureJs(getReplaceInsecureJsOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      ReplaceInsecureJsResp replaceInsecureJsRespResult = response.getResult();
+
+      assertNotNull(replaceInsecureJsRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateReplaceInsecureJs() throws Exception {
+    try {
+      // Get current value
+      GetReplaceInsecureJsOptions getOptions = new GetReplaceInsecureJsOptions();
+      Response<ReplaceInsecureJsResp> getResponse = service.getReplaceInsecureJs(getOptions).execute();
+      ReplaceInsecureJsResp currentResp = getResponse.getResult();
+      String currentValue = currentResp.getResult().getValue();
+
+      // Toggle value
+      String newValue = "on".equals(currentValue) ? "off" : "on";
+
+      UpdateReplaceInsecureJsOptions updateReplaceInsecureJsOptions = new UpdateReplaceInsecureJsOptions.Builder()
+        .value(newValue)
+        .build();
+
+      // Invoke operation
+      Response<ReplaceInsecureJsResp> response = service.updateReplaceInsecureJs(updateReplaceInsecureJsOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      ReplaceInsecureJsResp replaceInsecureJsRespResult = response.getResult();
+
+      assertNotNull(replaceInsecureJsRespResult);
+      assertTrue(replaceInsecureJsRespResult.isSuccess());
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testGetEmailObfuscation() throws Exception {
+    try {
+      GetEmailObfuscationOptions getEmailObfuscationOptions = new GetEmailObfuscationOptions();
+
+      // Invoke operation
+      Response<EmailObfuscationResp> response = service.getEmailObfuscation(getEmailObfuscationOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      EmailObfuscationResp emailObfuscationRespResult = response.getResult();
+
+      assertNotNull(emailObfuscationRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testUpdateEmailObfuscation() throws Exception {
+    try {
+      // Get current value
+      GetEmailObfuscationOptions getOptions = new GetEmailObfuscationOptions();
+      Response<EmailObfuscationResp> getResponse = service.getEmailObfuscation(getOptions).execute();
+      EmailObfuscationResp currentResp = getResponse.getResult();
+      String currentValue = currentResp.getResult().getValue();
+
+      // Toggle value
+      String newValue = "on".equals(currentValue) ? "off" : "on";
+
+      UpdateEmailObfuscationOptions updateEmailObfuscationOptions = new UpdateEmailObfuscationOptions.Builder()
+        .value(newValue)
+        .build();
+
+      // Invoke operation
+      Response<EmailObfuscationResp> response = service.updateEmailObfuscation(updateEmailObfuscationOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      EmailObfuscationResp emailObfuscationRespResult = response.getResult();
+
+      assertNotNull(emailObfuscationRespResult);
+      assertTrue(emailObfuscationRespResult.isSuccess());
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s\nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));

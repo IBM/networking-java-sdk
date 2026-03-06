@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,9 +13,9 @@
 
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdatePrefetchPreloadOptions;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +32,8 @@ public class UpdatePrefetchPreloadOptionsTest {
   @Test
   public void testUpdatePrefetchPreloadOptions() throws Throwable {
     UpdatePrefetchPreloadOptions updatePrefetchPreloadOptionsModel = new UpdatePrefetchPreloadOptions.Builder()
-      .value("true")
+      .value("on")
       .build();
-    assertEquals(updatePrefetchPreloadOptionsModel.value(), "true");
+    assertEquals(updatePrefetchPreloadOptionsModel.value(), "on");
   }
 }

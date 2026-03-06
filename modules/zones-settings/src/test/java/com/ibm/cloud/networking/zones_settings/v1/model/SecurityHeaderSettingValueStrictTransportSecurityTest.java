@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,9 +13,9 @@
 
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderSettingValueStrictTransportSecurity;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -35,11 +35,13 @@ public class SecurityHeaderSettingValueStrictTransportSecurityTest {
       .enabled(true)
       .maxAge(Long.valueOf("86400"))
       .includeSubdomains(true)
+      .preload(true)
       .nosniff(true)
       .build();
     assertEquals(securityHeaderSettingValueStrictTransportSecurityModel.enabled(), Boolean.valueOf(true));
     assertEquals(securityHeaderSettingValueStrictTransportSecurityModel.maxAge(), Long.valueOf("86400"));
     assertEquals(securityHeaderSettingValueStrictTransportSecurityModel.includeSubdomains(), Boolean.valueOf(true));
+    assertEquals(securityHeaderSettingValueStrictTransportSecurityModel.preload(), Boolean.valueOf(true));
     assertEquals(securityHeaderSettingValueStrictTransportSecurityModel.nosniff(), Boolean.valueOf(true));
 
     String json = TestUtilities.serialize(securityHeaderSettingValueStrictTransportSecurityModel);
@@ -49,6 +51,7 @@ public class SecurityHeaderSettingValueStrictTransportSecurityTest {
     assertEquals(securityHeaderSettingValueStrictTransportSecurityModelNew.enabled(), Boolean.valueOf(true));
     assertEquals(securityHeaderSettingValueStrictTransportSecurityModelNew.maxAge(), Long.valueOf("86400"));
     assertEquals(securityHeaderSettingValueStrictTransportSecurityModelNew.includeSubdomains(), Boolean.valueOf(true));
+    assertEquals(securityHeaderSettingValueStrictTransportSecurityModelNew.preload(), Boolean.valueOf(true));
     assertEquals(securityHeaderSettingValueStrictTransportSecurityModelNew.nosniff(), Boolean.valueOf(true));
   }
 
