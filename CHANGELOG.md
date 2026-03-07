@@ -1,3 +1,10 @@
+# [0.43.0](https://github.com/IBM/networking-java-sdk/compare/0.42.4...0.43.0) (2026-03-07)
+
+
+### Features
+
+* **cis/zone-settings:** updated zone settings with latest specs ([#185](https://github.com/IBM/networking-java-sdk/issues/185)) ([2fcc180](https://github.com/IBM/networking-java-sdk/commit/2fcc180a333985a2d9bc4dc0b8051f5ebb2738be))
+
 ## [0.42.4](https://github.com/IBM/networking-java-sdk/compare/0.42.3...0.42.4) (2026-02-28)
 
 
