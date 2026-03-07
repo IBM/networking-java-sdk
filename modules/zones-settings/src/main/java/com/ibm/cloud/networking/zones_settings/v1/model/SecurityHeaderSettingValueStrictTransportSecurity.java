@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,6 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
 import com.google.gson.annotations.SerializedName;
@@ -25,6 +26,7 @@ public class SecurityHeaderSettingValueStrictTransportSecurity extends GenericMo
   protected Long maxAge;
   @SerializedName("include_subdomains")
   protected Boolean includeSubdomains;
+  protected Boolean preload;
   protected Boolean nosniff;
 
   /**
@@ -34,12 +36,19 @@ public class SecurityHeaderSettingValueStrictTransportSecurity extends GenericMo
     private Boolean enabled;
     private Long maxAge;
     private Boolean includeSubdomains;
+    private Boolean preload;
     private Boolean nosniff;
 
+    /**
+     * Instantiates a new Builder from an existing SecurityHeaderSettingValueStrictTransportSecurity instance.
+     *
+     * @param securityHeaderSettingValueStrictTransportSecurity the instance to initialize the Builder with
+     */
     private Builder(SecurityHeaderSettingValueStrictTransportSecurity securityHeaderSettingValueStrictTransportSecurity) {
       this.enabled = securityHeaderSettingValueStrictTransportSecurity.enabled;
       this.maxAge = securityHeaderSettingValueStrictTransportSecurity.maxAge;
       this.includeSubdomains = securityHeaderSettingValueStrictTransportSecurity.includeSubdomains;
+      this.preload = securityHeaderSettingValueStrictTransportSecurity.preload;
       this.nosniff = securityHeaderSettingValueStrictTransportSecurity.nosniff;
     }
 
@@ -55,12 +64,14 @@ public class SecurityHeaderSettingValueStrictTransportSecurity extends GenericMo
      * @param enabled the enabled
      * @param maxAge the maxAge
      * @param includeSubdomains the includeSubdomains
+     * @param preload the preload
      * @param nosniff the nosniff
      */
-    public Builder(Boolean enabled, Long maxAge, Boolean includeSubdomains, Boolean nosniff) {
+    public Builder(Boolean enabled, Long maxAge, Boolean includeSubdomains, Boolean preload, Boolean nosniff) {
       this.enabled = enabled;
       this.maxAge = maxAge;
       this.includeSubdomains = includeSubdomains;
+      this.preload = preload;
       this.nosniff = nosniff;
     }
 
@@ -107,6 +118,17 @@ public class SecurityHeaderSettingValueStrictTransportSecurity extends GenericMo
     }
 
     /**
+     * Set the preload.
+     *
+     * @param preload the preload
+     * @return the SecurityHeaderSettingValueStrictTransportSecurity builder
+     */
+    public Builder preload(Boolean preload) {
+      this.preload = preload;
+      return this;
+    }
+
+    /**
      * Set the nosniff.
      *
      * @param nosniff the nosniff
@@ -118,6 +140,8 @@ public class SecurityHeaderSettingValueStrictTransportSecurity extends GenericMo
     }
   }
 
+  protected SecurityHeaderSettingValueStrictTransportSecurity() { }
+
   protected SecurityHeaderSettingValueStrictTransportSecurity(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.enabled,
       "enabled cannot be null");
@@ -125,11 +149,14 @@ public class SecurityHeaderSettingValueStrictTransportSecurity extends GenericMo
       "maxAge cannot be null");
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.includeSubdomains,
       "includeSubdomains cannot be null");
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.preload,
+      "preload cannot be null");
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.nosniff,
       "nosniff cannot be null");
     enabled = builder.enabled;
     maxAge = builder.maxAge;
     includeSubdomains = builder.includeSubdomains;
+    preload = builder.preload;
     nosniff = builder.nosniff;
   }
 
@@ -173,6 +200,17 @@ public class SecurityHeaderSettingValueStrictTransportSecurity extends GenericMo
    */
   public Boolean includeSubdomains() {
     return includeSubdomains;
+  }
+
+  /**
+   * Gets the preload.
+   *
+   * Whether or not to permit browsers to preload security_header config.
+   *
+   * @return the preload
+   */
+  public Boolean preload() {
+    return preload;
   }
 
   /**

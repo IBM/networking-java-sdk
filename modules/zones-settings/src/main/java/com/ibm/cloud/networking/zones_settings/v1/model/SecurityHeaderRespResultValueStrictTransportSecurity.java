@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,6 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
 import com.google.gson.annotations.SerializedName;
@@ -25,7 +26,10 @@ public class SecurityHeaderRespResultValueStrictTransportSecurity extends Generi
   protected Long maxAge;
   @SerializedName("include_subdomains")
   protected Boolean includeSubdomains;
+  protected Boolean preload;
   protected Boolean nosniff;
+
+  protected SecurityHeaderRespResultValueStrictTransportSecurity() { }
 
   /**
    * Gets the enabled.
@@ -58,6 +62,17 @@ public class SecurityHeaderRespResultValueStrictTransportSecurity extends Generi
    */
   public Boolean isIncludeSubdomains() {
     return includeSubdomains;
+  }
+
+  /**
+   * Gets the preload.
+   *
+   * Whether or not to permit browsers to preload security_header config.
+   *
+   * @return the preload
+   */
+  public Boolean isPreload() {
+    return preload;
   }
 
   /**

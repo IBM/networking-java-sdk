@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,6 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
 import com.google.gson.annotations.SerializedName;
@@ -29,6 +30,11 @@ public class SecurityHeaderSettingValue extends GenericModel {
   public static class Builder {
     private SecurityHeaderSettingValueStrictTransportSecurity strictTransportSecurity;
 
+    /**
+     * Instantiates a new Builder from an existing SecurityHeaderSettingValue instance.
+     *
+     * @param securityHeaderSettingValue the instance to initialize the Builder with
+     */
     private Builder(SecurityHeaderSettingValue securityHeaderSettingValue) {
       this.strictTransportSecurity = securityHeaderSettingValue.strictTransportSecurity;
     }
@@ -68,6 +74,8 @@ public class SecurityHeaderSettingValue extends GenericModel {
       return this;
     }
   }
+
+  protected SecurityHeaderSettingValue() { }
 
   protected SecurityHeaderSettingValue(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(builder.strictTransportSecurity,

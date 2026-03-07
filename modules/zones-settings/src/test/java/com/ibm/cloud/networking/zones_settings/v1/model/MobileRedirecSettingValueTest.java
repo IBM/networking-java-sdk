@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,9 +13,9 @@
 
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.zones_settings.v1.model.MobileRedirecSettingValue;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +32,11 @@ public class MobileRedirecSettingValueTest {
   @Test
   public void testMobileRedirecSettingValue() throws Throwable {
     MobileRedirecSettingValue mobileRedirecSettingValueModel = new MobileRedirecSettingValue.Builder()
-      .status("true")
+      .status("on")
       .mobileSubdomain("m")
       .stripUri(false)
       .build();
-    assertEquals(mobileRedirecSettingValueModel.status(), "true");
+    assertEquals(mobileRedirecSettingValueModel.status(), "on");
     assertEquals(mobileRedirecSettingValueModel.mobileSubdomain(), "m");
     assertEquals(mobileRedirecSettingValueModel.stripUri(), Boolean.valueOf(false));
 
@@ -44,7 +44,7 @@ public class MobileRedirecSettingValueTest {
 
     MobileRedirecSettingValue mobileRedirecSettingValueModelNew = TestUtilities.deserialize(json, MobileRedirecSettingValue.class);
     assertTrue(mobileRedirecSettingValueModelNew instanceof MobileRedirecSettingValue);
-    assertEquals(mobileRedirecSettingValueModelNew.status(), "true");
+    assertEquals(mobileRedirecSettingValueModelNew.status(), "on");
     assertEquals(mobileRedirecSettingValueModelNew.mobileSubdomain(), "m");
     assertEquals(mobileRedirecSettingValueModelNew.stripUri(), Boolean.valueOf(false));
   }

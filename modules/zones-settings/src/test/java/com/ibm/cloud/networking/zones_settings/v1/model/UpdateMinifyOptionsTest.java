@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,10 +13,10 @@
 
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.zones_settings.v1.model.MinifySettingValue;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateMinifyOptions;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -33,13 +33,13 @@ public class UpdateMinifyOptionsTest {
   @Test
   public void testUpdateMinifyOptions() throws Throwable {
     MinifySettingValue minifySettingValueModel = new MinifySettingValue.Builder()
-      .css("false")
-      .html("false")
-      .js("false")
+      .css("off")
+      .html("off")
+      .js("off")
       .build();
-    assertEquals(minifySettingValueModel.css(), "false");
-    assertEquals(minifySettingValueModel.html(), "false");
-    assertEquals(minifySettingValueModel.js(), "false");
+    assertEquals(minifySettingValueModel.css(), "off");
+    assertEquals(minifySettingValueModel.html(), "off");
+    assertEquals(minifySettingValueModel.js(), "off");
 
     UpdateMinifyOptions updateMinifyOptionsModel = new UpdateMinifyOptions.Builder()
       .value(minifySettingValueModel)
