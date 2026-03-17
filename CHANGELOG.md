@@ -1,3 +1,10 @@
+# [0.44.0](https://github.com/IBM/networking-java-sdk/compare/0.43.0...0.44.0) (2026-03-17)
+
+
+### Features
+
+* **directlink:** add Secrets Manager support for authentication_key ([#183](https://github.com/IBM/networking-java-sdk/issues/183)) ([8a113d0](https://github.com/IBM/networking-java-sdk/commit/8a113d0fc9091e89ef5db2571cbe8e929d73f5eb))
+
 # [0.43.0](https://github.com/IBM/networking-java-sdk/compare/0.42.4...0.43.0) (2026-03-07)
 
 
