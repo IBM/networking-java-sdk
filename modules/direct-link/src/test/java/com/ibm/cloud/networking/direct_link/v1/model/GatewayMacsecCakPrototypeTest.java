@@ -13,8 +13,8 @@
 
 package com.ibm.cloud.networking.direct_link.v1.model;
 
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakKeyReferenceHpcsCakKeyReference;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakPrototype;
-import com.ibm.cloud.networking.direct_link.v1.model.HpcsKeyIdentity;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -32,17 +32,17 @@ public class GatewayMacsecCakPrototypeTest {
 
   @Test
   public void testGatewayMacsecCakPrototype() throws Throwable {
-    HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+    GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
-    assertEquals(hpcsKeyIdentityModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
+    assertEquals(hpcsCakKeyReferenceModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
 
     GatewayMacsecCakPrototype gatewayMacsecCakPrototypeModel = new GatewayMacsecCakPrototype.Builder()
-      .key(hpcsKeyIdentityModel)
+      .key(hpcsCakKeyReferenceModel)
       .name("1000")
       .session("primary")
       .build();
-    assertEquals(gatewayMacsecCakPrototypeModel.key(), hpcsKeyIdentityModel);
+    assertEquals(gatewayMacsecCakPrototypeModel.key(), hpcsCakKeyReferenceModel);
     assertEquals(gatewayMacsecCakPrototypeModel.name(), "1000");
     assertEquals(gatewayMacsecCakPrototypeModel.session(), "primary");
 
@@ -50,7 +50,7 @@ public class GatewayMacsecCakPrototypeTest {
 
     GatewayMacsecCakPrototype gatewayMacsecCakPrototypeModelNew = TestUtilities.deserialize(json, GatewayMacsecCakPrototype.class);
     assertTrue(gatewayMacsecCakPrototypeModelNew instanceof GatewayMacsecCakPrototype);
-    assertEquals(gatewayMacsecCakPrototypeModelNew.key().toString(), hpcsKeyIdentityModel.toString());
+    assertEquals(gatewayMacsecCakPrototypeModelNew.key().toString(), hpcsCakKeyReferenceModel.toString());
     assertEquals(gatewayMacsecCakPrototypeModelNew.name(), "1000");
     assertEquals(gatewayMacsecCakPrototypeModelNew.session(), "primary");
   }

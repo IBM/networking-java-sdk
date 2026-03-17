@@ -73,7 +73,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayResponse;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayVirtualConnectionOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetPortOptions;
-import com.ibm.cloud.networking.direct_link.v1.model.HpcsKeyIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakKeyReferenceHpcsCakKeyReference;
 import com.ibm.cloud.networking.direct_link.v1.model.ImportRouteFilterCollection;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayAsPrependsOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.ListGatewayCompletionNoticeOptions;
@@ -125,6 +125,8 @@ import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayExportRouteFilter
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayImportRouteFilterOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayMacsecCakOptions;
 import com.ibm.cloud.networking.direct_link.v1.model.GetGatewayMacsecOptions;
+import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity;
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
@@ -1550,14 +1552,14 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	// Test setGatewayMacsec
 	@Test(dependsOnMethods = "testConnectGatewayOptions")
 	public void testSetGatewayMacsec() {
-		// Construct an instance of the HpcsKeyIdentity model
-		HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+		// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+		GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
 		.crn("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:ebc0fbe6-fd7c-4971-b127-71a385c8f602")
 		.build();
-
+	
 		// Construct an instance of the GatewayMacsecCakPrototype model
 		GatewayMacsecCakPrototype gatewayMacsecCakPrototypeModel = new GatewayMacsecCakPrototype.Builder()
-		.key(hpcsKeyIdentityModel)
+		.key(hpcsCakKeyReferenceModel)
 		.name("AA01")
 		.session("primary")
 		.build();
@@ -1625,15 +1627,15 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	// Test createGatewayMacsecCak
 	@Test(dependsOnMethods = "testCreateGatewayMacsecCak")
 	public void testCreateGatewayMacsecCak() {
-		// Construct an instance of the HpcsKeyIdentity model
-		HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+		// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+		GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
 		.crn("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6")
 		.build();
 
 		// Construct an instance of the CreateGatewayMacsecCakOptions model
 		CreateGatewayMacsecCakOptions createGatewayMacsecCakOptionsModel = new CreateGatewayMacsecCakOptions.Builder()
 		.id(connectGatewayId)
-		.key(hpcsKeyIdentityModel)
+		.key(hpcsCakKeyReferenceModel)
 		.name("BB02")
 		.session("fallback")
 		.build();
@@ -1669,14 +1671,14 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 	// Test updateGatewayMacsecCak
 	@Test(dependsOnMethods = "testCreateGatewayMacsecCak")
 	public void testUpdateGatewayMacsecCak() {
-		// Construct an instance of the HpcsKeyIdentity model
-		HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+		// Construct an instance of the GatewayMacsecCakKeyReferenceHpcsCakKeyReference model
+		GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
 		.crn("crn:v1:staging:public:hs-crypto:us-south:a/3f455c4c574447adbc14bda52f80e62f:b2044455-b89e-4c57-96ae-3f17c092dd31:key:6f79b964-229c-45ab-b1d9-47e111cd03f6")
 		.build();
-
+	
 		// Construct an instance of the GatewayMacsecCakPatch model
 		GatewayMacsecCakPatch gatewayMacsecCakPatchModel = new GatewayMacsecCakPatch.Builder()
-		.key(hpcsKeyIdentityModel)
+		.key(hpcsCakKeyReferenceModel)
 		.name("AA02")
 		.build();
 		Map<String, Object> gatewayMacsecCakPatchModelAsPatch = gatewayMacsecCakPatchModel.asPatch();
@@ -1841,82 +1843,154 @@ public class DirectLinkIT extends SdkIntegrationTestBase {
 		assertNotEquals(0,resObj.getSpeeds().size());
 	}
 
-	// @Test()
-	// public void testDirectLinkGatewayWithMD5(){
-	// 	Long timestamp = new Timestamp(System.currentTimeMillis()).getTime(); 
-	// 	assertNotNull(testService);
-	// 	String locationName = config.get("LOCATION_NAME");
-	// 	String gatewayName = "JAVA-INT-SDK-DEDICATED-MD5-"+timestamp; 
-	// 	Long bgpAsn = 64999L; 
-	// 	String bgpBaseCidr = "169.254.0.0/16"; 
-	// 	String crossConnectRouter =	"LAB-xcr01.dal09"; 
-	// 	boolean global = true; 
-	// 	Long speedMbps = 1000L; 
-	// 	boolean metered = false; 
-	// 	String carrierName = "carrier1"; 
-	// 	String customerName = "customer1"; 
-	// 	String gatewayType = "dedicated";
+	@Test()
+	public void testDirectLinkGatewayWithMD5(){
+		Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
+		assertNotNull(testService);
+		String locationName = config.get("LOCATION_NAME");
+		Long bgpAsn = 64999L;
+		String bgpBaseCidr = "169.254.0.0/16";
+		String crossConnectRouter = "LAB-xcr01.dal09";
+		boolean global = true;
+		Long speedMbps = 1000L;
+		boolean metered = false;
+		String carrierName = "carrier1";
+		String customerName = "customer1";
+		String gatewayType = "dedicated";
 
-	// 	String authenticationCRN = config.get("AUTHENTICATION_KEY");
+		// The AUTHENTICATION_KEY config value holds the CRN for the key (HPCS, Key Protect, or Secrets Manager).
+		// The same config key is reused for all key types; the CRN format identifies the service.
+		String authenticationCRN = config.get("AUTHENTICATION_KEY");
 
-	// 	GatewayTemplateAuthenticationKey authKey = new GatewayTemplateAuthenticationKey.Builder(authenticationCRN).build();
-	  
-	// 	GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
-	// 		.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).bgpCerCidr("10.254.30.78/30").bgpIbmCidr("10.254.30.77/30")
-	// 		.global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
-	// 		.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName) 
-	// 		.locationName(locationName).authenticationKey(authKey).build();
-	  
-	//   	// ***************** Create dedicated Gateway ********************* //
-	// 	// Construct an instance of the CreateGatewayOptions model 
-	// 	CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder().gatewayTemplate(gatewayTemplateModel).build();
-	  
-	// 	// Invoke operation with valid options model (positive test)
-	// 	Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
-	// 		assertNotNull(response); 
-	// 		assertEquals(201, 
-	// 		response.getStatusCode());
-	  
-	// 	Gateway responseObj = response.getResult(); 
-	// 	assertNotNull(responseObj);
-	// 	assertEquals(responseObj.getName(), gatewayName);
-	// 	assertEquals(responseObj.getAuthenticationKey().getCrn(), authenticationCRN);
-		
-	// 	// save gw id for clean up routine if we terminate
-	//   	gatewayId = responseObj.getId();
-	  
-	// 	// ********** Clear the authentication key using Patch gateway ************* 
-	// 	// Construct an instance of the UpdateGatewayOptions model 
+		// ***************** Test 1: HPCS / Key Protect authentication key ********************* //
+		String gatewayName = "JAVA-INT-SDK-DEDICATED-MD5-"+timestamp;
 
-	// 	GatewayPatchTemplateAuthenticationKey patchAuthKey = new GatewayPatchTemplateAuthenticationKey.Builder("").build();
-	// 	UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder().id(responseObj.getId())
-	// 		.authenticationKey(patchAuthKey).build();
-			
-	// 	// Invoke operation with valid options model (positive test) 
-	// 	Response<Gateway> updateResponse =	testService.updateGateway(updateGatewayOptionsModel).execute();
-	// 	assertNotNull(updateResponse); 
-	// 	assertEquals(200, updateResponse.getStatusCode());
-	  
-	// 	Gateway updateResponseObj = updateResponse.getResult();
-	// 	assertNotNull(updateResponseObj);
-	// 	assertEquals(updateResponseObj.getId(), gatewayId);
-	// 	assertNull(updateResponseObj.getAuthenticationKey());
-	// 	assertEquals(updateResponseObj.getName(), gatewayName);
+		// Build the authentication key identity using the HPCS subclass
+		AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity authKey =
+			new AuthenticationKeyIdentityHpcsAuthenticationKeyIdentity.Builder(authenticationCRN).build();
 
-	// 	// Delete the dedicated GW 
-	// 	DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId) .build(); 
-			
-	// 	//  Invoke operation with valid options model (positive test) 
-	// 	Response<Void>  Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
-	// 	assertNotNull(Delresponse); 
-	// 	assertEquals(204, Delresponse.getStatusCode());
-		
-	// 	Void delResponseObj = Delresponse.getResult(); // Response does not have a return type. Check that the result is null. 
-	// 	assertNull(delResponseObj);
-	  
-	//   	gatewayId = null; // already cleaned up System.out.
+		GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
+			.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).bgpCerCidr("10.254.30.86/30").bgpIbmCidr("10.254.30.85/30")
+			.global(global).metered(metered).name(gatewayName).speedMbps(speedMbps).type(gatewayType)
+			.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName)
+			.locationName(locationName).authenticationKey(authKey).build();
 
-	// }
+		// Construct an instance of the CreateGatewayOptions model
+		CreateGatewayOptions createGatewayOptionsModel = new CreateGatewayOptions.Builder().gatewayTemplate(gatewayTemplateModel).build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<Gateway> response = testService.createGateway(createGatewayOptionsModel).execute();
+		assertNotNull(response);
+		assertEquals(201, response.getStatusCode());
+
+		Gateway responseObj = response.getResult();
+		assertNotNull(responseObj);
+		assertEquals(responseObj.getName(), gatewayName);
+		assertEquals(responseObj.getAuthenticationKey().getCrn(), authenticationCRN);
+
+		// save gw id for clean up routine if we terminate
+		gatewayId = responseObj.getId();
+
+		// ********** Clear the HPCS authentication key using Patch gateway *************
+		// Construct an instance of the GatewayPatchTemplate model with null authenticationKey to clear it
+		GatewayPatchTemplate gatewayPatchTemplateModel = new GatewayPatchTemplate.Builder().build();
+		Map<String, Object> gatewayPatchTemplateModelAsPatch = gatewayPatchTemplateModel.asPatch();
+		// Explicitly set authentication_key to null in the patch map to clear it
+		gatewayPatchTemplateModelAsPatch.put("authentication_key", null);
+
+		UpdateGatewayOptions updateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
+			.id(responseObj.getId())
+			.gatewayPatchTemplatePatch(gatewayPatchTemplateModelAsPatch).build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<Gateway> updateResponse = testService.updateGateway(updateGatewayOptionsModel).execute();
+		assertNotNull(updateResponse);
+		assertEquals(200, updateResponse.getStatusCode());
+
+		Gateway updateResponseObj = updateResponse.getResult();
+		assertNotNull(updateResponseObj);
+		assertEquals(updateResponseObj.getId(), gatewayId);
+		assertNull(updateResponseObj.getAuthenticationKey());
+		assertEquals(updateResponseObj.getName(), gatewayName);
+
+		// Delete the dedicated GW
+		DeleteGatewayOptions deleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId).build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<Void> Delresponse = testService.deleteGateway(deleteGatewayOptionsModel).execute();
+		assertNotNull(Delresponse);
+		assertEquals(204, Delresponse.getStatusCode());
+
+		Void delResponseObj = Delresponse.getResult(); // Response does not have a return type. Check that the result is null.
+		assertNull(delResponseObj);
+
+		gatewayId = null; // already cleaned up
+
+		// ***************** Test 2: Secrets Manager authentication key ********************* //
+		// Reuses the same AUTHENTICATION_KEY config value - the CRN format identifies the key service type.
+		String gatewayNameSM = "JAVA-INT-SDK-DEDICATED-MD5-SM-"+timestamp;
+
+		// Build the authentication key identity using the Secrets Manager subclass
+		AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity smAuthKey =
+			new AuthenticationKeyIdentitySecretsManagerAuthenticationKeyIdentity.Builder(authenticationCRN).build();
+
+		GatewayTemplateGatewayTypeDedicatedTemplate gatewayTemplateSMModel = new GatewayTemplateGatewayTypeDedicatedTemplate.Builder()
+			.bgpAsn(bgpAsn).bgpBaseCidr(bgpBaseCidr).bgpCerCidr("10.254.30.90/30").bgpIbmCidr("10.254.30.89/30")
+			.global(global).metered(metered).name(gatewayNameSM).speedMbps(speedMbps).type(gatewayType)
+			.carrierName(carrierName).crossConnectRouter(crossConnectRouter).customerName(customerName)
+			.locationName(locationName).authenticationKey(smAuthKey).build();
+
+		// Construct an instance of the CreateGatewayOptions model
+		CreateGatewayOptions createGatewayOptionsSMModel = new CreateGatewayOptions.Builder().gatewayTemplate(gatewayTemplateSMModel).build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<Gateway> smResponse = testService.createGateway(createGatewayOptionsSMModel).execute();
+		assertNotNull(smResponse);
+		assertEquals(201, smResponse.getStatusCode());
+
+		Gateway smResponseObj = smResponse.getResult();
+		assertNotNull(smResponseObj);
+		assertEquals(smResponseObj.getName(), gatewayNameSM);
+		assertEquals(smResponseObj.getAuthenticationKey().getCrn(), authenticationCRN);
+
+		// save gw id for clean up routine if we terminate
+		gatewayId = smResponseObj.getId();
+
+		// ********** Clear the Secrets Manager authentication key using Patch gateway *************
+		// Construct an instance of the GatewayPatchTemplate model with null authenticationKey to clear it
+		GatewayPatchTemplate smGatewayPatchTemplateModel = new GatewayPatchTemplate.Builder().build();
+		Map<String, Object> smGatewayPatchTemplateModelAsPatch = smGatewayPatchTemplateModel.asPatch();
+		// Explicitly set authentication_key to null in the patch map to clear it
+		smGatewayPatchTemplateModelAsPatch.put("authentication_key", null);
+
+		UpdateGatewayOptions smUpdateGatewayOptionsModel = new UpdateGatewayOptions.Builder()
+			.id(smResponseObj.getId())
+			.gatewayPatchTemplatePatch(smGatewayPatchTemplateModelAsPatch).build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<Gateway> smUpdateResponse = testService.updateGateway(smUpdateGatewayOptionsModel).execute();
+		assertNotNull(smUpdateResponse);
+		assertEquals(200, smUpdateResponse.getStatusCode());
+
+		Gateway smUpdateResponseObj = smUpdateResponse.getResult();
+		assertNotNull(smUpdateResponseObj);
+		assertEquals(smUpdateResponseObj.getId(), gatewayId);
+		assertNull(smUpdateResponseObj.getAuthenticationKey());
+		assertEquals(smUpdateResponseObj.getName(), gatewayNameSM);
+
+		// Delete the dedicated GW
+		DeleteGatewayOptions smDeleteGatewayOptionsModel = new DeleteGatewayOptions.Builder().id(gatewayId).build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<Void> smDelresponse = testService.deleteGateway(smDeleteGatewayOptionsModel).execute();
+		assertNotNull(smDelresponse);
+		assertEquals(204, smDelresponse.getStatusCode());
+
+		Void smDelResponseObj = smDelresponse.getResult(); // Response does not have a return type. Check that the result is null.
+		assertNull(smDelResponseObj);
+
+		gatewayId = null; // already cleaned up
+	}
 	
 	@Test()
 	public void testDirectLinkDedicatedGatewayWithConnectionMode(){

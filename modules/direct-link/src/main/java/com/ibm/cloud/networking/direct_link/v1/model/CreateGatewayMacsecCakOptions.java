@@ -35,7 +35,7 @@ public class CreateGatewayMacsecCakOptions extends GenericModel {
   }
 
   protected String id;
-  protected HpcsKeyIdentity key;
+  protected GatewayMacsecCakKeyReference key;
   protected String name;
   protected String session;
 
@@ -44,7 +44,7 @@ public class CreateGatewayMacsecCakOptions extends GenericModel {
    */
   public static class Builder {
     private String id;
-    private HpcsKeyIdentity key;
+    private GatewayMacsecCakKeyReference key;
     private String name;
     private String session;
 
@@ -74,7 +74,7 @@ public class CreateGatewayMacsecCakOptions extends GenericModel {
      * @param name the name
      * @param session the session
      */
-    public Builder(String id, HpcsKeyIdentity key, String name, String session) {
+    public Builder(String id, GatewayMacsecCakKeyReference key, String name, String session) {
       this.id = id;
       this.key = key;
       this.name = name;
@@ -107,7 +107,7 @@ public class CreateGatewayMacsecCakOptions extends GenericModel {
      * @param key the key
      * @return the CreateGatewayMacsecCakOptions builder
      */
-    public Builder key(HpcsKeyIdentity key) {
+    public Builder key(GatewayMacsecCakKeyReference key) {
       this.key = key;
       return this;
     }
@@ -175,11 +175,12 @@ public class CreateGatewayMacsecCakOptions extends GenericModel {
   /**
    * Gets the key.
    *
-   * A [Hyper Protect Crypto Service Standard Key](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started).
+   * The key to use for this MACsec CAK. The key must be a reference to a key in a supported key management service
+   * (HPCS or Secrets Manager).
    *
    * @return the key
    */
-  public HpcsKeyIdentity key() {
+  public GatewayMacsecCakKeyReference key() {
     return key;
   }
 

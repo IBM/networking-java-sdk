@@ -21,7 +21,7 @@ import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakPrototype;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecPrototype;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateGatewayTypeDedicatedTemplate;
 import com.ibm.cloud.networking.direct_link.v1.model.GatewayTemplateRouteFilter;
-import com.ibm.cloud.networking.direct_link.v1.model.HpcsKeyIdentity;
+import com.ibm.cloud.networking.direct_link.v1.model.GatewayMacsecCakKeyReferenceHpcsCakKeyReference;
 import com.ibm.cloud.networking.direct_link.v1.model.ResourceGroupIdentity;
 import com.ibm.cloud.networking.direct_link.v1.model.SakRekeyPrototypeSakRekeyTimerModePrototype;
 import com.ibm.cloud.networking.direct_link.v1.utils.TestUtilities;
@@ -80,17 +80,17 @@ public class CreateGatewayOptionsTest {
       .build();
     assertEquals(resourceGroupIdentityModel.id(), "56969d6043e9465c883cb9f7363e78e8");
 
-    HpcsKeyIdentity hpcsKeyIdentityModel = new HpcsKeyIdentity.Builder()
+    GatewayMacsecCakKeyReferenceHpcsCakKeyReference hpcsCakKeyReferenceModel = new GatewayMacsecCakKeyReferenceHpcsCakKeyReference.Builder()
       .crn("crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222")
       .build();
-    assertEquals(hpcsKeyIdentityModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
+    assertEquals(hpcsCakKeyReferenceModel.crn(), "crn:v1:bluemix:public:hs-crypto:us-south:a/4111d05f36894e3cb9b46a43556d9000:abc111b8-37aa-4034-9def-f2607c87aaaa:key:bbb222bc-430a-4de9-9aad-84e5bb022222");
 
     GatewayMacsecCakPrototype gatewayMacsecCakPrototypeModel = new GatewayMacsecCakPrototype.Builder()
-      .key(hpcsKeyIdentityModel)
+      .key(hpcsCakKeyReferenceModel)
       .name("1000")
       .session("primary")
       .build();
-    assertEquals(gatewayMacsecCakPrototypeModel.key(), hpcsKeyIdentityModel);
+    assertEquals(gatewayMacsecCakPrototypeModel.key(), hpcsCakKeyReferenceModel);
     assertEquals(gatewayMacsecCakPrototypeModel.name(), "1000");
     assertEquals(gatewayMacsecCakPrototypeModel.session(), "primary");
 
