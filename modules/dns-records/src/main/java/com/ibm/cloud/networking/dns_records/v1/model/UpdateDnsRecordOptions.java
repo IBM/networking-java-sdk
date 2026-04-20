@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,6 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
 package com.ibm.cloud.networking.dns_records.v1.model;
 
 import java.util.Map;
@@ -41,10 +42,12 @@ public class UpdateDnsRecordOptions extends GenericModel {
     String LOC = "LOC";
     /** SRV. */
     String SRV = "SRV";
-    /** SPF. */
-    String SPF = "SPF";
+    /** PTR. */
+    String PTR = "PTR";
     /** CAA. */
     String CAA = "CAA";
+    /** DS. */
+    String DS = "DS";
   }
 
   protected String dnsrecordIdentifier;
@@ -69,6 +72,11 @@ public class UpdateDnsRecordOptions extends GenericModel {
     private Boolean proxied;
     private Map<String, Object> data;
 
+    /**
+     * Instantiates a new Builder from an existing UpdateDnsRecordOptions instance.
+     *
+     * @param updateDnsRecordOptions the instance to initialize the Builder with
+     */
     private Builder(UpdateDnsRecordOptions updateDnsRecordOptions) {
       this.dnsrecordIdentifier = updateDnsRecordOptions.dnsrecordIdentifier;
       this.name = updateDnsRecordOptions.name;
@@ -193,6 +201,8 @@ public class UpdateDnsRecordOptions extends GenericModel {
     }
   }
 
+  protected UpdateDnsRecordOptions() { }
+
   protected UpdateDnsRecordOptions(Builder builder) {
     com.ibm.cloud.sdk.core.util.Validator.notEmpty(builder.dnsrecordIdentifier,
       "dnsrecordIdentifier cannot be empty");
@@ -295,7 +305,7 @@ public class UpdateDnsRecordOptions extends GenericModel {
   /**
    * Gets the data.
    *
-   * For LOC, SRV and CAA records only.
+   * For LOC, SRV, CAA, DS records only.
    *
    * @return the data
    */

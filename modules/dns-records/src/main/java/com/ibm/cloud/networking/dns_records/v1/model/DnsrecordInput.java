@@ -18,9 +18,9 @@ import java.util.Map;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * The createDnsRecord options.
+ * dns record input.
  */
-public class CreateDnsRecordOptions extends GenericModel {
+public class DnsrecordInput extends GenericModel {
 
   /**
    * dns record type.
@@ -71,18 +71,18 @@ public class CreateDnsRecordOptions extends GenericModel {
     private Map<String, Object> data;
 
     /**
-     * Instantiates a new Builder from an existing CreateDnsRecordOptions instance.
+     * Instantiates a new Builder from an existing DnsrecordInput instance.
      *
-     * @param createDnsRecordOptions the instance to initialize the Builder with
+     * @param dnsrecordInput the instance to initialize the Builder with
      */
-    private Builder(CreateDnsRecordOptions createDnsRecordOptions) {
-      this.name = createDnsRecordOptions.name;
-      this.type = createDnsRecordOptions.type;
-      this.ttl = createDnsRecordOptions.ttl;
-      this.content = createDnsRecordOptions.content;
-      this.priority = createDnsRecordOptions.priority;
-      this.proxied = createDnsRecordOptions.proxied;
-      this.data = createDnsRecordOptions.data;
+    private Builder(DnsrecordInput dnsrecordInput) {
+      this.name = dnsrecordInput.name;
+      this.type = dnsrecordInput.type;
+      this.ttl = dnsrecordInput.ttl;
+      this.content = dnsrecordInput.content;
+      this.priority = dnsrecordInput.priority;
+      this.proxied = dnsrecordInput.proxied;
+      this.data = dnsrecordInput.data;
     }
 
     /**
@@ -92,19 +92,28 @@ public class CreateDnsRecordOptions extends GenericModel {
     }
 
     /**
-     * Builds a CreateDnsRecordOptions.
+     * Instantiates a new builder with required properties.
      *
-     * @return the new CreateDnsRecordOptions instance
+     * @param type the type
      */
-    public CreateDnsRecordOptions build() {
-      return new CreateDnsRecordOptions(this);
+    public Builder(String type) {
+      this.type = type;
+    }
+
+    /**
+     * Builds a DnsrecordInput.
+     *
+     * @return the new DnsrecordInput instance
+     */
+    public DnsrecordInput build() {
+      return new DnsrecordInput(this);
     }
 
     /**
      * Set the name.
      *
      * @param name the name
-     * @return the CreateDnsRecordOptions builder
+     * @return the DnsrecordInput builder
      */
     public Builder name(String name) {
       this.name = name;
@@ -115,7 +124,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the type.
      *
      * @param type the type
-     * @return the CreateDnsRecordOptions builder
+     * @return the DnsrecordInput builder
      */
     public Builder type(String type) {
       this.type = type;
@@ -126,7 +135,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the ttl.
      *
      * @param ttl the ttl
-     * @return the CreateDnsRecordOptions builder
+     * @return the DnsrecordInput builder
      */
     public Builder ttl(long ttl) {
       this.ttl = ttl;
@@ -137,7 +146,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the content.
      *
      * @param content the content
-     * @return the CreateDnsRecordOptions builder
+     * @return the DnsrecordInput builder
      */
     public Builder content(String content) {
       this.content = content;
@@ -148,7 +157,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the priority.
      *
      * @param priority the priority
-     * @return the CreateDnsRecordOptions builder
+     * @return the DnsrecordInput builder
      */
     public Builder priority(long priority) {
       this.priority = priority;
@@ -159,7 +168,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the proxied.
      *
      * @param proxied the proxied
-     * @return the CreateDnsRecordOptions builder
+     * @return the DnsrecordInput builder
      */
     public Builder proxied(Boolean proxied) {
       this.proxied = proxied;
@@ -170,7 +179,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the data.
      *
      * @param data the data
-     * @return the CreateDnsRecordOptions builder
+     * @return the DnsrecordInput builder
      */
     public Builder data(Map<String, Object> data) {
       this.data = data;
@@ -178,9 +187,11 @@ public class CreateDnsRecordOptions extends GenericModel {
     }
   }
 
-  protected CreateDnsRecordOptions() { }
+  protected DnsrecordInput() { }
 
-  protected CreateDnsRecordOptions(Builder builder) {
+  protected DnsrecordInput(Builder builder) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.type,
+      "type cannot be null");
     name = builder.name;
     type = builder.type;
     ttl = builder.ttl;
@@ -193,7 +204,7 @@ public class CreateDnsRecordOptions extends GenericModel {
   /**
    * New builder.
    *
-   * @return a CreateDnsRecordOptions builder
+   * @return a DnsrecordInput builder
    */
   public Builder newBuilder() {
     return new Builder(this);

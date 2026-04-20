@@ -13,7 +13,7 @@
 
 package com.ibm.cloud.networking.dns_records.v1.model;
 
-import com.ibm.cloud.networking.dns_records.v1.model.ListAllDnsRecordsOptions;
+import com.ibm.cloud.networking.dns_records.v1.model.BatchDnsRecordsRequestDeletesItem;
 import com.ibm.cloud.networking.dns_records.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -23,31 +23,29 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the ListAllDnsRecordsOptions model.
+ * Unit test class for the BatchDnsRecordsRequestDeletesItem model.
  */
-public class ListAllDnsRecordsOptionsTest {
+public class BatchDnsRecordsRequestDeletesItemTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testListAllDnsRecordsOptions() throws Throwable {
-    ListAllDnsRecordsOptions listAllDnsRecordsOptionsModel = new ListAllDnsRecordsOptions.Builder()
-      .type("testString")
-      .name("host1.test-example.com")
-      .content("1.2.3.4")
-      .page(Long.valueOf("1"))
-      .perPage(Long.valueOf("20"))
-      .order("type")
-      .direction("asc")
-      .match("any")
+  public void testBatchDnsRecordsRequestDeletesItem() throws Throwable {
+    BatchDnsRecordsRequestDeletesItem batchDnsRecordsRequestDeletesItemModel = new BatchDnsRecordsRequestDeletesItem.Builder()
+      .id("testString")
       .build();
-    assertEquals(listAllDnsRecordsOptionsModel.type(), "testString");
-    assertEquals(listAllDnsRecordsOptionsModel.name(), "host1.test-example.com");
-    assertEquals(listAllDnsRecordsOptionsModel.content(), "1.2.3.4");
-    assertEquals(listAllDnsRecordsOptionsModel.page(), Long.valueOf("1"));
-    assertEquals(listAllDnsRecordsOptionsModel.perPage(), Long.valueOf("20"));
-    assertEquals(listAllDnsRecordsOptionsModel.order(), "type");
-    assertEquals(listAllDnsRecordsOptionsModel.direction(), "asc");
-    assertEquals(listAllDnsRecordsOptionsModel.match(), "any");
+    assertEquals(batchDnsRecordsRequestDeletesItemModel.id(), "testString");
+
+    String json = TestUtilities.serialize(batchDnsRecordsRequestDeletesItemModel);
+
+    BatchDnsRecordsRequestDeletesItem batchDnsRecordsRequestDeletesItemModelNew = TestUtilities.deserialize(json, BatchDnsRecordsRequestDeletesItem.class);
+    assertTrue(batchDnsRecordsRequestDeletesItemModelNew instanceof BatchDnsRecordsRequestDeletesItem);
+    assertEquals(batchDnsRecordsRequestDeletesItemModelNew.id(), "testString");
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testBatchDnsRecordsRequestDeletesItemError() throws Throwable {
+    new BatchDnsRecordsRequestDeletesItem.Builder().build();
+  }
+
 }

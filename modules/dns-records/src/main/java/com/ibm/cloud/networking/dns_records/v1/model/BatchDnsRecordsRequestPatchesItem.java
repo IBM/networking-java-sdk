@@ -18,9 +18,9 @@ import java.util.Map;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * The createDnsRecord options.
+ * BatchDnsRecordsRequestPatchesItem.
  */
-public class CreateDnsRecordOptions extends GenericModel {
+public class BatchDnsRecordsRequestPatchesItem extends GenericModel {
 
   /**
    * dns record type.
@@ -50,6 +50,7 @@ public class CreateDnsRecordOptions extends GenericModel {
     String DS = "DS";
   }
 
+  protected String id;
   protected String name;
   protected String type;
   protected Long ttl;
@@ -62,6 +63,7 @@ public class CreateDnsRecordOptions extends GenericModel {
    * Builder.
    */
   public static class Builder {
+    private String id;
     private String name;
     private String type;
     private Long ttl;
@@ -71,18 +73,19 @@ public class CreateDnsRecordOptions extends GenericModel {
     private Map<String, Object> data;
 
     /**
-     * Instantiates a new Builder from an existing CreateDnsRecordOptions instance.
+     * Instantiates a new Builder from an existing BatchDnsRecordsRequestPatchesItem instance.
      *
-     * @param createDnsRecordOptions the instance to initialize the Builder with
+     * @param batchDnsRecordsRequestPatchesItem the instance to initialize the Builder with
      */
-    private Builder(CreateDnsRecordOptions createDnsRecordOptions) {
-      this.name = createDnsRecordOptions.name;
-      this.type = createDnsRecordOptions.type;
-      this.ttl = createDnsRecordOptions.ttl;
-      this.content = createDnsRecordOptions.content;
-      this.priority = createDnsRecordOptions.priority;
-      this.proxied = createDnsRecordOptions.proxied;
-      this.data = createDnsRecordOptions.data;
+    private Builder(BatchDnsRecordsRequestPatchesItem batchDnsRecordsRequestPatchesItem) {
+      this.id = batchDnsRecordsRequestPatchesItem.id;
+      this.name = batchDnsRecordsRequestPatchesItem.name;
+      this.type = batchDnsRecordsRequestPatchesItem.type;
+      this.ttl = batchDnsRecordsRequestPatchesItem.ttl;
+      this.content = batchDnsRecordsRequestPatchesItem.content;
+      this.priority = batchDnsRecordsRequestPatchesItem.priority;
+      this.proxied = batchDnsRecordsRequestPatchesItem.proxied;
+      this.data = batchDnsRecordsRequestPatchesItem.data;
     }
 
     /**
@@ -92,19 +95,39 @@ public class CreateDnsRecordOptions extends GenericModel {
     }
 
     /**
-     * Builds a CreateDnsRecordOptions.
+     * Instantiates a new builder with required properties.
      *
-     * @return the new CreateDnsRecordOptions instance
+     * @param id the id
      */
-    public CreateDnsRecordOptions build() {
-      return new CreateDnsRecordOptions(this);
+    public Builder(String id) {
+      this.id = id;
+    }
+
+    /**
+     * Builds a BatchDnsRecordsRequestPatchesItem.
+     *
+     * @return the new BatchDnsRecordsRequestPatchesItem instance
+     */
+    public BatchDnsRecordsRequestPatchesItem build() {
+      return new BatchDnsRecordsRequestPatchesItem(this);
+    }
+
+    /**
+     * Set the id.
+     *
+     * @param id the id
+     * @return the BatchDnsRecordsRequestPatchesItem builder
+     */
+    public Builder id(String id) {
+      this.id = id;
+      return this;
     }
 
     /**
      * Set the name.
      *
      * @param name the name
-     * @return the CreateDnsRecordOptions builder
+     * @return the BatchDnsRecordsRequestPatchesItem builder
      */
     public Builder name(String name) {
       this.name = name;
@@ -115,7 +138,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the type.
      *
      * @param type the type
-     * @return the CreateDnsRecordOptions builder
+     * @return the BatchDnsRecordsRequestPatchesItem builder
      */
     public Builder type(String type) {
       this.type = type;
@@ -126,7 +149,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the ttl.
      *
      * @param ttl the ttl
-     * @return the CreateDnsRecordOptions builder
+     * @return the BatchDnsRecordsRequestPatchesItem builder
      */
     public Builder ttl(long ttl) {
       this.ttl = ttl;
@@ -137,7 +160,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the content.
      *
      * @param content the content
-     * @return the CreateDnsRecordOptions builder
+     * @return the BatchDnsRecordsRequestPatchesItem builder
      */
     public Builder content(String content) {
       this.content = content;
@@ -148,7 +171,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the priority.
      *
      * @param priority the priority
-     * @return the CreateDnsRecordOptions builder
+     * @return the BatchDnsRecordsRequestPatchesItem builder
      */
     public Builder priority(long priority) {
       this.priority = priority;
@@ -159,7 +182,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the proxied.
      *
      * @param proxied the proxied
-     * @return the CreateDnsRecordOptions builder
+     * @return the BatchDnsRecordsRequestPatchesItem builder
      */
     public Builder proxied(Boolean proxied) {
       this.proxied = proxied;
@@ -170,7 +193,7 @@ public class CreateDnsRecordOptions extends GenericModel {
      * Set the data.
      *
      * @param data the data
-     * @return the CreateDnsRecordOptions builder
+     * @return the BatchDnsRecordsRequestPatchesItem builder
      */
     public Builder data(Map<String, Object> data) {
       this.data = data;
@@ -178,9 +201,12 @@ public class CreateDnsRecordOptions extends GenericModel {
     }
   }
 
-  protected CreateDnsRecordOptions() { }
+  protected BatchDnsRecordsRequestPatchesItem() { }
 
-  protected CreateDnsRecordOptions(Builder builder) {
+  protected BatchDnsRecordsRequestPatchesItem(Builder builder) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.id,
+      "id cannot be null");
+    id = builder.id;
     name = builder.name;
     type = builder.type;
     ttl = builder.ttl;
@@ -193,10 +219,21 @@ public class CreateDnsRecordOptions extends GenericModel {
   /**
    * New builder.
    *
-   * @return a CreateDnsRecordOptions builder
+   * @return a BatchDnsRecordsRequestPatchesItem builder
    */
   public Builder newBuilder() {
     return new Builder(this);
+  }
+
+  /**
+   * Gets the id.
+   *
+   * DNS record ID to patch.
+   *
+   * @return the id
+   */
+  public String id() {
+    return id;
   }
 
   /**
@@ -235,7 +272,7 @@ public class CreateDnsRecordOptions extends GenericModel {
   /**
    * Gets the content.
    *
-   * dns record content.
+   * content of dns record.
    *
    * @return the content
    */

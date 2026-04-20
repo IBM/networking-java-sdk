@@ -13,15 +13,16 @@
 
 package com.ibm.cloud.networking.dns_records.v1.model;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * dns record details.
+ * dns record details as returned by the batch API.
  */
-public class DnsrecordDetails extends GenericModel {
+public class BatchDnsRecordDetails extends GenericModel {
 
   /**
    * dns record type.
@@ -59,17 +60,17 @@ public class DnsrecordDetails extends GenericModel {
   protected String name;
   protected String type;
   protected String content;
-  @SerializedName("zone_id")
-  protected String zoneId;
-  @SerializedName("zone_name")
-  protected String zoneName;
   protected Boolean proxiable;
   protected Boolean proxied;
   protected Long ttl;
   protected Long priority;
   protected Map<String, Object> data;
+  protected Map<String, Object> settings;
+  protected Map<String, Object> meta;
+  protected String comment;
+  protected List<String> tags;
 
-  protected DnsrecordDetails() { }
+  protected BatchDnsRecordDetails() { }
 
   /**
    * Gets the id.
@@ -138,28 +139,6 @@ public class DnsrecordDetails extends GenericModel {
   }
 
   /**
-   * Gets the zoneId.
-   *
-   * zone identifier.
-   *
-   * @return the zoneId
-   */
-  public String getZoneId() {
-    return zoneId;
-  }
-
-  /**
-   * Gets the zoneName.
-   *
-   * zone name.
-   *
-   * @return the zoneName
-   */
-  public String getZoneName() {
-    return zoneName;
-  }
-
-  /**
    * Gets the proxiable.
    *
    * proxiable.
@@ -212,6 +191,50 @@ public class DnsrecordDetails extends GenericModel {
    */
   public Map<String, Object> getData() {
     return data;
+  }
+
+  /**
+   * Gets the settings.
+   *
+   * DNS record settings.
+   *
+   * @return the settings
+   */
+  public Map<String, Object> getSettings() {
+    return settings;
+  }
+
+  /**
+   * Gets the meta.
+   *
+   * DNS record metadata.
+   *
+   * @return the meta
+   */
+  public Map<String, Object> getMeta() {
+    return meta;
+  }
+
+  /**
+   * Gets the comment.
+   *
+   * Optional comment for the DNS record.
+   *
+   * @return the comment
+   */
+  public String getComment() {
+    return comment;
+  }
+
+  /**
+   * Gets the tags.
+   *
+   * Tags associated with the DNS record.
+   *
+   * @return the tags
+   */
+  public List<String> getTags() {
+    return tags;
   }
 }
 

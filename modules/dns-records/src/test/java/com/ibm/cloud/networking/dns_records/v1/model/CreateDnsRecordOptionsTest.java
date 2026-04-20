@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -37,13 +37,15 @@ public class CreateDnsRecordOptionsTest {
       .ttl(Long.valueOf("120"))
       .content("1.2.3.4")
       .priority(Long.valueOf("5"))
-      .data(new java.util.HashMap<String, Object>() { { put("foo", "testString"); } })
+      .proxied(false)
+      .data(java.util.Collections.singletonMap("anyKey", "anyValue"))
       .build();
     assertEquals(createDnsRecordOptionsModel.name(), "host-1.test-example.com");
     assertEquals(createDnsRecordOptionsModel.type(), "A");
     assertEquals(createDnsRecordOptionsModel.ttl(), Long.valueOf("120"));
     assertEquals(createDnsRecordOptionsModel.content(), "1.2.3.4");
     assertEquals(createDnsRecordOptionsModel.priority(), Long.valueOf("5"));
-    assertEquals(createDnsRecordOptionsModel.data(), new java.util.HashMap<String, Object>() { { put("foo", "testString"); } });
+    assertEquals(createDnsRecordOptionsModel.proxied(), Boolean.valueOf(false));
+    assertEquals(createDnsRecordOptionsModel.data(), java.util.Collections.singletonMap("anyKey", "anyValue"));
   }
 }

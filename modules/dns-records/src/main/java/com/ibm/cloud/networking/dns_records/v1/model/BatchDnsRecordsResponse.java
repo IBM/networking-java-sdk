@@ -18,16 +18,16 @@ import java.util.List;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * dns record response.
+ * Batch DNS records response.
  */
-public class DnsrecordResp extends GenericModel {
+public class BatchDnsRecordsResponse extends GenericModel {
 
   protected Boolean success;
   protected List<List<String>> errors;
   protected List<List<String>> messages;
-  protected DnsrecordDetails result;
+  protected BatchDnsRecordsResponseResult result;
 
-  protected DnsrecordResp() { }
+  protected BatchDnsRecordsResponse() { }
 
   /**
    * Gets the success.
@@ -65,11 +65,9 @@ public class DnsrecordResp extends GenericModel {
   /**
    * Gets the result.
    *
-   * dns record details.
-   *
    * @return the result
    */
-  public DnsrecordDetails getResult() {
+  public BatchDnsRecordsResponseResult getResult() {
     return result;
   }
 }

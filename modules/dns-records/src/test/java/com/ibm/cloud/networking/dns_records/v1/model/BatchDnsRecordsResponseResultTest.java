@@ -13,8 +13,8 @@
 
 package com.ibm.cloud.networking.dns_records.v1.model;
 
-import com.ibm.cloud.networking.dns_records.v1.model.DnsrecordDetails;
-import com.ibm.cloud.networking.dns_records.v1.model.DnsrecordResp;
+import com.ibm.cloud.networking.dns_records.v1.model.BatchDnsRecordDetails;
+import com.ibm.cloud.networking.dns_records.v1.model.BatchDnsRecordsResponseResult;
 import com.ibm.cloud.networking.dns_records.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
@@ -24,18 +24,18 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
 /**
- * Unit test class for the DnsrecordResp model.
+ * Unit test class for the BatchDnsRecordsResponseResult model.
  */
-public class DnsrecordRespTest {
+public class BatchDnsRecordsResponseResultTest {
   final HashMap<String, InputStream> mockStreamMap = TestUtilities.createMockStreamMap();
   final List<FileWithMetadata> mockListFileWithMetadata = TestUtilities.creatMockListFileWithMetadata();
 
   @Test
-  public void testDnsrecordResp() throws Throwable {
-    DnsrecordResp dnsrecordRespModel = new DnsrecordResp();
-    assertNull(dnsrecordRespModel.isSuccess());
-    assertNull(dnsrecordRespModel.getErrors());
-    assertNull(dnsrecordRespModel.getMessages());
-    assertNull(dnsrecordRespModel.getResult());
+  public void testBatchDnsRecordsResponseResult() throws Throwable {
+    BatchDnsRecordsResponseResult batchDnsRecordsResponseResultModel = new BatchDnsRecordsResponseResult();
+    assertNull(batchDnsRecordsResponseResultModel.getDeletes());
+    assertNull(batchDnsRecordsResponseResultModel.getPatches());
+    assertNull(batchDnsRecordsResponseResultModel.getPosts());
+    assertNull(batchDnsRecordsResponseResultModel.getPuts());
   }
 }
