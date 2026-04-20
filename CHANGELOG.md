@@ -1,3 +1,10 @@
+# [0.45.0](https://github.com/IBM/networking-java-sdk/compare/0.44.0...0.45.0) (2026-04-20)
+
+
+### Features
+
+* Add batch DNS records ([#186](https://github.com/IBM/networking-java-sdk/issues/186)) ([491d42a](https://github.com/IBM/networking-java-sdk/commit/491d42a33ba2f5aa33cada286cc8212e75132559))
+
 # [0.44.0](https://github.com/IBM/networking-java-sdk/compare/0.43.0...0.44.0) (2026-03-17)
 
 
