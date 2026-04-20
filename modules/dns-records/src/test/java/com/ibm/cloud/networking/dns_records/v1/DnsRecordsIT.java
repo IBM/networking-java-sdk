@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,6 +13,9 @@
 
 package com.ibm.cloud.networking.dns_records.v1;
 
+import com.ibm.cloud.networking.dns_records.v1.model.BatchDnsRecordsOptions;
+import com.ibm.cloud.networking.dns_records.v1.model.BatchDnsRecordsRequestPatchesItem;
+import com.ibm.cloud.networking.dns_records.v1.model.BatchDnsRecordsResponse;
 import com.ibm.cloud.networking.dns_records.v1.model.CreateDnsRecordOptions;
 import com.ibm.cloud.networking.dns_records.v1.model.DeleteDnsRecordOptions;
 import com.ibm.cloud.networking.dns_records.v1.model.DeleteDnsrecordResp;
@@ -31,6 +34,7 @@ import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +96,8 @@ public class DnsRecordsIT extends SdkIntegrationTestBase {
       .type("A")
       .ttl(Long.valueOf("120"))
       .content("1.2.3.4")
+      .proxied(false)
+      .data(Collections.singletonMap("anyKey", "anyValue"))
       .build();
 
       // Invoke operation
@@ -142,6 +148,7 @@ public class DnsRecordsIT extends SdkIntegrationTestBase {
       .ttl(Long.valueOf("120"))
       .content("1.2.3.4")
       .proxied(false)
+      .data(Collections.singletonMap("anyKey", "anyValue"))
       .build();
 
       // Invoke operation
@@ -160,14 +167,47 @@ public class DnsRecordsIT extends SdkIntegrationTestBase {
   }
 
   @Test (dependsOnMethods = "testUpdateDnsRecord")
+  public void testBatchDnsRecords() throws Exception {
+    try {
+      BatchDnsRecordsOptions batchDnsRecordsOptions = new BatchDnsRecordsOptions.Builder()
+      .patches(java.util.Arrays.asList(new BatchDnsRecordsRequestPatchesItem.Builder()
+        .id(identifier)
+        .name("host-1.test-example.com")
+        .type("A")
+        .ttl(Long.valueOf("120"))
+        .content("1.2.3.4")
+        .proxied(false)
+        .data(Collections.singletonMap("anyKey", "anyValue"))
+        .build()))
+      .build();
+
+      // Invoke operation
+      Response<BatchDnsRecordsResponse> response = service.batchDnsRecords(batchDnsRecordsOptions).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      BatchDnsRecordsResponse batchDnsRecordsRespResult = response.getResult();
+      assertNotNull(batchDnsRecordsRespResult);
+      assertNotNull(batchDnsRecordsRespResult.getResult());
+      assertNotNull(batchDnsRecordsRespResult.getResult().getPatches());
+      assertFalse(batchDnsRecordsRespResult.getResult().getPatches().isEmpty());
+      assertEquals(batchDnsRecordsRespResult.getResult().getPatches().get(0).getId(), identifier);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test (dependsOnMethods = "testUpdateDnsRecord")
   public void testListAllDnsRecords() throws Exception {
     try {
       ListAllDnsRecordsOptions listAllDnsRecordsOptions = new ListAllDnsRecordsOptions.Builder()
       .type("testString")
       .name("host1.test-example.com")
       .content("1.2.3.4")
-      .page(Long.valueOf("26"))
-      .perPage(Long.valueOf("5"))
+      .page(Long.valueOf("1"))
+      .perPage(Long.valueOf("20"))
       .order("type")
       .direction("asc")
       .match("any")

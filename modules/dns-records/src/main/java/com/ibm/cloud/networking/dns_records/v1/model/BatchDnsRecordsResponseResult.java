@@ -18,59 +18,51 @@ import java.util.List;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * dns record response.
+ * BatchDnsRecordsResponseResult.
  */
-public class DnsrecordResp extends GenericModel {
+public class BatchDnsRecordsResponseResult extends GenericModel {
 
-  protected Boolean success;
-  protected List<List<String>> errors;
-  protected List<List<String>> messages;
-  protected DnsrecordDetails result;
+  protected List<BatchDnsRecordDetails> deletes;
+  protected List<BatchDnsRecordDetails> patches;
+  protected List<BatchDnsRecordDetails> posts;
+  protected List<BatchDnsRecordDetails> puts;
 
-  protected DnsrecordResp() { }
+  protected BatchDnsRecordsResponseResult() { }
 
   /**
-   * Gets the success.
+   * Gets the deletes.
    *
-   * success response.
-   *
-   * @return the success
+   * @return the deletes
    */
-  public Boolean isSuccess() {
-    return success;
+  public List<BatchDnsRecordDetails> getDeletes() {
+    return deletes;
   }
 
   /**
-   * Gets the errors.
+   * Gets the patches.
    *
-   * errors.
-   *
-   * @return the errors
+   * @return the patches
    */
-  public List<List<String>> getErrors() {
-    return errors;
+  public List<BatchDnsRecordDetails> getPatches() {
+    return patches;
   }
 
   /**
-   * Gets the messages.
+   * Gets the posts.
    *
-   * messages.
-   *
-   * @return the messages
+   * @return the posts
    */
-  public List<List<String>> getMessages() {
-    return messages;
+  public List<BatchDnsRecordDetails> getPosts() {
+    return posts;
   }
 
   /**
-   * Gets the result.
+   * Gets the puts.
    *
-   * dns record details.
-   *
-   * @return the result
+   * @return the puts
    */
-  public DnsrecordDetails getResult() {
-    return result;
+  public List<BatchDnsRecordDetails> getPuts() {
+    return puts;
   }
 }
 

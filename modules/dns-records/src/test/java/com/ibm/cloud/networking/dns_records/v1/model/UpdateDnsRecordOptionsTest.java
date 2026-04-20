@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -39,7 +39,7 @@ public class UpdateDnsRecordOptionsTest {
       .content("1.2.3.4")
       .priority(Long.valueOf("5"))
       .proxied(false)
-      .data(new java.util.HashMap<String, Object>() { { put("foo", "testString"); } })
+      .data(java.util.Collections.singletonMap("anyKey", "anyValue"))
       .build();
     assertEquals(updateDnsRecordOptionsModel.dnsrecordIdentifier(), "testString");
     assertEquals(updateDnsRecordOptionsModel.name(), "host-1.test-example.com");
@@ -48,7 +48,7 @@ public class UpdateDnsRecordOptionsTest {
     assertEquals(updateDnsRecordOptionsModel.content(), "1.2.3.4");
     assertEquals(updateDnsRecordOptionsModel.priority(), Long.valueOf("5"));
     assertEquals(updateDnsRecordOptionsModel.proxied(), Boolean.valueOf(false));
-    assertEquals(updateDnsRecordOptionsModel.data(), new java.util.HashMap<String, Object>() { { put("foo", "testString"); } });
+    assertEquals(updateDnsRecordOptionsModel.data(), java.util.Collections.singletonMap("anyKey", "anyValue"));
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

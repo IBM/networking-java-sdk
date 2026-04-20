@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,13 +12,15 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.12.1-318e07c8-20200909-152230
+ * IBM OpenAPI SDK Code Generator Version: 3.106.0-09823488-20250707-071701
  */
 
 package com.ibm.cloud.networking.dns_records.v1;
 
 import com.google.gson.JsonObject;
 import com.ibm.cloud.networking.common.SdkCommon;
+import com.ibm.cloud.networking.dns_records.v1.model.BatchDnsRecordsOptions;
+import com.ibm.cloud.networking.dns_records.v1.model.BatchDnsRecordsResponse;
 import com.ibm.cloud.networking.dns_records.v1.model.CreateDnsRecordOptions;
 import com.ibm.cloud.networking.dns_records.v1.model.DeleteDnsRecordOptions;
 import com.ibm.cloud.networking.dns_records.v1.model.DeleteDnsrecordResp;
@@ -34,18 +36,25 @@ import com.ibm.cloud.sdk.core.security.Authenticator;
 import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
 import com.ibm.cloud.sdk.core.service.BaseService;
 import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 /**
  * DNS records.
  *
- * @version v1
+ * API Version: 1.0.1
  */
 public class DnsRecords extends BaseService {
 
+  /**
+   * Default service name used when configuring the `DnsRecords` client.
+   */
   public static final String DEFAULT_SERVICE_NAME = "dns_records";
 
+  /**
+   * Default service endpoint URL.
+   */
   public static final String DEFAULT_SERVICE_URL = "https://api.cis.cloud.ibm.com";
 
   private String crn;
@@ -56,8 +65,8 @@ public class DnsRecords extends BaseService {
    * Class method which constructs an instance of the `DnsRecords` client.
    * The default service name is used to configure the client instance.
    *
-   * @param crn Full crn of the service instance.
-   * @param zoneIdentifier Zone identifier (zone id).
+   * @param crn Full url-encoded CRN of the service instance.
+   * @param zoneIdentifier Identifier of zone.
    * @return an instance of the `DnsRecords` client using external configuration
    */
   public static DnsRecords newInstance(String crn, String zoneIdentifier) {
@@ -68,8 +77,8 @@ public class DnsRecords extends BaseService {
    * Class method which constructs an instance of the `DnsRecords` client.
    * The specified service name is used to configure the client instance.
    *
-   * @param crn Full crn of the service instance.
-   * @param zoneIdentifier Zone identifier (zone id).
+   * @param crn Full url-encoded CRN of the service instance.
+   * @param zoneIdentifier Identifier of zone.
    * @param serviceName the service name to be used when configuring the client instance
    * @return an instance of the `DnsRecords` client using external configuration
    */
@@ -84,8 +93,8 @@ public class DnsRecords extends BaseService {
    * Constructs an instance of the `DnsRecords` client.
    * The specified service name and authenticator are used to configure the client instance.
    *
-   * @param crn Full crn of the service instance.
-   * @param zoneIdentifier Zone identifier (zone id).
+   * @param crn Full url-encoded CRN of the service instance.
+   * @param zoneIdentifier Identifier of zone.
    * @param serviceName the service name to be used when configuring the client instance
    * @param authenticator the {@link Authenticator} instance to be configured for this client
    */
@@ -99,7 +108,7 @@ public class DnsRecords extends BaseService {
   /**
    * Gets the crn.
    *
-   * Full crn of the service instance.
+   * Full url-encoded CRN of the service instance.
    *
    * @return the crn
    */
@@ -120,7 +129,7 @@ public class DnsRecords extends BaseService {
   /**
    * Gets the zoneIdentifier.
    *
-   * Zone identifier (zone id).
+   * Identifier of zone.
    *
    * @return the zoneIdentifier
    */
@@ -150,9 +159,10 @@ public class DnsRecords extends BaseService {
     if (listAllDnsRecordsOptions == null) {
       listAllDnsRecordsOptions = new ListAllDnsRecordsOptions.Builder().build();
     }
-    String[] pathSegments = { "v1", "zones", "dns_records" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/dns_records", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_records", "v1", "listAllDnsRecords");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -212,9 +222,10 @@ public class DnsRecords extends BaseService {
       createDnsRecordOptions = new CreateDnsRecordOptions.Builder().build();
       skipBody = true;
     }
-    String[] pathSegments = { "v1", "zones", "dns_records" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier };
-    RequestBuilder builder = RequestBuilder.post(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/dns_records", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_records", "v1", "createDnsRecord");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -236,6 +247,9 @@ public class DnsRecords extends BaseService {
       }
       if (createDnsRecordOptions.priority() != null) {
         contentJson.addProperty("priority", createDnsRecordOptions.priority());
+      }
+      if (createDnsRecordOptions.proxied() != null) {
+        contentJson.addProperty("proxied", createDnsRecordOptions.proxied());
       }
       if (createDnsRecordOptions.data() != null) {
         contentJson.add("data", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createDnsRecordOptions.data()));
@@ -269,9 +283,11 @@ public class DnsRecords extends BaseService {
   public ServiceCall<DeleteDnsrecordResp> deleteDnsRecord(DeleteDnsRecordOptions deleteDnsRecordOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(deleteDnsRecordOptions,
       "deleteDnsRecordOptions cannot be null");
-    String[] pathSegments = { "v1", "zones", "dns_records" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier, deleteDnsRecordOptions.dnsrecordIdentifier() };
-    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    pathParamsMap.put("dnsrecord_identifier", deleteDnsRecordOptions.dnsrecordIdentifier());
+    RequestBuilder builder = RequestBuilder.delete(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/dns_records/{dnsrecord_identifier}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_records", "v1", "deleteDnsRecord");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -293,9 +309,11 @@ public class DnsRecords extends BaseService {
   public ServiceCall<DnsrecordResp> getDnsRecord(GetDnsRecordOptions getDnsRecordOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(getDnsRecordOptions,
       "getDnsRecordOptions cannot be null");
-    String[] pathSegments = { "v1", "zones", "dns_records" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier, getDnsRecordOptions.dnsrecordIdentifier() };
-    RequestBuilder builder = RequestBuilder.get(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    pathParamsMap.put("dnsrecord_identifier", getDnsRecordOptions.dnsrecordIdentifier());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/dns_records/{dnsrecord_identifier}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_records", "v1", "getDnsRecord");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -317,9 +335,11 @@ public class DnsRecords extends BaseService {
   public ServiceCall<DnsrecordResp> updateDnsRecord(UpdateDnsRecordOptions updateDnsRecordOptions) {
     com.ibm.cloud.sdk.core.util.Validator.notNull(updateDnsRecordOptions,
       "updateDnsRecordOptions cannot be null");
-    String[] pathSegments = { "v1", "zones", "dns_records" };
-    String[] pathParameters = { this.crn, this.zoneIdentifier, updateDnsRecordOptions.dnsrecordIdentifier() };
-    RequestBuilder builder = RequestBuilder.put(RequestBuilder.constructHttpUrl(getServiceUrl(), pathSegments, pathParameters));
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    pathParamsMap.put("dnsrecord_identifier", updateDnsRecordOptions.dnsrecordIdentifier());
+    RequestBuilder builder = RequestBuilder.put(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/dns_records/{dnsrecord_identifier}", pathParamsMap));
     Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_records", "v1", "updateDnsRecord");
     for (Entry<String, String> header : sdkHeaders.entrySet()) {
       builder.header(header.getKey(), header.getValue());
@@ -351,6 +371,63 @@ public class DnsRecords extends BaseService {
     ResponseConverter<DnsrecordResp> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<DnsrecordResp>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Batch DNS records.
+   *
+   * Send a Batch of DNS Record API calls to be executed together. The operations you specify within the /batch request
+   * body are always executed in the following order: deletes, patches, puts, posts.
+   *
+   * @param batchDnsRecordsOptions the {@link BatchDnsRecordsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link BatchDnsRecordsResponse}
+   */
+  public ServiceCall<BatchDnsRecordsResponse> batchDnsRecords(BatchDnsRecordsOptions batchDnsRecordsOptions) {
+    boolean skipBody = false;
+    if (batchDnsRecordsOptions == null) {
+      batchDnsRecordsOptions = new BatchDnsRecordsOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/dns_records/batch", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_records", "v1", "batchDnsRecords");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (batchDnsRecordsOptions.deletes() != null) {
+        contentJson.add("deletes", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(batchDnsRecordsOptions.deletes()));
+      }
+      if (batchDnsRecordsOptions.patches() != null) {
+        contentJson.add("patches", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(batchDnsRecordsOptions.patches()));
+      }
+      if (batchDnsRecordsOptions.posts() != null) {
+        contentJson.add("posts", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(batchDnsRecordsOptions.posts()));
+      }
+      if (batchDnsRecordsOptions.puts() != null) {
+        contentJson.add("puts", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(batchDnsRecordsOptions.puts()));
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<BatchDnsRecordsResponse> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<BatchDnsRecordsResponse>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Batch DNS records.
+   *
+   * Send a Batch of DNS Record API calls to be executed together. The operations you specify within the /batch request
+   * body are always executed in the following order: deletes, patches, puts, posts.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link BatchDnsRecordsResponse}
+   */
+  public ServiceCall<BatchDnsRecordsResponse> batchDnsRecords() {
+    return batchDnsRecords(null);
   }
 
 }
