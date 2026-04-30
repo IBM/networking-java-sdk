@@ -13,11 +13,6 @@
 
 package com.ibm.cloud.networking.zones_settings.v1;
 
-import com.ibm.cloud.sdk.core.http.Response;
-import com.ibm.cloud.sdk.core.security.Authenticator;
-import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.networking.zones_settings.v1.ZonesSettings;
 import com.ibm.cloud.networking.zones_settings.v1.model.AlwaysUseHttpsResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.AlwaysUseHttpsRespResult;
@@ -68,6 +63,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.GetReplaceInsecureJsOpti
 import com.ibm.cloud.networking.zones_settings.v1.model.GetResponseBufferingOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetScriptLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetSecurityHeaderOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetSecurityLevelOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetServerSideExcludeOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetTlsClientAuthOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetTrueClientIpOptions;
@@ -131,6 +127,8 @@ import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderRespResult
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderRespResultValueStrictTransportSecurity;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderSettingValue;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderSettingValueStrictTransportSecurity;
+import com.ibm.cloud.networking.zones_settings.v1.model.SecurityLevelResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.SecurityLevelRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.ServerSideExcludeResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ServerSideExcludeRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.TlsClientAuthResp;
@@ -169,6 +167,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.UpdateReplaceInsecureJsO
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateResponseBufferingOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateScriptLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateSecurityHeaderOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateSecurityLevelOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateServerSideExcludeOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateTlsClientAuthOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateTrueClientIpOptions;
@@ -184,6 +183,11 @@ import com.ibm.cloud.networking.zones_settings.v1.model.ZonesCnameFlatteningResp
 import com.ibm.cloud.networking.zones_settings.v1.model.ZonesDnssecResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ZonesDnssecRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.http.Response;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -3468,7 +3472,7 @@ public class ZonesSettingsTest {
   @Test
   public void testGetReplaceInsecureJsWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"result\": {\"id\": \"replace_insecure_js\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
+    String mockResponseBody = "{\"result\": {\"id\": \"replace_insecure_js\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"result_info\": {\"anyKey\": \"anyValue\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
     String getReplaceInsecureJsPath = "/v1/testString/zones/testString/settings/replace_insecure_js";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -3510,7 +3514,7 @@ public class ZonesSettingsTest {
   @Test
   public void testUpdateReplaceInsecureJsWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"result\": {\"id\": \"replace_insecure_js\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
+    String mockResponseBody = "{\"result\": {\"id\": \"replace_insecure_js\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"result_info\": {\"anyKey\": \"anyValue\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
     String updateReplaceInsecureJsPath = "/v1/testString/zones/testString/settings/replace_insecure_js";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -3554,7 +3558,7 @@ public class ZonesSettingsTest {
   @Test
   public void testGetEmailObfuscationWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"result\": {\"id\": \"email_obfuscation\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
+    String mockResponseBody = "{\"result\": {\"id\": \"email_obfuscation\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"result_info\": {\"anyKey\": \"anyValue\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
     String getEmailObfuscationPath = "/v1/testString/zones/testString/settings/email_obfuscation";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -3596,7 +3600,7 @@ public class ZonesSettingsTest {
   @Test
   public void testUpdateEmailObfuscationWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"result\": {\"id\": \"email_obfuscation\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
+    String mockResponseBody = "{\"result\": {\"id\": \"email_obfuscation\", \"value\": \"off\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"result_info\": {\"anyKey\": \"anyValue\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
     String updateEmailObfuscationPath = "/v1/testString/zones/testString/settings/email_obfuscation";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -3634,6 +3638,92 @@ public class ZonesSettingsTest {
 
     zonesSettingsService.disableRetries();
     testUpdateEmailObfuscationWOptions();
+  }
+
+  // Test the getSecurityLevel operation with a valid options model parameter
+  @Test
+  public void testGetSecurityLevelWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"result\": {\"id\": \"security_level\", \"value\": \"medium\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
+    String getSecurityLevelPath = "/v1/testString/zones/testString/settings/security_level";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the GetSecurityLevelOptions model
+    GetSecurityLevelOptions getSecurityLevelOptionsModel = new GetSecurityLevelOptions();
+
+    // Invoke getSecurityLevel() with a valid options model and verify the result
+    Response<SecurityLevelResp> response = zonesSettingsService.getSecurityLevel(getSecurityLevelOptionsModel).execute();
+    assertNotNull(response);
+    SecurityLevelResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getSecurityLevelPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+  }
+
+  // Test the getSecurityLevel operation with and without retries enabled
+  @Test
+  public void testGetSecurityLevelWRetries() throws Throwable {
+    zonesSettingsService.enableRetries(4, 30);
+    testGetSecurityLevelWOptions();
+
+    zonesSettingsService.disableRetries();
+    testGetSecurityLevelWOptions();
+  }
+
+  // Test the updateSecurityLevel operation with a valid options model parameter
+  @Test
+  public void testUpdateSecurityLevelWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"result\": {\"id\": \"security_level\", \"value\": \"medium\", \"editable\": true, \"modified_on\": \"2017-01-01T05:20:00.123Z\"}, \"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]]}";
+    String updateSecurityLevelPath = "/v1/testString/zones/testString/settings/security_level";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the UpdateSecurityLevelOptions model
+    UpdateSecurityLevelOptions updateSecurityLevelOptionsModel = new UpdateSecurityLevelOptions.Builder()
+      .value("medium")
+      .build();
+
+    // Invoke updateSecurityLevel() with a valid options model and verify the result
+    Response<SecurityLevelResp> response = zonesSettingsService.updateSecurityLevel(updateSecurityLevelOptionsModel).execute();
+    assertNotNull(response);
+    SecurityLevelResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PATCH");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, updateSecurityLevelPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+  }
+
+  // Test the updateSecurityLevel operation with and without retries enabled
+  @Test
+  public void testUpdateSecurityLevelWRetries() throws Throwable {
+    zonesSettingsService.enableRetries(4, 30);
+    testUpdateSecurityLevelWOptions();
+
+    zonesSettingsService.disableRetries();
+    testUpdateSecurityLevelWOptions();
   }
 
   // Perform setup needed before each test method
