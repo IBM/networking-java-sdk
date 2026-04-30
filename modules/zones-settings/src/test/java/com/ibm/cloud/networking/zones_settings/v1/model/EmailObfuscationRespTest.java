@@ -13,11 +13,11 @@
 
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.networking.zones_settings.v1.model.EmailObfuscationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.EmailObfuscationRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +35,7 @@ public class EmailObfuscationRespTest {
   public void testEmailObfuscationResp() throws Throwable {
     EmailObfuscationResp emailObfuscationRespModel = new EmailObfuscationResp();
     assertNull(emailObfuscationRespModel.getResult());
+    assertNull(emailObfuscationRespModel.getResultInfo());
     assertNull(emailObfuscationRespModel.isSuccess());
     assertNull(emailObfuscationRespModel.getErrors());
     assertNull(emailObfuscationRespModel.getMessages());

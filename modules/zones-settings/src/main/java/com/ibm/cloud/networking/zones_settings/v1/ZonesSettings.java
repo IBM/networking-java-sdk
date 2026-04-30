@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.112.0-f88e9264-20260220-115155
+ * IBM OpenAPI SDK Code Generator Version: 3.114.0-a902401e-20260427-192904
  */
 
 package com.ibm.cloud.networking.zones_settings.v1;
@@ -59,6 +59,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.GetReplaceInsecureJsOpti
 import com.ibm.cloud.networking.zones_settings.v1.model.GetResponseBufferingOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetScriptLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetSecurityHeaderOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetSecurityLevelOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetServerSideExcludeOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetTlsClientAuthOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.GetTrueClientIpOptions;
@@ -90,6 +91,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.ReplaceInsecureJsResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ResponseBufferingResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ScriptLoadOptimizationResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.SecurityLevelResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ServerSideExcludeResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.TlsClientAuthResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.TrueClientIpResp;
@@ -125,6 +127,7 @@ import com.ibm.cloud.networking.zones_settings.v1.model.UpdateReplaceInsecureJsO
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateResponseBufferingOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateScriptLoadOptimizationOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateSecurityHeaderOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateSecurityLevelOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateServerSideExcludeOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateTlsClientAuthOptions;
 import com.ibm.cloud.networking.zones_settings.v1.model.UpdateTrueClientIpOptions;
@@ -3357,6 +3360,86 @@ public class ZonesSettings extends BaseService {
    */
   public ServiceCall<EmailObfuscationResp> updateEmailObfuscation() {
     return updateEmailObfuscation(null);
+  }
+
+  /**
+   * Get security level setting.
+   *
+   * Get security level for a zone.
+   *
+   * @param getSecurityLevelOptions the {@link GetSecurityLevelOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link SecurityLevelResp}
+   */
+  public ServiceCall<SecurityLevelResp> getSecurityLevel(GetSecurityLevelOptions getSecurityLevelOptions) {
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/security_level", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "getSecurityLevel");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    ResponseConverter<SecurityLevelResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<SecurityLevelResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get security level setting.
+   *
+   * Get security level for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link SecurityLevelResp}
+   */
+  public ServiceCall<SecurityLevelResp> getSecurityLevel() {
+    return getSecurityLevel(null);
+  }
+
+  /**
+   * Update security level setting.
+   *
+   * Update security level setting for a zone.
+   *
+   * @param updateSecurityLevelOptions the {@link UpdateSecurityLevelOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link SecurityLevelResp}
+   */
+  public ServiceCall<SecurityLevelResp> updateSecurityLevel(UpdateSecurityLevelOptions updateSecurityLevelOptions) {
+    boolean skipBody = false;
+    if (updateSecurityLevelOptions == null) {
+      updateSecurityLevelOptions = new UpdateSecurityLevelOptions.Builder().build();
+      skipBody = true;
+    }
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("crn", this.crn);
+    pathParamsMap.put("zone_identifier", this.zoneIdentifier);
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/v1/{crn}/zones/{zone_identifier}/settings/security_level", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("zones_settings", "v1", "updateSecurityLevel");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (!skipBody) {
+      final JsonObject contentJson = new JsonObject();
+      if (updateSecurityLevelOptions.value() != null) {
+        contentJson.addProperty("value", updateSecurityLevelOptions.value());
+      }
+      builder.bodyJson(contentJson);
+    }
+    ResponseConverter<SecurityLevelResp> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<SecurityLevelResp>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Update security level setting.
+   *
+   * Update security level setting for a zone.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link SecurityLevelResp}
+   */
+  public ServiceCall<SecurityLevelResp> updateSecurityLevel() {
+    return updateSecurityLevel(null);
   }
 
 }

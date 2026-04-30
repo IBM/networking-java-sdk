@@ -13,12 +13,12 @@
 
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.networking.zones_settings.v1.model.MinifyResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.MinifyRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.MinifyRespResultValue;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;

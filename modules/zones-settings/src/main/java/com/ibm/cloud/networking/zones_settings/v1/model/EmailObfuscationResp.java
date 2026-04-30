@@ -14,7 +14,9 @@
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
 import java.util.List;
+import java.util.Map;
 
+import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
@@ -23,6 +25,8 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
 public class EmailObfuscationResp extends GenericModel {
 
   protected EmailObfuscationRespResult result;
+  @SerializedName("result_info")
+  protected Map<String, Object> resultInfo;
   protected Boolean success;
   protected List<List<String>> errors;
   protected List<List<String>> messages;
@@ -38,6 +42,17 @@ public class EmailObfuscationResp extends GenericModel {
    */
   public EmailObfuscationRespResult getResult() {
     return result;
+  }
+
+  /**
+   * Gets the resultInfo.
+   *
+   * Result information.
+   *
+   * @return the resultInfo
+   */
+  public Map<String, Object> getResultInfo() {
+    return resultInfo;
   }
 
   /**
