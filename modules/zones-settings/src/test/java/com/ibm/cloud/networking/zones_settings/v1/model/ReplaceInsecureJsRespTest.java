@@ -13,11 +13,11 @@
 
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.networking.zones_settings.v1.model.ReplaceInsecureJsResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.ReplaceInsecureJsRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +35,7 @@ public class ReplaceInsecureJsRespTest {
   public void testReplaceInsecureJsResp() throws Throwable {
     ReplaceInsecureJsResp replaceInsecureJsRespModel = new ReplaceInsecureJsResp();
     assertNull(replaceInsecureJsRespModel.getResult());
+    assertNull(replaceInsecureJsRespModel.getResultInfo());
     assertNull(replaceInsecureJsRespModel.isSuccess());
     assertNull(replaceInsecureJsRespModel.getErrors());
     assertNull(replaceInsecureJsRespModel.getMessages());
