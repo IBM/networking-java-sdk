@@ -24,9 +24,8 @@ import com.ibm.cloud.networking.lists_api.v1.model.CreateCustomListsOptions;
 import com.ibm.cloud.networking.lists_api.v1.model.CreateListItemsOptions;
 import com.ibm.cloud.networking.lists_api.v1.model.CreateListItemsReqItem;
 import com.ibm.cloud.networking.lists_api.v1.model.CustomListResp;
-import com.ibm.cloud.networking.lists_api.v1.model.CustomListRespResult;
+import com.ibm.cloud.networking.lists_api.v1.model.CustomListResult;
 import com.ibm.cloud.networking.lists_api.v1.model.CustomListsResp;
-import com.ibm.cloud.networking.lists_api.v1.model.CustomListsRespResultItem;
 import com.ibm.cloud.networking.lists_api.v1.model.DeleteCustomListOptions;
 import com.ibm.cloud.networking.lists_api.v1.model.DeleteListItemsOptions;
 import com.ibm.cloud.networking.lists_api.v1.model.DeleteListItemsReqItemsItem;
@@ -38,14 +37,13 @@ import com.ibm.cloud.networking.lists_api.v1.model.GetListItemOptions;
 import com.ibm.cloud.networking.lists_api.v1.model.GetListItemsOptions;
 import com.ibm.cloud.networking.lists_api.v1.model.GetManagedListsOptions;
 import com.ibm.cloud.networking.lists_api.v1.model.GetOperationStatusOptions;
+import com.ibm.cloud.networking.lists_api.v1.model.ListItem;
 import com.ibm.cloud.networking.lists_api.v1.model.ListItemResp;
-import com.ibm.cloud.networking.lists_api.v1.model.ListItemRespResult;
 import com.ibm.cloud.networking.lists_api.v1.model.ListItemsResp;
-import com.ibm.cloud.networking.lists_api.v1.model.ListItemsRespResultItem;
 import com.ibm.cloud.networking.lists_api.v1.model.ListOperationResp;
 import com.ibm.cloud.networking.lists_api.v1.model.ListOperationRespResult;
 import com.ibm.cloud.networking.lists_api.v1.model.ManagedListsResp;
-import com.ibm.cloud.networking.lists_api.v1.model.ManagedListsRespResultItem;
+import com.ibm.cloud.networking.lists_api.v1.model.ManagedListsResultItem;
 import com.ibm.cloud.networking.lists_api.v1.model.OperationStatusResp;
 import com.ibm.cloud.networking.lists_api.v1.model.OperationStatusRespResult;
 import com.ibm.cloud.networking.lists_api.v1.model.UpdateCustomListOptions;
@@ -93,9 +91,9 @@ public class ListsApiIT extends SdkIntegrationTestBase {
 
         // Load Config
         crn = config.get("CRN");
-        itemId = "test-item-id";
-        listId = "test-list-id";
-        operationId = "test-operation-id";
+        itemId = "00000000000000000000000000000001";
+        listId = "00000000000000000000000000000001";
+        operationId = "00000000000000000000000000000001";
 
         // set mock values for global params
         try {
@@ -107,7 +105,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
         System.out.println("Setup complete.");
     }
 
-    @Test
+    @Test(priority = 1)
     public void testGetManagedListsWOptions() throws Exception {
         try {
             GetManagedListsOptions getManagedListsOptionsModel = new GetManagedListsOptions();
@@ -119,7 +117,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
             assertEquals(response.getStatusCode(), 200);
 
             ManagedListsResp managedListsRespResult = response.getResult();
-            List<ManagedListsRespResultItem> managedListsItems = managedListsRespResult.getResult();
+            List<ManagedListsResultItem> managedListsItems = managedListsRespResult.getResult();
 
             assertNotNull(managedListsRespResult);
             assertNotNull(managedListsItems);
@@ -129,7 +127,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
         }
     }
 
-    @Test
+    @Test(priority = 2)
     public void testGetCustomListsWOptions() throws Exception {
         try {
             GetCustomListsOptions getCustomListsOptionsModel = new GetCustomListsOptions();
@@ -141,7 +139,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
             assertEquals(response.getStatusCode(), 200);
 
             CustomListsResp customListsRespResult = response.getResult();
-            List<CustomListsRespResultItem> customListsItems = customListsRespResult.getResult();
+            List<CustomListResult> customListsItems = customListsRespResult.getResult();
 
             assertNotNull(customListsRespResult);
             assertNotNull(customListsItems);
@@ -151,12 +149,12 @@ public class ListsApiIT extends SdkIntegrationTestBase {
         }
     }
 
-    @Test
+    @Test(priority = 3)
     public void testCreateCustomListsWOptions() throws Exception {
         try {
             CreateCustomListsOptions createCustomListsOptionsModel = new CreateCustomListsOptions.Builder()
                     .kind("ip")
-                    .name("Test Custom List")
+                    .name("test_custom_list")
                     .description("A test custom list for integration testing")
                     .build();
 
@@ -167,8 +165,9 @@ public class ListsApiIT extends SdkIntegrationTestBase {
             assertEquals(response.getStatusCode(), 200);
 
             CustomListResp customListRespResult = response.getResult();
-            CustomListRespResult createdList = customListRespResult.getResult();
+            CustomListResult createdList = customListRespResult.getResult();
             listId = createdList.getId();
+            listsApiService.setListId(listId);
 
             assertNotNull(customListRespResult);
             assertNotNull(createdList);
@@ -179,7 +178,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
         }
     }
 
-    @Test
+    @Test(priority = 4)
     public void testGetCustomListWOptions() throws Exception {
         try {
             GetCustomListOptions getCustomListOptionsModel = new GetCustomListOptions();
@@ -191,7 +190,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
             assertEquals(response.getStatusCode(), 200);
 
             CustomListResp customListRespResult = response.getResult();
-            CustomListRespResult customList = customListRespResult.getResult();
+            CustomListResult customList = customListRespResult.getResult();
 
             assertNotNull(customListRespResult);
             assertNotNull(customList);
@@ -201,7 +200,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
         }
     }
 
-    @Test
+    @Test(priority = 5)
     public void testUpdateCustomListWOptions() throws Exception {
         try {
             UpdateCustomListOptions updateCustomListOptionsModel = new UpdateCustomListOptions.Builder()
@@ -215,7 +214,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
             assertEquals(response.getStatusCode(), 200);
 
             CustomListResp customListRespResult = response.getResult();
-            CustomListRespResult updatedList = customListRespResult.getResult();
+            CustomListResult updatedList = customListRespResult.getResult();
 
             assertNotNull(customListRespResult);
             assertNotNull(updatedList);
@@ -225,33 +224,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
         }
     }
 
-    @Test
-    public void testGetListItemsWOptions() throws Exception {
-        try {
-            GetListItemsOptions getListItemsOptionsModel = new GetListItemsOptions.Builder()
-                    .cursor("test-cursor")
-                    .perPage(Long.valueOf("25"))
-                    .search("192.168")
-                    .build();
-
-            // Invoke operation
-            Response<ListItemsResp> response = listsApiService.getListItems(getListItemsOptionsModel).execute();
-            // Validate response
-            assertNotNull(response);
-            assertEquals(response.getStatusCode(), 200);
-
-            ListItemsResp listItemsRespResult = response.getResult();
-            List<ListItemsRespResultItem> listItems = listItemsRespResult.getResult();
-
-            assertNotNull(listItemsRespResult);
-            assertNotNull(listItems);
-        } catch (ServiceResponseException e) {
-            fail(String.format("Service returned status code %d: %s\nError details: %s",
-                    e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-        }
-    }
-
-    @Test
+    @Test(priority = 6)
     public void testCreateListItemsWOptions() throws Exception {
         try {
             CreateListItemsReqItem createListItemsReqItemModel = new CreateListItemsReqItem.Builder()
@@ -272,7 +245,8 @@ public class ListsApiIT extends SdkIntegrationTestBase {
 
             ListOperationResp listOperationRespResult = response.getResult();
             ListOperationRespResult operationResult = listOperationRespResult.getResult();
-            operationId = operationResult.getId();
+            operationId = operationResult.getOperationId();
+            listsApiService.setOperationId(operationId);
 
             assertNotNull(listOperationRespResult);
             assertNotNull(operationResult);
@@ -283,7 +257,81 @@ public class ListsApiIT extends SdkIntegrationTestBase {
         }
     }
 
-    @Test
+    @Test(priority = 7)
+    public void testGetOperationStatusWOptions() throws Exception {
+        try {
+            GetOperationStatusOptions getOperationStatusOptionsModel = new GetOperationStatusOptions();
+
+            // Invoke operation
+            Response<OperationStatusResp> response = listsApiService.getOperationStatus(getOperationStatusOptionsModel).execute();
+            // Validate response
+            assertNotNull(response);
+            assertEquals(response.getStatusCode(), 200);
+
+            OperationStatusResp operationStatusRespResult = response.getResult();
+            OperationStatusRespResult operationStatus = operationStatusRespResult.getResult();
+
+            assertNotNull(operationStatusRespResult);
+            assertNotNull(operationStatus);
+        } catch (ServiceResponseException e) {
+            fail(String.format("Service returned status code %d: %s\nError details: %s",
+                    e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+        }
+    }
+
+    @Test(priority = 8)
+    public void testGetListItemsWOptions() throws Exception {
+        try {
+            GetListItemsOptions getListItemsOptionsModel = new GetListItemsOptions.Builder()
+                    .perPage(Long.valueOf("25"))
+                    .build();
+
+            // Invoke operation
+            Response<ListItemsResp> response = listsApiService.getListItems(getListItemsOptionsModel).execute();
+            // Validate response
+            assertNotNull(response);
+            assertEquals(response.getStatusCode(), 200);
+
+            ListItemsResp listItemsRespResult = response.getResult();
+            List<ListItem> listItems = listItemsRespResult.getResult();
+
+            assertNotNull(listItemsRespResult);
+            assertNotNull(listItems);
+
+            // Capture an item ID for subsequent tests
+            if (listItems != null && !listItems.isEmpty()) {
+                itemId = listItems.get(0).getId();
+                listsApiService.setItemId(itemId);
+            }
+        } catch (ServiceResponseException e) {
+            fail(String.format("Service returned status code %d: %s\nError details: %s",
+                    e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+        }
+    }
+
+    @Test(priority = 9)
+    public void testGetListItemWOptions() throws Exception {
+        try {
+            GetListItemOptions getListItemOptionsModel = new GetListItemOptions();
+
+            // Invoke operation
+            Response<ListItemResp> response = listsApiService.getListItem(getListItemOptionsModel).execute();
+            // Validate response
+            assertNotNull(response);
+            assertEquals(response.getStatusCode(), 200);
+
+            ListItemResp listItemRespResult = response.getResult();
+            ListItem listItem = listItemRespResult.getResult();
+
+            assertNotNull(listItemRespResult);
+            assertNotNull(listItem);
+        } catch (ServiceResponseException e) {
+            fail(String.format("Service returned status code %d: %s\nError details: %s",
+                    e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+        }
+    }
+
+    @Test(priority = 10)
     public void testUpdateListItemsWOptions() throws Exception {
         try {
             CreateListItemsReqItem createListItemsReqItemModel = new CreateListItemsReqItem.Builder()
@@ -313,51 +361,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
         }
     }
 
-    @Test
-    public void testGetListItemWOptions() throws Exception {
-        try {
-            GetListItemOptions getListItemOptionsModel = new GetListItemOptions();
-
-            // Invoke operation
-            Response<ListItemResp> response = listsApiService.getListItem(getListItemOptionsModel).execute();
-            // Validate response
-            assertNotNull(response);
-            assertEquals(response.getStatusCode(), 200);
-
-            ListItemResp listItemRespResult = response.getResult();
-            ListItemRespResult listItem = listItemRespResult.getResult();
-
-            assertNotNull(listItemRespResult);
-            assertNotNull(listItem);
-        } catch (ServiceResponseException e) {
-            fail(String.format("Service returned status code %d: %s\nError details: %s",
-                    e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-        }
-    }
-
-    @Test
-    public void testGetOperationStatusWOptions() throws Exception {
-        try {
-            GetOperationStatusOptions getOperationStatusOptionsModel = new GetOperationStatusOptions();
-
-            // Invoke operation
-            Response<OperationStatusResp> response = listsApiService.getOperationStatus(getOperationStatusOptionsModel).execute();
-            // Validate response
-            assertNotNull(response);
-            assertEquals(response.getStatusCode(), 200);
-
-            OperationStatusResp operationStatusRespResult = response.getResult();
-            OperationStatusRespResult operationStatus = operationStatusRespResult.getResult();
-
-            assertNotNull(operationStatusRespResult);
-            assertNotNull(operationStatus);
-        } catch (ServiceResponseException e) {
-            fail(String.format("Service returned status code %d: %s\nError details: %s",
-                    e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
-        }
-    }
-
-    @Test
+    @Test(priority = 11)
     public void testDeleteListItemsWOptions() throws Exception {
         try {
             DeleteListItemsReqItemsItem deleteListItemsReqItemsItemModel = new DeleteListItemsReqItemsItem.Builder()
@@ -386,7 +390,7 @@ public class ListsApiIT extends SdkIntegrationTestBase {
         }
     }
 
-    @Test
+    @Test(priority = 12)
     public void testDeleteCustomListWOptions() throws Exception {
         try {
             DeleteCustomListOptions deleteCustomListOptionsModel = new DeleteCustomListOptions();
