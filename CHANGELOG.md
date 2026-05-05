@@ -1,3 +1,10 @@
+# [0.46.0](https://github.com/IBM/networking-java-sdk/compare/0.45.0...0.46.0) (2026-05-05)
+
+
+### Features
+
+* Add security level setting operations ([#188](https://github.com/IBM/networking-java-sdk/issues/188)) ([83f5610](https://github.com/IBM/networking-java-sdk/commit/83f5610ac87c8ac21e61e63885028df5b1993774))
+
 # [0.45.0](https://github.com/IBM/networking-java-sdk/compare/0.44.0...0.45.0) (2026-04-20)
 
 
