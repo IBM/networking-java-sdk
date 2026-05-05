@@ -149,6 +149,9 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
+import com.ibm.cloud.networking.zones_settings.v1.model.GetSecurityLevelOptions;
+import com.ibm.cloud.networking.zones_settings.v1.model.SecurityLevelResp;
+import com.ibm.cloud.networking.zones_settings.v1.model.UpdateSecurityLevelOptions;
 
 /**
  * Integration test class for the ZonesSettings service.
@@ -1961,5 +1964,46 @@ public class ZonesSettingsIT extends SdkIntegrationTestBase {
   public void tearDown() {
     // Add any clean up logic here
     System.out.println("Clean up complete.");
+  }
+
+  @Test 
+  public void testGetSecurityLevelWOptions() throws Exception {
+    try {
+      GetSecurityLevelOptions getSecurityLevelOptionsModel = new GetSecurityLevelOptions();
+      // Invoke operation
+      Response<SecurityLevelResp> response = service.getSecurityLevel(getSecurityLevelOptionsModel).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      SecurityLevelResp securityLevelRespResult = response.getResult();
+
+      assertNotNull(securityLevelRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test 
+  public void testUpdateSecurityLevelWOptions() throws Exception {
+    try {
+      UpdateSecurityLevelOptions updateSecurityLevelOptionsModel = new UpdateSecurityLevelOptions.Builder()
+      .value("medium")
+      .build();
+
+      // Invoke operation
+      Response<SecurityLevelResp> response = service.updateSecurityLevel(updateSecurityLevelOptionsModel).execute();
+      // Validate response
+      assertNotNull(response);
+      assertEquals(response.getStatusCode(), 200);
+
+      SecurityLevelResp securityLevelRespResult = response.getResult();
+
+      assertNotNull(securityLevelRespResult);
+    } catch (ServiceResponseException e) {
+        fail(String.format("Service returned status code %d: %s\nError details: %s",
+          e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
   }
  }

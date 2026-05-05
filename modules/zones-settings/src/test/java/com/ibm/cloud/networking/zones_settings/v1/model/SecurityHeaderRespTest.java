@@ -13,13 +13,13 @@
 
 package com.ibm.cloud.networking.zones_settings.v1.model;
 
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderResp;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderRespResult;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderRespResultValue;
 import com.ibm.cloud.networking.zones_settings.v1.model.SecurityHeaderRespResultValueStrictTransportSecurity;
 import com.ibm.cloud.networking.zones_settings.v1.utils.TestUtilities;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
