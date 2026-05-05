@@ -1,3 +1,10 @@
+# [0.47.0](https://github.com/IBM/networking-java-sdk/compare/0.46.0...0.47.0) (2026-05-05)
+
+
+### Features
+
+* Update CIS SDK — CIS_Frontend_API_Spec-Lists ([#189](https://github.com/IBM/networking-java-sdk/issues/189)) ([2350bd0](https://github.com/IBM/networking-java-sdk/commit/2350bd037a0e3d99ea537198e8347a0554a1bdf6))
+
 # [0.46.0](https://github.com/IBM/networking-java-sdk/compare/0.45.0...0.46.0) (2026-05-05)
 
 
