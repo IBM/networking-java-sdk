@@ -102,6 +102,7 @@
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
+        <module>modules/lists-api</module>
     </modules>
 
     <licenses>
