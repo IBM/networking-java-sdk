@@ -99,6 +99,7 @@
         <module>modules/webhooks</module>
         <module>modules/alerts</module>
         <module>modules/rulesets</module>
+        <module>modules/logpush-jobs-api</module>
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
