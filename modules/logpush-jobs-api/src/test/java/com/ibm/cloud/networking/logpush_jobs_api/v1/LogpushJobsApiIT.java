@@ -17,6 +17,8 @@ import com.ibm.cloud.networking.logpush_jobs_api.v1.model.*;
 import com.ibm.cloud.networking.logpush_jobs_api.v1.utils.TestUtilities;
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.sdk.core.http.Response;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.IamAuthenticator;
 import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
@@ -24,10 +26,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import static org.testng.Assert.*;
 
@@ -56,19 +60,40 @@ public class LogpushJobsApiIT extends SdkIntegrationTestBase {
    */
   @Override
   public String getConfigFilename() {
-    return "../../cis.env";
+    return "../../cloud_internet_services.env";
   }
 
-  @BeforeClass
+  @BeforeClass(dependsOnMethods = {"setUpConfig"})
   public void constructService() {
     // Ask super if we should skip the tests.
     if (skipTests()) {
       return;
     }
 
-    final String serviceName = "logpush_jobs_api";
-    // Load up the config properties for this service.
-    config = CredentialUtils.getServiceProperties(serviceName);
+    final String serviceName = "cloud_internet_services";
+    
+    // Manually load properties from file
+    java.io.File configFileObj = new java.io.File(getConfigFilename());
+    Properties props = new Properties();
+    config = new HashMap<>();
+    
+    try (FileInputStream fis = new FileInputStream(configFileObj)) {
+      props.load(fis);
+      
+      // Extract properties with the service name prefix
+      String prefix = serviceName + ".";
+      for (String key : props.stringPropertyNames()) {
+        if (key.startsWith(prefix)) {
+          String shortKey = key.substring(prefix.length());
+          config.put(shortKey, props.getProperty(key));
+        }
+      }
+      
+      System.out.println("Loaded " + config.size() + " properties for service: " + serviceName);
+    } catch (Exception e) {
+      System.err.println("Failed to load config file: " + e.getMessage());
+      e.printStackTrace();
+    }
     
     // Load Config
     crn = config.get("CRN");
@@ -81,17 +106,33 @@ public class LogpushJobsApiIT extends SdkIntegrationTestBase {
     cosInstance = config.get("COS_INSTANCE");
     ownershipToken = config.get("OWNERSHIP_TOKEN");
 
-    // set mock values for global params
-    try {
-      service = LogpushJobsApi.newInstance(crn, dataset, zoneId, serviceName);
-    } catch (Exception e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    System.out.println("Setup complete.");
+    // Create authenticator manually
+    String apiKey = config.get("APIKEY");
+    String url = config.get("URL");
+    String authUrl = config.get("AUTH_URL");
     
-    // Clean up all existing logpush jobs before tests (like Go SDK BeforeEach)
-    cleanupAllJobs();
+    if (apiKey != null && !apiKey.isEmpty()) {
+      IamAuthenticator.Builder authBuilder = new IamAuthenticator.Builder()
+        .apikey(apiKey);
+      
+      // Set IAM URL if provided (for staging/test environments)
+      if (authUrl != null && !authUrl.isEmpty()) {
+        authBuilder.url(authUrl);
+        System.out.println("Using IAM URL: " + authUrl);
+      }
+      
+      Authenticator authenticator = authBuilder.build();
+      service = new LogpushJobsApi(crn, dataset, zoneId, serviceName, authenticator);
+      if (url != null && !url.isEmpty()) {
+        service.setServiceUrl(url);
+      }
+      System.out.println("Setup complete.");
+      
+      // Clean up all existing logpush jobs before tests (like Go SDK BeforeEach)
+      cleanupAllJobs();
+    } else {
+      System.err.println("API key not found in configuration");
+    }
   }
   
   private void cleanupAllJobs() {
@@ -459,7 +500,7 @@ public class LogpushJobsApiIT extends SdkIntegrationTestBase {
       // Create logpush job with custom HTTP destination
       CreateLogpushJobV2RequestLogpushJobGenericReq createRequest =
         new CreateLogpushJobV2RequestLogpushJobGenericReq.Builder()
-          .name("Test HTTP Job")
+          .name("Test-HTTP-Job")
           .enabled(false)
           .logpullOptions("fields=ClientIP,ClientRequestHost,ClientRequestMethod")
           .destinationConf("https://httpbin.org/post")
@@ -681,5 +722,3 @@ public class LogpushJobsApiIT extends SdkIntegrationTestBase {
     }
   }
 }
-
-// Made with Bob
