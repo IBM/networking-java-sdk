@@ -1,3 +1,10 @@
+# [0.48.0](https://github.com/IBM/networking-java-sdk/compare/0.47.0...0.48.0) (2026-06-09)
+
+
+### Features
+
+* Add logpush-jobs-api module for CIS Logpush Jobs ([a51990b](https://github.com/IBM/networking-java-sdk/commit/a51990b0821dbf1eedb0e5cb438c1ec8b18a8955))
+
 # [0.47.0](https://github.com/IBM/networking-java-sdk/compare/0.46.0...0.47.0) (2026-05-05)
 
 
