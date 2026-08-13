@@ -55,8 +55,6 @@ public class TransitConnection extends GenericModel {
     String REDUNDANT_GRE = "redundant_gre";
     /** vpn_gateway. */
     String VPN_GATEWAY = "vpn_gateway";
-    /** dynamic_route_server. */
-    String DYNAMIC_ROUTE_SERVER = "dynamic_route_server";
   }
 
   /**
@@ -184,9 +182,9 @@ public class TransitConnection extends GenericModel {
    * Gets the networkId.
    *
    * The ID of the network being connected via this connection. This field is required for some types, such as `vpc`,
-   * `power_virtual_server`, `directlink`, `vpn_gateway`, `dynamic_route_server` and `redundant_gre`. For network types
-   * `vpc`, `vpn_gateway`, `dynamic_route_server`, `power_virtual_server` and `directlink` this is the CRN of the VPC /
-   * VPN / Dynamic Route Server / PowerVS / Direct Link gateway respectively.
+   * `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types `vpc`, `vpn_gateway`,
+   * `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route Server / PowerVS / Direct
+   * Link gateway respectively.
    *
    * @return the networkId
    */
@@ -236,8 +234,8 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the cidr.
    *
-   * network_type `vpn_gateway` and `dynamic_route_server` connections use `cidr` to specify the CIDR to use for the
-   * `VPN gateway / Dynamic route server` GRE tunnels.
+   * network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway / Dynamic route
+   * server` GRE tunnels.
    *
    * @return the cidr
    */
@@ -415,7 +413,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the tunnels.
    *
-   * Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections.
+   * Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
    *
    * @return the tunnels
    */
