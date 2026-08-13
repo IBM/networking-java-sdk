@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,7 +10,6 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -22,6 +21,7 @@ public class ListTransitGatewaysOptions extends GenericModel {
 
   protected Long limit;
   protected String start;
+  protected String redundancyGroup;
 
   /**
    * Builder.
@@ -29,6 +29,7 @@ public class ListTransitGatewaysOptions extends GenericModel {
   public static class Builder {
     private Long limit;
     private String start;
+    private String redundancyGroup;
 
     /**
      * Instantiates a new Builder from an existing ListTransitGatewaysOptions instance.
@@ -38,6 +39,7 @@ public class ListTransitGatewaysOptions extends GenericModel {
     private Builder(ListTransitGatewaysOptions listTransitGatewaysOptions) {
       this.limit = listTransitGatewaysOptions.limit;
       this.start = listTransitGatewaysOptions.start;
+      this.redundancyGroup = listTransitGatewaysOptions.redundancyGroup;
     }
 
     /**
@@ -76,6 +78,17 @@ public class ListTransitGatewaysOptions extends GenericModel {
       this.start = start;
       return this;
     }
+
+    /**
+     * Set the redundancyGroup.
+     *
+     * @param redundancyGroup the redundancyGroup
+     * @return the ListTransitGatewaysOptions builder
+     */
+    public Builder redundancyGroup(String redundancyGroup) {
+      this.redundancyGroup = redundancyGroup;
+      return this;
+    }
   }
 
   protected ListTransitGatewaysOptions() { }
@@ -83,6 +96,7 @@ public class ListTransitGatewaysOptions extends GenericModel {
   protected ListTransitGatewaysOptions(Builder builder) {
     limit = builder.limit;
     start = builder.start;
+    redundancyGroup = builder.redundancyGroup;
   }
 
   /**
@@ -114,6 +128,17 @@ public class ListTransitGatewaysOptions extends GenericModel {
    */
   public String start() {
     return start;
+  }
+
+  /**
+   * Gets the redundancyGroup.
+   *
+   * Filter the list of transit gateways by redundancy group name.
+   *
+   * @return the redundancyGroup
+   */
+  public String redundancyGroup() {
+    return redundancyGroup;
   }
 }
 

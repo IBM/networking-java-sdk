@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,20 +12,13 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.107.1-41b0fbd0-20250825-080732
+ * IBM OpenAPI SDK Code Generator Version: 3.73.0-eeee85a9-20230607-165104
  */
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
 
 import com.google.gson.JsonObject;
 import com.ibm.cloud.networking.common.SdkCommon;
-import com.ibm.cloud.sdk.core.http.RequestBuilder;
-import com.ibm.cloud.sdk.core.http.ResponseConverter;
-import com.ibm.cloud.sdk.core.http.ServiceCall;
-import com.ibm.cloud.sdk.core.security.Authenticator;
-import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
-import com.ibm.cloud.sdk.core.service.BaseService;
-import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionActionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionPrefixFilterOptions;
@@ -38,6 +31,7 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatew
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.DeleteTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetGatewayLocationOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetRedundancyGroupOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayConnectionTunnelsOptions;
@@ -45,6 +39,7 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayO
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.GetTransitGatewayRouteReportOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListGatewayLocationsOptions;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListRedundancyGroupsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionPrefixFiltersOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayConnectionsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewayGreTunnelOptions;
@@ -52,6 +47,8 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGateway
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.PrefixFilterCust;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RedundancyGroup;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RedundancyGroupCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReport;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportCollection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TSCollection;
@@ -63,10 +60,18 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConn
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayConnectionCust;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnel;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGatewayTunnelCollection;
+import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateRedundancyGroupOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionPrefixFilterOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayConnectionTunnelsOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.UpdateTransitGatewayOptions;
+import com.ibm.cloud.sdk.core.http.RequestBuilder;
+import com.ibm.cloud.sdk.core.http.ResponseConverter;
+import com.ibm.cloud.sdk.core.http.ServiceCall;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.ConfigBasedAuthenticatorFactory;
+import com.ibm.cloud.sdk.core.service.BaseService;
+import com.ibm.cloud.sdk.core.util.ResponseConverterUtils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -158,7 +163,12 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Retrieves all Transit Gateways.
    *
-   * List all Transit Gateways in account the caller is authorized to view.
+   * List all Transit Gateways in the account the caller is authorized to view. Use the `limit` (integer, 1–100, default
+   * 50) and `start` (string token) parameters to page through results. Optionally filter by `redundancy_group` name.
+   * Each `TransitGateway` in the response includes: `id`, `name`, `crn`, `location`,
+   * `status` (pending, available, deleting, deleted, failed), `global` (boolean),
+   * `created_at`, `updated_at`, `resource_group`, and optionally `redundancy_group`,
+   * `redundancy_group_id`, `gre_enhanced_route_propagation`, and `connection_needs_attention`.
    *
    * @param listTransitGatewaysOptions the {@link ListTransitGatewaysOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TransitGatewayCollection}
@@ -180,6 +190,9 @@ public class TransitGatewayApis extends BaseService {
     if (listTransitGatewaysOptions.start() != null) {
       builder.query("start", String.valueOf(listTransitGatewaysOptions.start()));
     }
+    if (listTransitGatewaysOptions.redundancyGroup() != null) {
+      builder.query("redundancy_group", String.valueOf(listTransitGatewaysOptions.redundancyGroup()));
+    }
     ResponseConverter<TransitGatewayCollection> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayCollection>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -188,7 +201,12 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Retrieves all Transit Gateways.
    *
-   * List all Transit Gateways in account the caller is authorized to view.
+   * List all Transit Gateways in the account the caller is authorized to view. Use the `limit` (integer, 1–100, default
+   * 50) and `start` (string token) parameters to page through results. Optionally filter by `redundancy_group` name.
+   * Each `TransitGateway` in the response includes: `id`, `name`, `crn`, `location`,
+   * `status` (pending, available, deleting, deleted, failed), `global` (boolean),
+   * `created_at`, `updated_at`, `resource_group`, and optionally `redundancy_group`,
+   * `redundancy_group_id`, `gre_enhanced_route_propagation`, and `connection_needs_attention`.
    *
    * @return a {@link ServiceCall} with a result of type {@link TransitGatewayCollection}
    */
@@ -199,7 +217,11 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Creates a Transit Gateway.
    *
-   * Create a Transit Gateway based on the supplied input template.
+   * Create a Transit Gateway based on the supplied input template. Required fields: `name` (string, 1–60 chars),
+   * `location` (IBM Cloud region, e.g. us-south). Optional fields: `global` (boolean, enables cross-region routing),
+   * `resource_group` (object with `id`), `redundancy_group` (string, name of the redundancy group to join),
+   * `gre_enhanced_route_propagation` (boolean). Returns a `TransitGateway` object. Initial `status` will be `pending`
+   * while provisioning.
    *
    * @param createTransitGatewayOptions the {@link CreateTransitGatewayOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TransitGateway}
@@ -223,6 +245,9 @@ public class TransitGatewayApis extends BaseService {
     if (createTransitGatewayOptions.greEnhancedRoutePropagation() != null) {
       contentJson.addProperty("gre_enhanced_route_propagation", createTransitGatewayOptions.greEnhancedRoutePropagation());
     }
+    if (createTransitGatewayOptions.redundancyGroup() != null) {
+      contentJson.addProperty("redundancy_group", createTransitGatewayOptions.redundancyGroup());
+    }
     if (createTransitGatewayOptions.resourceGroup() != null) {
       contentJson.add("resource_group", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayOptions.resourceGroup()));
     }
@@ -235,8 +260,8 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Deletes specified Transit Gateway.
    *
-   * This request deletes a Transit Gateway. This operation cannot be reversed. For this request to succeed, the Transit
-   * Gateway must not contain connections.
+   * Delete a Transit Gateway specified by its `id` path parameter. This operation cannot be reversed. The gateway must
+   * have no attached connections before it can be deleted; remove all connections first.
    *
    * @param deleteTransitGatewayOptions the {@link DeleteTransitGatewayOptions} containing the options for the call
    * @return a {@link ServiceCall} with a void result
@@ -259,7 +284,10 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Retrieves specified Transit Gateway.
    *
-   * This request retrieves a single Transit Gateway specified by the identifier in the URL.
+   * Retrieve a single Transit Gateway specified by its `id` path parameter. Returns a `TransitGateway` object
+   * containing: `id`, `name`, `crn`, `location`,
+   * `status`, `global`, `created_at`, `updated_at`, `resource_group`, and optionally
+   * `redundancy_group`, `redundancy_group_id`, `gre_enhanced_route_propagation`, and `connection_needs_attention`.
    *
    * @param getTransitGatewayOptions the {@link GetTransitGatewayOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TransitGateway}
@@ -284,7 +312,9 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Updates specified Transit Gateway.
    *
-   * This request updates a Transit Gateway's name and/or global flag.
+   * Update a Transit Gateway specified by its `id` path parameter. Updatable fields: `name` (string), `global`
+   * (boolean), `redundancy_group` (string, assigns the gateway to a redundancy group), `gre_enhanced_route_propagation`
+   * (boolean). Returns the updated `TransitGateway` object.
    *
    * @param updateTransitGatewayOptions the {@link UpdateTransitGatewayOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TransitGateway}
@@ -311,6 +341,9 @@ public class TransitGatewayApis extends BaseService {
     if (updateTransitGatewayOptions.name() != null) {
       contentJson.addProperty("name", updateTransitGatewayOptions.name());
     }
+    if (updateTransitGatewayOptions.redundancyGroup() != null) {
+      contentJson.addProperty("redundancy_group", updateTransitGatewayOptions.redundancyGroup());
+    }
     builder.bodyJson(contentJson);
     ResponseConverter<TransitGateway> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGateway>() { }.getType());
@@ -320,7 +353,11 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Retrieves all connections.
    *
-   * List all transit gateway connections associated with this account.
+   * List all transit gateway connections associated with this account. Results can be filtered by `network_id` or
+   * `network_type`. Use the `limit` and `start` parameters to page through large result sets. The response includes a
+   * `TransitConnection` object for each connection, containing fields such as `id`, `name`, `network_type`,
+   * `status`, `created_at`, `updated_at`, and optionally `prefix_filters`, `request_status`, and `transit_gateway`
+   * reference.
    *
    * @param listConnectionsOptions the {@link ListConnectionsOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TransitConnectionCollection}
@@ -356,7 +393,11 @@ public class TransitGatewayApis extends BaseService {
   /**
    * Retrieves all connections.
    *
-   * List all transit gateway connections associated with this account.
+   * List all transit gateway connections associated with this account. Results can be filtered by `network_id` or
+   * `network_type`. Use the `limit` and `start` parameters to page through large result sets. The response includes a
+   * `TransitConnection` object for each connection, containing fields such as `id`, `name`, `network_type`,
+   * `status`, `created_at`, `updated_at`, and optionally `prefix_filters`, `request_status`, and `transit_gateway`
+   * reference.
    *
    * @return a {@link ServiceCall} with a result of type {@link TransitConnectionCollection}
    */
@@ -720,7 +761,7 @@ public class TransitGatewayApis extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateTransitGatewayConnectionTunnelsOptions.transitGatewayTunnelPatch()), "application/merge-patch+json");
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateTransitGatewayConnectionTunnelsOptions.transitGatewayTunnelPatch()), "application/merge-patch+json");
     ResponseConverter<TransitGatewayTunnel> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayTunnel>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -1045,6 +1086,95 @@ public class TransitGatewayApis extends BaseService {
     builder.query("version", String.valueOf(this.version));
     ResponseConverter<RouteReport> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RouteReport>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Lists all redundancy groups in the account.
+   *
+   * List all redundancy groups for the account.
+   *
+   * @param listRedundancyGroupsOptions the {@link ListRedundancyGroupsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RedundancyGroupCollection}
+   */
+  public ServiceCall<RedundancyGroupCollection> listRedundancyGroups(ListRedundancyGroupsOptions listRedundancyGroupsOptions) {
+    if (listRedundancyGroupsOptions == null) {
+      listRedundancyGroupsOptions = new ListRedundancyGroupsOptions.Builder().build();
+    }
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/redundancy_groups"));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "listRedundancyGroups");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    if (listRedundancyGroupsOptions.name() != null) {
+      builder.query("name", String.valueOf(listRedundancyGroupsOptions.name()));
+    }
+    ResponseConverter<RedundancyGroupCollection> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RedundancyGroupCollection>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Lists all redundancy groups in the account.
+   *
+   * List all redundancy groups for the account.
+   *
+   * @return a {@link ServiceCall} with a result of type {@link RedundancyGroupCollection}
+   */
+  public ServiceCall<RedundancyGroupCollection> listRedundancyGroups() {
+    return listRedundancyGroups(null);
+  }
+
+  /**
+   * Retrieves specified redundancy group.
+   *
+   * Retrieves a single redundancy group specified by the identifier in the URL.
+   *
+   * @param getRedundancyGroupOptions the {@link GetRedundancyGroupOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RedundancyGroup}
+   */
+  public ServiceCall<RedundancyGroup> getRedundancyGroup(GetRedundancyGroupOptions getRedundancyGroupOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getRedundancyGroupOptions,
+      "getRedundancyGroupOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", getRedundancyGroupOptions.id());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/redundancy_groups/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "getRedundancyGroup");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    ResponseConverter<RedundancyGroup> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RedundancyGroup>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Updates a redundancy group.
+   *
+   * Update a redundancy group.
+   *
+   * @param updateRedundancyGroupOptions the {@link UpdateRedundancyGroupOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link RedundancyGroup}
+   */
+  public ServiceCall<RedundancyGroup> updateRedundancyGroup(UpdateRedundancyGroupOptions updateRedundancyGroupOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(updateRedundancyGroupOptions,
+      "updateRedundancyGroupOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("id", updateRedundancyGroupOptions.id());
+    RequestBuilder builder = RequestBuilder.patch(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/redundancy_groups/{id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("transit_gateway_apis", "v1", "updateRedundancyGroup");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    builder.query("version", String.valueOf(this.version));
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateRedundancyGroupOptions.redundancyGroupPatch()), "application/merge-patch+json");
+    ResponseConverter<RedundancyGroup> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RedundancyGroup>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 

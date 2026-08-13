@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,7 +10,6 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -24,6 +23,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
   protected Boolean global;
   protected Boolean greEnhancedRoutePropagation;
   protected String name;
+  protected String redundancyGroup;
 
   /**
    * Builder.
@@ -33,6 +33,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
     private Boolean global;
     private Boolean greEnhancedRoutePropagation;
     private String name;
+    private String redundancyGroup;
 
     /**
      * Instantiates a new Builder from an existing UpdateTransitGatewayOptions instance.
@@ -44,6 +45,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
       this.global = updateTransitGatewayOptions.global;
       this.greEnhancedRoutePropagation = updateTransitGatewayOptions.greEnhancedRoutePropagation;
       this.name = updateTransitGatewayOptions.name;
+      this.redundancyGroup = updateTransitGatewayOptions.redundancyGroup;
     }
 
     /**
@@ -113,6 +115,17 @@ public class UpdateTransitGatewayOptions extends GenericModel {
       this.name = name;
       return this;
     }
+
+    /**
+     * Set the redundancyGroup.
+     *
+     * @param redundancyGroup the redundancyGroup
+     * @return the UpdateTransitGatewayOptions builder
+     */
+    public Builder redundancyGroup(String redundancyGroup) {
+      this.redundancyGroup = redundancyGroup;
+      return this;
+    }
   }
 
   protected UpdateTransitGatewayOptions() { }
@@ -124,6 +137,7 @@ public class UpdateTransitGatewayOptions extends GenericModel {
     global = builder.global;
     greEnhancedRoutePropagation = builder.greEnhancedRoutePropagation;
     name = builder.name;
+    redundancyGroup = builder.redundancyGroup;
   }
 
   /**
@@ -149,7 +163,8 @@ public class UpdateTransitGatewayOptions extends GenericModel {
   /**
    * Gets the global.
    *
-   * Allow global routing for a Transit Gateway.
+   * Allow global routing for a Transit Gateway. This property cannot be changed if the transit gateway has
+   * redundancy_group set.
    *
    * @return the global
    */
@@ -179,6 +194,19 @@ public class UpdateTransitGatewayOptions extends GenericModel {
    */
   public String name() {
     return name;
+  }
+
+  /**
+   * Gets the redundancyGroup.
+   *
+   * Create a new redundancy group with this name and add the gateway to it. This property is only valid when the
+   * gateway is global (or `global` is set to `true` in the same request), the gateway is not already a member of a
+   * redundancy group, and no redundancy group with this name already exists in the account.
+   *
+   * @return the redundancyGroup
+   */
+  public String redundancyGroup() {
+    return redundancyGroup;
   }
 }
 

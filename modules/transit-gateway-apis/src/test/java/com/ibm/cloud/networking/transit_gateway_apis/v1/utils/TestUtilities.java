@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,10 +10,8 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 package com.ibm.cloud.networking.transit_gateway_apis.v1.utils;
 
-import java.util.Base64;
 import java.util.Map;
 import java.util.Set;
 import java.util.List;
@@ -117,8 +115,8 @@ public class TestUtilities {
         return list;
     }
 
-    public static byte[] createMockByteArray(String encodedString) throws Exception {
-        return Base64.getDecoder().decode(encodedString);
+    public static byte[] createMockByteArray(String bytes) {
+        return bytes.getBytes();
     }
 
     public static Date createMockDate(String date) throws Exception {
