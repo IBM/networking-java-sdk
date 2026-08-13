@@ -480,8 +480,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the cidr.
    *
-   * network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway / Dynamic route
-   * server GRE tunnels.
+   * network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway GRE tunnels.
    *
    * This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
    * 198.19.174.0/23.
@@ -560,11 +559,10 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * Gets the networkId.
    *
    * The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
-   * `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route Server / PowerVS / Direct
-   * Link gateway respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and
-   * `directlink` connections.  It is also required for `redundant_gre` connections when the base_network_type is set to
-   * VPC. This field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel`
-   * connections.
+   * `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
+   * respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and `directlink`
+   * connections.  It is also required for `redundant_gre` connections when the base_network_type is set to VPC. This
+   * field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * @return the networkId
    */
