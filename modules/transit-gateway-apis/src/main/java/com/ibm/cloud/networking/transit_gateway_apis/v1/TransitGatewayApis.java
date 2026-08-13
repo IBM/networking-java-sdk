@@ -12,7 +12,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.73.0-eeee85a9-20230607-165104
+ * IBM OpenAPI SDK Code Generator Version: 3.107.1-41b0fbd0-20250825-080732
  */
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
@@ -761,7 +761,7 @@ public class TransitGatewayApis extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateTransitGatewayConnectionTunnelsOptions.transitGatewayTunnelPatch()), "application/merge-patch+json");
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateTransitGatewayConnectionTunnelsOptions.transitGatewayTunnelPatch()), "application/merge-patch+json");
     ResponseConverter<TransitGatewayTunnel> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<TransitGatewayTunnel>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -1172,7 +1172,7 @@ public class TransitGatewayApis extends BaseService {
     }
     builder.header("Accept", "application/json");
     builder.query("version", String.valueOf(this.version));
-    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(updateRedundancyGroupOptions.redundancyGroupPatch()), "application/merge-patch+json");
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithSerializeNulls().toJson(updateRedundancyGroupOptions.redundancyGroupPatch()), "application/merge-patch+json");
     ResponseConverter<RedundancyGroup> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<RedundancyGroup>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
