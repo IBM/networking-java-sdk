@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -18,7 +18,7 @@ import java.util.List;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+ * Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections.
  */
 public class TransitGatewayTunnelCollection extends GenericModel {
 
@@ -29,7 +29,7 @@ public class TransitGatewayTunnelCollection extends GenericModel {
   /**
    * Gets the tunnels.
    *
-   * Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+   * Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections.
    *
    * @return the tunnels
    */

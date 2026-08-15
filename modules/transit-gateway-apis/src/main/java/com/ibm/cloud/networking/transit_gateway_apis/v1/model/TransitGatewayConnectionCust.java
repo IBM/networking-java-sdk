@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -28,15 +28,13 @@ public class TransitGatewayConnectionCust extends GenericModel {
    * The type of network the Unbound GRE tunnel is targeting. This field is required for network type
    * `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and
    * can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`,
-   * `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+   * `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
    */
   public interface BaseNetworkType {
     /** classic. */
     String CLASSIC = "classic";
     /** vpc. */
     String VPC = "vpc";
-    /** vpn. */
-    String VPN = "vpn";
   }
 
   /**
@@ -59,6 +57,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
     String REDUNDANT_GRE = "redundant_gre";
     /** vpn_gateway. */
     String VPN_GATEWAY = "vpn_gateway";
+    /** dynamic_route_server. */
+    String DYNAMIC_ROUTE_SERVER = "dynamic_route_server";
   }
 
   /**
@@ -179,7 +179,7 @@ public class TransitGatewayConnectionCust extends GenericModel {
    * The type of network the Unbound GRE tunnel is targeting. This field is required for network type
    * `unbound_gre_tunnel` and must be set to `classic`.  For a `redundant_gre` network type, the value is required and
    * can be either VPC or Classic. This field is required to be unspecified for network type `classic`, `directlink`,
-   * `vpc`, `power_virtual_server`, `vpn_gateway` and `gre_tunnel` connections.
+   * `vpc`, `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `gre_tunnel` connections.
    *
    * @return the baseNetworkType
    */
@@ -190,7 +190,8 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the cidr.
    *
-   * network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels.
+   * network_type `vpn_gateway` and `dynamic_route_server` connections use `cidr` to specify the CIDR to use for the
+   * `VPN gateway / Dynamic route server` GRE tunnels.
    *
    * @return the cidr
    */
@@ -273,7 +274,7 @@ public class TransitGatewayConnectionCust extends GenericModel {
    * name of the VPC.  Network type `classic` connections are named `classic`.
    *
    * This field is required for network type `power_virtual_server`, `directlink`, `gre_tunnel`, `unbound_gre_tunnel`,
-   * `vpn_gateway` and `redundant_gre` connections.
+   * `vpn_gateway`, `dynamic_route_server` and `redundant_gre` connections.
    *
    * This field is optional for network type `classic`, `vpc` connections.
    *
@@ -298,11 +299,12 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the networkId.
    *
-   * The ID of the network being connected via this connection. For network types `vpc`,`power_virtual_server`,
-   * `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC / Direct Link / VPN gateway respectively.
-   * This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway`, and `directlink` connections.
-   *  It is also required for `redundant_gre` connections when the base_network_type is set to VPC. This field is
-   * required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
+   * The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
+   * `dynamic_route_server`, `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / Dynamic Route
+   * Server / PowerVS / Direct Link gateway respectively. This field is required for network type `vpc`,
+   * `power_virtual_server`, `vpn_gateway`, `dynamic_route_server` and `directlink` connections.  It is also required
+   * for `redundant_gre` connections when the base_network_type is set to VPC. This field is required to be unspecified
+   * for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * @return the networkId
    */
@@ -409,7 +411,7 @@ public class TransitGatewayConnectionCust extends GenericModel {
   /**
    * Gets the tunnels.
    *
-   * Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+   * Collection of all tunnels for `redundant_gre`, `vpn_gateway` and `dynamic_route_server` connections.
    *
    * @return the tunnels
    */
