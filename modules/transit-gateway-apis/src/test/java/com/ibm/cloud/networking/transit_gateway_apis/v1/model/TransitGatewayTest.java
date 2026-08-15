@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,10 +13,10 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ResourceGroupReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.TransitGateway;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +42,8 @@ public class TransitGatewayTest {
     assertNull(transitGatewayModel.getId());
     assertNull(transitGatewayModel.getLocation());
     assertNull(transitGatewayModel.getName());
+    assertNull(transitGatewayModel.getRedundancyGroup());
+    assertNull(transitGatewayModel.getRedundancyGroupId());
     assertNull(transitGatewayModel.getResourceGroup());
     assertNull(transitGatewayModel.getStatus());
     assertNull(transitGatewayModel.getUpdatedAt());

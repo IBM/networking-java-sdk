@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,9 +13,9 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ListTransitGatewaysOptions;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -34,8 +34,10 @@ public class ListTransitGatewaysOptionsTest {
     ListTransitGatewaysOptions listTransitGatewaysOptionsModel = new ListTransitGatewaysOptions.Builder()
       .limit(Long.valueOf("50"))
       .start("testString")
+      .redundancyGroup("testString")
       .build();
     assertEquals(listTransitGatewaysOptionsModel.limit(), Long.valueOf("50"));
     assertEquals(listTransitGatewaysOptionsModel.start(), "testString");
+    assertEquals(listTransitGatewaysOptionsModel.redundancyGroup(), "testString");
   }
 }

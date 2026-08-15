@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,6 +13,7 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1.model;
 
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReport;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportConnection;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportConnectionBgp;
@@ -20,7 +21,6 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportConnect
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportOverlappingRoute;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.RouteReportOverlappingRouteGroup;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
