@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -32,8 +32,6 @@ public class TransitConnection extends GenericModel {
     String CLASSIC = "classic";
     /** vpc. */
     String VPC = "vpc";
-    /** vpn. */
-    String VPN = "vpn";
   }
 
   /**
@@ -124,6 +122,7 @@ public class TransitConnection extends GenericModel {
   protected String id;
   @SerializedName("base_connection_id")
   protected String baseConnectionId;
+  protected String cidr;
   @SerializedName("created_at")
   protected Date createdAt;
   @SerializedName("local_bgp_asn")
@@ -183,8 +182,8 @@ public class TransitConnection extends GenericModel {
    * Gets the networkId.
    *
    * The ID of the network being connected via this connection. This field is required for some types, such as `vpc`,
-   * `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types `vpc`, `redundant_gre`,
-   * `power_virtual_server` and `directlink` this is the CRN of the VPC  / PowerVS / VDC / Direct Link gateway
+   * `power_virtual_server`, `directlink`, `vpn_gateway` and `redundant_gre`. For network types `vpc`, `vpn_gateway`,
+   * `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
    * respectively.
    *
    * @return the networkId
@@ -230,6 +229,17 @@ public class TransitConnection extends GenericModel {
   @Deprecated
   public String getBaseConnectionId() {
     return baseConnectionId;
+  }
+
+  /**
+   * Gets the cidr.
+   *
+   * network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the `VPN gateway` GRE tunnels.
+   *
+   * @return the cidr
+   */
+  public String getCidr() {
+    return cidr;
   }
 
   /**

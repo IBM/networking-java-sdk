@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -480,9 +480,10 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the cidr.
    *
-   * network_type 'vpn_gateway' connections use 'cidr' to specify the CIDR to use for the VPN GRE tunnels.
+   * network_type `vpn_gateway` connections use `cidr` to specify the CIDR to use for the VPN gateway GRE tunnels.
    *
-   * This field is required for network type `vpn_gateway` connections.
+   * This field is optional for network type `vpn_gateway` connections. If unspecified, the default value is
+   * 198.19.174.0/23.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`,
    * `gre_tunnel`, `unbound_gre_tunnel`, and `redundant_gre` connections.
@@ -557,11 +558,11 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
   /**
    * Gets the networkId.
    *
-   * The ID of the network being connected via this connection. For network types `vpc`,`power_virtual_server`,
-   * `directlink` and `vpn_gateway` this is the CRN of the VPC / PowerVS / VDC / Direct Link / VPN gateway respectively.
-   * This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway`, and `directlink` connections.
-   *  It is also required for `redundant_gre` connections when the base_network_type is set to VPC. This field is
-   * required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
+   * The ID of the network being connected via this connection. For network types `vpc`, `vpn_gateway`,
+   * `power_virtual_server` and `directlink` this is the CRN of the VPC / VPN / PowerVS / Direct Link gateway
+   * respectively. This field is required for network type `vpc`, `power_virtual_server`, `vpn_gateway` and `directlink`
+   * connections.  It is also required for `redundant_gre` connections when the base_network_type is set to VPC. This
+   * field is required to be unspecified for network type `classic`, `gre_tunnel` and `unbound_gre_tunnel` connections.
    *
    * @return the networkId
    */

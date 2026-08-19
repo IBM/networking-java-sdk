@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -42,12 +42,16 @@ public class CreateTransitGatewayOptionsTest {
       .name("my-transit-gateway-in-TransitGateway")
       .global(true)
       .greEnhancedRoutePropagation(true)
+      .redundancyGroup("rg-1")
+      .redundancyGroupId("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")
       .resourceGroup(resourceGroupIdentityModel)
       .build();
     assertEquals(createTransitGatewayOptionsModel.location(), "us-south");
     assertEquals(createTransitGatewayOptionsModel.name(), "my-transit-gateway-in-TransitGateway");
     assertEquals(createTransitGatewayOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(createTransitGatewayOptionsModel.greEnhancedRoutePropagation(), Boolean.valueOf(true));
+    assertEquals(createTransitGatewayOptionsModel.redundancyGroup(), "rg-1");
+    assertEquals(createTransitGatewayOptionsModel.redundancyGroupId(), "bf3f5f91-1234-41c7-9e11-9cd99e65c1f4");
     assertEquals(createTransitGatewayOptionsModel.resourceGroup(), resourceGroupIdentityModel);
   }
 

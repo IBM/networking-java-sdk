@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,6 +24,8 @@ public class CreateTransitGatewayOptions extends GenericModel {
   protected String name;
   protected Boolean global;
   protected Boolean greEnhancedRoutePropagation;
+  protected String redundancyGroup;
+  protected String redundancyGroupId;
   protected ResourceGroupIdentity resourceGroup;
 
   /**
@@ -34,6 +36,8 @@ public class CreateTransitGatewayOptions extends GenericModel {
     private String name;
     private Boolean global;
     private Boolean greEnhancedRoutePropagation;
+    private String redundancyGroup;
+    private String redundancyGroupId;
     private ResourceGroupIdentity resourceGroup;
 
     /**
@@ -46,6 +50,8 @@ public class CreateTransitGatewayOptions extends GenericModel {
       this.name = createTransitGatewayOptions.name;
       this.global = createTransitGatewayOptions.global;
       this.greEnhancedRoutePropagation = createTransitGatewayOptions.greEnhancedRoutePropagation;
+      this.redundancyGroup = createTransitGatewayOptions.redundancyGroup;
+      this.redundancyGroupId = createTransitGatewayOptions.redundancyGroupId;
       this.resourceGroup = createTransitGatewayOptions.resourceGroup;
     }
 
@@ -120,6 +126,28 @@ public class CreateTransitGatewayOptions extends GenericModel {
     }
 
     /**
+     * Set the redundancyGroup.
+     *
+     * @param redundancyGroup the redundancyGroup
+     * @return the CreateTransitGatewayOptions builder
+     */
+    public Builder redundancyGroup(String redundancyGroup) {
+      this.redundancyGroup = redundancyGroup;
+      return this;
+    }
+
+    /**
+     * Set the redundancyGroupId.
+     *
+     * @param redundancyGroupId the redundancyGroupId
+     * @return the CreateTransitGatewayOptions builder
+     */
+    public Builder redundancyGroupId(String redundancyGroupId) {
+      this.redundancyGroupId = redundancyGroupId;
+      return this;
+    }
+
+    /**
      * Set the resourceGroup.
      *
      * @param resourceGroup the resourceGroup
@@ -142,6 +170,8 @@ public class CreateTransitGatewayOptions extends GenericModel {
     name = builder.name;
     global = builder.global;
     greEnhancedRoutePropagation = builder.greEnhancedRoutePropagation;
+    redundancyGroup = builder.redundancyGroup;
+    redundancyGroupId = builder.redundancyGroupId;
     resourceGroup = builder.resourceGroup;
   }
 
@@ -197,6 +227,34 @@ public class CreateTransitGatewayOptions extends GenericModel {
    */
   public Boolean greEnhancedRoutePropagation() {
     return greEnhancedRoutePropagation;
+  }
+
+  /**
+   * Gets the redundancyGroup.
+   *
+   * Include the global transit gateway in this redundancy group. When set, this transit gateway will be redundant to
+   * other transit gateways in this redundancy group. If this redundancy group doesn't exist in the account, it will be
+   * created. This property can only be set for global transit gateways and the transit gateway cannot be in a location
+   * already used by a global transit gateway in this redundancy group. If specified, `redundancy_group_id` cannot also
+   * be specified.
+   *
+   * @return the redundancyGroup
+   */
+  public String redundancyGroup() {
+    return redundancyGroup;
+  }
+
+  /**
+   * Gets the redundancyGroupId.
+   *
+   * Include the transit gateway in an existing redundancy group in the account. This property can only be set for
+   * global transit gateways and the transit gateway cannot be in a location already used by a global transit gateway in
+   * this redundancy group. If specified, `redundancy_group` cannot also be specified.
+   *
+   * @return the redundancyGroupId
+   */
+  public String redundancyGroupId() {
+    return redundancyGroupId;
   }
 
   /**
