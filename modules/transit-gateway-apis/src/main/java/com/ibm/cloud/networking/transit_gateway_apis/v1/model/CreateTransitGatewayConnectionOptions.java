@@ -671,7 +671,7 @@ public class CreateTransitGatewayConnectionOptions extends GenericModel {
    * This field is optional for network type `vpn_gateway` connections.
    *
    * This field is required to be unspecified for network type `classic`, `directlink`, `vpc`, `power_virtual_server`
-   * and `redundant_gre` connections.
+   * and `redundant_gre`  connections.
    *
    * @return the zone
    */

@@ -18,7 +18,7 @@ import java.util.List;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
 /**
- * Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
+ * Collection of all tunnels for `redundant_gre` and`vpn_gateway` connections.
  */
 public class TransitGatewayTunnelCollection extends GenericModel {
 

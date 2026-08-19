@@ -43,6 +43,7 @@ public class CreateTransitGatewayOptionsTest {
       .global(true)
       .greEnhancedRoutePropagation(true)
       .redundancyGroup("rg-1")
+      .redundancyGroupId("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")
       .resourceGroup(resourceGroupIdentityModel)
       .build();
     assertEquals(createTransitGatewayOptionsModel.location(), "us-south");
@@ -50,6 +51,7 @@ public class CreateTransitGatewayOptionsTest {
     assertEquals(createTransitGatewayOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(createTransitGatewayOptionsModel.greEnhancedRoutePropagation(), Boolean.valueOf(true));
     assertEquals(createTransitGatewayOptionsModel.redundancyGroup(), "rg-1");
+    assertEquals(createTransitGatewayOptionsModel.redundancyGroupId(), "bf3f5f91-1234-41c7-9e11-9cd99e65c1f4");
     assertEquals(createTransitGatewayOptionsModel.resourceGroup(), resourceGroupIdentityModel);
   }
 

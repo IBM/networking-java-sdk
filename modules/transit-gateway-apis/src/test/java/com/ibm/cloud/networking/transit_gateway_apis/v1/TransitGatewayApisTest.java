@@ -272,6 +272,7 @@ public class TransitGatewayApisTest {
       .global(true)
       .greEnhancedRoutePropagation(true)
       .redundancyGroup("rg-1")
+      .redundancyGroupId("bf3f5f91-1234-41c7-9e11-9cd99e65c1f4")
       .resourceGroup(resourceGroupIdentityModel)
       .build();
 
@@ -757,7 +758,7 @@ public class TransitGatewayApisTest {
       .localGatewayIp("192.168.100.1")
       .localTunnelIp("192.168.129.2")
       .name("Transit_Service_BWTN_SJ_DL")
-      .networkAccountId("testString")
+      .networkAccountId("28e4d90ac7504be694471ee66e70d0d5")
       .networkId("crn:v1:bluemix:public:is:us-south:a/123456::vpc:4727d842-f94f-4a2d-824a-9bc9b02c523b")
       .prefixFilters(java.util.Arrays.asList(transitGatewayConnectionPrefixFilterModel))
       .prefixFiltersDefault("permit")

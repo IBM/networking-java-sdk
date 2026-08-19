@@ -220,8 +220,9 @@ public class TransitGatewayApis extends BaseService {
    * Create a Transit Gateway based on the supplied input template. Required fields: `name` (string, 1–60 chars),
    * `location` (IBM Cloud region, e.g. us-south). Optional fields: `global` (boolean, enables cross-region routing),
    * `resource_group` (object with `id`), `redundancy_group` (string, name of the redundancy group to join),
-   * `gre_enhanced_route_propagation` (boolean). Returns a `TransitGateway` object. Initial `status` will be `pending`
-   * while provisioning.
+   * `redundancy_group_id` (string, ID of an existing redundancy group in the account),
+   * `gre_enhanced_route_propagation` (boolean). Either `redundancy_group` or `redundancy_group_id` can be provided, but
+   * not both. Returns a `TransitGateway` object. Initial `status` will be `pending` while provisioning.
    *
    * @param createTransitGatewayOptions the {@link CreateTransitGatewayOptions} containing the options for the call
    * @return a {@link ServiceCall} with a result of type {@link TransitGateway}
@@ -247,6 +248,9 @@ public class TransitGatewayApis extends BaseService {
     }
     if (createTransitGatewayOptions.redundancyGroup() != null) {
       contentJson.addProperty("redundancy_group", createTransitGatewayOptions.redundancyGroup());
+    }
+    if (createTransitGatewayOptions.redundancyGroupId() != null) {
+      contentJson.addProperty("redundancy_group_id", createTransitGatewayOptions.redundancyGroupId());
     }
     if (createTransitGatewayOptions.resourceGroup() != null) {
       contentJson.add("resource_group", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(createTransitGatewayOptions.resourceGroup()));
