@@ -412,7 +412,7 @@ public class TransitConnection extends GenericModel {
   /**
    * Gets the tunnels.
    *
-   * Collection of all tunnels for `redundant_gre`, `vpn_gateway` connections.
+   * Collection of all tunnels for `redundant_gre` and `vpn_gateway` connections.
    *
    * @return the tunnels
    */
