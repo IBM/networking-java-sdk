@@ -1,3 +1,11 @@
+## [0.48.1](https://github.com/IBM/networking-java-sdk/compare/0.48.0...0.48.1) (2026-09-15)
+
+
+### Bug Fixes
+
+* **npm-deps:** na artifactory to npm registry fixes ([275fdc7](https://github.com/IBM/networking-java-sdk/commit/275fdc7cc90db90021546e259764e7f7e3de1e59))
+* **npm-deps:** npm audit fixes ([41563b9](https://github.com/IBM/networking-java-sdk/commit/41563b9e79d3f61935ab3f2c21f14e6405db0408))
+
 # [0.48.0](https://github.com/IBM/networking-java-sdk/compare/0.47.0...0.48.0) (2026-06-09)
 
 
