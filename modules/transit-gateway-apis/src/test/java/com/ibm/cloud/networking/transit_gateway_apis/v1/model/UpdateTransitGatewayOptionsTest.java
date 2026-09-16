@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -36,11 +36,13 @@ public class UpdateTransitGatewayOptionsTest {
       .global(true)
       .greEnhancedRoutePropagation(true)
       .name("my-resource")
+      .redundancyGroup("rg-1")
       .build();
     assertEquals(updateTransitGatewayOptionsModel.id(), "testString");
     assertEquals(updateTransitGatewayOptionsModel.global(), Boolean.valueOf(true));
     assertEquals(updateTransitGatewayOptionsModel.greEnhancedRoutePropagation(), Boolean.valueOf(true));
     assertEquals(updateTransitGatewayOptionsModel.name(), "my-resource");
+    assertEquals(updateTransitGatewayOptionsModel.redundancyGroup(), "rg-1");
   }
 
   @Test(expectedExceptions = IllegalArgumentException.class)

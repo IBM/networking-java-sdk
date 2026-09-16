@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2025.
+ * (C) Copyright IBM Corp. 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -42,6 +42,8 @@ public class TransitGatewayTest {
     assertNull(transitGatewayModel.getId());
     assertNull(transitGatewayModel.getLocation());
     assertNull(transitGatewayModel.getName());
+    assertNull(transitGatewayModel.getRedundancyGroup());
+    assertNull(transitGatewayModel.getRedundancyGroupId());
     assertNull(transitGatewayModel.getResourceGroup());
     assertNull(transitGatewayModel.getStatus());
     assertNull(transitGatewayModel.getUpdatedAt());
