@@ -1,3 +1,16 @@
+# [0.49.0](https://github.com/IBM/networking-java-sdk/compare/0.48.1...0.49.0) (2026-09-16)
+
+
+### Features
+
+* Added Redundant Global TGW related changes ([a7f862a](https://github.com/IBM/networking-java-sdk/commit/a7f862a0aacf3b2c1a91bdbdc2d13cb9624b0a6b))
+* Added Redundant Global TGW related changes ([4a1c978](https://github.com/IBM/networking-java-sdk/commit/4a1c978472bd16f6127c30d82c4831ff80394319))
+* Added Redundant Global TGW related changes ([da5facd](https://github.com/IBM/networking-java-sdk/commit/da5facd9fc80ec2b5c2ec7f5714cf3b951c47101))
+* Added Redundant Global TGW related changes ([55f57bf](https://github.com/IBM/networking-java-sdk/commit/55f57bfc3353408ea8e5d7fbae942fb5c7e0440d))
+* Added RG ID changes ([f14b3fa](https://github.com/IBM/networking-java-sdk/commit/f14b3facb81c4244a70544f09e4b20769b05764d))
+* Added RG ID changes ([919395e](https://github.com/IBM/networking-java-sdk/commit/919395e9cfa9fa7511f49326c613c62c58c708eb))
+* Added RG ID changes ([07331ce](https://github.com/IBM/networking-java-sdk/commit/07331ce18fbbf4a1f4b711e39c7bbf4847943d66))
+
 ## [0.48.1](https://github.com/IBM/networking-java-sdk/compare/0.48.0...0.48.1) (2026-09-15)
 
 
