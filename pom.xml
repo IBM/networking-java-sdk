@@ -100,10 +100,11 @@
         <module>modules/alerts</module>
         <module>modules/rulesets</module>
         <module>modules/logpush-jobs-api</module>
+        <module>modules/lists-api</module>
+        <module>modules/ai-security-for-apps</module>
 
         <!-- This module should always be listed last -->
         <module>modules/coverage-reports</module>
-        <module>modules/lists-api</module>
     </modules>
 
     <licenses>
