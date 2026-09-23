@@ -14,6 +14,7 @@
 package com.ibm.cloud.networking.ai_security_for_apps.v1.model;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.annotations.SerializedName;
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
@@ -25,7 +26,7 @@ public class ApiGatewayOperationsLabelsRespResultItem extends GenericModel {
 
   @SerializedName("operation_id")
   protected String operationId;
-  protected List<String> labels;
+  protected List<Map<String, Object>> labels;
 
   protected ApiGatewayOperationsLabelsRespResultItem() { }
 
@@ -43,7 +44,7 @@ public class ApiGatewayOperationsLabelsRespResultItem extends GenericModel {
    *
    * @return the labels
    */
-  public List<String> getLabels() {
+  public List<Map<String, Object>> getLabels() {
     return labels;
   }
 }

@@ -437,7 +437,7 @@ public class AiSecurityForAppsTest {
   @Test
   public void testUpdateApiGatewayOperationLabelsWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": [{\"operation_id\": \"f174e90a-fafe-4643-bbbc-4a0ed4fc8415\", \"labels\": [\"labels\"]}]}";
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": [{\"operation_id\": \"f174e90a-fafe-4643-bbbc-4a0ed4fc8415\", \"labels\": [{\"name\": \"cf-llm\", \"source\": \"managed\"}]}]}";
     String updateApiGatewayOperationLabelsPath = "/v1/testString/zones/testString/api_gateway/operations/labels";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
