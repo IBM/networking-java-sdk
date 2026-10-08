@@ -27,7 +27,7 @@
         -->
 
         <!-- This is the version associated with the Java core. -->
-        <sdk-core-version>9.25.0</sdk-core-version>
+        <sdk-core-version>9.29.0</sdk-core-version>
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.12.0</testng-version>
