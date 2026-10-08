@@ -1,0 +1,165 @@
+/*
+ * (C) Copyright IBM Corp. 2026.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+
+package com.ibm.cloud.networking.ai_security_for_apps.v1.model;
+
+import com.ibm.cloud.sdk.core.service.model.GenericModel;
+
+/**
+ * The createApiGatewayOperationItem options.
+ */
+public class CreateApiGatewayOperationItemOptions extends GenericModel {
+
+  /**
+   * The HTTP method for the operation.
+   */
+  public interface Method {
+    /** GET. */
+    String GET = "GET";
+    /** POST. */
+    String POST = "POST";
+    /** PUT. */
+    String PUT = "PUT";
+    /** PATCH. */
+    String PATCH = "PATCH";
+    /** DELETE. */
+    String DELETE = "DELETE";
+    /** HEAD. */
+    String HEAD = "HEAD";
+    /** OPTIONS. */
+    String OPTIONS = "OPTIONS";
+  }
+
+  protected String method;
+  protected String host;
+  protected String endpoint;
+
+  /**
+   * Builder.
+   */
+  public static class Builder {
+    private String method;
+    private String host;
+    private String endpoint;
+
+    /**
+     * Instantiates a new Builder from an existing CreateApiGatewayOperationItemOptions instance.
+     *
+     * @param createApiGatewayOperationItemOptions the instance to initialize the Builder with
+     */
+    private Builder(CreateApiGatewayOperationItemOptions createApiGatewayOperationItemOptions) {
+      this.method = createApiGatewayOperationItemOptions.method;
+      this.host = createApiGatewayOperationItemOptions.host;
+      this.endpoint = createApiGatewayOperationItemOptions.endpoint;
+    }
+
+    /**
+     * Instantiates a new builder.
+     */
+    public Builder() {
+    }
+
+    /**
+     * Builds a CreateApiGatewayOperationItemOptions.
+     *
+     * @return the new CreateApiGatewayOperationItemOptions instance
+     */
+    public CreateApiGatewayOperationItemOptions build() {
+      return new CreateApiGatewayOperationItemOptions(this);
+    }
+
+    /**
+     * Set the method.
+     *
+     * @param method the method
+     * @return the CreateApiGatewayOperationItemOptions builder
+     */
+    public Builder method(String method) {
+      this.method = method;
+      return this;
+    }
+
+    /**
+     * Set the host.
+     *
+     * @param host the host
+     * @return the CreateApiGatewayOperationItemOptions builder
+     */
+    public Builder host(String host) {
+      this.host = host;
+      return this;
+    }
+
+    /**
+     * Set the endpoint.
+     *
+     * @param endpoint the endpoint
+     * @return the CreateApiGatewayOperationItemOptions builder
+     */
+    public Builder endpoint(String endpoint) {
+      this.endpoint = endpoint;
+      return this;
+    }
+  }
+
+  protected CreateApiGatewayOperationItemOptions() { }
+
+  protected CreateApiGatewayOperationItemOptions(Builder builder) {
+    method = builder.method;
+    host = builder.host;
+    endpoint = builder.endpoint;
+  }
+
+  /**
+   * New builder.
+   *
+   * @return a CreateApiGatewayOperationItemOptions builder
+   */
+  public Builder newBuilder() {
+    return new Builder(this);
+  }
+
+  /**
+   * Gets the method.
+   *
+   * The HTTP method for the operation.
+   *
+   * @return the method
+   */
+  public String method() {
+    return method;
+  }
+
+  /**
+   * Gets the host.
+   *
+   * RFC3986-compliant host.
+   *
+   * @return the host
+   */
+  public String host() {
+    return host;
+  }
+
+  /**
+   * Gets the endpoint.
+   *
+   * The endpoint path. Must start with /.
+   *
+   * @return the endpoint
+   */
+  public String endpoint() {
+    return endpoint;
+  }
+}
+
