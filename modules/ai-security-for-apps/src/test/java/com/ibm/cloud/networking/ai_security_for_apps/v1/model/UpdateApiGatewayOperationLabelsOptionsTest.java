@@ -13,10 +13,10 @@
 
 package com.ibm.cloud.networking.ai_security_for_apps.v1.model;
 
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputManaged;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputSelector;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputSelectorInclude;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputUser;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputManaged;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputSelector;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputSelectorInclude;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputUser;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.UpdateApiGatewayOperationLabelsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -35,33 +35,33 @@ public class UpdateApiGatewayOperationLabelsOptionsTest {
 
   @Test
   public void testUpdateApiGatewayOperationLabelsOptions() throws Throwable {
-    ApiGatewayOperationsLabelsInputUser apiGatewayOperationsLabelsInputUserModel = new ApiGatewayOperationsLabelsInputUser.Builder()
-      .labels(java.util.Arrays.asList("testString"))
-      .build();
-    assertEquals(apiGatewayOperationsLabelsInputUserModel.labels(), java.util.Arrays.asList("testString"));
-
-    ApiGatewayOperationsLabelsInputManaged apiGatewayOperationsLabelsInputManagedModel = new ApiGatewayOperationsLabelsInputManaged.Builder()
-      .labels(java.util.Arrays.asList("cf-llm"))
-      .build();
-    assertEquals(apiGatewayOperationsLabelsInputManagedModel.labels(), java.util.Arrays.asList("cf-llm"));
-
-    ApiGatewayOperationsLabelsInputSelectorInclude apiGatewayOperationsLabelsInputSelectorIncludeModel = new ApiGatewayOperationsLabelsInputSelectorInclude.Builder()
+    ApiGatewayOperationsLabelsBulkInputSelectorInclude apiGatewayOperationsLabelsBulkInputSelectorIncludeModel = new ApiGatewayOperationsLabelsBulkInputSelectorInclude.Builder()
       .operationIds(java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"))
       .build();
-    assertEquals(apiGatewayOperationsLabelsInputSelectorIncludeModel.operationIds(), java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"));
+    assertEquals(apiGatewayOperationsLabelsBulkInputSelectorIncludeModel.operationIds(), java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"));
 
-    ApiGatewayOperationsLabelsInputSelector apiGatewayOperationsLabelsInputSelectorModel = new ApiGatewayOperationsLabelsInputSelector.Builder()
-      .include(apiGatewayOperationsLabelsInputSelectorIncludeModel)
+    ApiGatewayOperationsLabelsBulkInputSelector apiGatewayOperationsLabelsBulkInputSelectorModel = new ApiGatewayOperationsLabelsBulkInputSelector.Builder()
+      .include(apiGatewayOperationsLabelsBulkInputSelectorIncludeModel)
       .build();
-    assertEquals(apiGatewayOperationsLabelsInputSelectorModel.include(), apiGatewayOperationsLabelsInputSelectorIncludeModel);
+    assertEquals(apiGatewayOperationsLabelsBulkInputSelectorModel.include(), apiGatewayOperationsLabelsBulkInputSelectorIncludeModel);
+
+    ApiGatewayOperationsLabelsBulkInputUser apiGatewayOperationsLabelsBulkInputUserModel = new ApiGatewayOperationsLabelsBulkInputUser.Builder()
+      .labels(java.util.Arrays.asList("testString"))
+      .build();
+    assertEquals(apiGatewayOperationsLabelsBulkInputUserModel.labels(), java.util.Arrays.asList("testString"));
+
+    ApiGatewayOperationsLabelsBulkInputManaged apiGatewayOperationsLabelsBulkInputManagedModel = new ApiGatewayOperationsLabelsBulkInputManaged.Builder()
+      .labels(java.util.Arrays.asList("testString"))
+      .build();
+    assertEquals(apiGatewayOperationsLabelsBulkInputManagedModel.labels(), java.util.Arrays.asList("testString"));
 
     UpdateApiGatewayOperationLabelsOptions updateApiGatewayOperationLabelsOptionsModel = new UpdateApiGatewayOperationLabelsOptions.Builder()
-      .user(apiGatewayOperationsLabelsInputUserModel)
-      .managed(apiGatewayOperationsLabelsInputManagedModel)
-      .selector(apiGatewayOperationsLabelsInputSelectorModel)
+      .selector(apiGatewayOperationsLabelsBulkInputSelectorModel)
+      .user(apiGatewayOperationsLabelsBulkInputUserModel)
+      .managed(apiGatewayOperationsLabelsBulkInputManagedModel)
       .build();
-    assertEquals(updateApiGatewayOperationLabelsOptionsModel.user(), apiGatewayOperationsLabelsInputUserModel);
-    assertEquals(updateApiGatewayOperationLabelsOptionsModel.managed(), apiGatewayOperationsLabelsInputManagedModel);
-    assertEquals(updateApiGatewayOperationLabelsOptionsModel.selector(), apiGatewayOperationsLabelsInputSelectorModel);
+    assertEquals(updateApiGatewayOperationLabelsOptionsModel.selector(), apiGatewayOperationsLabelsBulkInputSelectorModel);
+    assertEquals(updateApiGatewayOperationLabelsOptionsModel.user(), apiGatewayOperationsLabelsBulkInputUserModel);
+    assertEquals(updateApiGatewayOperationLabelsOptionsModel.managed(), apiGatewayOperationsLabelsBulkInputManagedModel);
   }
 }

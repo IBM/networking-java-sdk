@@ -20,17 +20,17 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class UpdateApiGatewayOperationLabelsOptions extends GenericModel {
 
-  protected ApiGatewayOperationsLabelsInputUser user;
-  protected ApiGatewayOperationsLabelsInputManaged managed;
-  protected ApiGatewayOperationsLabelsInputSelector selector;
+  protected ApiGatewayOperationsLabelsBulkInputSelector selector;
+  protected ApiGatewayOperationsLabelsBulkInputUser user;
+  protected ApiGatewayOperationsLabelsBulkInputManaged managed;
 
   /**
    * Builder.
    */
   public static class Builder {
-    private ApiGatewayOperationsLabelsInputUser user;
-    private ApiGatewayOperationsLabelsInputManaged managed;
-    private ApiGatewayOperationsLabelsInputSelector selector;
+    private ApiGatewayOperationsLabelsBulkInputSelector selector;
+    private ApiGatewayOperationsLabelsBulkInputUser user;
+    private ApiGatewayOperationsLabelsBulkInputManaged managed;
 
     /**
      * Instantiates a new Builder from an existing UpdateApiGatewayOperationLabelsOptions instance.
@@ -38,9 +38,9 @@ public class UpdateApiGatewayOperationLabelsOptions extends GenericModel {
      * @param updateApiGatewayOperationLabelsOptions the instance to initialize the Builder with
      */
     private Builder(UpdateApiGatewayOperationLabelsOptions updateApiGatewayOperationLabelsOptions) {
+      this.selector = updateApiGatewayOperationLabelsOptions.selector;
       this.user = updateApiGatewayOperationLabelsOptions.user;
       this.managed = updateApiGatewayOperationLabelsOptions.managed;
-      this.selector = updateApiGatewayOperationLabelsOptions.selector;
     }
 
     /**
@@ -59,12 +59,23 @@ public class UpdateApiGatewayOperationLabelsOptions extends GenericModel {
     }
 
     /**
+     * Set the selector.
+     *
+     * @param selector the selector
+     * @return the UpdateApiGatewayOperationLabelsOptions builder
+     */
+    public Builder selector(ApiGatewayOperationsLabelsBulkInputSelector selector) {
+      this.selector = selector;
+      return this;
+    }
+
+    /**
      * Set the user.
      *
      * @param user the user
      * @return the UpdateApiGatewayOperationLabelsOptions builder
      */
-    public Builder user(ApiGatewayOperationsLabelsInputUser user) {
+    public Builder user(ApiGatewayOperationsLabelsBulkInputUser user) {
       this.user = user;
       return this;
     }
@@ -75,19 +86,8 @@ public class UpdateApiGatewayOperationLabelsOptions extends GenericModel {
      * @param managed the managed
      * @return the UpdateApiGatewayOperationLabelsOptions builder
      */
-    public Builder managed(ApiGatewayOperationsLabelsInputManaged managed) {
+    public Builder managed(ApiGatewayOperationsLabelsBulkInputManaged managed) {
       this.managed = managed;
-      return this;
-    }
-
-    /**
-     * Set the selector.
-     *
-     * @param selector the selector
-     * @return the UpdateApiGatewayOperationLabelsOptions builder
-     */
-    public Builder selector(ApiGatewayOperationsLabelsInputSelector selector) {
-      this.selector = selector;
       return this;
     }
   }
@@ -95,9 +95,9 @@ public class UpdateApiGatewayOperationLabelsOptions extends GenericModel {
   protected UpdateApiGatewayOperationLabelsOptions() { }
 
   protected UpdateApiGatewayOperationLabelsOptions(Builder builder) {
+    selector = builder.selector;
     user = builder.user;
     managed = builder.managed;
-    selector = builder.selector;
   }
 
   /**
@@ -110,13 +110,24 @@ public class UpdateApiGatewayOperationLabelsOptions extends GenericModel {
   }
 
   /**
+   * Gets the selector.
+   *
+   * Selector specifying which operations to label.
+   *
+   * @return the selector
+   */
+  public ApiGatewayOperationsLabelsBulkInputSelector selector() {
+    return selector;
+  }
+
+  /**
    * Gets the user.
    *
    * User-defined labels to apply.
    *
    * @return the user
    */
-  public ApiGatewayOperationsLabelsInputUser user() {
+  public ApiGatewayOperationsLabelsBulkInputUser user() {
     return user;
   }
 
@@ -127,19 +138,8 @@ public class UpdateApiGatewayOperationLabelsOptions extends GenericModel {
    *
    * @return the managed
    */
-  public ApiGatewayOperationsLabelsInputManaged managed() {
+  public ApiGatewayOperationsLabelsBulkInputManaged managed() {
     return managed;
-  }
-
-  /**
-   * Gets the selector.
-   *
-   * Selector specifying which operations to label.
-   *
-   * @return the selector
-   */
-  public ApiGatewayOperationsLabelsInputSelector selector() {
-    return selector;
   }
 }
 

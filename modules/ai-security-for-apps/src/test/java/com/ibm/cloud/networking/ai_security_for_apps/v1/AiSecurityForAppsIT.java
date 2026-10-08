@@ -30,27 +30,42 @@ import org.testng.annotations.Test;
 
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.AiSecuritySettingsResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayDiscoveryResp;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayNullResultResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperation;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationItemResp;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputManaged;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputSelector;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputSelectorInclude;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationLabelResp;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputManaged;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputSelector;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputManaged;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputSelector;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputSelectorInclude;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsRespResultItem;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsListResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsRespResultItem;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewaySchemasResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.CreateApiGatewayOperationItemOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.CreateApiGatewayOperationLabelsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.CreateZoneApiGatewayOperationOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DeleteZoneApiGatewayOperationLabelsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DeleteZoneApiGatewayOperationOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DeleteZoneApiGatewayOperationsOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DiscoveryOperationsPatchResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DiscoveryOperationsListResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.GetAiSecuritySettingsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.GetApiGatewayDiscoveryOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.GetApiGatewaySchemasOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.GetZoneApiGatewayOperationOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ListApiGatewayDiscoveryOperationsOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ListZoneApiGatewayOperationsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ReplaceZoneAiSecuritySettingsOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ReplaceZoneApiGatewayOperationLabelsOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.SetZoneApiGatewayOperationLabelsOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.UnsetZoneApiGatewayOperationLabelsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.UpdateApiGatewayOperationLabelsOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.UpdateZoneApiGatewayDiscoveryOperationOptions;
 import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
@@ -169,6 +184,172 @@ public class AiSecurityForAppsIT extends SdkIntegrationTestBase {
         assertNotNull(response);
         assertNotNull(response.getResult());
         assertTrue(response.getResult().isSuccess());
+    }
+
+    /**
+     * Test: Update API Gateway Discovery Operation.
+     */
+    @Test
+    public void testUpdateZoneApiGatewayDiscoveryOperation() throws Exception {
+        UpdateZoneApiGatewayDiscoveryOperationOptions updateOptions =
+            new UpdateZoneApiGatewayDiscoveryOperationOptions.Builder()
+                .build();
+        Response<DiscoveryOperationsPatchResp> response =
+            service.updateZoneApiGatewayDiscoveryOperation(updateOptions).execute();
+        assertNotNull(response);
+        assertNotNull(response.getResult());
+        assertTrue(response.getResult().isSuccess());
+    }
+
+    /**
+     * Test: List Zone API Gateway Operations.
+     */
+    @Test
+    public void testListZoneApiGatewayOperations() throws Exception {
+        ListZoneApiGatewayOperationsOptions listOptions =
+            new ListZoneApiGatewayOperationsOptions.Builder()
+                .build();
+        Response<ApiGatewayOperationsListResp> response =
+            service.listZoneApiGatewayOperations(listOptions).execute();
+        assertNotNull(response);
+        assertNotNull(response.getResult());
+        assertTrue(response.getResult().isSuccess());
+    }
+
+    /**
+     * Test: Delete Zone API Gateway Operations (bulk).
+     */
+    @Test
+    public void testDeleteZoneApiGatewayOperations() throws Exception {
+        DeleteZoneApiGatewayOperationsOptions deleteOptions =
+            new DeleteZoneApiGatewayOperationsOptions.Builder()
+                .build();
+        Response<ApiGatewayNullResultResp> response =
+            service.deleteZoneApiGatewayOperations(deleteOptions).execute();
+        assertNotNull(response);
+        assertNotNull(response.getResult());
+        assertTrue(response.getResult().isSuccess());
+    }
+
+    /**
+     * Test: Per-operation label lifecycle —
+     *   create_api_gateway_operation_labels,
+     *   set_zone_api_gateway_operation_labels,
+     *   replace_zone_api_gateway_operation_labels,
+     *   unset_zone_api_gateway_operation_labels,
+     *   delete_zone_api_gateway_operation_labels.
+     */
+    @Test
+    public void testPerOperationLabelLifecycle() throws Exception {
+        // Create a single operation to work with
+        CreateApiGatewayOperationItemOptions createOptions =
+            new CreateApiGatewayOperationItemOptions.Builder()
+                .method(CreateApiGatewayOperationItemOptions.Method.POST)
+                .host("api.example.com")
+                .endpoint("/v1/label-test")
+                .build();
+        Response<ApiGatewayOperationItemResp> createResponse =
+            service.createApiGatewayOperationItem(createOptions).execute();
+        assertNotNull(createResponse);
+        assertNotNull(createResponse.getResult());
+        assertTrue(createResponse.getResult().isSuccess());
+
+        String operationId = createResponse.getResult().getResult().getOperationId();
+        assertNotNull(operationId);
+
+        try {
+            // Step 1: Add labels (create_api_gateway_operation_labels)
+            CreateApiGatewayOperationLabelsOptions addLabelsOptions =
+                new CreateApiGatewayOperationLabelsOptions.Builder()
+                    .operationId(operationId)
+                    .addManaged("cf-llm")
+                    .build();
+            Response<ApiGatewayOperationLabelResp> addResponse =
+                service.createApiGatewayOperationLabels(addLabelsOptions).execute();
+            assertNotNull(addResponse);
+            assertNotNull(addResponse.getResult());
+            assertTrue(addResponse.getResult().isSuccess());
+
+            // Step 2: Replace labels on a single operation (set_zone_api_gateway_operation_labels)
+            SetZoneApiGatewayOperationLabelsOptions setLabelsOptions =
+                new SetZoneApiGatewayOperationLabelsOptions.Builder()
+                    .operationId(operationId)
+                    .addManaged("cf-llm")
+                    .build();
+            Response<ApiGatewayOperationLabelResp> setResponse =
+                service.setZoneApiGatewayOperationLabels(setLabelsOptions).execute();
+            assertNotNull(setResponse);
+            assertNotNull(setResponse.getResult());
+            assertTrue(setResponse.getResult().isSuccess());
+
+            // Step 3: Bulk-replace labels via selector (replace_zone_api_gateway_operation_labels)
+            ApiGatewayOperationsLabelsBulkInputSelectorInclude replaceInclude =
+                new ApiGatewayOperationsLabelsBulkInputSelectorInclude.Builder()
+                    .operationIds(java.util.Arrays.asList(operationId))
+                    .build();
+            ApiGatewayOperationsLabelsBulkInputSelector replaceSelector =
+                new ApiGatewayOperationsLabelsBulkInputSelector.Builder()
+                    .include(replaceInclude)
+                    .build();
+            ApiGatewayOperationsLabelsBulkInputManaged replaceManaged =
+                new ApiGatewayOperationsLabelsBulkInputManaged.Builder()
+                    .addLabels("cf-llm")
+                    .build();
+            ReplaceZoneApiGatewayOperationLabelsOptions replaceLabelsOptions =
+                new ReplaceZoneApiGatewayOperationLabelsOptions.Builder()
+                    .managed(replaceManaged)
+                    .selector(replaceSelector)
+                    .build();
+            Response<ApiGatewayOperationsLabelsResp> replaceResponse =
+                service.replaceZoneApiGatewayOperationLabels(replaceLabelsOptions).execute();
+            assertNotNull(replaceResponse);
+            assertNotNull(replaceResponse.getResult());
+            assertTrue(replaceResponse.getResult().isSuccess());
+
+            // Step 4: Remove labels from a single operation (unset_zone_api_gateway_operation_labels)
+            UnsetZoneApiGatewayOperationLabelsOptions unsetLabelsOptions =
+                new UnsetZoneApiGatewayOperationLabelsOptions.Builder()
+                    .operationId(operationId)
+                    .addManaged("cf-llm")
+                    .build();
+            Response<ApiGatewayNullResultResp> unsetResponse =
+                service.unsetZoneApiGatewayOperationLabels(unsetLabelsOptions).execute();
+            assertNotNull(unsetResponse);
+            assertNotNull(unsetResponse.getResult());
+            assertTrue(unsetResponse.getResult().isSuccess());
+
+            // Step 5: Bulk-delete labels via selector (delete_zone_api_gateway_operation_labels)
+            ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude deleteInclude =
+                new ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude.Builder()
+                    .operationIds(java.util.Arrays.asList(operationId))
+                    .build();
+            ApiGatewayOperationsLabelsBulkDeleteInputSelector deleteSelector =
+                new ApiGatewayOperationsLabelsBulkDeleteInputSelector.Builder()
+                    .include(deleteInclude)
+                    .build();
+            ApiGatewayOperationsLabelsBulkDeleteInputManaged deleteManaged =
+                new ApiGatewayOperationsLabelsBulkDeleteInputManaged.Builder()
+                    .addLabels("cf-llm")
+                    .build();
+            DeleteZoneApiGatewayOperationLabelsOptions deleteLabelsOptions =
+                new DeleteZoneApiGatewayOperationLabelsOptions.Builder()
+                    .managed(deleteManaged)
+                    .selector(deleteSelector)
+                    .build();
+            Response<ApiGatewayNullResultResp> deleteLabelsResponse =
+                service.deleteZoneApiGatewayOperationLabels(deleteLabelsOptions).execute();
+            assertNotNull(deleteLabelsResponse);
+            assertNotNull(deleteLabelsResponse.getResult());
+            assertTrue(deleteLabelsResponse.getResult().isSuccess());
+
+        } finally {
+            // Cleanup: delete the operation regardless of test outcome
+            DeleteZoneApiGatewayOperationOptions cleanupOptions =
+                new DeleteZoneApiGatewayOperationOptions.Builder()
+                    .operationId(operationId)
+                    .build();
+            service.deleteZoneApiGatewayOperation(cleanupOptions).execute();
+        }
     }
 
     /**
@@ -329,16 +510,16 @@ public class AiSecurityForAppsIT extends SdkIntegrationTestBase {
         final String managedLabel = "cf-llm";
 
         // Add managed label to all 3 operations
-        ApiGatewayOperationsLabelsInputSelectorInclude allInclude =
-            new ApiGatewayOperationsLabelsInputSelectorInclude.Builder()
+        ApiGatewayOperationsLabelsBulkInputSelectorInclude allInclude =
+            new ApiGatewayOperationsLabelsBulkInputSelectorInclude.Builder()
                 .operationIds(bulkOperationIDs)
                 .build();
-        ApiGatewayOperationsLabelsInputSelector allSelector =
-            new ApiGatewayOperationsLabelsInputSelector.Builder()
+        ApiGatewayOperationsLabelsBulkInputSelector allSelector =
+            new ApiGatewayOperationsLabelsBulkInputSelector.Builder()
                 .include(allInclude)
                 .build();
-        ApiGatewayOperationsLabelsInputManaged managedLabelsAll =
-            new ApiGatewayOperationsLabelsInputManaged.Builder()
+        ApiGatewayOperationsLabelsBulkInputManaged managedLabelsAll =
+            new ApiGatewayOperationsLabelsBulkInputManaged.Builder()
                 .addLabels(managedLabel)
                 .build();
         UpdateApiGatewayOperationLabelsOptions addToAllOptions =
@@ -358,23 +539,23 @@ public class AiSecurityForAppsIT extends SdkIntegrationTestBase {
         for (ApiGatewayOperationsLabelsRespResultItem item : allItems) {
             assertNotNull(item.getLabels());
             boolean found = item.getLabels().stream()
-                .anyMatch(l -> managedLabel.equals(l.get("name")));
+                .anyMatch(l -> managedLabel.equals(l.getName()));
             assertTrue(found,
                 "Expected label '" + managedLabel + "' on operation " + item.getOperationId());
         }
 
         // Narrow selector to 2nd and 3rd IDs only, apply same managed label again
         List<String> reducedIds = bulkOperationIDs.subList(1, 3);
-        ApiGatewayOperationsLabelsInputSelectorInclude reducedInclude =
-            new ApiGatewayOperationsLabelsInputSelectorInclude.Builder()
+        ApiGatewayOperationsLabelsBulkInputSelectorInclude reducedInclude =
+            new ApiGatewayOperationsLabelsBulkInputSelectorInclude.Builder()
                 .operationIds(reducedIds)
                 .build();
-        ApiGatewayOperationsLabelsInputSelector reducedSelector =
-            new ApiGatewayOperationsLabelsInputSelector.Builder()
+        ApiGatewayOperationsLabelsBulkInputSelector reducedSelector =
+            new ApiGatewayOperationsLabelsBulkInputSelector.Builder()
                 .include(reducedInclude)
                 .build();
-        ApiGatewayOperationsLabelsInputManaged managedLabelsReduced =
-            new ApiGatewayOperationsLabelsInputManaged.Builder()
+        ApiGatewayOperationsLabelsBulkInputManaged managedLabelsReduced =
+            new ApiGatewayOperationsLabelsBulkInputManaged.Builder()
                 .addLabels(managedLabel)
                 .build();
         UpdateApiGatewayOperationLabelsOptions reducedLabelOptions =
@@ -393,7 +574,7 @@ public class AiSecurityForAppsIT extends SdkIntegrationTestBase {
         for (ApiGatewayOperationsLabelsRespResultItem item : reducedItems) {
             assertNotNull(item.getLabels());
             boolean found = item.getLabels().stream()
-                .anyMatch(l -> managedLabel.equals(l.get("name")));
+                .anyMatch(l -> managedLabel.equals(l.getName()));
             assertTrue(found,
                 "Expected label '" + managedLabel + "' to persist on operation " + item.getOperationId());
         }

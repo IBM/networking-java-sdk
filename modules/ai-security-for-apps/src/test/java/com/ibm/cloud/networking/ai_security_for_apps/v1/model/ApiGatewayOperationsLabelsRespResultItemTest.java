@@ -14,6 +14,7 @@
 package com.ibm.cloud.networking.ai_security_for_apps.v1.model;
 
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsRespResultItem;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsRespResultItemLabelsItem;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
 import java.io.InputStream;

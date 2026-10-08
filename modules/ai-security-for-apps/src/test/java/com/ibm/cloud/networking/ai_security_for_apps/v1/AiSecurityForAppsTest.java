@@ -17,21 +17,35 @@ import com.ibm.cloud.networking.ai_security_for_apps.v1.AiSecurityForApps;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.AiSecuritySettingsResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.AiSecuritySettingsRespResult;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayDiscoveryResp;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayNullResultResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperation;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationItemResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationItemRespResult;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputManaged;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputSelector;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputSelectorInclude;
-import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsInputUser;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationLabelResp;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationLabelRespResult;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationLabelRespResultLabelsItem;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputManaged;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputSelector;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputUser;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputManaged;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputSelector;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputSelectorInclude;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkInputUser;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsRespResultItem;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsRespResultItemLabelsItem;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsListResp;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsListRespResultItem;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsRespResultItem;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewaySchemasResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.CreateApiGatewayOperationItemOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.CreateApiGatewayOperationLabelsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.CreateZoneApiGatewayOperationOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DeleteZoneApiGatewayOperationLabelsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DeleteZoneApiGatewayOperationOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DeleteZoneApiGatewayOperationsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DiscoveryOperation;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DiscoveryOperationFeatures;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DiscoveryOperationFeaturesTrafficStats;
@@ -42,8 +56,12 @@ import com.ibm.cloud.networking.ai_security_for_apps.v1.model.GetApiGatewayDisco
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.GetApiGatewaySchemasOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.GetZoneApiGatewayOperationOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ListApiGatewayDiscoveryOperationsOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ListZoneApiGatewayOperationsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ReplaceZoneAiSecuritySettingsOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ReplaceZoneApiGatewayOperationLabelsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ResultInfo;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.SetZoneApiGatewayOperationLabelsOptions;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.UnsetZoneApiGatewayOperationLabelsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.UpdateApiGatewayOperationLabelsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.UpdateZoneApiGatewayDiscoveryOperationOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.utils.TestUtilities;
@@ -336,6 +354,109 @@ public class AiSecurityForAppsTest {
     testUpdateZoneApiGatewayDiscoveryOperationWOptions();
   }
 
+  // Test the deleteZoneApiGatewayOperations operation with a valid options model parameter
+  @Test
+  public void testDeleteZoneApiGatewayOperationsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": {\"anyKey\": \"anyValue\"}}";
+    String deleteZoneApiGatewayOperationsPath = "/v1/testString/zones/testString/api_gateway/operations";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the DeleteZoneApiGatewayOperationsOptions model
+    DeleteZoneApiGatewayOperationsOptions deleteZoneApiGatewayOperationsOptionsModel = new DeleteZoneApiGatewayOperationsOptions.Builder()
+      .operationIds(java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"))
+      .build();
+
+    // Invoke deleteZoneApiGatewayOperations() with a valid options model and verify the result
+    Response<ApiGatewayNullResultResp> response = aiSecurityForAppsService.deleteZoneApiGatewayOperations(deleteZoneApiGatewayOperationsOptionsModel).execute();
+    assertNotNull(response);
+    ApiGatewayNullResultResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteZoneApiGatewayOperationsPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+  }
+
+  // Test the deleteZoneApiGatewayOperations operation with and without retries enabled
+  @Test
+  public void testDeleteZoneApiGatewayOperationsWRetries() throws Throwable {
+    aiSecurityForAppsService.enableRetries(4, 30);
+    testDeleteZoneApiGatewayOperationsWOptions();
+
+    aiSecurityForAppsService.disableRetries();
+    testDeleteZoneApiGatewayOperationsWOptions();
+  }
+
+  // Test the listZoneApiGatewayOperations operation with a valid options model parameter
+  @Test
+  public void testListZoneApiGatewayOperationsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": [{\"operation_id\": \"test-fafe-4643-bbbc-example\", \"method\": \"POST\", \"host\": \"api.example.com\", \"endpoint\": \"/v1/messages\", \"last_updated\": \"2024-01-01T00:00:00.000Z\"}], \"result_info\": {\"count\": 5, \"page\": 4, \"per_page\": 7, \"total_count\": 10}}";
+    String listZoneApiGatewayOperationsPath = "/v1/testString/zones/testString/api_gateway/operations";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ListZoneApiGatewayOperationsOptions model
+    ListZoneApiGatewayOperationsOptions listZoneApiGatewayOperationsOptionsModel = new ListZoneApiGatewayOperationsOptions.Builder()
+      .host(java.util.Arrays.asList("testString"))
+      .method(java.util.Arrays.asList("GET"))
+      .endpoint("testString")
+      .labels(java.util.Arrays.asList("testString"))
+      .direction("asc")
+      .order("host")
+      .page(Long.valueOf("1"))
+      .perPage(Long.valueOf("1"))
+      .build();
+
+    // Invoke listZoneApiGatewayOperations() with a valid options model and verify the result
+    Response<ApiGatewayOperationsListResp> response = aiSecurityForAppsService.listZoneApiGatewayOperations(listZoneApiGatewayOperationsOptionsModel).execute();
+    assertNotNull(response);
+    ApiGatewayOperationsListResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listZoneApiGatewayOperationsPath);
+    // Verify query params
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNotNull(query);
+    assertEquals(query.get("host"), RequestUtils.join(java.util.Arrays.asList("testString"), ","));
+    assertEquals(query.get("method"), RequestUtils.join(java.util.Arrays.asList("GET"), ","));
+    assertEquals(query.get("endpoint"), "testString");
+    assertEquals(query.get("labels"), RequestUtils.join(java.util.Arrays.asList("testString"), ","));
+    assertEquals(query.get("direction"), "asc");
+    assertEquals(query.get("order"), "host");
+    assertEquals(Long.valueOf(query.get("page")), Long.valueOf("1"));
+    assertEquals(Long.valueOf(query.get("per_page")), Long.valueOf("1"));
+  }
+
+  // Test the listZoneApiGatewayOperations operation with and without retries enabled
+  @Test
+  public void testListZoneApiGatewayOperationsWRetries() throws Throwable {
+    aiSecurityForAppsService.enableRetries(4, 30);
+    testListZoneApiGatewayOperationsWOptions();
+
+    aiSecurityForAppsService.disableRetries();
+    testListZoneApiGatewayOperationsWOptions();
+  }
+
   // Test the createZoneApiGatewayOperation operation with a valid options model parameter
   @Test
   public void testCreateZoneApiGatewayOperationWOptions() throws Throwable {
@@ -433,6 +554,138 @@ public class AiSecurityForAppsTest {
     testCreateApiGatewayOperationItemWOptions();
   }
 
+  // Test the replaceZoneApiGatewayOperationLabels operation with a valid options model parameter
+  @Test
+  public void testReplaceZoneApiGatewayOperationLabelsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": [{\"operation_id\": \"f174e90a-fafe-4643-bbbc-4a0ed4fc8415\", \"labels\": [{\"name\": \"cf-llm\", \"source\": \"managed\"}]}]}";
+    String replaceZoneApiGatewayOperationLabelsPath = "/v1/testString/zones/testString/api_gateway/operations/labels";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkInputSelectorInclude model
+    ApiGatewayOperationsLabelsBulkInputSelectorInclude apiGatewayOperationsLabelsBulkInputSelectorIncludeModel = new ApiGatewayOperationsLabelsBulkInputSelectorInclude.Builder()
+      .operationIds(java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"))
+      .build();
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkInputSelector model
+    ApiGatewayOperationsLabelsBulkInputSelector apiGatewayOperationsLabelsBulkInputSelectorModel = new ApiGatewayOperationsLabelsBulkInputSelector.Builder()
+      .include(apiGatewayOperationsLabelsBulkInputSelectorIncludeModel)
+      .build();
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkInputUser model
+    ApiGatewayOperationsLabelsBulkInputUser apiGatewayOperationsLabelsBulkInputUserModel = new ApiGatewayOperationsLabelsBulkInputUser.Builder()
+      .labels(java.util.Arrays.asList("testString"))
+      .build();
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkInputManaged model
+    ApiGatewayOperationsLabelsBulkInputManaged apiGatewayOperationsLabelsBulkInputManagedModel = new ApiGatewayOperationsLabelsBulkInputManaged.Builder()
+      .labels(java.util.Arrays.asList("testString"))
+      .build();
+
+    // Construct an instance of the ReplaceZoneApiGatewayOperationLabelsOptions model
+    ReplaceZoneApiGatewayOperationLabelsOptions replaceZoneApiGatewayOperationLabelsOptionsModel = new ReplaceZoneApiGatewayOperationLabelsOptions.Builder()
+      .selector(apiGatewayOperationsLabelsBulkInputSelectorModel)
+      .user(apiGatewayOperationsLabelsBulkInputUserModel)
+      .managed(apiGatewayOperationsLabelsBulkInputManagedModel)
+      .build();
+
+    // Invoke replaceZoneApiGatewayOperationLabels() with a valid options model and verify the result
+    Response<ApiGatewayOperationsLabelsResp> response = aiSecurityForAppsService.replaceZoneApiGatewayOperationLabels(replaceZoneApiGatewayOperationLabelsOptionsModel).execute();
+    assertNotNull(response);
+    ApiGatewayOperationsLabelsResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PUT");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, replaceZoneApiGatewayOperationLabelsPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+  }
+
+  // Test the replaceZoneApiGatewayOperationLabels operation with and without retries enabled
+  @Test
+  public void testReplaceZoneApiGatewayOperationLabelsWRetries() throws Throwable {
+    aiSecurityForAppsService.enableRetries(4, 30);
+    testReplaceZoneApiGatewayOperationLabelsWOptions();
+
+    aiSecurityForAppsService.disableRetries();
+    testReplaceZoneApiGatewayOperationLabelsWOptions();
+  }
+
+  // Test the deleteZoneApiGatewayOperationLabels operation with a valid options model parameter
+  @Test
+  public void testDeleteZoneApiGatewayOperationLabelsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": {\"anyKey\": \"anyValue\"}}";
+    String deleteZoneApiGatewayOperationLabelsPath = "/v1/testString/zones/testString/api_gateway/operations/labels";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude model
+    ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude apiGatewayOperationsLabelsBulkDeleteInputSelectorIncludeModel = new ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude.Builder()
+      .operationIds(java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"))
+      .build();
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkDeleteInputSelector model
+    ApiGatewayOperationsLabelsBulkDeleteInputSelector apiGatewayOperationsLabelsBulkDeleteInputSelectorModel = new ApiGatewayOperationsLabelsBulkDeleteInputSelector.Builder()
+      .include(apiGatewayOperationsLabelsBulkDeleteInputSelectorIncludeModel)
+      .build();
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkDeleteInputUser model
+    ApiGatewayOperationsLabelsBulkDeleteInputUser apiGatewayOperationsLabelsBulkDeleteInputUserModel = new ApiGatewayOperationsLabelsBulkDeleteInputUser.Builder()
+      .labels(java.util.Arrays.asList("testString"))
+      .build();
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkDeleteInputManaged model
+    ApiGatewayOperationsLabelsBulkDeleteInputManaged apiGatewayOperationsLabelsBulkDeleteInputManagedModel = new ApiGatewayOperationsLabelsBulkDeleteInputManaged.Builder()
+      .labels(java.util.Arrays.asList("testString"))
+      .build();
+
+    // Construct an instance of the DeleteZoneApiGatewayOperationLabelsOptions model
+    DeleteZoneApiGatewayOperationLabelsOptions deleteZoneApiGatewayOperationLabelsOptionsModel = new DeleteZoneApiGatewayOperationLabelsOptions.Builder()
+      .selector(apiGatewayOperationsLabelsBulkDeleteInputSelectorModel)
+      .user(apiGatewayOperationsLabelsBulkDeleteInputUserModel)
+      .managed(apiGatewayOperationsLabelsBulkDeleteInputManagedModel)
+      .build();
+
+    // Invoke deleteZoneApiGatewayOperationLabels() with a valid options model and verify the result
+    Response<ApiGatewayNullResultResp> response = aiSecurityForAppsService.deleteZoneApiGatewayOperationLabels(deleteZoneApiGatewayOperationLabelsOptionsModel).execute();
+    assertNotNull(response);
+    ApiGatewayNullResultResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, deleteZoneApiGatewayOperationLabelsPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+  }
+
+  // Test the deleteZoneApiGatewayOperationLabels operation with and without retries enabled
+  @Test
+  public void testDeleteZoneApiGatewayOperationLabelsWRetries() throws Throwable {
+    aiSecurityForAppsService.enableRetries(4, 30);
+    testDeleteZoneApiGatewayOperationLabelsWOptions();
+
+    aiSecurityForAppsService.disableRetries();
+    testDeleteZoneApiGatewayOperationLabelsWOptions();
+  }
+
   // Test the updateApiGatewayOperationLabels operation with a valid options model parameter
   @Test
   public void testUpdateApiGatewayOperationLabelsWOptions() throws Throwable {
@@ -444,31 +697,31 @@ public class AiSecurityForAppsTest {
       .setResponseCode(200)
       .setBody(mockResponseBody));
 
-    // Construct an instance of the ApiGatewayOperationsLabelsInputUser model
-    ApiGatewayOperationsLabelsInputUser apiGatewayOperationsLabelsInputUserModel = new ApiGatewayOperationsLabelsInputUser.Builder()
-      .labels(java.util.Arrays.asList("testString"))
-      .build();
-
-    // Construct an instance of the ApiGatewayOperationsLabelsInputManaged model
-    ApiGatewayOperationsLabelsInputManaged apiGatewayOperationsLabelsInputManagedModel = new ApiGatewayOperationsLabelsInputManaged.Builder()
-      .labels(java.util.Arrays.asList("cf-llm"))
-      .build();
-
-    // Construct an instance of the ApiGatewayOperationsLabelsInputSelectorInclude model
-    ApiGatewayOperationsLabelsInputSelectorInclude apiGatewayOperationsLabelsInputSelectorIncludeModel = new ApiGatewayOperationsLabelsInputSelectorInclude.Builder()
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkInputSelectorInclude model
+    ApiGatewayOperationsLabelsBulkInputSelectorInclude apiGatewayOperationsLabelsBulkInputSelectorIncludeModel = new ApiGatewayOperationsLabelsBulkInputSelectorInclude.Builder()
       .operationIds(java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"))
       .build();
 
-    // Construct an instance of the ApiGatewayOperationsLabelsInputSelector model
-    ApiGatewayOperationsLabelsInputSelector apiGatewayOperationsLabelsInputSelectorModel = new ApiGatewayOperationsLabelsInputSelector.Builder()
-      .include(apiGatewayOperationsLabelsInputSelectorIncludeModel)
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkInputSelector model
+    ApiGatewayOperationsLabelsBulkInputSelector apiGatewayOperationsLabelsBulkInputSelectorModel = new ApiGatewayOperationsLabelsBulkInputSelector.Builder()
+      .include(apiGatewayOperationsLabelsBulkInputSelectorIncludeModel)
+      .build();
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkInputUser model
+    ApiGatewayOperationsLabelsBulkInputUser apiGatewayOperationsLabelsBulkInputUserModel = new ApiGatewayOperationsLabelsBulkInputUser.Builder()
+      .labels(java.util.Arrays.asList("testString"))
+      .build();
+
+    // Construct an instance of the ApiGatewayOperationsLabelsBulkInputManaged model
+    ApiGatewayOperationsLabelsBulkInputManaged apiGatewayOperationsLabelsBulkInputManagedModel = new ApiGatewayOperationsLabelsBulkInputManaged.Builder()
+      .labels(java.util.Arrays.asList("testString"))
       .build();
 
     // Construct an instance of the UpdateApiGatewayOperationLabelsOptions model
     UpdateApiGatewayOperationLabelsOptions updateApiGatewayOperationLabelsOptionsModel = new UpdateApiGatewayOperationLabelsOptions.Builder()
-      .user(apiGatewayOperationsLabelsInputUserModel)
-      .managed(apiGatewayOperationsLabelsInputManagedModel)
-      .selector(apiGatewayOperationsLabelsInputSelectorModel)
+      .selector(apiGatewayOperationsLabelsBulkInputSelectorModel)
+      .user(apiGatewayOperationsLabelsBulkInputUserModel)
+      .managed(apiGatewayOperationsLabelsBulkInputManagedModel)
       .build();
 
     // Invoke updateApiGatewayOperationLabels() with a valid options model and verify the result
@@ -497,6 +750,165 @@ public class AiSecurityForAppsTest {
 
     aiSecurityForAppsService.disableRetries();
     testUpdateApiGatewayOperationLabelsWOptions();
+  }
+
+  // Test the createApiGatewayOperationLabels operation with a valid options model parameter
+  @Test
+  public void testCreateApiGatewayOperationLabelsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": {\"operation_id\": \"f174e90a-fafe-4643-bbbc-4a0ed4fc8415\", \"labels\": [{\"name\": \"cf-llm\", \"source\": \"managed\"}]}}";
+    String createApiGatewayOperationLabelsPath = "/v1/testString/zones/testString/api_gateway/operations/testString/labels";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the CreateApiGatewayOperationLabelsOptions model
+    CreateApiGatewayOperationLabelsOptions createApiGatewayOperationLabelsOptionsModel = new CreateApiGatewayOperationLabelsOptions.Builder()
+      .operationId("testString")
+      .user(java.util.Arrays.asList("string"))
+      .managed(java.util.Arrays.asList("cf-llm"))
+      .build();
+
+    // Invoke createApiGatewayOperationLabels() with a valid options model and verify the result
+    Response<ApiGatewayOperationLabelResp> response = aiSecurityForAppsService.createApiGatewayOperationLabels(createApiGatewayOperationLabelsOptionsModel).execute();
+    assertNotNull(response);
+    ApiGatewayOperationLabelResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, createApiGatewayOperationLabelsPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+  }
+
+  // Test the createApiGatewayOperationLabels operation with and without retries enabled
+  @Test
+  public void testCreateApiGatewayOperationLabelsWRetries() throws Throwable {
+    aiSecurityForAppsService.enableRetries(4, 30);
+    testCreateApiGatewayOperationLabelsWOptions();
+
+    aiSecurityForAppsService.disableRetries();
+    testCreateApiGatewayOperationLabelsWOptions();
+  }
+
+  // Test the createApiGatewayOperationLabels operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testCreateApiGatewayOperationLabelsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    aiSecurityForAppsService.createApiGatewayOperationLabels(null).execute();
+  }
+
+  // Test the setZoneApiGatewayOperationLabels operation with a valid options model parameter
+  @Test
+  public void testSetZoneApiGatewayOperationLabelsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": {\"operation_id\": \"f174e90a-fafe-4643-bbbc-4a0ed4fc8415\", \"labels\": [{\"name\": \"cf-llm\", \"source\": \"managed\"}]}}";
+    String setZoneApiGatewayOperationLabelsPath = "/v1/testString/zones/testString/api_gateway/operations/testString/labels";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the SetZoneApiGatewayOperationLabelsOptions model
+    SetZoneApiGatewayOperationLabelsOptions setZoneApiGatewayOperationLabelsOptionsModel = new SetZoneApiGatewayOperationLabelsOptions.Builder()
+      .operationId("testString")
+      .user(java.util.Arrays.asList("string"))
+      .managed(java.util.Arrays.asList("cf-llm"))
+      .build();
+
+    // Invoke setZoneApiGatewayOperationLabels() with a valid options model and verify the result
+    Response<ApiGatewayOperationLabelResp> response = aiSecurityForAppsService.setZoneApiGatewayOperationLabels(setZoneApiGatewayOperationLabelsOptionsModel).execute();
+    assertNotNull(response);
+    ApiGatewayOperationLabelResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "PUT");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, setZoneApiGatewayOperationLabelsPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+  }
+
+  // Test the setZoneApiGatewayOperationLabels operation with and without retries enabled
+  @Test
+  public void testSetZoneApiGatewayOperationLabelsWRetries() throws Throwable {
+    aiSecurityForAppsService.enableRetries(4, 30);
+    testSetZoneApiGatewayOperationLabelsWOptions();
+
+    aiSecurityForAppsService.disableRetries();
+    testSetZoneApiGatewayOperationLabelsWOptions();
+  }
+
+  // Test the setZoneApiGatewayOperationLabels operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testSetZoneApiGatewayOperationLabelsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    aiSecurityForAppsService.setZoneApiGatewayOperationLabels(null).execute();
+  }
+
+  // Test the unsetZoneApiGatewayOperationLabels operation with a valid options model parameter
+  @Test
+  public void testUnsetZoneApiGatewayOperationLabelsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": {\"anyKey\": \"anyValue\"}}";
+    String unsetZoneApiGatewayOperationLabelsPath = "/v1/testString/zones/testString/api_gateway/operations/testString/labels";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the UnsetZoneApiGatewayOperationLabelsOptions model
+    UnsetZoneApiGatewayOperationLabelsOptions unsetZoneApiGatewayOperationLabelsOptionsModel = new UnsetZoneApiGatewayOperationLabelsOptions.Builder()
+      .operationId("testString")
+      .user(java.util.Arrays.asList("testString"))
+      .managed(java.util.Arrays.asList("testString"))
+      .build();
+
+    // Invoke unsetZoneApiGatewayOperationLabels() with a valid options model and verify the result
+    Response<ApiGatewayNullResultResp> response = aiSecurityForAppsService.unsetZoneApiGatewayOperationLabels(unsetZoneApiGatewayOperationLabelsOptionsModel).execute();
+    assertNotNull(response);
+    ApiGatewayNullResultResp responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "DELETE");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, unsetZoneApiGatewayOperationLabelsPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+  }
+
+  // Test the unsetZoneApiGatewayOperationLabels operation with and without retries enabled
+  @Test
+  public void testUnsetZoneApiGatewayOperationLabelsWRetries() throws Throwable {
+    aiSecurityForAppsService.enableRetries(4, 30);
+    testUnsetZoneApiGatewayOperationLabelsWOptions();
+
+    aiSecurityForAppsService.disableRetries();
+    testUnsetZoneApiGatewayOperationLabelsWOptions();
+  }
+
+  // Test the unsetZoneApiGatewayOperationLabels operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testUnsetZoneApiGatewayOperationLabelsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    aiSecurityForAppsService.unsetZoneApiGatewayOperationLabels(null).execute();
   }
 
   // Test the getZoneApiGatewayOperation operation with a valid options model parameter
