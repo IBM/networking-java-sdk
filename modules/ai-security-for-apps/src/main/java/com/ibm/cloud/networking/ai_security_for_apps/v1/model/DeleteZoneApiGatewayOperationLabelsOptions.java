@@ -50,6 +50,15 @@ public class DeleteZoneApiGatewayOperationLabelsOptions extends GenericModel {
     }
 
     /**
+     * Instantiates a new builder with required properties.
+     *
+     * @param selector the selector
+     */
+    public Builder(ApiGatewayOperationsLabelsBulkDeleteInputSelector selector) {
+      this.selector = selector;
+    }
+
+    /**
      * Builds a DeleteZoneApiGatewayOperationLabelsOptions.
      *
      * @return the new DeleteZoneApiGatewayOperationLabelsOptions instance
@@ -95,6 +104,8 @@ public class DeleteZoneApiGatewayOperationLabelsOptions extends GenericModel {
   protected DeleteZoneApiGatewayOperationLabelsOptions() { }
 
   protected DeleteZoneApiGatewayOperationLabelsOptions(Builder builder) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.selector,
+      "selector cannot be null");
     selector = builder.selector;
     user = builder.user;
     managed = builder.managed;

@@ -171,7 +171,7 @@ public class CreateApiGatewayOperationLabelsOptions extends GenericModel {
   /**
    * Gets the user.
    *
-   * Flat list of user-defined label names to attach.
+   * Flat list of user-defined label names to attach. Must be present; send an empty array if no user labels are needed.
    *
    * @return the user
    */

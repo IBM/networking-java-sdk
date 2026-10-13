@@ -47,6 +47,15 @@ public class ApiGatewayOperationsLabelsBulkInputUser extends GenericModel {
     }
 
     /**
+     * Instantiates a new builder with required properties.
+     *
+     * @param labels the labels
+     */
+    public Builder(List<String> labels) {
+      this.labels = labels;
+    }
+
+    /**
      * Builds a ApiGatewayOperationsLabelsBulkInputUser.
      *
      * @return the new ApiGatewayOperationsLabelsBulkInputUser instance
@@ -87,6 +96,8 @@ public class ApiGatewayOperationsLabelsBulkInputUser extends GenericModel {
   protected ApiGatewayOperationsLabelsBulkInputUser() { }
 
   protected ApiGatewayOperationsLabelsBulkInputUser(Builder builder) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.labels,
+      "labels cannot be null");
     labels = builder.labels;
   }
 
@@ -102,7 +113,7 @@ public class ApiGatewayOperationsLabelsBulkInputUser extends GenericModel {
   /**
    * Gets the labels.
    *
-   * List of user-defined label names to apply.
+   * List of user-defined label names to apply. Send an empty array if no user labels are needed.
    *
    * @return the labels
    */

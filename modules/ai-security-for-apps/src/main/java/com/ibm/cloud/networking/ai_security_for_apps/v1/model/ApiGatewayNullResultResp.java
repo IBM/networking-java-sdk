@@ -14,7 +14,6 @@
 package com.ibm.cloud.networking.ai_security_for_apps.v1.model;
 
 import java.util.List;
-import java.util.Map;
 
 import com.ibm.cloud.sdk.core.service.model.GenericModel;
 
@@ -26,7 +25,7 @@ public class ApiGatewayNullResultResp extends GenericModel {
   protected Boolean success;
   protected List<List<String>> errors;
   protected List<List<String>> messages;
-  protected Map<String, Object> result;
+  protected Object result;
 
   protected ApiGatewayNullResultResp() { }
 
@@ -66,11 +65,12 @@ public class ApiGatewayNullResultResp extends GenericModel {
   /**
    * Gets the result.
    *
-   * Result is empty on success.
+   * Result on success. May be an empty object ({}) or an empty array ([]) depending on the operation. No type
+   * constraint is applied so that SDK generators produce an interface{} / any field that can hold either.
    *
    * @return the result
    */
-  public Map<String, Object> getResult() {
+  public Object getResult() {
     return result;
   }
 }

@@ -102,7 +102,7 @@ public class DeleteZoneApiGatewayOperationsOptions extends GenericModel {
   /**
    * Gets the operationIds.
    *
-   * Array of operation UUIDs to delete. When absent, all operations are deleted.
+   * Array of operation UUIDs to delete.
    *
    * @return the operationIds
    */

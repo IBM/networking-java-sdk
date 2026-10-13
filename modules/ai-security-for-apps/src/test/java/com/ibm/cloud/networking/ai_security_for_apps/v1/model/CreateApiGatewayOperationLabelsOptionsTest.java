@@ -33,11 +33,11 @@ public class CreateApiGatewayOperationLabelsOptionsTest {
   public void testCreateApiGatewayOperationLabelsOptions() throws Throwable {
     CreateApiGatewayOperationLabelsOptions createApiGatewayOperationLabelsOptionsModel = new CreateApiGatewayOperationLabelsOptions.Builder()
       .operationId("testString")
-      .user(java.util.Arrays.asList("string"))
+      .user(java.util.Arrays.asList())
       .managed(java.util.Arrays.asList("cf-llm"))
       .build();
     assertEquals(createApiGatewayOperationLabelsOptionsModel.operationId(), "testString");
-    assertEquals(createApiGatewayOperationLabelsOptionsModel.user(), java.util.Arrays.asList("string"));
+    assertEquals(createApiGatewayOperationLabelsOptionsModel.user(), java.util.Arrays.asList());
     assertEquals(createApiGatewayOperationLabelsOptionsModel.managed(), java.util.Arrays.asList("cf-llm"));
   }
 

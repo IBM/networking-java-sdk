@@ -41,7 +41,7 @@ public class ListApiGatewayDiscoveryOperationsOptionsTest {
       .origin("ML")
       .state("review")
       .page(Long.valueOf("1"))
-      .perPage(Long.valueOf("1"))
+      .perPage(Long.valueOf("5"))
       .build();
     assertEquals(listApiGatewayDiscoveryOperationsOptionsModel.diff(), Boolean.valueOf(true));
     assertEquals(listApiGatewayDiscoveryOperationsOptionsModel.direction(), "asc");
@@ -52,6 +52,6 @@ public class ListApiGatewayDiscoveryOperationsOptionsTest {
     assertEquals(listApiGatewayDiscoveryOperationsOptionsModel.origin(), "ML");
     assertEquals(listApiGatewayDiscoveryOperationsOptionsModel.state(), "review");
     assertEquals(listApiGatewayDiscoveryOperationsOptionsModel.page(), Long.valueOf("1"));
-    assertEquals(listApiGatewayDiscoveryOperationsOptionsModel.perPage(), Long.valueOf("1"));
+    assertEquals(listApiGatewayDiscoveryOperationsOptionsModel.perPage(), Long.valueOf("5"));
   }
 }

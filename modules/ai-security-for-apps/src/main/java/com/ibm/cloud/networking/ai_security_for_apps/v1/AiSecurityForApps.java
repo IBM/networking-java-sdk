@@ -401,11 +401,8 @@ public class AiSecurityForApps extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ApiGatewayNullResultResp}
    */
   public ServiceCall<ApiGatewayNullResultResp> deleteZoneApiGatewayOperations(DeleteZoneApiGatewayOperationsOptions deleteZoneApiGatewayOperationsOptions) {
-    boolean skipBody = false;
-    if (deleteZoneApiGatewayOperationsOptions == null) {
-      deleteZoneApiGatewayOperationsOptions = new DeleteZoneApiGatewayOperationsOptions.Builder().build();
-      skipBody = true;
-    }
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteZoneApiGatewayOperationsOptions,
+      "deleteZoneApiGatewayOperationsOptions cannot be null");
     Map<String, String> pathParamsMap = new HashMap<String, String>();
     pathParamsMap.put("crn", this.crn);
     pathParamsMap.put("zone_identifier", this.zoneIdentifier);
@@ -415,13 +412,11 @@ public class AiSecurityForApps extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (!skipBody) {
-      final JsonObject contentJson = new JsonObject();
-      if (deleteZoneApiGatewayOperationsOptions.operationIds() != null) {
-        contentJson.add("operation_ids", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(deleteZoneApiGatewayOperationsOptions.operationIds()));
-      }
-      builder.bodyJson(contentJson);
+    final JsonObject contentJson = new JsonObject();
+    if (deleteZoneApiGatewayOperationsOptions.operationIds() != null) {
+      contentJson.add("operation_ids", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(deleteZoneApiGatewayOperationsOptions.operationIds()));
     }
+    builder.bodyJson(contentJson);
     ResponseConverter<ApiGatewayNullResultResp> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ApiGatewayNullResultResp>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
@@ -652,11 +647,8 @@ public class AiSecurityForApps extends BaseService {
    * @return a {@link ServiceCall} with a result of type {@link ApiGatewayNullResultResp}
    */
   public ServiceCall<ApiGatewayNullResultResp> deleteZoneApiGatewayOperationLabels(DeleteZoneApiGatewayOperationLabelsOptions deleteZoneApiGatewayOperationLabelsOptions) {
-    boolean skipBody = false;
-    if (deleteZoneApiGatewayOperationLabelsOptions == null) {
-      deleteZoneApiGatewayOperationLabelsOptions = new DeleteZoneApiGatewayOperationLabelsOptions.Builder().build();
-      skipBody = true;
-    }
+    com.ibm.cloud.sdk.core.util.Validator.notNull(deleteZoneApiGatewayOperationLabelsOptions,
+      "deleteZoneApiGatewayOperationLabelsOptions cannot be null");
     Map<String, String> pathParamsMap = new HashMap<String, String>();
     pathParamsMap.put("crn", this.crn);
     pathParamsMap.put("zone_identifier", this.zoneIdentifier);
@@ -666,33 +658,18 @@ public class AiSecurityForApps extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    if (!skipBody) {
-      final JsonObject contentJson = new JsonObject();
-      if (deleteZoneApiGatewayOperationLabelsOptions.selector() != null) {
-        contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(deleteZoneApiGatewayOperationLabelsOptions.selector()));
-      }
-      if (deleteZoneApiGatewayOperationLabelsOptions.user() != null) {
-        contentJson.add("user", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(deleteZoneApiGatewayOperationLabelsOptions.user()));
-      }
-      if (deleteZoneApiGatewayOperationLabelsOptions.managed() != null) {
-        contentJson.add("managed", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(deleteZoneApiGatewayOperationLabelsOptions.managed()));
-      }
-      builder.bodyJson(contentJson);
+    final JsonObject contentJson = new JsonObject();
+    contentJson.add("selector", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(deleteZoneApiGatewayOperationLabelsOptions.selector()));
+    if (deleteZoneApiGatewayOperationLabelsOptions.user() != null) {
+      contentJson.add("user", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(deleteZoneApiGatewayOperationLabelsOptions.user()));
     }
+    if (deleteZoneApiGatewayOperationLabelsOptions.managed() != null) {
+      contentJson.add("managed", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(deleteZoneApiGatewayOperationLabelsOptions.managed()));
+    }
+    builder.bodyJson(contentJson);
     ResponseConverter<ApiGatewayNullResultResp> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ApiGatewayNullResultResp>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Remove labels from API Gateway operations in bulk.
-   *
-   * Remove labels from a set of API Gateway operations in bulk.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link ApiGatewayNullResultResp}
-   */
-  public ServiceCall<ApiGatewayNullResultResp> deleteZoneApiGatewayOperationLabels() {
-    return deleteZoneApiGatewayOperationLabels(null);
   }
 
   /**

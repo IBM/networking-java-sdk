@@ -41,4 +41,10 @@ public class ApiGatewayOperationsLabelsBulkInputManagedTest {
     ApiGatewayOperationsLabelsBulkInputManaged apiGatewayOperationsLabelsBulkInputManagedModelNew = TestUtilities.deserialize(json, ApiGatewayOperationsLabelsBulkInputManaged.class);
     assertTrue(apiGatewayOperationsLabelsBulkInputManagedModelNew instanceof ApiGatewayOperationsLabelsBulkInputManaged);
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testApiGatewayOperationsLabelsBulkInputManagedError() throws Throwable {
+    new ApiGatewayOperationsLabelsBulkInputManaged.Builder().build();
+  }
+
 }

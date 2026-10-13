@@ -269,7 +269,7 @@ public class AiSecurityForAppsTest {
       .origin("ML")
       .state("review")
       .page(Long.valueOf("1"))
-      .perPage(Long.valueOf("1"))
+      .perPage(Long.valueOf("5"))
       .build();
 
     // Invoke listApiGatewayDiscoveryOperations() with a valid options model and verify the result
@@ -297,7 +297,7 @@ public class AiSecurityForAppsTest {
     assertEquals(query.get("origin"), "ML");
     assertEquals(query.get("state"), "review");
     assertEquals(Long.valueOf(query.get("page")), Long.valueOf("1"));
-    assertEquals(Long.valueOf(query.get("per_page")), Long.valueOf("1"));
+    assertEquals(Long.valueOf(query.get("per_page")), Long.valueOf("5"));
   }
 
   // Test the listApiGatewayDiscoveryOperations operation with and without retries enabled
@@ -358,7 +358,7 @@ public class AiSecurityForAppsTest {
   @Test
   public void testDeleteZoneApiGatewayOperationsWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": {\"anyKey\": \"anyValue\"}}";
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": \"anyValue\"}";
     String deleteZoneApiGatewayOperationsPath = "/v1/testString/zones/testString/api_gateway/operations";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -624,7 +624,7 @@ public class AiSecurityForAppsTest {
   @Test
   public void testDeleteZoneApiGatewayOperationLabelsWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": {\"anyKey\": \"anyValue\"}}";
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": \"anyValue\"}";
     String deleteZoneApiGatewayOperationLabelsPath = "/v1/testString/zones/testString/api_gateway/operations/labels";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")
@@ -684,6 +684,13 @@ public class AiSecurityForAppsTest {
 
     aiSecurityForAppsService.disableRetries();
     testDeleteZoneApiGatewayOperationLabelsWOptions();
+  }
+
+  // Test the deleteZoneApiGatewayOperationLabels operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteZoneApiGatewayOperationLabelsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    aiSecurityForAppsService.deleteZoneApiGatewayOperationLabels(null).execute();
   }
 
   // Test the updateApiGatewayOperationLabels operation with a valid options model parameter
@@ -766,7 +773,7 @@ public class AiSecurityForAppsTest {
     // Construct an instance of the CreateApiGatewayOperationLabelsOptions model
     CreateApiGatewayOperationLabelsOptions createApiGatewayOperationLabelsOptionsModel = new CreateApiGatewayOperationLabelsOptions.Builder()
       .operationId("testString")
-      .user(java.util.Arrays.asList("string"))
+      .user(java.util.Arrays.asList())
       .managed(java.util.Arrays.asList("cf-llm"))
       .build();
 
@@ -819,7 +826,7 @@ public class AiSecurityForAppsTest {
     // Construct an instance of the SetZoneApiGatewayOperationLabelsOptions model
     SetZoneApiGatewayOperationLabelsOptions setZoneApiGatewayOperationLabelsOptionsModel = new SetZoneApiGatewayOperationLabelsOptions.Builder()
       .operationId("testString")
-      .user(java.util.Arrays.asList("string"))
+      .user(java.util.Arrays.asList())
       .managed(java.util.Arrays.asList("cf-llm"))
       .build();
 
@@ -862,7 +869,7 @@ public class AiSecurityForAppsTest {
   @Test
   public void testUnsetZoneApiGatewayOperationLabelsWOptions() throws Throwable {
     // Register a mock response
-    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": {\"anyKey\": \"anyValue\"}}";
+    String mockResponseBody = "{\"success\": true, \"errors\": [[\"errors\"]], \"messages\": [[\"messages\"]], \"result\": \"anyValue\"}";
     String unsetZoneApiGatewayOperationLabelsPath = "/v1/testString/zones/testString/api_gateway/operations/testString/labels";
     server.enqueue(new MockResponse()
       .setHeader("Content-type", "application/json")

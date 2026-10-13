@@ -64,4 +64,10 @@ public class DeleteZoneApiGatewayOperationLabelsOptionsTest {
     assertEquals(deleteZoneApiGatewayOperationLabelsOptionsModel.user(), apiGatewayOperationsLabelsBulkDeleteInputUserModel);
     assertEquals(deleteZoneApiGatewayOperationLabelsOptionsModel.managed(), apiGatewayOperationsLabelsBulkDeleteInputManagedModel);
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteZoneApiGatewayOperationLabelsOptionsError() throws Throwable {
+    new DeleteZoneApiGatewayOperationLabelsOptions.Builder().build();
+  }
+
 }
