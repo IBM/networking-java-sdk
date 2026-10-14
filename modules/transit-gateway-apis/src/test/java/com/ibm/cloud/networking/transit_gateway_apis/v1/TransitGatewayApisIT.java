@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2022.
+ * (C) Copyright IBM Corp. 2020, 2026.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -31,6 +31,7 @@ import com.ibm.cloud.networking.test.SdkIntegrationTestBase;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.*;
 import com.ibm.cloud.sdk.core.http.Response;
 import com.ibm.cloud.sdk.core.service.exception.NotFoundException;
+import com.ibm.cloud.sdk.core.service.exception.ServiceResponseException;
 import com.ibm.cloud.sdk.core.util.CredentialUtils;
 
 
@@ -545,19 +546,139 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    assertNotNull(updateTGConnRespObj);
 		assertEquals(updateTGConnRespObj.getName(),updatedNameUnboundGRE);
 		
+		/////////////////////////////////////////////////////////////
+		// Success: POST Transit DRS (Dynamic Route Server) Connection:
+		/////////////////////////////////////////////////////////////
+		String drsCrn = config.get("DRS_CRN");
+		String drsNetworkType = "dynamic_route_server";
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		String drsConnectionName = "DRS-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+		String drsCidr = "192.168.200.0/24";
+
+		// Construct an instance of the CreateTransitGatewayConnectionOptions model
+		createTransitGatewayConnectionOptionsModel = new CreateTransitGatewayConnectionOptions.Builder()
+		.transitGatewayId(gatewayID)
+		.networkType(drsNetworkType)
+		.name(drsConnectionName)
+		.networkId(drsCrn)
+		.cidr(drsCidr)
+		.build();
+
+		// Invoke operation with valid options model (positive test)
+		connCreateResp = testService.createTransitGatewayConnection(createTransitGatewayConnectionOptionsModel).execute();
+		assertNotNull(connCreateResp);
+
+		connCreateRespObj = connCreateResp.getResult();
+		assertNotNull(connCreateRespObj);
+		assertNotNull(connCreateRespObj.getId());
+		assertEquals(connCreateRespObj.getName(), drsConnectionName);
+		assertEquals(connCreateRespObj.getNetworkId(), drsCrn);
+		assertEquals(connCreateRespObj.getNetworkType(), drsNetworkType);
+		assertEquals(connCreateRespObj.getCidr(), drsCidr);
+		String drsConnId = connCreateRespObj.getId();
+
+		// Connection creation might not be instantaneous. Poll the
+		// Connection looking for 'attached' status. Fail after 2 min
+		isResourceAvailable(gatewayID, drsConnId, "");
+
+		///////////////////////////////////////////
+		// Success: GET Transit DRS Connection:
+		///////////////////////////////////////////
+		GetTransitGatewayConnectionOptions getDrsTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+		.transitGatewayId(gatewayID)
+		.id(drsConnId)
+		.build();
+
+		// Invoke operation with valid options model (positive test)
+		getConnResp = testService.getTransitGatewayConnection(getDrsTransitGatewayConnectionOptionsModel).execute();
+		assertNotNull(getConnResp);
+
+		getConnRespObjObj = getConnResp.getResult();
+		assertNotNull(getConnRespObjObj);
+		assertEquals(getConnRespObjObj.getId(), drsConnId);
+		assertEquals(getConnRespObjObj.getName(), drsConnectionName);
+		assertEquals(getConnRespObjObj.getNetworkId(), drsCrn);
+		assertEquals(getConnRespObjObj.getNetworkType(), drsNetworkType);
+		assertEquals(getConnRespObjObj.getCidr(), drsCidr);
+		assertNotNull(getConnRespObjObj.getTunnels());
+		assertNotEquals(getConnRespObjObj.getTunnels().size(), 0);
+		String drsTunnelId = getConnRespObjObj.getTunnels().get(0).getId();
+		assertNotNull(drsTunnelId);
+
+		///////////////////////////////////////////
+		// Success: UPDATE Transit DRS Connection:
+		///////////////////////////////////////////
+		stamp = (int)Math.floor(Math.random()*(1000-0+1)+0);
+		String updatedNameDRS = "UPDATED-DRS-" + config.get("CONN_NAME") + "_" + String.valueOf(stamp);
+
+		updateTransitGatewayConnectionOptionsModel = new UpdateTransitGatewayConnectionOptions.Builder()
+		.transitGatewayId(gatewayID)
+		.id(drsConnId)
+		.name(updatedNameDRS)
+		.build();
+
+		// Invoke operation with valid options model (positive test)
+		updateTGConnResp = testService.updateTransitGatewayConnection(updateTransitGatewayConnectionOptionsModel).execute();
+		assertNotNull(updateTGConnResp);
+		updateTGConnRespObj = updateTGConnResp.getResult();
+		assertNotNull(updateTGConnRespObj);
+		assertEquals(updateTGConnRespObj.getName(), updatedNameDRS);
+
+		///////////////////////////////////////////////////////////////
+		// Success: LIST Connections filtered by DRS network type:
+		///////////////////////////////////////////////////////////////
+		ListConnectionsOptions listConnectionsByTypeOptionsModel = new ListConnectionsOptions.Builder()
+		.networkType(drsNetworkType)
+		.build();
+
+		Response<TransitConnectionCollection> listConnByTypeResp = testService.listConnections(listConnectionsByTypeOptionsModel).execute();
+		assertNotNull(listConnByTypeResp);
+		TransitConnectionCollection listConnByTypeRespObj = listConnByTypeResp.getResult();
+		assertNotNull(listConnByTypeRespObj);
+
+		boolean foundDrsInTypeFilter = false;
+		for (TransitConnection conn : listConnByTypeRespObj.getConnections()) {
+			assertEquals(conn.getNetworkType(), drsNetworkType);
+			if (conn.getId().equals(drsConnId)) {
+				foundDrsInTypeFilter = true;
+			}
+		}
+		assertEquals(true, foundDrsInTypeFilter);
+
+		///////////////////////////////////////////////////////////////
+		// Success: LIST Connections filtered by DRS network ID:
+		///////////////////////////////////////////////////////////////
+		ListConnectionsOptions listConnectionsByIdOptionsModel = new ListConnectionsOptions.Builder()
+		.networkId(drsCrn)
+		.build();
+
+		Response<TransitConnectionCollection> listConnByIdResp = testService.listConnections(listConnectionsByIdOptionsModel).execute();
+		assertNotNull(listConnByIdResp);
+		TransitConnectionCollection listConnByIdRespObj = listConnByIdResp.getResult();
+		assertNotNull(listConnByIdRespObj);
+
+		boolean foundDrsInIdFilter = false;
+		for (TransitConnection conn : listConnByIdRespObj.getConnections()) {
+			assertEquals(conn.getNetworkId(), drsCrn);
+			if (conn.getId().equals(drsConnId)) {
+				foundDrsInIdFilter = true;
+			}
+		}
+		assertEquals(true, foundDrsInIdFilter);
+
 		///////////////////////////////////////////
 		// Success: LIST Transit Connections:
-		/////////////////////////////////////////// 	
-	    ListTransitGatewayConnectionsOptions listTransitGatewayConnectionsOptionsModel = new ListTransitGatewayConnectionsOptions.Builder()
-	    .transitGatewayId(gatewayID) // Construct an instance of the ListTransitGatewayConnectionsOptions model
-	    .build();
+		///////////////////////////////////////////
+		   ListTransitGatewayConnectionsOptions listTransitGatewayConnectionsOptionsModel = new ListTransitGatewayConnectionsOptions.Builder()
+		   .transitGatewayId(gatewayID) // Construct an instance of the ListTransitGatewayConnectionsOptions model
+		   .build();
 
-	    // Invoke operation with valid options model (positive test)
-	    Response<TransitGatewayConnectionCollection> listConnResp = testService.listTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel).execute();
-	    assertNotNull(listConnResp);
+		   // Invoke operation with valid options model (positive test)
+		   Response<TransitGatewayConnectionCollection> listConnResp = testService.listTransitGatewayConnections(listTransitGatewayConnectionsOptionsModel).execute();
+		   assertNotNull(listConnResp);
 
-	    TransitGatewayConnectionCollection listConnRespObj = listConnResp.getResult();
-	    assertNotNull(listConnRespObj);
+		   TransitGatewayConnectionCollection listConnRespObj = listConnResp.getResult();
+		   assertNotNull(listConnRespObj);
 
 		List<TransitGatewayConnectionCust> connections = listConnRespObj.getConnections();
 		assertNotEquals(connections.size(), 0);
@@ -567,6 +688,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		boolean foundGRE = false;
 		boolean foundCLASSIC = false;
 		boolean foundUnboundGRE = false;
+		boolean foundDRS = false;
 		for (TransitGatewayConnectionCust conn : connections) {
 			if (conn.getId().equals(classicConnId)){
 				assertEquals(conn.getNetworkType(), "classic");
@@ -587,10 +709,14 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 				assertEquals(conn.getNetworkType(), "gre_tunnel");
 				assertEquals(conn.getName(), updatedNameGRE);
 				foundGRE = true;
-			} else if (conn.getId().equals(greConnId)){
+			} else if (conn.getId().equals(unboundGreConnId)){
 				assertEquals(conn.getNetworkType(), "unbound_gre_tunnel");
 				assertEquals(conn.getName(), updatedNameUnboundGRE);
-				foundGRE = true;
+				foundUnboundGRE = true;
+			} else if (conn.getId().equals(drsConnId)){
+				assertEquals(conn.getNetworkType(), drsNetworkType);
+				assertEquals(conn.getName(), updatedNameDRS);
+				foundDRS = true;
 			}
 		}
 		assertEquals(true, foundDL);
@@ -598,7 +724,100 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		assertEquals(true, foundGRE);
 		assertEquals(true, foundCLASSIC);
 		assertEquals(true, foundUnboundGRE);
-		
+		assertEquals(true, foundDRS);
+
+		///////////////////////////////////////////////////////////////
+		// Failure: DRS validation — PATCH on a DRS-managed tunnel:
+		///////////////////////////////////////////////////////////////
+		try {
+			UpdateTransitGatewayConnectionTunnelsOptions patchDrsTunnelOptions = new UpdateTransitGatewayConnectionTunnelsOptions.Builder()
+			.transitGatewayId(gatewayID)
+			.id(drsConnId)
+			.greTunnelId(drsTunnelId)
+			.transitGatewayTunnelPatch(new java.util.HashMap<String, Object>())
+			.build();
+			testService.updateTransitGatewayConnectionTunnels(patchDrsTunnelOptions).execute();
+		} catch (ServiceResponseException e) {
+			// Expected: DRS-managed tunnels cannot be patched directly.
+			assertNotEquals(e.getStatusCode(), 200);
+		}
+
+		///////////////////////////////////////////////////////////////
+		// Failure: DRS validation — DELETE on a DRS-managed tunnel:
+		///////////////////////////////////////////////////////////////
+		try {
+			DeleteTransitGatewayConnectionTunnelsOptions deleteDrsTunnelOptions = new DeleteTransitGatewayConnectionTunnelsOptions.Builder()
+			.transitGatewayId(gatewayID)
+			.id(drsConnId)
+			.greTunnelId(drsTunnelId)
+			.build();
+			testService.deleteTransitGatewayConnectionTunnels(deleteDrsTunnelOptions).execute();
+		} catch (ServiceResponseException e) {
+			// Expected: DRS-managed tunnels cannot be deleted directly.
+			assertNotEquals(e.getStatusCode(), 200);
+		}
+
+		///////////////////////////////////////////////////////////////
+		// Failure: DRS validation — LIST prefix filters on DRS:
+		///////////////////////////////////////////////////////////////
+		try {
+			ListTransitGatewayConnectionPrefixFiltersOptions listPfOnDrsOptions = new ListTransitGatewayConnectionPrefixFiltersOptions.Builder()
+			.transitGatewayId(gatewayID)
+			.id(drsConnId)
+			.build();
+			testService.listTransitGatewayConnectionPrefixFilters(listPfOnDrsOptions).execute();
+		} catch (ServiceResponseException e) {
+			// Expected: prefix filters are not supported on DRS connections.
+			assertNotEquals(e.getStatusCode(), 200);
+		}
+
+		///////////////////////////////////////////////////////////////
+		// Failure: DRS validation — CREATE prefix filter on DRS:
+		///////////////////////////////////////////////////////////////
+		try {
+			CreateTransitGatewayConnectionPrefixFilterOptions createPfOnDrsOptions = new CreateTransitGatewayConnectionPrefixFilterOptions.Builder()
+			.transitGatewayId(gatewayID)
+			.id(drsConnId)
+			.action("permit")
+			.prefix("192.168.100.0/24")
+			.build();
+			testService.createTransitGatewayConnectionPrefixFilter(createPfOnDrsOptions).execute();
+		} catch (ServiceResponseException e) {
+			// Expected: prefix filters cannot be created on DRS connections.
+			assertNotEquals(e.getStatusCode(), 200);
+		}
+
+		///////////////////////////////////////////////////////////////
+		// Failure: DRS validation — UPDATE prefix filter on DRS:
+		///////////////////////////////////////////////////////////////
+		try {
+			UpdateTransitGatewayConnectionPrefixFilterOptions updatePfOnDrsOptions = new UpdateTransitGatewayConnectionPrefixFilterOptions.Builder()
+			.transitGatewayId(gatewayID)
+			.id(drsConnId)
+			.filterId("00000000-0000-0000-0000-000000000000")
+			.action("deny")
+			.build();
+			testService.updateTransitGatewayConnectionPrefixFilter(updatePfOnDrsOptions).execute();
+		} catch (ServiceResponseException e) {
+			// Expected: prefix filters cannot be updated on DRS connections.
+			assertNotEquals(e.getStatusCode(), 200);
+		}
+
+		///////////////////////////////////////////////////////////////
+		// Failure: DRS validation — GET prefix filter on DRS:
+		///////////////////////////////////////////////////////////////
+		try {
+			GetTransitGatewayConnectionPrefixFilterOptions getPfOnDrsOptions = new GetTransitGatewayConnectionPrefixFilterOptions.Builder()
+			.transitGatewayId(gatewayID)
+			.id(drsConnId)
+			.filterId("00000000-0000-0000-0000-000000000000")
+			.build();
+			testService.getTransitGatewayConnectionPrefixFilter(getPfOnDrsOptions).execute();
+		} catch (ServiceResponseException e) {
+			// Expected: prefix filters cannot be fetched from DRS connections.
+			assertNotEquals(e.getStatusCode(), 200);
+		}
+
 		///////////////////////////////////////////
 		// Success: POST Gateway Route Report:
 		///////////////////////////////////////////
@@ -653,6 +872,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		foundGRE = false;
 		foundCLASSIC = false;
 		foundUnboundGRE = false;
+		boolean foundDRSInRR = false;
 		for (RouteReportConnection rrConn : rrConnections) {
 			if(rrConn.getId().equals(vpcConnId)){
 				assertEquals(rrConn.getType(), "vpc");
@@ -672,10 +892,14 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 				assertEquals(rrConn.getType(), "gre_tunnel");
 				assertEquals(rrConn.getName(), updatedNameGRE);
 				foundGRE = true;
-			} else if (rrConn.getId().equals(greConnId)){
+			} else if (rrConn.getId().equals(unboundGreConnId)){
 				assertEquals(rrConn.getType(), "unbound_gre_tunnel");
 				assertEquals(rrConn.getName(), updatedNameUnboundGRE);
 				foundUnboundGRE = true;
+			} else if (rrConn.getId().equals(drsConnId)){
+				assertEquals(rrConn.getType(), "dynamic_route_server");
+				assertEquals(rrConn.getName(), updatedNameDRS);
+				foundDRSInRR = true;
 			}
 		}
 		assertEquals(true, foundDL);
@@ -683,6 +907,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		assertEquals(true, foundGRE);
 		assertEquals(true, foundCLASSIC);
 		assertEquals(true, foundUnboundGRE);
+		assertEquals(true, foundDRSInRR);
 		
 		///////////////////////////////////////////
 		// Success: LIST Gateway Route Report:
@@ -732,20 +957,39 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		checkResourceDeletion(null, null, getTransitGatewayRouteReportOptionsModel);
 
 		///////////////////////////////////////////
+		// Success: DELETE Transit DRS Connection:
+		///////////////////////////////////////////
+		DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+		.transitGatewayId(gatewayID)
+		.id(drsConnId)
+		.build();
+
+		// Invoke operation with valid options model (positive test)
+		Response<Void> delConnResp = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+		assertNotNull(delConnResp);
+
+		// Response does not have a return type. Check that the result is null.
+		Void delConnRespObj = delConnResp.getResult();
+		assertNull(delConnRespObj);
+
+		// Connection deletion might not be instantaneous.
+		checkResourceDeletion(null, getDrsTransitGatewayConnectionOptionsModel, null);
+
+		///////////////////////////////////////////
 		// Success: DELETE Transit GRE Connection:
 		///////////////////////////////////////////
-	    DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
-	    .transitGatewayId(gatewayID) // Construct an instance of the DeleteTransitGatewayConnectionOptions model
-	    .id(greConnId)
-	    .build();
+		   deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+		   .transitGatewayId(gatewayID) // Construct an instance of the DeleteTransitGatewayConnectionOptions model
+		   .id(greConnId)
+		   .build();
 
-	    // Invoke operation with valid options model (positive test)
-	    Response<Void> delConnResp = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
-	    assertNotNull(delConnResp);
-	    
+		   // Invoke operation with valid options model (positive test)
+		   delConnResp = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+		   assertNotNull(delConnResp);
+		   
 		// Response does not have a return type. Check that the result is null.
-	    Void delConnRespObj = delConnResp.getResult();
-	    assertNull(delConnRespObj);
+		   delConnRespObj = delConnResp.getResult();
+		   assertNull(delConnRespObj);
 
 		// Connection deletion might not be instantaneous.  
 		checkResourceDeletion(null, getGreTransitGatewayConnectionOptionsModel, null);
@@ -754,20 +998,20 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 		// Success: DELETE Transit Unbound GRE Connection:
 		///////////////////////////////////////////
 		deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
-	    .transitGatewayId(gatewayID) // Construct an instance of the DeleteTransitGatewayConnectionOptions model
-	    .id(unboundGreConnId)
-	    .build();
+		   .transitGatewayId(gatewayID) // Construct an instance of the DeleteTransitGatewayConnectionOptions model
+		   .id(unboundGreConnId)
+		   .build();
 
-	    // Invoke operation with valid options model (positive test)
-	    delConnResp = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
-	    assertNotNull(delConnResp);
-	    
+		   // Invoke operation with valid options model (positive test)
+		   delConnResp = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+		   assertNotNull(delConnResp);
+		   
 		// Response does not have a return type. Check that the result is null.
 		delConnRespObj = delConnResp.getResult();
 		assertNull(delConnRespObj);
 
-		// Connection deletion might not be instantaneous.  
-		checkResourceDeletion(null, getGreTransitGatewayConnectionOptionsModel, null);
+		// Connection deletion might not be instantaneous.
+		checkResourceDeletion(null, getUnboundGreTransitGatewayConnectionOptionsModel, null);
 		
 		///////////////////////////////////////////
 		// Success: DELETE Transit VPC Connection:
@@ -841,7 +1085,7 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 	    Void delGtwRespObj = delGtwResp.getResult();
 	    assertNull(delGtwRespObj);
 	}
-	
+
 	///////////////////////////////////////////////////////////////////////////////
 	//                           Test Helper Methods                             //
 	///////////////////////////////////////////////////////////////////////////////
@@ -871,27 +1115,28 @@ public class TransitGatewayApisIT extends SdkIntegrationTestBase{
 				if (!connections.isEmpty()) {
 					List<String> connectionIDs = new ArrayList<String>();
 					for (TransitGatewayConnectionCust conn : connections) {
-						// Deletes GRE Connections first.
-						if (conn.getNetworkType().contains("gre_tunnel")) { //will handle unbound_gre_tunnel as well
-							DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
-							.transitGatewayId(gtw.getId())
-							.id(conn.getId())
-							.build();
-
-							Response<Void> delResponse = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
-							assertNotNull(delResponse);
-
-							GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
-							.transitGatewayId(gtw.getId())
-							.id(conn.getId())
-							.build();
-							
-							// Connection deletion might not be instantaneous.
-							checkResourceDeletion(null, getTransitGatewayConnectionOptionsModel, null);
-						} else {
-							connectionIDs.add(conn.getId());
+							// Deletes GRE and DRS Connections first.
+							if (conn.getNetworkType().contains("gre_tunnel")
+									|| conn.getNetworkType().equals("dynamic_route_server")) {
+								DeleteTransitGatewayConnectionOptions deleteTransitGatewayConnectionOptionsModel = new DeleteTransitGatewayConnectionOptions.Builder()
+								.transitGatewayId(gtw.getId())
+								.id(conn.getId())
+								.build();
+	
+								Response<Void> delResponse = testService.deleteTransitGatewayConnection(deleteTransitGatewayConnectionOptionsModel).execute();
+								assertNotNull(delResponse);
+	
+								GetTransitGatewayConnectionOptions getTransitGatewayConnectionOptionsModel = new GetTransitGatewayConnectionOptions.Builder()
+								.transitGatewayId(gtw.getId())
+								.id(conn.getId())
+								.build();
+								
+								// Connection deletion might not be instantaneous.
+								checkResourceDeletion(null, getTransitGatewayConnectionOptionsModel, null);
+							} else {
+								connectionIDs.add(conn.getId());
+							}
 						}
-					}
 
 					// Deletes Connections from other types.
 					for (String connID : connectionIDs) {
