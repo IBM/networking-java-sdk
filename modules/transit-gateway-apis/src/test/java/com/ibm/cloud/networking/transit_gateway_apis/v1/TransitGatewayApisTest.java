@@ -13,6 +13,11 @@
 
 package com.ibm.cloud.networking.transit_gateway_apis.v1;
 
+import com.ibm.cloud.sdk.core.http.Response;
+import com.ibm.cloud.sdk.core.security.Authenticator;
+import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
+import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
+import com.ibm.cloud.sdk.core.util.DateUtils;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.TransitGatewayApis;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ConnectionsPager;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.CreateTransitGatewayConnectionActionsOptions;
@@ -89,11 +94,6 @@ import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneIdentity;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneIdentityByName;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.model.ZoneReference;
 import com.ibm.cloud.networking.transit_gateway_apis.v1.utils.TestUtilities;
-import com.ibm.cloud.sdk.core.http.Response;
-import com.ibm.cloud.sdk.core.security.Authenticator;
-import com.ibm.cloud.sdk.core.security.NoAuthAuthenticator;
-import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
-import com.ibm.cloud.sdk.core.util.DateUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
