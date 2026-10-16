@@ -1,3 +1,14 @@
+## [0.49.1](https://github.com/IBM/networking-java-sdk/compare/0.49.0...0.49.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **deps:** fix npm vulnerabilities using verison upgrade and npm audit fix ([d648fa7](https://github.com/IBM/networking-java-sdk/commit/d648fa74863d7d12c3e1567e2e6c66afd72a8bd8))
+* **deps:** GH Actions build step use upgrade ([24edd38](https://github.com/IBM/networking-java-sdk/commit/24edd38c91f94b407845bd16ea9ac01cab500ad8))
+* **deps:** upgrade possible version of packages in pom ([5e58ac8](https://github.com/IBM/networking-java-sdk/commit/5e58ac8c88cb8cb5199a5ae716d12f1aa0c93ed4))
+* **revert-python:** revert to python 3.14 to fix bump2version release ([813a992](https://github.com/IBM/networking-java-sdk/commit/813a99298150892d5041142400a87e5eb5cc4b2b))
+* **revert:** python version revert in build ([5744606](https://github.com/IBM/networking-java-sdk/commit/5744606da0a4069d0697aec54b3401117b314127))
+
 # [0.49.0](https://github.com/IBM/networking-java-sdk/compare/0.48.1...0.49.0) (2026-09-16)
 
 
