@@ -412,25 +412,10 @@ public class AiSecurityForApps extends BaseService {
       builder.header(header.getKey(), header.getValue());
     }
     builder.header("Accept", "application/json");
-    final JsonObject contentJson = new JsonObject();
-    if (deleteZoneApiGatewayOperationsOptions.operationIds() != null) {
-      contentJson.add("operation_ids", com.ibm.cloud.sdk.core.util.GsonSingleton.getGson().toJsonTree(deleteZoneApiGatewayOperationsOptions.operationIds()));
-    }
-    builder.bodyJson(contentJson);
+    builder.bodyContent(com.ibm.cloud.sdk.core.util.GsonSingleton.getGsonWithoutPrettyPrinting().toJson(deleteZoneApiGatewayOperationsOptions.apiGatewayOperationsDeleteInputItem()), "application/json");
     ResponseConverter<ApiGatewayNullResultResp> responseConverter =
       ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ApiGatewayNullResultResp>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
-  }
-
-  /**
-   * Bulk-delete all API Gateway operations for a zone.
-   *
-   * Bulk-delete all API Gateway operations saved to Endpoint Management for a zone.
-   *
-   * @return a {@link ServiceCall} with a result of type {@link ApiGatewayNullResultResp}
-   */
-  public ServiceCall<ApiGatewayNullResultResp> deleteZoneApiGatewayOperations() {
-    return deleteZoneApiGatewayOperations(null);
   }
 
   /**

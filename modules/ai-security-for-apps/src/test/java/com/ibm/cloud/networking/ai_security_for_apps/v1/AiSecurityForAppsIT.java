@@ -33,6 +33,7 @@ import com.ibm.cloud.networking.ai_security_for_apps.v1.model.AiSecuritySettings
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayDiscoveryResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayNullResultResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperation;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsDeleteInputItem;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationItemResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationLabelResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputManaged;
@@ -292,16 +293,18 @@ public class AiSecurityForAppsIT extends SdkIntegrationTestBase {
         assertTrue(createResponse.getResult().getResult().size() >= 1);
 
         List<String> ids = new ArrayList<>();
+        List<ApiGatewayOperationsDeleteInputItem> deleteItems = new ArrayList<>();
         for (ApiGatewayOperationsRespResultItem item : createResponse.getResult().getResult()) {
             if (item.getOperationId() != null) {
                 ids.add(item.getOperationId());
+                deleteItems.add(new ApiGatewayOperationsDeleteInputItem.Builder(item.getOperationId()).build());
             }
         }
 
         try {
             DeleteZoneApiGatewayOperationsOptions deleteOptions =
                 new DeleteZoneApiGatewayOperationsOptions.Builder()
-                    .operationIds(ids)
+                    .apiGatewayOperationsDeleteInputItem(deleteItems)
                     .build();
             Response<ApiGatewayNullResultResp> response =
                 service.deleteZoneApiGatewayOperations(deleteOptions).execute();

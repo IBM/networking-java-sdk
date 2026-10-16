@@ -13,6 +13,7 @@
 
 package com.ibm.cloud.networking.ai_security_for_apps.v1.model;
 
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsDeleteInputItem;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.DeleteZoneApiGatewayOperationsOptions;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.utils.TestUtilities;
 import com.ibm.cloud.sdk.core.service.model.FileWithMetadata;
@@ -31,9 +32,20 @@ public class DeleteZoneApiGatewayOperationsOptionsTest {
 
   @Test
   public void testDeleteZoneApiGatewayOperationsOptions() throws Throwable {
-    DeleteZoneApiGatewayOperationsOptions deleteZoneApiGatewayOperationsOptionsModel = new DeleteZoneApiGatewayOperationsOptions.Builder()
-      .operationIds(java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"))
+    ApiGatewayOperationsDeleteInputItem apiGatewayOperationsDeleteInputItemModel = new ApiGatewayOperationsDeleteInputItem.Builder()
+      .operationId("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")
       .build();
-    assertEquals(deleteZoneApiGatewayOperationsOptionsModel.operationIds(), java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"));
+    assertEquals(apiGatewayOperationsDeleteInputItemModel.operationId(), "f174e90a-fafe-4643-bbbc-4a0ed4fc8415");
+
+    DeleteZoneApiGatewayOperationsOptions deleteZoneApiGatewayOperationsOptionsModel = new DeleteZoneApiGatewayOperationsOptions.Builder()
+      .apiGatewayOperationsDeleteInputItem(java.util.Arrays.asList(apiGatewayOperationsDeleteInputItemModel))
+      .build();
+    assertEquals(deleteZoneApiGatewayOperationsOptionsModel.apiGatewayOperationsDeleteInputItem(), java.util.Arrays.asList(apiGatewayOperationsDeleteInputItemModel));
   }
+
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteZoneApiGatewayOperationsOptionsError() throws Throwable {
+    new DeleteZoneApiGatewayOperationsOptions.Builder().build();
+  }
+
 }

@@ -23,13 +23,13 @@ import com.ibm.cloud.sdk.core.service.model.GenericModel;
  */
 public class DeleteZoneApiGatewayOperationsOptions extends GenericModel {
 
-  protected List<String> operationIds;
+  protected List<ApiGatewayOperationsDeleteInputItem> apiGatewayOperationsDeleteInputItem;
 
   /**
    * Builder.
    */
   public static class Builder {
-    private List<String> operationIds;
+    private List<ApiGatewayOperationsDeleteInputItem> apiGatewayOperationsDeleteInputItem;
 
     /**
      * Instantiates a new Builder from an existing DeleteZoneApiGatewayOperationsOptions instance.
@@ -37,13 +37,22 @@ public class DeleteZoneApiGatewayOperationsOptions extends GenericModel {
      * @param deleteZoneApiGatewayOperationsOptions the instance to initialize the Builder with
      */
     private Builder(DeleteZoneApiGatewayOperationsOptions deleteZoneApiGatewayOperationsOptions) {
-      this.operationIds = deleteZoneApiGatewayOperationsOptions.operationIds;
+      this.apiGatewayOperationsDeleteInputItem = deleteZoneApiGatewayOperationsOptions.apiGatewayOperationsDeleteInputItem;
     }
 
     /**
      * Instantiates a new builder.
      */
     public Builder() {
+    }
+
+    /**
+     * Instantiates a new builder with required properties.
+     *
+     * @param apiGatewayOperationsDeleteInputItem the apiGatewayOperationsDeleteInputItem
+     */
+    public Builder(List<ApiGatewayOperationsDeleteInputItem> apiGatewayOperationsDeleteInputItem) {
+      this.apiGatewayOperationsDeleteInputItem = apiGatewayOperationsDeleteInputItem;
     }
 
     /**
@@ -56,30 +65,30 @@ public class DeleteZoneApiGatewayOperationsOptions extends GenericModel {
     }
 
     /**
-     * Adds a new element to operationIds.
+     * Adds a new element to apiGatewayOperationsDeleteInputItem.
      *
-     * @param operationIds the new element to be added
+     * @param apiGatewayOperationsDeleteInputItem the new element to be added
      * @return the DeleteZoneApiGatewayOperationsOptions builder
      */
-    public Builder addOperationIds(String operationIds) {
-      com.ibm.cloud.sdk.core.util.Validator.notNull(operationIds,
-        "operationIds cannot be null");
-      if (this.operationIds == null) {
-        this.operationIds = new ArrayList<String>();
+    public Builder addApiGatewayOperationsDeleteInputItem(ApiGatewayOperationsDeleteInputItem apiGatewayOperationsDeleteInputItem) {
+      com.ibm.cloud.sdk.core.util.Validator.notNull(apiGatewayOperationsDeleteInputItem,
+        "apiGatewayOperationsDeleteInputItem cannot be null");
+      if (this.apiGatewayOperationsDeleteInputItem == null) {
+        this.apiGatewayOperationsDeleteInputItem = new ArrayList<ApiGatewayOperationsDeleteInputItem>();
       }
-      this.operationIds.add(operationIds);
+      this.apiGatewayOperationsDeleteInputItem.add(apiGatewayOperationsDeleteInputItem);
       return this;
     }
 
     /**
-     * Set the operationIds.
-     * Existing operationIds will be replaced.
+     * Set the apiGatewayOperationsDeleteInputItem.
+     * Existing apiGatewayOperationsDeleteInputItem will be replaced.
      *
-     * @param operationIds the operationIds
+     * @param apiGatewayOperationsDeleteInputItem the apiGatewayOperationsDeleteInputItem
      * @return the DeleteZoneApiGatewayOperationsOptions builder
      */
-    public Builder operationIds(List<String> operationIds) {
-      this.operationIds = operationIds;
+    public Builder apiGatewayOperationsDeleteInputItem(List<ApiGatewayOperationsDeleteInputItem> apiGatewayOperationsDeleteInputItem) {
+      this.apiGatewayOperationsDeleteInputItem = apiGatewayOperationsDeleteInputItem;
       return this;
     }
   }
@@ -87,7 +96,9 @@ public class DeleteZoneApiGatewayOperationsOptions extends GenericModel {
   protected DeleteZoneApiGatewayOperationsOptions() { }
 
   protected DeleteZoneApiGatewayOperationsOptions(Builder builder) {
-    operationIds = builder.operationIds;
+    com.ibm.cloud.sdk.core.util.Validator.notNull(builder.apiGatewayOperationsDeleteInputItem,
+      "apiGatewayOperationsDeleteInputItem cannot be null");
+    apiGatewayOperationsDeleteInputItem = builder.apiGatewayOperationsDeleteInputItem;
   }
 
   /**
@@ -100,14 +111,14 @@ public class DeleteZoneApiGatewayOperationsOptions extends GenericModel {
   }
 
   /**
-   * Gets the operationIds.
+   * Gets the apiGatewayOperationsDeleteInputItem.
    *
-   * Array of operation UUIDs to delete.
+   * List of specific operation IDs to delete.
    *
-   * @return the operationIds
+   * @return the apiGatewayOperationsDeleteInputItem
    */
-  public List<String> operationIds() {
-    return operationIds;
+  public List<ApiGatewayOperationsDeleteInputItem> apiGatewayOperationsDeleteInputItem() {
+    return apiGatewayOperationsDeleteInputItem;
   }
 }
 

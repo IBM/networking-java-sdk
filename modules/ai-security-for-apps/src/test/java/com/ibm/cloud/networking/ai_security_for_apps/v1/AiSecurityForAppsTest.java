@@ -24,6 +24,7 @@ import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperatio
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationLabelResp;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationLabelRespResult;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationLabelRespResultLabelsItem;
+import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsDeleteInputItem;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputManaged;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputSelector;
 import com.ibm.cloud.networking.ai_security_for_apps.v1.model.ApiGatewayOperationsLabelsBulkDeleteInputSelectorInclude;
@@ -365,9 +366,14 @@ public class AiSecurityForAppsTest {
       .setResponseCode(200)
       .setBody(mockResponseBody));
 
+    // Construct an instance of the ApiGatewayOperationsDeleteInputItem model
+    ApiGatewayOperationsDeleteInputItem apiGatewayOperationsDeleteInputItemModel = new ApiGatewayOperationsDeleteInputItem.Builder()
+      .operationId("f174e90a-fafe-4643-bbbc-4a0ed4fc8415")
+      .build();
+
     // Construct an instance of the DeleteZoneApiGatewayOperationsOptions model
     DeleteZoneApiGatewayOperationsOptions deleteZoneApiGatewayOperationsOptionsModel = new DeleteZoneApiGatewayOperationsOptions.Builder()
-      .operationIds(java.util.Arrays.asList("f174e90a-fafe-4643-bbbc-4a0ed4fc8415"))
+      .apiGatewayOperationsDeleteInputItem(java.util.Arrays.asList(apiGatewayOperationsDeleteInputItemModel))
       .build();
 
     // Invoke deleteZoneApiGatewayOperations() with a valid options model and verify the result
@@ -396,6 +402,13 @@ public class AiSecurityForAppsTest {
 
     aiSecurityForAppsService.disableRetries();
     testDeleteZoneApiGatewayOperationsWOptions();
+  }
+
+  // Test the deleteZoneApiGatewayOperations operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testDeleteZoneApiGatewayOperationsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    aiSecurityForAppsService.deleteZoneApiGatewayOperations(null).execute();
   }
 
   // Test the listZoneApiGatewayOperations operation with a valid options model parameter
