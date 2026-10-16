@@ -49,6 +49,7 @@ pom.xml.versionsBackup
 # Node.js (semantic-release)
 node_modules/
 package-lock.json
+.nvmrc
 
 # MacOS
 .DS_Store
