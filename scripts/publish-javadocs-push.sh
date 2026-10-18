@@ -35,7 +35,7 @@ pushd "$REPO_ROOT/gh-pages"
 printf "\n>>>>> Copying javadocs to new directory: docs/%s\n" "$GH_TAG"
 rm -rf "docs/${GH_TAG}"
 mkdir -p "docs/${GH_TAG}"
-cp -rf "$REPO_ROOT/target/site/apidocs/"* "docs/${GH_TAG}"
+cp -rf "$REPO_ROOT/target/site/apidocs/." "docs/${GH_TAG}"
 
 printf "\n>>>>> Generating gh-pages index.html...\n"
 "$SCRIPT_DIR/generate-javadoc-index.sh" > index.html

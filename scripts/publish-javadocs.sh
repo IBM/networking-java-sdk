@@ -31,7 +31,7 @@ export GH_REPO_SLUG="IBM/networking-java-sdk"
 cd "$(dirname "$0")/.."
 
 printf "\n>>>>> Building aggregate Javadoc for version %s\n" "$VERSION"
-mvn -B clean javadoc:aggregate
+mvn -B clean package javadoc:aggregate -DskipTests -DskipITs
 
 printf "\n>>>>> Publishing Javadoc to gh-pages\n"
 export GH_TAG="$VERSION"
