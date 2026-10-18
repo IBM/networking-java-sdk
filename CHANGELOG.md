@@ -1,3 +1,10 @@
+## [0.49.3](https://github.com/IBM/networking-java-sdk/compare/0.49.2...0.49.3) (2026-10-18)
+
+
+### Bug Fixes
+
+* **release:** fix javadoc build and copy in publish script ([af124fb](https://github.com/IBM/networking-java-sdk/commit/af124fb4ec88482ab3553fe3f99939ec665c6a67))
+
 ## [0.49.2](https://github.com/IBM/networking-java-sdk/compare/0.49.1...0.49.2) (2026-10-18)
 
 
