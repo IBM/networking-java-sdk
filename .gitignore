@@ -62,3 +62,4 @@ test-gpg-signing.sh
 
 # GitHub Pages (local clone)
 gh-pages/
+.bob/

@@ -1,7 +1,10 @@
 # This workflow is responsible for:
-# - publishing artifacts to Maven Central
-# - building and publishing javadocs to the git repository.
-# It is triggered when a new release is created.
+# - publishing artifacts to Maven Central  (job: publish-maven)
+# - building and publishing javadocs       (job: publish-javadocs)
+#
+# Both jobs are triggered automatically when a new release is created.
+# Either job can also be triggered manually via workflow_dispatch with
+# an explicit version input (e.g. to republish javadocs without a new release).
 
 name: Publish Release
 
@@ -9,13 +12,34 @@ on:
   release:
     types: [created]
   workflow_dispatch:
-    # Allow this workflow to be triggered manually
+    inputs:
+      version:
+        description: 'Version to publish (e.g. 0.49.2). Defaults to the latest release tag.'
+        required: false
+        default: ''
+      job:
+        description: 'Which job to run'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - both
+          - publish-maven
+          - publish-javadocs
+
+# Default permissions: read-only
+permissions:
+  contents: read
 
 jobs:
-  publish-release:
-    name: publish-release
+  publish-maven:
+    name: publish-maven
+    if: >
+      github.event_name == 'release' ||
+      (github.event_name == 'workflow_dispatch' &&
+        (inputs.job == 'both' || inputs.job == 'publish-maven'))
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -36,56 +60,93 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Set artifact version to ${{ github.ref_name }}
-        run: mvn -B versions:set -DnewVersion=${{ github.ref_name}} -DgenerateBackupPoms=false
-
-      - name: Publish Javadocs
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_REPO_SLUG: ${{ github.repository }}
-          GH_TAG: ${{ github.ref_name}}
+      - name: Set artifact version
+        id: set_version
         run: |
-          mvn -B clean javadoc:aggregate
-          build/publishJavadoc-gha.sh
+          VERSION=${{ inputs.version || github.ref_name }}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          mvn -B versions:set -DnewVersion="$VERSION" -DgenerateBackupPoms=false
 
       - name: Publish to Maven Central
+        id: publish_maven
         env:
           CP_USERNAME: ${{ secrets.CP_USERNAME }}
           CP_PASSWORD: ${{ secrets.CP_PASSWORD }}
           GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        run: |
-          mvn -B deploy -DskipTests -P central
+        run: mvn -B deploy -DskipTests -P central
 
-      - name: Get package version
-        if: success()
-        id: get_version
-        run: |
-          VERSION=${{ github.ref_name }}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-      - name: Notify Slack - Publish Completed
+      - name: Notify Slack - Maven Publish Completed
         if: success()
         run: |
-          curl -X POST "${{ secrets.SLACK_MAVEN_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "version": "${{ steps.get_version.outputs.version }}",
-              "package_name": "networking-java-sdk",
-              "maven_url": "https://central.sonatype.com/artifact/com.ibm.cloud/networking/${{ steps.get_version.outputs.version }}",
-              "github_release": "${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}",
-              "commit_sha": "${{ github.sha }}",
-              "actor": "${{ github.actor }}"
-            }'
+          RESULTS=$(printf 'Maven   : https://central.sonatype.com/artifact/com.ibm.cloud/networking/%s\nRelease : %s\nRun     : %s' \
+            "${{ steps.set_version.outputs.version }}" \
+            "${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.set_version.outputs.version }}" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-java-sdk", language: "java", status: "completed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_MAVEN_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
 
-      - name: Notify Slack - Publish Failed
+      - name: Notify Slack - Maven Publish Failed
         if: failure()
         run: |
-          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "sdk": "networking-java-sdk",
-              "language": "java",
-              "status": "failed",
-              "actor": "${{ github.actor }}"
-            }'
+          RESULTS=$(printf 'Error : %s\nRun   : %s' \
+            "${{ steps.set_version.outcome == 'failure' && 'Failed to set artifact version' || steps.publish_maven.outcome == 'failure' && 'mvn deploy to Maven Central failed' || 'Failed before publish steps' }}" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-java-sdk", language: "java", status: "failed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
+
+  publish-javadocs:
+    name: publish-javadocs
+    if: >
+      github.event_name == 'release' ||
+      (github.event_name == 'workflow_dispatch' &&
+        (inputs.job == 'both' || inputs.job == 'publish-javadocs'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Publish Javadocs
+        id: publish_javadocs
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          VERSION=${{ inputs.version || github.ref_name }}
+          ./scripts/publish-javadocs.sh "$VERSION"
+
+      - name: Notify Slack - Javadocs Publish Completed
+        if: success()
+        run: |
+          VERSION=${{ inputs.version || github.ref_name }}
+          RESULTS=$(printf 'Javadocs : https://ibm.github.io/networking-java-sdk/docs/%s\nRun      : %s' \
+            "$VERSION" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-java-sdk", language: "java", status: "completed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
+
+      - name: Notify Slack - Javadocs Publish Failed
+        if: failure()
+        run: |
+          VERSION=${{ inputs.version || github.ref_name }}
+          RESULTS=$(printf 'Error    : %s\nVersion  : %s\nRun      : %s' \
+            "${{ steps.publish_javadocs.outcome == 'failure' && 'scripts/publish-javadocs.sh failed' || 'Failed before javadoc publish step' }}" \
+            "$VERSION" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-java-sdk", language: "java", status: "failed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-

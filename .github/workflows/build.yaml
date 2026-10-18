@@ -66,6 +66,11 @@ jobs:
       - name: Build & Test
         run: mvn -B clean verify -fae -DskipITs
 
+      - name: Dry run version bump
+        run: |
+          CURRENT=$(grep -oE 'IBM Cloud Networking Services Java SDK Version [0-9]+\.[0-9]+\.[0-9]+' README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          ./scripts/bump-version.sh --dry-run "$CURRENT" 999.999.999
+
   results:
     if: ${{ always() }}
     runs-on: ubuntu-latest
@@ -93,14 +98,9 @@ jobs:
     steps:
       - name: Notify Slack - Release Started
         run: |
-          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "sdk": "networking-java-sdk",
-              "language": "java",
-              "status": "started",
-              "actor": "${{ github.actor }}"
-            }'
+          jq -n --arg results "Run : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            '{sdk: "networking-java-sdk", language: "java", status: "started", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
 
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -113,11 +113,6 @@ jobs:
         with:
           node-version: 22
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.14
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -126,53 +121,56 @@ jobs:
           cache: 'maven'
 
       - name: Install Publishing Tools
-        run: |
-          pip install bump2version
-          npm ci
+        run: npm ci
 
-      - name: Verify version consistency
+      - name: Validate version consistency
+        id: validate
         run: |
           # Extract versions from all files
-          BUMPVERSION_VERSION=$(grep "^current_version = " .bumpversion.cfg | cut -d'=' -f2 | tr -d ' ')
-          README_VERSION=$(grep "# IBM Cloud Networking Services Java SDK Version" README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || echo "not-found")
+          README_VERSION=$(grep -oE 'IBM Cloud Networking Services Java SDK Version [0-9]+\.[0-9]+\.[0-9]+' README.md | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
           POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          
-          echo "Version in .bumpversion.cfg: $BUMPVERSION_VERSION"
+
           echo "Version in README.md: $README_VERSION"
           echo "Version in pom.xml: $POM_VERSION (should be 99-SNAPSHOT)"
-          
+
           # Verify pom.xml uses 99-SNAPSHOT (standard approach)
           if [ "$POM_VERSION" != "99-SNAPSHOT" ]; then
             echo "❌ ERROR: pom.xml version must be 99-SNAPSHOT (found: $POM_VERSION)"
             echo "The version is set dynamically during publish, not in pom.xml"
             exit 1
           fi
-          
-          # Verify .bumpversion.cfg and README.md match
-          if [ "$README_VERSION" != "not-found" ] && [ "$BUMPVERSION_VERSION" != "$README_VERSION" ]; then
-            echo "❌ ERROR: Version mismatch detected!"
-            echo ".bumpversion.cfg version ($BUMPVERSION_VERSION) must match README.md version ($README_VERSION)"
+
+          if [ -z "$README_VERSION" ]; then
+            echo "❌ ERROR: Could not extract version from README.md"
             exit 1
           fi
-          
+
           echo "✅ Version consistency check passed"
           echo "  - pom.xml: $POM_VERSION (correct)"
-          echo "  - .bumpversion.cfg: $BUMPVERSION_VERSION"
           echo "  - README.md: $README_VERSION"
 
       - name: Run semantic-release
+        id: release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
 
+      - name: Notify Slack - Release Completed
+        if: success()
+        run: |
+          RESULTS=$(printf 'Release : %s\nRun     : %s' \
+            "${{ steps.release.outputs.version || 'No new release published' }}" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-java-sdk", language: "java", status: "completed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
+
       - name: Notify Slack - Release Failed
         if: failure()
         run: |
-          curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" \
-            -H 'Content-Type: application/json' \
-            -d '{
-              "sdk": "networking-java-sdk",
-              "language": "java",
-              "status": "failed",
-              "actor": "${{ github.actor }}"
-            }'
+          RESULTS=$(printf 'Error : %s\nRun   : %s' \
+            "${{ steps.validate.outcome == 'failure' && 'Version validation failed, version strings in README.md are inconsistent' || steps.release.outcome == 'failure' && 'semantic-release failed' || 'Failed before semantic-release' }}" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          jq -n --arg results "$RESULTS" \
+            '{sdk: "networking-java-sdk", language: "java", status: "failed", actor: "${{ github.actor }}", results: $results}' \
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
