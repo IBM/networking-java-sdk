@@ -85,7 +85,7 @@ jobs:
             "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
           jq -n --arg results "$RESULTS" \
             '{sdk: "networking-java-sdk", language: "java", status: "completed", actor: "${{ github.actor }}", results: $results}' \
-            | curl -X POST "${{ secrets.SLACK_MAVEN_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
+            | curl -X POST "${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}" -H 'Content-Type: application/json' -d @-
 
       - name: Notify Slack - Maven Publish Failed
         if: failure()
