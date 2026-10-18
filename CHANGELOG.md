@@ -1,3 +1,12 @@
+## [0.49.2](https://github.com/IBM/networking-java-sdk/compare/0.49.1...0.49.2) (2026-10-18)
+
+
+### Bug Fixes
+
+* **ci:** version changes and audit fixes ([c2fdf60](https://github.com/IBM/networking-java-sdk/commit/c2fdf602ca431f7fa6ee0bd4277ce61d30594667))
+* **release:** replace bump2version with scripted version bump, improve Slack notifications, and migrate build scripts to scripts/ ([19cfc6f](https://github.com/IBM/networking-java-sdk/commit/19cfc6fefc98b7eb8caceac27a5ff09f4d93ca91))
+* **release:** use SLACK_RELEASE_WEBHOOK_URL for maven publish notification ([fe223ed](https://github.com/IBM/networking-java-sdk/commit/fe223ed7592ee60dd069376c76ab42792bef5f39))
+
 ## [0.49.1](https://github.com/IBM/networking-java-sdk/compare/0.49.0...0.49.1) (2026-10-16)
 
 
