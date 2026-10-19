@@ -1,3 +1,18 @@
+# [0.50.0](https://github.com/IBM/networking-java-sdk/compare/0.49.3...0.50.0) (2026-10-19)
+
+
+### Bug Fixes
+
+* **CIS:** added gateway operation scenarios and fixed label response model ([828fa79](https://github.com/IBM/networking-java-sdk/commit/828fa79a403cdd4d123e06486ba53596575467a5))
+* **cis:** update ai security to latest specs ([d5ce6e0](https://github.com/IBM/networking-java-sdk/commit/d5ce6e004036b6183349dd88c0f24c7d6c977566))
+* **CIS:** update AI Security with latest specs ([b940130](https://github.com/IBM/networking-java-sdk/commit/b9401305301fa47d3f2f81609a555b31ccc66a83))
+* update ai security for apps to latest specs ([5a05b9c](https://github.com/IBM/networking-java-sdk/commit/5a05b9c6c8f6727f31a2e55c74aa8f208417ae9a))
+
+
+### Features
+
+* **CIS:** Add Support for AI Security for Apps ([0b04815](https://github.com/IBM/networking-java-sdk/commit/0b04815d2e4e7f3e43433f011ec2f45263606a48))
+
 ## [0.49.3](https://github.com/IBM/networking-java-sdk/compare/0.49.2...0.49.3) (2026-10-18)
 
 
