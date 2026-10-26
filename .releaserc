@@ -16,7 +16,7 @@
       "@semantic-release/git",
       {
         "assets": ["CHANGELOG.md", "README.md"],
-        "message": "chore(release): ${nextRelease.version} release notes\n\n${nextRelease.notes}"
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\nrelease notes:\n${nextRelease.notes}"
       }
     ],
     "@semantic-release/github"
