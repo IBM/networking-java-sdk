@@ -1,3 +1,11 @@
+## [0.50.1](https://github.com/IBM/networking-java-sdk/compare/0.50.0...0.50.1) (2026-10-27)
+
+
+### Bug Fixes
+
+* **build:** update workflow build env, release commit message ([cbcac8a](https://github.com/IBM/networking-java-sdk/commit/cbcac8a2b508d658cc31e6df0871acc5757f91c8))
+* **package:** npm audit fixes and upgrade ([b05f31b](https://github.com/IBM/networking-java-sdk/commit/b05f31b28fedca71478bf1304e923fee6f9ec21b))
+
 # [0.50.0](https://github.com/IBM/networking-java-sdk/compare/0.49.3...0.50.0) (2026-10-19)
 
 
