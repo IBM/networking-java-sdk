@@ -1,3 +1,10 @@
+# [0.51.0](https://github.com/IBM/networking-java-sdk/compare/0.50.1...0.51.0) (2026-10-27)
+
+
+### Features
+
+* **transit-gateway:** add dynamic_route_server (DRS) connection type support ([edf68ee](https://github.com/IBM/networking-java-sdk/commit/edf68ee3af69a230d6a87b0f5c4553da58d85759))
+
 ## [0.50.1](https://github.com/IBM/networking-java-sdk/compare/0.50.0...0.50.1) (2026-10-27)
 
 
