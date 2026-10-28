@@ -1,3 +1,11 @@
+## [0.51.1](https://github.com/IBM/networking-java-sdk/compare/0.51.0...0.51.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* **deps:** update deps org.apache.maven.plugins:maven-failsafe-plugin, org.apache.maven.plugins:maven-surefire-plugin, org.jacoco:jacoco-maven-plugin, okhttp3-version to latest ([5b6829e](https://github.com/IBM/networking-java-sdk/commit/5b6829e6fa18b413b69e83b682cc243444664a38))
+* **scripts:** correct javadoc output path from target/site/apidocs to target/reports/apidocs for maven-javadoc-plugin 3.x ([f3933fd](https://github.com/IBM/networking-java-sdk/commit/f3933fddae592509f75042e8627a6d60feb8bdbd))
+
 # [0.51.0](https://github.com/IBM/networking-java-sdk/compare/0.50.1...0.51.0) (2026-10-27)
 
 
