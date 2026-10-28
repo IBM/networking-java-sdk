@@ -37,13 +37,17 @@ rm -rf "docs/${GH_TAG}"
 mkdir -p "docs/${GH_TAG}"
 cp -rf "$REPO_ROOT/target/reports/apidocs/." "docs/${GH_TAG}"
 
+# Update docs/latest symlink — plain relative target (no ./) so Jekyll resolves it correctly.
+printf "\n>>>>> Updating docs/latest -> %s\n" "$GH_TAG"
+ln -sfn "${GH_TAG}" "docs/latest"
+
 printf "\n>>>>> Generating gh-pages index.html...\n"
 "$SCRIPT_DIR/generate-javadoc-index.sh" > index.html
 
 printf "\n>>>>> Committing new javadoc...\n"
 git add -f .
 git commit -m "docs: latest javadoc for ${GH_TAG}"
-git push -f origin gh-pages
+git push origin gh-pages
 
 popd
 
