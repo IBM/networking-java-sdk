@@ -1,3 +1,10 @@
+## [0.51.2](https://github.com/IBM/networking-java-sdk/compare/0.51.1...0.51.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* **scripts:** add latest symlink update, remove force push, and delete one-time backfill utility ([7e5b42c](https://github.com/IBM/networking-java-sdk/commit/7e5b42cf5294568cf5f235f081d81a5e70dfd4c2))
+
 ## [0.51.1](https://github.com/IBM/networking-java-sdk/compare/0.51.0...0.51.1) (2026-10-28)
 
 
