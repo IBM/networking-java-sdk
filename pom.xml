@@ -27,7 +27,7 @@
         -->
 
         <!-- This is the version associated with the Java core. -->
-        <sdk-core-version>9.29.0</sdk-core-version>
+        <sdk-core-version>9.29.3</sdk-core-version>
         <git-repository-name>networking-java-sdk</git-repository-name>
 
         <testng-version>7.12.0</testng-version>
@@ -52,7 +52,7 @@
         <mockito-version>5.1.1</mockito-version>
         <slf4j-version>2.0.20</slf4j-version>
 
-        <maven-enforcer-version>3.6.3</maven-enforcer-version>
+        <maven-enforcer-version>3.7.0</maven-enforcer-version>
         <min-jdk-version>11</min-jdk-version>
         <min-maven-version>3.5.0</min-maven-version>
 
