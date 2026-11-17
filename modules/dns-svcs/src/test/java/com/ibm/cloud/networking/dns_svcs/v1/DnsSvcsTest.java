@@ -18,6 +18,10 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.AccessRequestRequestor;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AccessRequestsList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AzPoolsItem;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCacheAction;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCacheActionList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCacheError;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCustomResolverCacheOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateDnszoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
@@ -50,6 +54,7 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.ExportResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRulesPager;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetClearCacheActionOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneAccessRequestOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneOptions;
@@ -69,6 +74,7 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedDnszone;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedDnszoneLinkedTo;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedDnszonesList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedZonesPager;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListClearCacheActionsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszoneAccessRequestsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszones;
@@ -2810,6 +2816,169 @@ public class DnsSvcsTest {
   public void testDeleteCustomResolverLocationNoOptions() throws Throwable {
     server.enqueue(new MockResponse());
     dnsSvcsService.deleteCustomResolverLocation(null).execute();
+  }
+
+  // Test the listClearCacheActions operation with a valid options model parameter
+  @Test
+  public void testListClearCacheActionsWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"clear_cache_actions\": [{\"id\": \"1717236000000000\", \"status\": \"pending\", \"errors\": [{\"code\": \"location_unreachable\", \"message\": \"The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.\", \"location_id\": \"9a234ede-c2b6-4c39-bc27-d39ec139ecdb\"}], \"created_on\": \"2024-06-01T10:00:00.000Z\", \"modified_on\": \"2024-06-01T10:00:05.000Z\", \"expires_on\": \"2024-06-01T15:00:00.000Z\"}], \"count\": 1}";
+    String listClearCacheActionsPath = "/instances/testString/custom_resolvers/testString/clear_cache";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ListClearCacheActionsOptions model
+    ListClearCacheActionsOptions listClearCacheActionsOptionsModel = new ListClearCacheActionsOptions.Builder()
+      .instanceId("testString")
+      .resolverId("testString")
+      .xCorrelationId("testString")
+      .build();
+
+    // Invoke listClearCacheActions() with a valid options model and verify the result
+    Response<ClearCacheActionList> response = dnsSvcsService.listClearCacheActions(listClearCacheActionsOptionsModel).execute();
+    assertNotNull(response);
+    ClearCacheActionList responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, listClearCacheActionsPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+    assertEquals(request.getHeader("X-Correlation-ID"), "testString");
+  }
+
+  // Test the listClearCacheActions operation with and without retries enabled
+  @Test
+  public void testListClearCacheActionsWRetries() throws Throwable {
+    dnsSvcsService.enableRetries(4, 30);
+    testListClearCacheActionsWOptions();
+
+    dnsSvcsService.disableRetries();
+    testListClearCacheActionsWOptions();
+  }
+
+  // Test the listClearCacheActions operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testListClearCacheActionsNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    dnsSvcsService.listClearCacheActions(null).execute();
+  }
+
+  // Test the clearCustomResolverCache operation with a valid options model parameter
+  @Test
+  public void testClearCustomResolverCacheWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"id\": \"1717236000000000\", \"status\": \"pending\", \"errors\": [{\"code\": \"location_unreachable\", \"message\": \"The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.\", \"location_id\": \"9a234ede-c2b6-4c39-bc27-d39ec139ecdb\"}], \"created_on\": \"2024-06-01T10:00:00.000Z\", \"modified_on\": \"2024-06-01T10:00:05.000Z\", \"expires_on\": \"2024-06-01T15:00:00.000Z\"}";
+    String clearCustomResolverCachePath = "/instances/testString/custom_resolvers/testString/clear_cache";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(202)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the ClearCustomResolverCacheOptions model
+    ClearCustomResolverCacheOptions clearCustomResolverCacheOptionsModel = new ClearCustomResolverCacheOptions.Builder()
+      .instanceId("testString")
+      .resolverId("testString")
+      .xCorrelationId("testString")
+      .build();
+
+    // Invoke clearCustomResolverCache() with a valid options model and verify the result
+    Response<ClearCacheAction> response = dnsSvcsService.clearCustomResolverCache(clearCustomResolverCacheOptionsModel).execute();
+    assertNotNull(response);
+    ClearCacheAction responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "POST");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, clearCustomResolverCachePath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+    assertEquals(request.getHeader("X-Correlation-ID"), "testString");
+  }
+
+  // Test the clearCustomResolverCache operation with and without retries enabled
+  @Test
+  public void testClearCustomResolverCacheWRetries() throws Throwable {
+    dnsSvcsService.enableRetries(4, 30);
+    testClearCustomResolverCacheWOptions();
+
+    dnsSvcsService.disableRetries();
+    testClearCustomResolverCacheWOptions();
+  }
+
+  // Test the clearCustomResolverCache operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testClearCustomResolverCacheNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    dnsSvcsService.clearCustomResolverCache(null).execute();
+  }
+
+  // Test the getClearCacheAction operation with a valid options model parameter
+  @Test
+  public void testGetClearCacheActionWOptions() throws Throwable {
+    // Register a mock response
+    String mockResponseBody = "{\"id\": \"1717236000000000\", \"status\": \"pending\", \"errors\": [{\"code\": \"location_unreachable\", \"message\": \"The DNS cache could not be cleared on location 9a234ede-c2b6-4c39-bc27-d39ec139ecdb.\", \"location_id\": \"9a234ede-c2b6-4c39-bc27-d39ec139ecdb\"}], \"created_on\": \"2024-06-01T10:00:00.000Z\", \"modified_on\": \"2024-06-01T10:00:05.000Z\", \"expires_on\": \"2024-06-01T15:00:00.000Z\"}";
+    String getClearCacheActionPath = "/instances/testString/custom_resolvers/testString/clear_cache/testString";
+    server.enqueue(new MockResponse()
+      .setHeader("Content-type", "application/json")
+      .setResponseCode(200)
+      .setBody(mockResponseBody));
+
+    // Construct an instance of the GetClearCacheActionOptions model
+    GetClearCacheActionOptions getClearCacheActionOptionsModel = new GetClearCacheActionOptions.Builder()
+      .instanceId("testString")
+      .resolverId("testString")
+      .actionId("testString")
+      .xCorrelationId("testString")
+      .build();
+
+    // Invoke getClearCacheAction() with a valid options model and verify the result
+    Response<ClearCacheAction> response = dnsSvcsService.getClearCacheAction(getClearCacheActionOptionsModel).execute();
+    assertNotNull(response);
+    ClearCacheAction responseObj = response.getResult();
+    assertNotNull(responseObj);
+
+    // Verify the contents of the request sent to the mock server
+    RecordedRequest request = server.takeRequest();
+    assertNotNull(request);
+    assertEquals(request.getMethod(), "GET");
+    // Verify request path
+    String parsedPath = TestUtilities.parseReqPath(request);
+    assertEquals(parsedPath, getClearCacheActionPath);
+    // Verify that there is no query string
+    Map<String, String> query = TestUtilities.parseQueryString(request);
+    assertNull(query);
+    assertEquals(request.getHeader("X-Correlation-ID"), "testString");
+  }
+
+  // Test the getClearCacheAction operation with and without retries enabled
+  @Test
+  public void testGetClearCacheActionWRetries() throws Throwable {
+    dnsSvcsService.enableRetries(4, 30);
+    testGetClearCacheActionWOptions();
+
+    dnsSvcsService.disableRetries();
+    testGetClearCacheActionWOptions();
+  }
+
+  // Test the getClearCacheAction operation with a null options model (negative test)
+  @Test(expectedExceptions = IllegalArgumentException.class)
+  public void testGetClearCacheActionNoOptions() throws Throwable {
+    server.enqueue(new MockResponse());
+    dnsSvcsService.getClearCacheAction(null).execute();
   }
 
   // Test the listForwardingRules operation with a valid options model parameter

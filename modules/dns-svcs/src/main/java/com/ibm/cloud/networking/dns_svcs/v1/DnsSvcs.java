@@ -22,6 +22,9 @@ import com.ibm.cloud.networking.common.SdkCommon;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AccessRequest;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AccessRequestsList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCacheAction;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCacheActionList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCustomResolverCacheOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateDnszoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
@@ -51,6 +54,7 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.Dnszone;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ExportResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetClearCacheActionOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneAccessRequestOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneOptions;
@@ -67,6 +71,7 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ImportResourceRecordsResp;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedDnszone;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedDnszonesList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListClearCacheActionsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszoneAccessRequestsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszones;
@@ -1623,6 +1628,94 @@ public class DnsSvcs extends BaseService {
       builder.header("X-Correlation-ID", deleteCustomResolverLocationOptions.xCorrelationId());
     }
     ResponseConverter<Void> responseConverter = ResponseConverterUtils.getVoid();
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * List cache clear actions.
+   *
+   * List the cache clear actions for the given custom resolver.
+   *
+   * @param listClearCacheActionsOptions the {@link ListClearCacheActionsOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ClearCacheActionList}
+   */
+  public ServiceCall<ClearCacheActionList> listClearCacheActions(ListClearCacheActionsOptions listClearCacheActionsOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(listClearCacheActionsOptions,
+      "listClearCacheActionsOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", listClearCacheActionsOptions.instanceId());
+    pathParamsMap.put("resolver_id", listClearCacheActionsOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "listClearCacheActions");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (listClearCacheActionsOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", listClearCacheActionsOptions.xCorrelationId());
+    }
+    ResponseConverter<ClearCacheActionList> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ClearCacheActionList>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Clear the DNS cache of a custom resolver.
+   *
+   * Clear the DNS cache of a custom resolver. Clearing the cache creates an asynchronous cache clear action. Only
+   * one cache clear can be pending for a custom resolver at a time; the request fails with 409 Conflict if a cache
+   * clear is already pending.
+   *
+   * @param clearCustomResolverCacheOptions the {@link ClearCustomResolverCacheOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ClearCacheAction}
+   */
+  public ServiceCall<ClearCacheAction> clearCustomResolverCache(ClearCustomResolverCacheOptions clearCustomResolverCacheOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(clearCustomResolverCacheOptions,
+      "clearCustomResolverCacheOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", clearCustomResolverCacheOptions.instanceId());
+    pathParamsMap.put("resolver_id", clearCustomResolverCacheOptions.resolverId());
+    RequestBuilder builder = RequestBuilder.post(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "clearCustomResolverCache");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (clearCustomResolverCacheOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", clearCustomResolverCacheOptions.xCorrelationId());
+    }
+    ResponseConverter<ClearCacheAction> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ClearCacheAction>() { }.getType());
+    return createServiceCall(builder.build(), responseConverter);
+  }
+
+  /**
+   * Get a cache clear action.
+   *
+   * Get the status of a cache clear action for the given custom resolver. The action record is available for up to 5
+   * hours.
+   *
+   * @param getClearCacheActionOptions the {@link GetClearCacheActionOptions} containing the options for the call
+   * @return a {@link ServiceCall} with a result of type {@link ClearCacheAction}
+   */
+  public ServiceCall<ClearCacheAction> getClearCacheAction(GetClearCacheActionOptions getClearCacheActionOptions) {
+    com.ibm.cloud.sdk.core.util.Validator.notNull(getClearCacheActionOptions,
+      "getClearCacheActionOptions cannot be null");
+    Map<String, String> pathParamsMap = new HashMap<String, String>();
+    pathParamsMap.put("instance_id", getClearCacheActionOptions.instanceId());
+    pathParamsMap.put("resolver_id", getClearCacheActionOptions.resolverId());
+    pathParamsMap.put("action_id", getClearCacheActionOptions.actionId());
+    RequestBuilder builder = RequestBuilder.get(RequestBuilder.resolveRequestUrl(getServiceUrl(), "/instances/{instance_id}/custom_resolvers/{resolver_id}/clear_cache/{action_id}", pathParamsMap));
+    Map<String, String> sdkHeaders = SdkCommon.getSdkHeaders("dns_svcs", "v1", "getClearCacheAction");
+    for (Entry<String, String> header : sdkHeaders.entrySet()) {
+      builder.header(header.getKey(), header.getValue());
+    }
+    builder.header("Accept", "application/json");
+    if (getClearCacheActionOptions.xCorrelationId() != null) {
+      builder.header("X-Correlation-ID", getClearCacheActionOptions.xCorrelationId());
+    }
+    ResponseConverter<ClearCacheAction> responseConverter =
+      ResponseConverterUtils.getValue(new com.google.gson.reflect.TypeToken<ClearCacheAction>() { }.getType());
     return createServiceCall(builder.build(), responseConverter);
   }
 
