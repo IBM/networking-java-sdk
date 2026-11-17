@@ -18,6 +18,9 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.AccessRequestRequestor;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AccessRequestsList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AddCustomResolverLocationOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.AzPoolsItem;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCacheAction;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCacheActionList;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ClearCustomResolverCacheOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateDnszoneOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.CreateForwardingRuleOptions;
@@ -50,6 +53,7 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.ExportResourceRecordsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRule;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRuleList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ForwardingRulesPager;
+import com.ibm.cloud.networking.dns_svcs.v1.model.GetClearCacheActionOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetCustomResolverOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneAccessRequestOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.GetDnszoneOptions;
@@ -69,6 +73,7 @@ import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedDnszone;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedDnszoneLinkedTo;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedDnszonesList;
 import com.ibm.cloud.networking.dns_svcs.v1.model.LinkedZonesPager;
+import com.ibm.cloud.networking.dns_svcs.v1.model.ListClearCacheActionsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListCustomResolversOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszoneAccessRequestsOptions;
 import com.ibm.cloud.networking.dns_svcs.v1.model.ListDnszones;
@@ -1281,6 +1286,154 @@ public class DnsSvcsIT extends SdkIntegrationTestBase {
     } catch (ServiceResponseException e) {
         fail(String.format("Service returned status code %d: %s%nError details: %s",
           e.getStatusCode(), e.getMessage(), e.getDebuggingInfo()));
+    }
+  }
+
+  @Test
+  public void testClearCustomResolverCacheLifecycle() throws Exception {
+    String instanceId = config != null ? config.get("INSTANCE_ID") : null;
+    String subnetCrn = config != null ? config.get("SUBNET_CRN") : null;
+    if (instanceId == null || subnetCrn == null) {
+      System.out.println("Skipping testClearCustomResolverCacheLifecycle: missing config");
+      return;
+    }
+
+    String resolverId = null;
+    try {
+      // 0. Clean up any existing custom resolver first
+      try {
+        ListCustomResolversOptions listCrOptions = new ListCustomResolversOptions.Builder()
+          .instanceId(instanceId)
+          .build();
+        Response<CustomResolverList> crListResp = service.listCustomResolvers(listCrOptions).execute();
+        if (crListResp != null && crListResp.getResult() != null && crListResp.getResult().getCustomResolvers() != null) {
+          for (CustomResolver cr : crListResp.getResult().getCustomResolvers()) {
+            DeleteCustomResolverOptions delOptions = new DeleteCustomResolverOptions.Builder()
+              .instanceId(instanceId)
+              .resolverId(cr.getId())
+              .build();
+            service.deleteCustomResolver(delOptions).execute();
+          }
+        }
+      } catch (Exception ignored) {
+      }
+
+      // 1. Create a dedicated Custom Resolver with an enabled location
+      LocationInput locationInput = new LocationInput.Builder()
+        .subnetCrn(subnetCrn)
+        .enabled(true)
+        .build();
+
+      CreateCustomResolverOptions createCrOptions = new CreateCustomResolverOptions.Builder()
+        .instanceId(instanceId)
+        .name("test-cr-cc-" + System.currentTimeMillis())
+        .description("custom resolver for clear cache IT")
+        .locations(java.util.Arrays.asList(locationInput))
+        .build();
+
+      Response<CustomResolver> crResp = service.createCustomResolver(createCrOptions).execute();
+      assertNotNull(crResp);
+      assertEquals(crResp.getStatusCode(), 200);
+      assertNotNull(crResp.getResult());
+      assertNotNull(crResp.getResult().getId());
+      resolverId = crResp.getResult().getId();
+
+      // Phase 1: List clear cache actions initially (200 OK)
+      ListClearCacheActionsOptions listOptions = new ListClearCacheActionsOptions.Builder()
+        .instanceId(instanceId)
+        .resolverId(resolverId)
+        .xCorrelationId("abc12387")
+        .build();
+
+      Response<ClearCacheActionList> listResponse = service.listClearCacheActions(listOptions).execute();
+      assertNotNull(listResponse);
+      assertEquals(listResponse.getStatusCode(), 200);
+      assertNotNull(listResponse.getResult());
+      assertNotNull(listResponse.getResult().getClearCacheActions());
+
+      // Phase 2: Trigger Clear Custom Resolver Cache (POST /clear_cache -> 202 Accepted)
+      ClearCustomResolverCacheOptions clearOptions = new ClearCustomResolverCacheOptions.Builder()
+        .instanceId(instanceId)
+        .resolverId(resolverId)
+        .xCorrelationId("abc12387")
+        .build();
+
+      service.setDefaultHeaders(java.util.Collections.singletonMap("Content-Type", "application/json"));
+      Response<ClearCacheAction> clearResponse = service.clearCustomResolverCache(clearOptions).execute();
+      service.setDefaultHeaders(java.util.Collections.emptyMap());
+      assertNotNull(clearResponse);
+      assertEquals(clearResponse.getStatusCode(), 202);
+      ClearCacheAction clearResult = clearResponse.getResult();
+      assertNotNull(clearResult);
+      assertNotNull(clearResult.getId());
+      assertNotNull(clearResult.getStatus());
+      assertEquals(clearResult.getStatus(), ClearCacheAction.Status.PENDING);
+      assertNotNull(clearResult.getCreatedOn());
+      assertNotNull(clearResult.getExpiresOn());
+      String actionId = clearResult.getId();
+
+      // Phase 3: Get Clear Cache Action by ID & poll until terminal state
+      GetClearCacheActionOptions getOptions = new GetClearCacheActionOptions.Builder()
+        .instanceId(instanceId)
+        .resolverId(resolverId)
+        .actionId(actionId)
+        .xCorrelationId("abc12387")
+        .build();
+
+      String finalStatus = "pending";
+      for (int attempt = 0; attempt < 30; attempt++) {
+        Response<ClearCacheAction> getResponse = service.getClearCacheAction(getOptions).execute();
+        assertNotNull(getResponse);
+        assertEquals(getResponse.getStatusCode(), 200);
+        ClearCacheAction getResult = getResponse.getResult();
+        assertNotNull(getResult);
+        assertEquals(getResult.getId(), actionId);
+        assertNotNull(getResult.getStatus());
+        finalStatus = getResult.getStatus();
+        if (!"pending".equals(finalStatus)) {
+          break;
+        }
+        Thread.sleep(2000);
+      }
+      assertTrue(java.util.Arrays.asList("pending", "success", "failed").contains(finalStatus));
+
+      // Phase 4: List Clear Cache Actions after trigger (verify count >= 1)
+      Response<ClearCacheActionList> listAfterResponse = service.listClearCacheActions(listOptions).execute();
+      assertNotNull(listAfterResponse);
+      assertEquals(listAfterResponse.getStatusCode(), 200);
+      ClearCacheActionList listAfterResult = listAfterResponse.getResult();
+      assertNotNull(listAfterResult);
+      assertNotNull(listAfterResult.getClearCacheActions());
+      assertTrue(listAfterResult.getClearCacheActions().size() >= 1);
+      assertTrue(listAfterResult.getCount() >= 1);
+
+      // Phase 5: Negative Test - Non-existent Action ID (Expect 404)
+      GetClearCacheActionOptions invalidGetOptions = new GetClearCacheActionOptions.Builder()
+        .instanceId(instanceId)
+        .resolverId(resolverId)
+        .actionId("non-existent-action-id")
+        .xCorrelationId("abc12387")
+        .build();
+
+      try {
+        service.getClearCacheAction(invalidGetOptions).execute();
+        fail("Expected 404 ServiceResponseException for non-existent action ID");
+      } catch (ServiceResponseException e) {
+        assertEquals(e.getStatusCode(), 404);
+      }
+
+    } finally {
+      // Cleanup: Delete custom resolver
+      if (resolverId != null) {
+        try {
+          DeleteCustomResolverOptions deleteOptions = new DeleteCustomResolverOptions.Builder()
+            .instanceId(instanceId)
+            .resolverId(resolverId)
+            .build();
+          service.deleteCustomResolver(deleteOptions).execute();
+        } catch (Exception ignored) {
+        }
+      }
     }
   }
 
